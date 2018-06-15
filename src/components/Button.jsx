@@ -15,7 +15,7 @@ const StyledButton = styled.button`
   background-color: ${green};
   border-radius: 3px;
   border: 0px solid black;
-  box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.75);
+  /* box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.75); */
 `
 
 export default StyledButton
