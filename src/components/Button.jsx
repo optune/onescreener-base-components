@@ -1,7 +1,6 @@
-import React from 'react'
 import styled from 'styled-components'
 
-import {green, white} from '../style/colors'
+import { poison, grey, white } from '../style/colors'
 
 const StyledButton = styled.button`
   display: block;
@@ -9,13 +8,19 @@ const StyledButton = styled.button`
   line-height: 0px;
   font-size: 1em;
   font-weight: 600;
-  color: ${white};
+  color: ${({ secondary }) => (secondary ? grey : white)};
   width: auto;
   min-height: 40px;
-  background-color: ${green};
-  border-radius: 3px;
-  border: 0px solid black;
-  /* box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.75); */
+  background-color: ${({ secondary }) => (secondary ? white : poison )};
+  border-radius: ${({ secondary }) => (secondary ? '2px' : '3px')};
+  border-width: 0;
+  border-style: solid;
+  border-color: black;
+  box-shadow: ${({ shadow }) =>
+    shadow
+      ? '0 1px 3px 0 rgba(0,0,0,0.08), 0 1px 0 0 rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.05)'
+      : 'none'};
+  /* 4px 4px 10px 0px rgba(0,0,0,0.75) */
 `
 
 export default StyledButton
