@@ -1,0 +1,26 @@
+dist: trusty
+sudo: false
+language: node_js
+node_js:
+  - "lts/*"
+
+env:
+  global:
+    - BUILD_TIMEOUT=10000
+before_install:
+  - npm i -g npm@latest
+install:
+  - npm ci
+jobs:
+  include:
+    - stage: build & deploy
+      before_deploy:
+      - npm run build-storybook
+      - find . -maxdepth 1 ! '(' -name storybook-static -o -name '.git*' -o -name '.' ')' -print0 | xargs -0 /bin/rm -rf && mv -v storybook-static/* . && rmdir storybook-static
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_TOKEN
+        keep-history: true
+        on:
+          branch: master

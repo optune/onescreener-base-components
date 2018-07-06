@@ -3,7 +3,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { Button } from '@optune/onescreener-base-components';
+import { Button } from '../src/index';
 
 storiesOf('Buttons', module)
   .add('primary with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
