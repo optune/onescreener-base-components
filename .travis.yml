@@ -23,4 +23,4 @@ jobs:
         github-token: $GITHUB_TOKEN
         keep-history: true
         on:
-          branch: master
+          branch: feature/automated-storybook-deployment
