@@ -44,5 +44,7 @@
     "url": "https://github.com/optune/onescreener-base-components/issues"
   },
   "homepage": "https://github.com/optune/onescreener-base-components#readme",
-  "dependencies": {}
+  "dependencies": {
+    "react-dom": "^16.4.1"
+  }
 }
