@@ -9,6 +9,7 @@ const ContentContainer = styled.div`
   align-items: center;
 
   width: 100%;
+  height: auto;
 
   > ${Button} {
     margin: 2em auto;
@@ -24,6 +25,8 @@ const ContentContainer = styled.div`
   span {
     margin: 1.2em;
   }
+
+  padding-bottom: 80px; /* height of bottom subnavigation bar */
 `
 
 export default ContentContainer
