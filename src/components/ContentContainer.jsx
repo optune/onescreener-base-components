@@ -14,8 +14,15 @@ const ContentContainer = styled.div`
     margin: 2em auto;
   }
 
-  > * {
-    padding: 1em;
+  > p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  span {
+    margin: 1.2em;
   }
 `
 
