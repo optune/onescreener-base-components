@@ -16,7 +16,7 @@ jobs:
     - stage: build & deploy
       before_deploy:
       - npm run build-storybook
-      - rm -rf docs && mv storybook-static docs
+      - find . -maxdepth 1 ! '(' -name storybook-static -o -name '.git*' -o -name '.' ')' -print0 | xargs -0 /bin/rm -rf && mv -v storybook-static/* . && rmdir storybook-static
       deploy:
         provider: pages
         skip-cleanup: true
