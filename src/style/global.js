@@ -1,7 +1,7 @@
 import { injectGlobal } from 'styled-components'
 
 // FIXME: make sure fonts load in browser
-injectGlobal`
+export default () => injectGlobal`
   @font-face {
     font-family: 'Brandon Text Regular', sans-serif;
     src: url(/fonts/brandon-text-regular.woff2);

@@ -1,4 +1,4 @@
-import './style/global' // global styles
+export { default as useGlobalStyles } from './style/global' // global styles
 
 export { default as AddButton } from './components/AddButton.jsx'
 export { default as BottomBar } from './components/BottomBar.jsx'
