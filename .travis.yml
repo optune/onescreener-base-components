@@ -16,7 +16,7 @@ jobs:
     - stage: build & deploy
       before_deploy:
       - npm run build-storybook
-      - mv storybook-static public
+      - rm -rf docs && mv storybook-static docs
       deploy:
         provider: pages
         skip-cleanup: true
