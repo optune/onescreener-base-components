@@ -1,6 +1,7 @@
 export { default as useGlobalStyles } from './style/global' // global styles
 
 export { default as AddButton } from './components/AddButton.jsx'
+export { default as AnchorButton } from './components/AnchorButton.jsx'
 export { default as BottomBar } from './components/BottomBar.jsx'
 export { default as Button } from './components/Button.jsx'
 export { default as ContentContainer } from './components/ContentContainer.jsx'
