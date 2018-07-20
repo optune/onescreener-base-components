@@ -8,10 +8,10 @@ const StyledButton = styled.button`
   line-height: 0px;
   font-size: 1em;
   font-weight: 600;
-  color: ${({ secondary }) => (secondary ? grey : white)};
+  color: ${({ secondary }) => (secondary ? poison : white)};
   width: auto;
   min-height: 40px;
-  background-color: ${({ secondary }) => (secondary ? white : poison )};
+  background-color: ${({ secondary }) => (secondary ? white : poison)};
   border-radius: ${({ secondary }) => (secondary ? '2px' : '3px')};
   border-width: 0;
   border-style: solid;
