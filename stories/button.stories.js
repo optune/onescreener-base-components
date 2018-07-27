@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 
 import { AnchorButton, Button } from '../src/index';
 
-storiesOf('Buttons/Button', module)
+storiesOf('Atom/Buttons/Button', module)
   .add('primary with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
   .add('primary with text and shadow', () => <Button shadow onClick={action('clicked')}>Hello Button</Button>)
   .add('secondary with text', () => <Button secondary onClick={action('clicked')}>Hello Button</Button>)
@@ -18,7 +18,7 @@ storiesOf('Buttons/Button', module)
     </Button>
   ));
 
-storiesOf('Buttons/AnchorButton', module)
+storiesOf('Atom/Buttons/AnchorButton', module)
   .add('primary with text', () => <AnchorButton>Next</AnchorButton>)
   .add('primary with text and a Link', () => <AnchorButton href="https://www.onescreener.com">Next</AnchorButton>)
   .add('secondary with much more text', () => <AnchorButton secondary>"Next" is a great name for an AnchorButton. By the way, you could click here, and try to copy it's text but nothing will happen!</AnchorButton>)

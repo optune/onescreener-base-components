@@ -5,7 +5,7 @@ import { action } from "@storybook/addon-actions";
 
 import { BottomBar, Button, ButtonContainer } from "../src/index";
 
-storiesOf("Bottombar/plain", module)
+storiesOf("Molecule/Bottombar/plain", module)
   .add("Bottombar with text", () => <BottomBar>Text 1 2 3</BottomBar>)
   .add("Bottombar with 1 button", () => (
     <BottomBar>
@@ -26,7 +26,7 @@ storiesOf("Bottombar/plain", module)
     </BottomBar>
   ));
 
-storiesOf("Bottombar/withButtonContainers", module)
+storiesOf("Molecule/Bottombar/withButtonContainers", module)
   .add("Bottombar with text", () => (
     <BottomBar>
       <ButtonContainer>Text 1 2 3</ButtonContainer>

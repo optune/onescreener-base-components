@@ -5,7 +5,7 @@ import { action } from "@storybook/addon-actions";
 
 import { Button, CenterContainer, ContentContainer, AnchorButton } from "../src/index";
 
-storiesOf("Container/Center", module)
+storiesOf("Atom/Container/Center", module)
   .add("Centered elements", () => (
     <div>
       <CenterContainer>
@@ -45,7 +45,7 @@ storiesOf("Container/Center", module)
     </div>
   ));
 
-storiesOf("Container/Content", module).add("primary with text", () => (
+storiesOf("Atom/Container/Content", module).add("primary with text", () => (
   <ContentContainer>
     <h1>Header</h1>
     <Button>Top</Button>
