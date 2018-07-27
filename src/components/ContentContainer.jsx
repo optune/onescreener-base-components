@@ -1,5 +1,5 @@
 import Button from './Button.jsx'
-import CenterContainer from './CenterContainer'
+import CenterContainer from './CenterContainer.jsx'
 
 const ContentContainer = CenterContainer.extend`
   flex-flow: column;
