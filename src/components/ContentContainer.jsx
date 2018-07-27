@@ -1,13 +1,8 @@
-import styled from 'styled-components'
-
 import Button from './Button.jsx'
+import CenterContainer from './CenterContainer'
 
-const ContentContainer = styled.div`
-  display: flex;
+const ContentContainer = CenterContainer.extend`
   flex-flow: column;
-  justify-content: center;
-  align-items: center;
-
   width: 100%;
   height: auto;
 
