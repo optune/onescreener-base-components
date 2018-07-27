@@ -1,5 +1,5 @@
-import Button from './Button'
-import CenterContainer from './CenterContainer'
+import Button from './Button.jsx'
+import CenterContainer from './CenterContainer.jsx'
 
 const ButtonContainer = CenterContainer.extend`
     height: 100%;
