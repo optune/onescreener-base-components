@@ -1,12 +1,17 @@
-import React from "react";
+import React from 'react'
 
-import { storiesOf } from "@storybook/react";
-import { action } from "@storybook/addon-actions";
+import { storiesOf } from '@storybook/react'
+import { action } from '@storybook/addon-actions'
 
-import { Button, CenterContainer, ContentContainer, AnchorButton } from "../src/index";
+import {
+  Button,
+  CenterContainer,
+  ContentContainer,
+  AnchorButton,
+} from '../src/index'
 
-storiesOf("Atom/Container/Center", module)
-  .add("Centered elements", () => (
+storiesOf('Atom/Container/Center', module)
+  .add('Centered elements', () => (
     <div>
       <CenterContainer>
         <Button>Left</Button>
@@ -25,7 +30,7 @@ storiesOf("Atom/Container/Center", module)
       </CenterContainer>
     </div>
   ))
-  .add("non-centered elements", () => (
+  .add('non-centered elements', () => (
     <div>
       <div>
         <Button>Left</Button>
@@ -43,16 +48,17 @@ storiesOf("Atom/Container/Center", module)
         <Button shadow>Much wow</Button>
       </div>
     </div>
-  ));
+  ))
 
-storiesOf("Atom/Container/Content", module).add("primary with text", () => (
+storiesOf('Atom/Container/Content', module).add('primary with text', () => (
   <ContentContainer>
     <h1>Header</h1>
     <Button>Top</Button>
     <p>
       Text Lorem ipsum whatever you like to read here it should be reaaaaally
-      long and have <AnchorButton href="#">Links</AnchorButton> and such.<br />And also Linebreaks
+      long and have <AnchorButton href="#">Links</AnchorButton> and such.<br />And
+      also Linebreaks
     </p>
     <Button>Bottom</Button>
   </ContentContainer>
-));
+))

@@ -1,53 +1,53 @@
-import React from "react";
+import React from 'react'
 
-import { storiesOf } from "@storybook/react";
-import { action } from "@storybook/addon-actions";
+import { storiesOf } from '@storybook/react'
+import { action } from '@storybook/addon-actions'
 
-import { BottomBar, Button, ButtonContainer } from "../src/index";
+import { BottomBar, Button, ButtonContainer } from '../src/index'
 
 const HighButton = Button.extend`
   height: 4em;
-`;
+`
 
-storiesOf("Molecule/Bottombar/text", module)
-  .add("Bottombar with text", () => <BottomBar>Text 1 2 3</BottomBar>)
-  .add("Bottombar with wrapped text", () => (
+storiesOf('Molecule/Bottombar/text', module)
+  .add('Bottombar with text', () => <BottomBar>Text 1 2 3</BottomBar>)
+  .add('Bottombar with wrapped text', () => (
     <BottomBar>
       <ButtonContainer>Text 1 2 3</ButtonContainer>
     </BottomBar>
-  ));
-storiesOf("Molecule/Bottombar/1button", module)
-  .add("Bottombar with 1 button", () => (
+  ))
+storiesOf('Molecule/Bottombar/1button', module)
+  .add('Bottombar with 1 button', () => (
     <BottomBar>
       <Button>Next</Button>
     </BottomBar>
   ))
-  .add("Bottombar with wrapped 1 button", () => (
+  .add('Bottombar with wrapped 1 button', () => (
     <BottomBar>
       <ButtonContainer>
         <Button>Next</Button>
       </ButtonContainer>
     </BottomBar>
-  ));
+  ))
 
-storiesOf("Molecule/Bottombar/2buttons", module)
-  .add("Bottombar with 2 buttons", () => (
+storiesOf('Molecule/Bottombar/2buttons', module)
+  .add('Bottombar with 2 buttons', () => (
     <BottomBar>
       <Button secondary>Previous</Button>
       <Button>Next</Button>
     </BottomBar>
   ))
-  .add("Bottombar with 2 wrapped buttons", () => (
+  .add('Bottombar with 2 wrapped buttons', () => (
     <BottomBar>
       <ButtonContainer>
         <Button secondary>Previous</Button>
         <Button>Next</Button>
       </ButtonContainer>
     </BottomBar>
-  ));
+  ))
 
-storiesOf("Molecule/Bottombar/3buttons", module)
-  .add("Bottombar with 3 buttons", () => (
+storiesOf('Molecule/Bottombar/3buttons', module)
+  .add('Bottombar with 3 buttons', () => (
     <BottomBar>
       <Button secondary>Previous</Button>
       <Button>Next</Button>
@@ -56,7 +56,7 @@ storiesOf("Molecule/Bottombar/3buttons", module)
       </HighButton>
     </BottomBar>
   ))
-  .add("Bottombar with 3 wrapped buttons", () => (
+  .add('Bottombar with 3 wrapped buttons', () => (
     <BottomBar>
       <ButtonContainer>
         <Button secondary>Previous</Button>
@@ -66,4 +66,4 @@ storiesOf("Molecule/Bottombar/3buttons", module)
         </HighButton>
       </ButtonContainer>
     </BottomBar>
-  ));
+  ))
