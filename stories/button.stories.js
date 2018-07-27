@@ -39,8 +39,8 @@ storiesOf('Atom/Buttons/AnchorButton', module)
   ))
   .add('secondary with much more text', () => (
     <AnchorButton secondary>
-      "Next" is a great name for an AnchorButton. By the way, you could click
-      here, and try to copy it's text but nothing will happen!
+      <em>Next</em> is a great name for an AnchorButton. By the way, you could
+      click here, and try to copy it&#39;s text but nothing will happen!
     </AnchorButton>
   ))
   .add('secondary with text, a Link and shadow', () => (
