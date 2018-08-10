@@ -74,6 +74,13 @@
     "rules": {
       "max-lines": "error",
       "import/no-unresolved": "error",
+      "import/extensions": [
+        "error",
+        "always",
+        {
+          "ignorePackages": true
+        }
+      ],
       "prettier/prettier": "error",
       "react/require-default-props": "off",
       "react/no-array-index-key": "off",

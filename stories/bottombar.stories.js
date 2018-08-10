@@ -3,7 +3,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import { BottomBar, Button, ButtonContainer } from '../src/index'
+import { BottomBar, Button, ButtonContainer } from '../src/index.js'
 
 const HighButton = Button.extend`
   height: 4em;

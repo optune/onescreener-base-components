@@ -6,8 +6,8 @@ import replace from 'rollup-plugin-replace'
 import resolve from 'rollup-plugin-node-resolve'
 
 // shared modules for different envs
-import external from './externalModules'
-import cjsopts from './commonjs'
+import external from './externalModules.js'
+import cjsopts from './commonjs.js'
 
 export default {
   input: 'src/index.js',

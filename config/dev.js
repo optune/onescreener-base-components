@@ -1,4 +1,4 @@
-import config from './shared'
+import config from './shared.js'
 
 export default {
   ...config,

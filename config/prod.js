@@ -2,7 +2,7 @@ import fs from 'fs'
 import { uglify } from 'rollup-plugin-uglify'
 import analyze from 'rollup-analyzer-plugin'
 
-import config from './shared'
+import config from './shared.js'
 
 // remove source map of previous dev builds if there is one
 fs.unlink('lib/index.js.map', () => {})

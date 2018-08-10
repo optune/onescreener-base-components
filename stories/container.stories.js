@@ -8,7 +8,7 @@ import {
   CenterContainer,
   ContentContainer,
   AnchorButton,
-} from '../src/index'
+} from '../src/index.js'
 
 storiesOf('Atom/Container/Center', module)
   .add('Centered elements', () => (

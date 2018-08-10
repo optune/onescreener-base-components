@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { green, white } from '../style/colors'
+import { green, white } from '../style/colors.js'
 
 const AddButton = styled.a`
   display: flex;
