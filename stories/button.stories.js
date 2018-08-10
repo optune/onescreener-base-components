@@ -3,7 +3,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import { AnchorButton, Button } from '../src/index'
+import { AnchorButton, Button, AddButton } from '../src/index'
 
 storiesOf('Atom/Buttons/Button', module)
   .add('primary with text', () => (
@@ -55,3 +55,7 @@ storiesOf('Atom/Buttons/AnchorButton', module)
       </span>
     </AnchorButton>
   ))
+
+storiesOf('Atom/Buttons/AddButton', module).add('addButton', () => (
+  <AddButton href="#" />
+))

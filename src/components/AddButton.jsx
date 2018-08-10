@@ -1,9 +1,11 @@
-import React from 'react'
 import styled from 'styled-components'
 
 import { green, white } from '../style/colors'
 
-const StyledButton = styled.button`
+const AddButton = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   text-decoration: none;
   margin: 0;
@@ -17,8 +19,9 @@ const StyledButton = styled.button`
   border-radius: 2em;
   opacity: 1;
   cursor: pointer;
-  box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.75);
+  box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.75);
+  &:before {
+    content: '+';
+  }
 `
-const AddButton = props => <StyledButton>+</StyledButton>
-
 export default AddButton
