@@ -21,7 +21,7 @@ const ContentContainer = CenterContainer.extend`
     margin: 1.2em;
   }
 
-  padding-bottom: 80px; /* height of bottom subnavigation bar */
+  margin-bottom: 120px; /* height of bottom subnavigation bar */
 `
 
 export default ContentContainer
