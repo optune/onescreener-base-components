@@ -4,15 +4,17 @@ import { poison, grey, white } from '../style/colors'
 
 const StyledButton = styled.button`
   display: block;
-  padding: 16px;
+  padding: ${({ round }) => round ? '0px' : '16px'};
   line-height: 0px;
   font-size: 1em;
   font-weight: 600;
   color: ${({ secondary }) => (secondary ? poison : white)};
-  width: auto;
+  width:  ${({ round }) => round ? '40px' : 'auto'};
   min-height: 40px;
   background-color: ${({ secondary }) => (secondary ? white : poison)};
-  border-radius: ${({ secondary }) => (secondary ? '2px' : '3px')};
+  border-radius: ${({ secondary, round }) =>
+    round ? '50%' : secondary ? '2px' : '3px'};
+  overflow:  ${({ round }) => round ? 'hidden' : 'none'};
   border-width: 0;
   border-style: solid;
   border-color: black;

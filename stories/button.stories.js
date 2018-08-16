@@ -24,6 +24,14 @@ storiesOf('Atom/Buttons/Button', module)
       Hello Button
     </Button>
   ))
+  .add('round with text', () => (
+    <div style={{ display: 'flex', flexFlow: 'row', margin: '2em' }}>
+      <Button round shadow secondary onClick={action('clicked')}>S</Button>
+      <Button round shadow onClick={action('clicked')}>M</Button>
+      <Button round shadow secondary onClick={action('clicked')}>L</Button>
+      <Button round shadow secondary onClick={action('clicked')}>XL</Button>
+    </div>
+  ))
   .add('primary with some emoji', () => (
     <Button onClick={action('clicked')}>
       <span role="img" aria-label="so cool">
