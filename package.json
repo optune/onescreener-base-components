@@ -40,7 +40,7 @@
     "precommit": "npm run lint",
     "lint": "eslint .",
     "build": "rollup -c config/dev.js",
-    "prepublish": "rollup -c config/prod.js",
+    "prepare": "rollup -c config/prod.js",
     "test": "echo \"t'Saul Goodman\" && exit 0",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
