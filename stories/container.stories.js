@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
+import { withKnobs, boolean } from '@storybook/addon-knobs'
 
 import {
   Button,
@@ -11,9 +11,10 @@ import {
 } from '../src/index.js'
 
 storiesOf('Atom/Container/Center', module)
+  .addDecorator(withKnobs)
   .add('Centered elements', () => (
     <div>
-      <CenterContainer>
+      <CenterContainer column={boolean('Column', false)}>
         <Button>Left</Button>
         <p>
           Text Lorem ipsum whatever you like to read here it should be
@@ -22,7 +23,7 @@ storiesOf('Atom/Container/Center', module)
         </p>
         <Button>Right</Button>
       </CenterContainer>
-      <CenterContainer>
+      <CenterContainer column={boolean('Column', false)}>
         <Button shadow secondary>
           Doge
         </Button>

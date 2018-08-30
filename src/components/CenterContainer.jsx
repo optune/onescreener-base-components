@@ -5,6 +5,9 @@ const CenterContainer = styled.div`
   justify-content: center;
   align-items: center;
 
+  flex-flow: ${({ column }) => (column ? 'column' : 'row')};
+  margin: ${({ column }) => (column ? '0.5em' : '')};
+
   > * {
     margin: 0 0.5em;
   }
