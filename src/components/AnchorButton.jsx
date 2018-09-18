@@ -1,6 +1,8 @@
+import styled from 'styled-components'
+
 import Button from './Button.jsx'
 
-const AnchorButton = Button.withComponent('a').extend`
+const AnchorButton = styled(Button.withComponent('a'))`
   text-decoration: none;
   min-height: unset;
   line-height: 2;
@@ -10,4 +12,3 @@ const AnchorButton = Button.withComponent('a').extend`
 `
 
 export default AnchorButton
-

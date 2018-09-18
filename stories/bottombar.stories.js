@@ -1,11 +1,12 @@
 import React from 'react'
+import styled from 'styled-components'
 
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
 import { BottomBar, Button, ButtonContainer } from '../src/index.js'
 
-const HighButton = Button.extend`
+const HighButton = styled(Button)`
   height: 4em;
 `
 

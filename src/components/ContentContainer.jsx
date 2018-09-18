@@ -1,7 +1,8 @@
+import styled from 'styled-components'
 import Button from './Button.jsx'
 import CenterContainer from './CenterContainer.jsx'
 
-const ContentContainer = CenterContainer.extend`
+const ContentContainer = styled(CenterContainer)`
   flex-flow: column;
   width: 100%;
   height: auto;
