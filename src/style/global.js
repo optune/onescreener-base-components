@@ -1,19 +1,21 @@
 import { createGlobalStyle } from 'styled-components'
 
 import { green, white, grey } from '../style/colors.js'
+import BrandonTextRegular from './brandon-text-regular.woff2'
 
 // FIXME: make sure fonts load in browser
 export default createGlobalStyle`
   @font-face {
     font-family: 'Brandon Text Regular', sans-serif;
-    src: url(/fonts/brandon-text-regular.woff2);
+    src: url(${BrandonTextRegular}) format('woff2');
+    font-weight: normal;
+    font-style: normal;
   }
 
   body {
     min-height: 100%;
     padding: 0;
     margin: 0 auto;
-    font-family: sans-serif;
     color: #5f5f5f;
     background-color: #f7f7f7;
     display: flex;
