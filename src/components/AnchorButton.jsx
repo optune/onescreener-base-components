@@ -1,8 +1,9 @@
+import React from 'react'
 import styled from 'styled-components'
 
 import Button from './Button.jsx'
 
-const AnchorButton = styled(Button.withComponent('a'))`
+const AnchorStyle = styled(Button)`
   text-decoration: none;
   min-height: unset;
   line-height: 2;
@@ -10,5 +11,11 @@ const AnchorButton = styled(Button.withComponent('a'))`
   cursor: pointer;
   user-select: none;
 `
+
+const AnchorButton = props => (
+  <AnchorStyle as="a" {...props}>
+    {props.children}
+  </AnchorStyle>
+)
 
 export default AnchorButton
