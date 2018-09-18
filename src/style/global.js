@@ -24,5 +24,14 @@ export default createGlobalStyle`
     width: 100%;
 
     font-family: 'Brandon Text Regular', sans-serif;
+
+    a {
+      color: ${green};
+      background: ${white};
+    }
+
+    span, p {
+      color: ${grey};
+    }
   }
 `
