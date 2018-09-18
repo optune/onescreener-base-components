@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import globals from 'rollup-plugin-node-globals'
 import replace from 'rollup-plugin-replace'
 import resolve from 'rollup-plugin-node-resolve'
+import url from 'rollup-plugin-url'
 
 // shared modules for different envs
 import external from './externalModules.js'
@@ -21,6 +22,11 @@ export default {
       browser: true,
       main: true,
       extensions: ['.js', '.jsx', '.json'],
+    }),
+    url({
+      limit: false,
+      include: ['**/*.woff2'],
+      emitFiles: true, // defaults to true
     }),
     commonjs(cjsopts),
     buble({
