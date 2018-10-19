@@ -26,7 +26,7 @@ const prod = {
       output: {
         comments: false,
       },
-      sourceMap: false,
+      sourcemap: false,
     }),
     analyze({ limit: 5, filter: [], root: __dirname }),
   ],
