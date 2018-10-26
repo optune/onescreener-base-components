@@ -7,7 +7,7 @@ const ContentContainer = styled(CenterContainer)`
   width: 100%;
   height: auto;
 
-  > ${Button} {
+  > ${Button}, label {
     margin: 2em auto;
   }
 
