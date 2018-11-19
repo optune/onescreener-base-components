@@ -19,7 +19,7 @@ const StyledButton = styled.button`
         overflow: hidden;
         `
       : `
-        line-height: 0px;
+        line-height: 8px;
         padding: 16px;
         width: auto;
         overflow: none;
