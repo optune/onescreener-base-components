@@ -7,6 +7,7 @@ const BottomBar = styled.div`
   border-radius: 4px;
   background-color: white;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.11);
+  z-index: 1;
 
   /* positioning & dimensions are most important for Bottombar of SubNavigation */
   /* FIXME: maybe use this part in SubNavigation Component? */
