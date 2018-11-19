@@ -5,19 +5,31 @@ import { black, grey, poison, white } from '../style/colors.js'
 const StyledButton = styled.button`
   display: flex;
   justify-content: center;
-  padding: ${({ round }) => (round ? '0px' : '16px')};
-  line-height: 0px;
   font-size: 1em;
   font-weight: 600;
   color: ${({ secondary, disabled }) =>
     disabled ? grey : secondary ? poison : white};
-  width: ${({ round }) => (round ? '40px' : 'auto')};
+
+  ${({ round }) =>
+    round
+      ? `
+        line-height: 40px;
+        padding: 0px;
+        width: 40px;
+        overflow: hidden;
+        `
+      : `
+        line-height: 0px;
+        padding: 16px;
+        width: auto;
+        overflow: none;
+        `};
+
   min-height: 40px;
   background-color: ${({ secondary, disabled }) =>
     disabled ? black : secondary ? white : poison};
   border-radius: ${({ secondary, round }) =>
     round ? '50%' : secondary ? '2px' : '3px'};
-  overflow: ${({ round }) => (round ? 'hidden' : 'none')};
   border-width: 0;
   border-style: solid;
   border-color: black;
