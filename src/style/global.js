@@ -14,7 +14,7 @@ export default createGlobalStyle`
     padding: 0;
     margin: 0 auto;
     font-family: sans-serif;
-    color: #5f5f5f;
+    color: ${grey};
     background-color: #f7f7f7;
     display: flex;
     justify-content: center;
