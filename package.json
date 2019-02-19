@@ -42,7 +42,7 @@
     "build": "rollup -c config/dev.js",
     "prepare": "rollup -c config/prod.js",
     "test": "echo \"t'Saul Goodman\" && exit 0",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook --ci -p 6006",
     "build-storybook": "build-storybook"
   },
   "prettier": {
