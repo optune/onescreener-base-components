@@ -13,7 +13,6 @@ export default createGlobalStyle`
     min-height: 100%;
     padding: 0;
     margin: 0 auto;
-    font-family: sans-serif;
     color: ${grey};
     background-color: #f7f7f7;
     display: flex;
