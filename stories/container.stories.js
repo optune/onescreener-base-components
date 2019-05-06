@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react'
 import { withKnobs, boolean } from '@storybook/addon-knobs'
 
 import {
+  Background,
   Button,
   CenterContainer,
   ContentContainer,
@@ -65,4 +66,10 @@ storiesOf('Atom/Container/Content', module).add('primary with text', () => (
     </p>
     <Button>Bottom</Button>
   </ContentContainer>
+))
+
+storiesOf('Atom/Container/Background', module).add('plain', () => (
+  <Background color="lightblue" fullscreen>
+    <div style={{ width: '100%' }}>Test</div>
+  </Background>
 ))
