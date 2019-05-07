@@ -32,4 +32,5 @@ export { default as colors } from './style/colors.js'
 export { width } from './style/width.js'
 
 export { getGigs } from './api/gigs/index.js'
+export { default as linkGenerator } from './api/social/linkGenerator.jsx'
 export { default as social } from './api/social/index.js'
