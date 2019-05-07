@@ -12,9 +12,8 @@ export {
 } from './components/ColoredTextContainer.jsx'
 export { default as ContentContainer } from './components/ContentContainer.jsx'
 export { default as ContentBox } from './components/ContentBox.jsx'
+export { default as Edit } from './components/icons/Edit.jsx'
 export { default as Gigs } from './components/Gigs.jsx'
-export { default as Slider } from './components/Slider.jsx'
-export { default as SocialLink } from './components/SocialLink.jsx'
 export { default as Logo } from './components/Logo.jsx'
 export { default as Label } from './components/Label.jsx'
 export { default as Preview } from './components/icons/Preview.jsx'
@@ -23,6 +22,11 @@ export { default as PlatformIcon } from './components/PlatformIcon.jsx'
 export {
   default as PlatformIconWrapper,
 } from './components/PlatformIconWrapper.jsx'
+export { default as Publish } from './components/icons/Publish.jsx'
+export { default as Slider } from './components/Slider.jsx'
+export { default as SocialLink } from './components/SocialLink.jsx'
+export { default as Themes } from './components/icons/Themes.jsx'
+
 export { default as colors } from './style/colors.js'
 
 export { getGigs } from './api/gigs/index.js'
