@@ -2,7 +2,7 @@
   "name": "@optune/onescreener-base-components",
   "version": "0.0.1",
   "description": "Onescreener Base Components",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "devDependencies": {
     "@storybook/addon-actions": "^5.0.11",
     "@storybook/addon-knobs": "^5.0.11",
@@ -114,6 +114,9 @@
   },
   "keywords": [
     "react"
+  ],
+  "files": [
+    "lib/**/*"
   ],
   "husky": {
     "hooks": {
