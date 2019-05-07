@@ -13,6 +13,7 @@ export {
 export { default as ContentContainer } from './components/ContentContainer.jsx'
 export { default as ContentBox } from './components/ContentBox.jsx'
 export { default as Edit } from './components/icons/Edit.jsx'
+export { default as Fields } from './components/Fields.jsx'
 export { default as Gigs } from './components/Gigs.jsx'
 export { default as Logo } from './components/Logo.jsx'
 export { default as Label } from './components/Label.jsx'
