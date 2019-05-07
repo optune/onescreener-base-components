@@ -29,6 +29,7 @@ export { default as SocialLink } from './components/SocialLink.jsx'
 export { default as Themes } from './components/icons/Themes.jsx'
 
 export { default as colors } from './style/colors.js'
+export { width } from './style/width.js'
 
 export { getGigs } from './api/gigs/index.js'
 export { default as social } from './api/social/index.js'
