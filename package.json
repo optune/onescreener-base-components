@@ -22,16 +22,19 @@
     "react": "^16.8.4",
     "react-async": "^6.2.0",
     "react-dom": "^16.8.4",
+    "react-player": "^1.11.0",
     "rollup": "^1.6.0",
     "rollup-analyzer-plugin": "^1.2.0",
-    "rollup-plugin-buble": "^0.19.6",
+    "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.2.1",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-node-resolve": "^4.0.1",
     "rollup-plugin-replace": "^2.1.0",
+    "rollup-plugin-terser": "^4.0.4",
     "rollup-plugin-uglify": "^6.0.2",
     "rollup-plugin-url": "^2.2.0",
-    "styled-components": "^4.1.3"
+    "styled-components": "^4.1.3",
+    "styled-svg": "^2.3.4"
   },
   "peerDependencies": {
     "react": "^16.5.2",
@@ -42,6 +45,7 @@
     "lint": "eslint .",
     "build": "rollup -c config/dev.js",
     "prepare": "rollup -c config/prod.js",
+    "svg": "styled-svg src/components/icons/*.svg",
     "test": "echo \"t'Saul Goodman\" && exit 0",
     "storybook": "start-storybook --ci -p 6006",
     "build-storybook": "build-storybook"
@@ -97,6 +101,13 @@
   "eslintIgnore": [
     "lib/**/*.js"
   ],
+  "browserslist": "> 0.25%, not dead",
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/optune/onescreener-base-components.git"
@@ -114,5 +125,8 @@
   "bugs": {
     "url": "https://github.com/optune/onescreener-base-components/issues"
   },
-  "homepage": "https://github.com/optune/onescreener-base-components#readme"
+  "homepage": "https://github.com/optune/onescreener-base-components#readme",
+  "dependencies": {
+    "ramda": "^0.26.1"
+  }
 }

@@ -14,9 +14,15 @@ export { default as ContentContainer } from './components/ContentContainer.jsx'
 export { default as ContentBox } from './components/ContentBox.jsx'
 export { default as Gigs } from './components/Gigs.jsx'
 export { default as Slider } from './components/Slider.jsx'
+export { default as SocialLink } from './components/SocialLink.jsx'
 export { default as Logo } from './components/Logo.jsx'
 export { default as Label } from './components/Label.jsx'
 export { default as Profile } from './components/Profile.jsx'
+export { default as PlatformIcon } from './components/PlatformIcon.jsx'
+export {
+  default as PlatformIconWrapper,
+} from './components/PlatformIconWrapper.jsx'
 export { default as colors } from './style/colors.js'
 
 export { getGigs } from './api/gigs/index.js'
+export { default as social } from './api/social/index.js'

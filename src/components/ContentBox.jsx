@@ -1,11 +1,10 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 import ReactPlayer from 'react-player'
-import {
-  ColoredTextContainer,
-  Gigs,
-  getGigs,
-} from '@optune/onescreener-base-components'
+
+import ColoredTextContainer from './ColoredTextContainer.jsx'
+import Gigs from './Gigs.jsx'
+import { getGigs } from '../api/gigs/index.js'
 
 const ContentBox = ({ content }) => {
   const type = content.__typename || content.activeContent
