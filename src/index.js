@@ -17,3 +17,5 @@ export { default as Logo } from './components/Logo.jsx'
 export { default as Label } from './components/Label.jsx'
 export { default as Profile } from './components/Profile.jsx'
 export { default as colors } from './style/colors.js'
+
+export { getGigs } from './api/gigs/index.js'
