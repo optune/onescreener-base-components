@@ -101,7 +101,7 @@
   "eslintIgnore": [
     "lib/**/*.js"
   ],
-  "browserslist": "> 0.25%, not dead",
+  "browserslist": "last 2 chrome versions or last 2 firefox versions",
   "babel": {
     "presets": [
       "@babel/preset-env",
@@ -131,5 +131,8 @@
   "homepage": "https://github.com/optune/onescreener-base-components#readme",
   "dependencies": {
     "ramda": "^0.26.1"
+  },
+  "directories": {
+    "lib": "lib"
   }
 }
