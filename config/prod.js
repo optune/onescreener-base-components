@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { terser } from 'rollup-plugin-terser'
-import analyze from 'rollup-analyzer-plugin'
+import analyze from 'rollup-plugin-analyzer'
 
 import config from './shared.js'
 
