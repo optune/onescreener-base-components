@@ -6,24 +6,27 @@ import ColoredTextContainer from './ColoredTextContainer.jsx'
 import Gigs from './Gigs.jsx'
 import { getGigs } from '../api/gigs/index.js'
 
-const ContentBox = ({ content }) => {
-  const type = content.__typename || content.activeContent
+const ContentBox = ({ content, gigAPI, text, media }) => {
+  const { type, color } = content || { type: '', color: '' }
+  const { url } = media || { url: '' }
+  const { api, slug } = gigAPI || { api: '', slug: '' }
+  const { html } = text || { html: '' }
   return 'Text' === type ? (
     <ColoredTextContainer
-      color={content.color}
-      dangerouslySetInnerHTML={{ __html: content.html }}
+      color={color}
+      dangerouslySetInnerHTML={{ __html: html }}
     />
   ) : 'Gigs' === type ? (
     // id="gigs" is required for non-server-side rendered container on export
-    <ColoredTextContainer color={content.color} id="gigs">
-      <Gigs getGigs={getGigs} api={content.api} slug={content.slug} />
+    <ColoredTextContainer color={color} id="gigs">
+      <Gigs getGigs={getGigs} api={api} slug={slug} />
     </ColoredTextContainer>
   ) : 'Media' === type ? (
-    <ReactPlayer url={content.url} playing={true} />
+    <ReactPlayer url={url} playing={true} />
   ) : (
     <div>
       Content of type {'"'}
-      {content.__typename.toString()}
+      {type}
       {'"'} is missing
     </div>
   )
