@@ -24,7 +24,6 @@ export default createGlobalStyle`
 
     a {
       color: ${green};
-      background: ${white};
     }
 
     span, p {
