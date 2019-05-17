@@ -7,7 +7,7 @@ import resolve from 'rollup-plugin-node-resolve'
 import url from 'rollup-plugin-url'
 
 // shared modules for different envs
-import external from './externalModules.js'
+import { externals } from './externalModules.js'
 import cjsopts from './commonjs.js'
 
 export default {
@@ -16,21 +16,31 @@ export default {
     file: 'lib/index.js',
     format: 'cjs',
   },
-  external,
+  external: (id /*: string */) => {
+    if (externals.has(id)) {
+      return true
+    }
+  },
   plugins: [
-    resolve({
-      browser: true,
-      main: true,
-      extensions: ['.js', '.jsx', '.json'],
-    }),
+    replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
+
     url({
       limit: false,
       include: ['**/*.woff2'],
       emitFiles: true, // defaults to true
     }),
-    babel(),
-    commonjs(cjsopts),
+
+    commonjs(),
+
+    babel({
+      exclude: 'node_modules/**', // only transpile our source code
+    }),
+
+    resolve({
+      mainFields: ['browser', 'main'],
+      extensions: ['.js', '.jsx', '.json'],
+    }),
+
     globals(),
-    replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
   ],
 }

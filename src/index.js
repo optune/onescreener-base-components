@@ -18,7 +18,6 @@ export { default as Gigs } from './components/Gigs.jsx'
 export { default as Logo } from './components/Logo.jsx'
 export { default as Label } from './components/Label.jsx'
 export { default as Preview } from './components/icons/Preview.jsx'
-export { default as Profile } from './components/Profile.jsx'
 export { default as PlatformIcon } from './components/PlatformIcon.jsx'
 export {
   default as PlatformIconWrapper,
