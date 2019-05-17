@@ -16,11 +16,7 @@ export default {
     file: 'lib/index.js',
     format: 'cjs',
   },
-  external: (id /*: string */) => {
-    if (externals.has(id)) {
-      return true
-    }
-  },
+  external: id => externals.has(id),
   plugins: [
     replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
 
