@@ -31,13 +31,8 @@
     "rollup-plugin-terser": "^4.0.4",
     "rollup-plugin-uglify": "^6.0.2",
     "rollup-plugin-url": "^2.2.1",
+    "styled-components": "^4.1.3",
     "styled-svg": "^2.3.4"
-  },
-  "dependencies": {
-    "isomorphic-fetch": "^2.2.1",
-    "ramda": "^0.26.1",
-    "react-async": "^6.2.0",
-    "react-player": "^1.11.0"
   },
   "peerDependencies": {
     "react": "^16.8.6",
@@ -87,6 +82,7 @@
     ],
     "rules": {
       "max-lines": "error",
+      "import/no-unresolved": "error",
       "import/extensions": [
         "error",
         "always",
@@ -131,6 +127,12 @@
     "url": "https://github.com/optune/onescreener-base-components/issues"
   },
   "homepage": "https://github.com/optune/onescreener-base-components#readme",
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
+    "ramda": "^0.26.1",
+    "react-async": "^6.2.0",
+    "react-player": "^1.11.0"
+  },
   "directories": {
     "lib": "lib"
   }
