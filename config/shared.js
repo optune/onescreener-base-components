@@ -8,7 +8,6 @@ import url from 'rollup-plugin-url'
 
 // shared modules for different envs
 import { externals } from './externalModules.js'
-import cjsopts from './commonjs.js'
 
 export default {
   input: 'src/index.js',
