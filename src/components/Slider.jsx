@@ -2,6 +2,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { default as PreviewIcon } from './icons/Preview.jsx'
+
+import { poison } from '../style/colors.js'
+
 const desktop = {
   margin: 8,
   x: 288,
@@ -15,44 +19,68 @@ const mobile = {
 }
 
 const MovingFlexRowContainer = styled.div`
-  display: flex;
-  flex-flow: row;
-  max-width: 100%;
-
   position: relative;
-  left: ${({ id }) =>
-    `${desktop.x / 2 - id * (desktop.x + 2 * desktop.margin)}px`};
+  display: flex;
+  width: 100%;
+
+  margin-left: ${({ activeIndex }) =>
+    `${desktop.x / 2 - activeIndex * (desktop.x + 2 * desktop.margin)}px`};
 
   @media (max-width: 600px) {
-    left: ${({ id }) =>
-      `${mobile.x / 2 - id * (mobile.x + 2 * mobile.margin)}px`};
+    margin-left: ${({ activeIndex }) =>
+      `${mobile.x / 2 - activeIndex * (mobile.x + 2 * mobile.margin)}px`};
   }
-  transition: all 0.5s ease-out;
+  transition: margin-left 0.5s ease-out;
 `
 
-const Slider = props => {
-  const { id, slides } = props
-  return (
-    <MovingFlexRowContainer id={id}>
-      {slides.map(([SlideContainer, Slide, componentProps], key) => {
-        const ResponsiveSlide = styled(Slide)`
-          padding: 10px;
-          margin: 0 ${desktop.margin}px;
-          width: ${desktop.x}px;
-          height: ${desktop.y}px;
+const Preview = styled.div`
+  box-sizing: border-box;
+  color: white;
+  background-color: #4a4a4a;
+  user-select: none;
 
-          @media (max-width: 600px) {
-            margin: 0 ${mobile.margin}px;
-            width: ${mobile.x}px;
-            height: ${mobile.y}px;
-          }
-        `
-        return (
-          <SlideContainer key={key}>
-            <ResponsiveSlide {...componentProps} />
-          </SlideContainer>
-        )
-      })}
+  background-image: ${({ previewImage }) => `url(${previewImage})`};
+  background-size: cover;
+  border: ${({ active }) => (active ? `4px solid ${poison}` : 'none')};
+
+  padding: 10px;
+  margin: 0 ${desktop.margin}px;
+  width: ${desktop.x}px;
+  height: ${desktop.y}px;
+
+  @media (max-width: 600px) {
+    margin: 0 ${mobile.margin}px;
+    width: ${mobile.x}px;
+    height: ${mobile.y}px;
+  }
+`
+
+const PreviewIconWrapper = styled.div`
+  position: absolute;
+  bottom: 40px;
+  left: 20px;
+`
+
+const ActiveSlideDecoration = () => (
+  <PreviewIconWrapper>
+    <PreviewIcon />
+  </PreviewIconWrapper>
+)
+
+const Slider = ({ slides, activeIndex }) => {
+  return (
+    <MovingFlexRowContainer activeIndex={activeIndex > 0 ? activeIndex : 0}>
+      {slides.map(({ previewImage, name, onSelect }, index) => (
+        <Preview
+          active={index === activeIndex}
+          key={index}
+          onClick={onSelect}
+          previewImage={previewImage}
+        >
+          {name}
+          {index === activeIndex && <ActiveSlideDecoration />}
+        </Preview>
+      ))}
     </MovingFlexRowContainer>
   )
 }

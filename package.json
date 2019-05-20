@@ -47,6 +47,7 @@
   "scripts": {
     "lint": "eslint .",
     "build": "rollup -c config/dev.js",
+    "watch": "rollup -c config/dev.js -w",
     "prepare": "rollup -c config/prod.js",
     "svg": "styled-svg src/components/icons/*.svg",
     "test": "echo \"t'Saul Goodman\" && exit 0",
