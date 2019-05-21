@@ -12,8 +12,8 @@ const BottomBar = styled.div`
   /* positioning & dimensions are most important for Bottombar of SubNavigation */
   /* FIXME: maybe use this part in SubNavigation Component? */
   &&& {
-    margin: 0 20px 20px 20px;
-    padding: 1em 0;
+    margin: 0 20px;
+    padding: 1em 0 20px;
     position: fixed;
     left: 0;
     right: 0;
