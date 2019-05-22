@@ -15,9 +15,9 @@ const LinkMapper = ({ href, ...props }) => (
   </SocialLink>
 )
 
+const array = a => (Array.isArray(a) ? a : [])
 const linkGenerator = links =>
-  links &&
-  links
+  array(links)
     .filter(
       ({ platform, slug }) => Object.keys(social).includes(platform) && slug
     )
