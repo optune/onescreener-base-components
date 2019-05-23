@@ -17,6 +17,16 @@ const getDimensionsCss = () => css`
 
 const Image = styled.svg`
   ${({ noStyles }) => (!noStyles ? getDimensionsCss() : null)};
+
+  & use[id='black'] {
+    fill: #000;
+    transition: fill 0.3s ease-out;
+  }
+
+  & use[id='white'] {
+    fill: #fff;
+    transition: fill 0.3s ease-out;
+  }
 `
 
 const defaultProps = {
@@ -50,11 +60,11 @@ const defaultProps = {
       <path d="M4 1h24v24H4z" />
       <g fillRule="nonzero" transform="translate(4 1)">
         <use
-          fill="#000"
+          id="black"
           filter="url(#s-3d4a82ba12-a)"
           xlinkHref="#s-3d4a82ba12-b"
         />
-        <use fill="#FFF" fillRule="evenodd" xlinkHref="#s-3d4a82ba12-b" />
+        <use id="white" fillRule="evenodd" xlinkHref="#s-3d4a82ba12-b" />
       </g>
     </g>,
   ],
