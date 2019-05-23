@@ -22,7 +22,8 @@ const ContentContainer = styled(CenterContainer)`
     margin: 1.2em;
   }
 
-  margin-bottom: 120px; /* height of bottom subnavigation bar */
+  padding-top: 50px; /* height of top navigation bar */
+  padding-bottom: 120px; /* height of bottom bar */
 `
 
 export default ContentContainer
