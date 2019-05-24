@@ -5,10 +5,10 @@ import { black, grey, poison, white } from '../style/colors.js'
 const StyledButton = styled.button`
   display: flex;
   justify-content: center;
-  font-size: 1em;
+  font-size: 15px;
   font-weight: 600;
   color: ${({ secondary, disabled }) =>
-    disabled ? grey : secondary ? poison : white};
+    (disabled && grey) || (secondary && poison) || white};
 
   ${({ round }) =>
     round
@@ -27,7 +27,7 @@ const StyledButton = styled.button`
 
   min-height: 40px;
   background-color: ${({ secondary, disabled }) =>
-    disabled ? black : secondary ? white : poison};
+    (disabled && black) || (secondary && white) || poison};
   border-radius: ${({ secondary, round }) =>
     round ? '50%' : secondary ? '2px' : '3px'};
   border-width: 0;
@@ -37,7 +37,8 @@ const StyledButton = styled.button`
     shadow
       ? '0 1px 3px 0 rgba(0,0,0,0.08), 0 1px 0 0 rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.05)'
       : 'none'};
-  /* 4px 4px 10px 0px rgba(0,0,0,0.75) */
+
+  transition: color 0.3s ease-out, background-color 0.3s ease-out;
 `
 
 export default StyledButton
