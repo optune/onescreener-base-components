@@ -58,6 +58,7 @@
         }
       ],
       "prettier/prettier": "error",
+      "import/no-unresolved": "off",
       "react/require-default-props": "off",
       "react/no-array-index-key": "off",
       "react/forbid-prop-types": "off"
