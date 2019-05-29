@@ -8,7 +8,7 @@ import ColoredTextContainer from './ColoredTextContainer.jsx'
 import Gigs from './Gigs.jsx'
 import { getGigs } from '../api/gigs/index.js'
 
-const ContentBox = ({ content, gigAPI }) => {
+const ContentBox = ({ content, gigAPI, isEdit }) => {
   const { type, color, text, mediaUrl } = content
   const { api, slug } = gigAPI || { api: '', slug: '' }
 
@@ -22,7 +22,7 @@ const ContentBox = ({ content, gigAPI }) => {
       )
 
     case 'MEDIA':
-      return <ReactPlayer url={mediaUrl} playing={true} />
+      return <ReactPlayer url={mediaUrl} playing={!isEdit} />
 
     default:
       return (
