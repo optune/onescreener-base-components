@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 import React from 'react'
-import { toSquidInkIcon, defaultStrokeFill } from '../mixins/toSquidInkIcon.js'
+import { toSquidInkIcon, defaultStrokeFill } from '../mixins/toSquidInkIcon.jsx'
 
 export const BiographyIcon = toSquidInkIcon(() => (
   <g id="Layer_1">

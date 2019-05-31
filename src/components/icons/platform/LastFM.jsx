@@ -1,5 +1,5 @@
 import React from 'react'
-import { toSquidInkIcon } from '../mixins/toSquidInkIcon.js'
+import { toSquidInkIcon } from '../mixins/toSquidInkIcon.jsx'
 
 export const LastFMIcon = toSquidInkIcon(() => (
   <g id="lastfm">

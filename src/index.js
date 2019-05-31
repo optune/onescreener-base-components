@@ -27,7 +27,7 @@ export {
   PlatformLink,
   PlatformLinks,
   Links,
-} from './components/icons/platform/index.js'
+} from './components/icons/platform/index.jsx'
 
 export { default as colors } from './style/colors.js'
 export { width } from './style/width.js'
