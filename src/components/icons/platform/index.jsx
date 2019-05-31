@@ -108,7 +108,7 @@ export const PlatformLinks = Object.keys(PlatformIcon).map(platform => {
   }
 })
 
-export const Links = links =>
+export const Links = (links, color) =>
   links
     .filter(({ platform, url }) => !!PlatformIcon[platform] && url > '')
-    .map(link => <PlatformLink {...link} key={link.platform} />)
+    .map(link => <PlatformLink {...link} key={link.platform} color={color} />)
