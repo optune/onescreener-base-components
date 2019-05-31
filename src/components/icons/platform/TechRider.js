@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 import React from 'react'
-import { toSquidInkIcon } from '../mixins/toSquidInkIcon'
+import { toSquidInkIcon } from '../mixins/toSquidInkIcon.js'
 
 export const TechRiderIcon = toSquidInkIcon(() => (
   <g id="jack-2">

@@ -1,5 +1,5 @@
 import React from 'react'
-import { toSquidInkIcon } from '../mixins/toSquidInkIcon'
+import { toSquidInkIcon } from '../mixins/toSquidInkIcon.js'
 
 export const YoutubeIcon = toSquidInkIcon(() => (
   <g id="youtube">
