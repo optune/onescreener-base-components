@@ -2,11 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import {
-  ColorHarlequin,
-  ColorHaiti,
-  ColorWhite,
-} from '@optune/react-base-components'
+import { white, poison, black } from '../../../style/colors'
 
 import { BandcampIcon } from './Bandcamp.jsx'
 import { BiographyIcon } from './Biography.jsx'
@@ -48,9 +44,9 @@ const Link = styled.div`
   padding: 0px;
   width: 42px;
   height: 42px;
-  background-color: ${({ active }) => (active ? ColorHarlequin : ColorHaiti)};
+  background-color: ${({ active }) => (active ? poison : black)};
   border-radius: 6px;
-  border-color: white;
+  border-color: ${({ color }) => color || white};
   border-width: 2px;
   border-style: solid;
   box-sizing: border-box;
@@ -67,8 +63,8 @@ const LinkIcon = ({ platform }) => styled(PlatformIcon[platform])`
     polyline,
     rect,
     ellipse {
-      fill: ${({ color }) => color || ColorWhite};
-      stroke: ${({ color }) => color || ColorWhite};
+      fill: ${({ color }) => color || white};
+      stroke: ${({ color }) => color || white};
 
       &[fill='none'] {
         fill: none;
@@ -85,7 +81,7 @@ export const PlatformLink = ({ url, platform, color, active }) => {
   const Icon = LinkIcon({ platform })
   return (
     <a href={url}>
-      <Link active={active}>
+      <Link active={active} color={color}>
         <Icon color={color} />
       </Link>
     </a>
