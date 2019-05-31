@@ -3,6 +3,76 @@
   "version": "0.0.4",
   "description": "Onescreener Base Components",
   "main": "lib/index.js",
+  "scripts": {
+    "clean": "rm -rf lib",
+    "remove-react": "rm -rf node_modules/react node_modules/react-dom  node_modules/styled-components",
+    "lint": "eslint .",
+    "build": "meteor npm run remove-react && rollup -c config/dev.js",
+    "build:prod": "meteor npm run remove-react && rollup -c config/prod.js",
+    "watch": "meteor npm run remove-react && rollup -c config/dev.js -w",
+    "svg": "styled-svg src/components/icons/*.svg",
+    "test": "echo \"t'Saul Goodman\" && exit 0",
+    "storybook": "start-storybook --ci -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "eslintConfig": {
+    "settings": {
+      "react": {
+        "version": "^16.4.2"
+      }
+    },
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": "2018",
+      "sourceType": "module"
+    },
+    "plugins": [
+      "import",
+      "prettier",
+      "react"
+    ],
+    "extends": [
+      "plugin:react/recommended",
+      "prettier"
+    ],
+    "rules": {
+      "max-lines": "error",
+      "import/no-unresolved": "off",
+      "import/extensions": [
+        "error",
+        "always",
+        {
+          "ignorePackages": true
+        }
+      ],
+      "prettier/prettier": "error",
+      "react/require-default-props": "off",
+      "react/no-array-index-key": "off",
+      "react/forbid-prop-types": "off"
+    }
+  },
+  "eslintIgnore": [
+    "lib/**/*.js"
+  ],
+  "browserslist": "last 2 chrome versions or last 2 firefox versions",
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
   "devDependencies": {
     "@storybook/addon-actions": "^5.0.11",
     "@storybook/addon-knobs": "^5.0.11",
@@ -43,77 +113,10 @@
     "react-player": "^1.11.0"
   },
   "peerDependencies": {
+    "@optune/react-base-components": "git@github.com:optune/react-base-components.git",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "styled-components": "^4.2.0"
-  },
-  "scripts": {
-    "lint": "eslint .",
-    "build": "rollup -c config/dev.js",
-    "watch": "rollup -c config/dev.js -w",
-    "prepare": "rollup -c config/prod.js",
-    "svg": "styled-svg src/components/icons/*.svg",
-    "test": "echo \"t'Saul Goodman\" && exit 0",
-    "storybook": "start-storybook --ci -p 6006",
-    "build-storybook": "build-storybook"
-  },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
-  "eslintConfig": {
-    "settings": {
-      "react": {
-        "version": "^16.4.2"
-      }
-    },
-    "env": {
-      "browser": true,
-      "node": true
-    },
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      },
-      "ecmaVersion": "2018",
-      "sourceType": "module"
-    },
-    "plugins": [
-      "import",
-      "prettier",
-      "react"
-    ],
-    "extends": [
-      "plugin:react/recommended",
-      "prettier"
-    ],
-    "rules": {
-      "max-lines": "error",
-      "import/no-unresolved": "error",
-      "import/extensions": [
-        "error",
-        "always",
-        {
-          "ignorePackages": true
-        }
-      ],
-      "prettier/prettier": "error",
-      "react/require-default-props": "off",
-      "react/no-array-index-key": "off",
-      "react/forbid-prop-types": "off"
-    }
-  },
-  "eslintIgnore": [
-    "lib/**/*.js"
-  ],
-  "browserslist": "last 2 chrome versions or last 2 firefox versions",
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ]
   },
   "repository": {
     "type": "git",
@@ -127,7 +130,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-push": "npm run lint"
     }
   },
   "author": "optune",

@@ -17,18 +17,19 @@ export { default as Gigs } from './components/Gigs.jsx'
 export { default as Logo } from './components/Logo.jsx'
 export { default as Label } from './components/Label.jsx'
 export { default as Preview } from './components/icons/Preview.jsx'
-export { default as PlatformIcon } from './components/PlatformIcon.jsx'
-export {
-  default as PlatformIconWrapper,
-} from './components/PlatformIconWrapper.jsx'
 export { default as Publish } from './components/icons/Publish.jsx'
 export { default as Slider } from './components/Slider.jsx'
-export { default as SocialLink } from './components/SocialLink.jsx'
 export { default as Themes } from './components/icons/Themes.jsx'
+
+// Platform
+export {
+  PlatformIcon,
+  PlatformLink,
+  PlatformLinks,
+  Links,
+} from './components/icons/platform/index.jsx'
 
 export { default as colors } from './style/colors.js'
 export { width } from './style/width.js'
 
 export { getGigs } from './api/gigs/index.js'
-export { default as linkGenerator } from './api/social/linkGenerator.jsx'
-export { default as social } from './api/social/index.js'
