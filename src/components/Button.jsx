@@ -9,16 +9,16 @@ const StyledButton = styled.button`
   font-weight: 600;
   color: ${({ secondary, disabled }) =>
     (disabled && grey) || (secondary && poison) || white};
-
-  ${({ round }) =>
-    round
-      ? `
+  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')}
+    ${({ round }) =>
+      round
+        ? `
         line-height: 40px;
         padding: 0px;
         width: 40px;
         overflow: hidden;
         `
-      : `
+        : `
         line-height: 8px;
         padding: 16px;
         width: auto;

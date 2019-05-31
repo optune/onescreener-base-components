@@ -21,6 +21,14 @@ export { default as Publish } from './components/icons/Publish.jsx'
 export { default as Slider } from './components/Slider.jsx'
 export { default as Themes } from './components/icons/Themes.jsx'
 
+// Platform
+export {
+  PlatformIcon,
+  PlatformLink,
+  PlatformLinks,
+  Links,
+} from './components/icons/platform/index.js'
+
 export { default as colors } from './style/colors.js'
 export { width } from './style/width.js'
 
