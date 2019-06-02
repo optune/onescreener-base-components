@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 
-import { green, white, grey } from '../style/colors.js'
+import { poison, white, grey } from '../style/colors.js'
 
 // FIXME: make sure fonts load in browser
 export default createGlobalStyle`
@@ -23,7 +23,7 @@ export default createGlobalStyle`
     font-family: 'Brandon Text Regular', sans-serif;
 
     a {
-      color: ${green};
+      color: ${poison};
     }
 
     span, p {
