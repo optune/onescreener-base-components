@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { black, grey, poison, white } from '../style/colors.js'
 
@@ -9,20 +9,21 @@ const StyledButton = styled.button`
   font-weight: 600;
   color: ${({ secondary, disabled }) =>
     (disabled && grey) || (secondary && poison) || white};
-  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')}
-    ${({ round }) =>
-      round
-        ? `
-        line-height: 40px;
-        padding: 0px;
-        width: 40px;
-        overflow: hidden;
+  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
+
+  ${({ round }) =>
+    round
+      ? css`
+          line-height: 40px;
+          padding: 0px;
+          width: 40px;
+          overflow: hidden;
         `
-        : `
-        line-height: 8px;
-        padding: 16px;
-        width: auto;
-        overflow: none;
+      : css`
+          line-height: 8px;
+          padding: 16px;
+          width: auto;
+          overflow: none;
         `};
 
   min-height: 40px;
@@ -37,6 +38,11 @@ const StyledButton = styled.button`
     shadow
       ? '0 1px 3px 0 rgba(0,0,0,0.08), 0 1px 0 0 rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.05)'
       : 'none'};
+
+  &:hover:not([disabled]) {
+    color: ${poison};
+    background-color: ${black};
+  }
 
   transition: color 0.3s ease-out, background-color 0.3s ease-out;
 `

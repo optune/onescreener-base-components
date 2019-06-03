@@ -40,20 +40,20 @@ const Link = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px;
+  margin: 0.6rem;
   padding: 0px;
-  width: 42px;
-  height: 42px;
+  width: 3rem;
+  height: 3rem;
   background-color: ${({ active }) => (active ? poison : black)};
-  border-radius: 6px;
+  border-radius: 0.4rem;
   border-color: ${({ color }) => color || white};
   border-width: 2px;
   border-style: solid;
   box-sizing: border-box;
 `
 const LinkIcon = ({ platform }) => styled(PlatformIcon[platform])`
-  width: 28px;
-  height: 28px;
+  width: 1.9rem;
+  height: 1.9rem;
 
   &.icon g {
     & path,
