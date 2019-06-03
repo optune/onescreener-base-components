@@ -9,6 +9,10 @@ export default createGlobalStyle`
     src: url(/fonts/brandon-text-regular.woff2);
   }
 
+  html {
+    font-size: 14px;
+  }
+
   body {
     min-height: 100%;
     padding: 0;

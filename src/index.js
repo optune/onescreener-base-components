@@ -14,12 +14,15 @@ export { default as ContentBox } from './components/ContentBox.jsx'
 export { default as Edit } from './components/icons/Edit.jsx'
 export { default as Fields } from './components/Fields.jsx'
 export { default as Gigs } from './components/Gigs.jsx'
-export { default as Logo } from './components/Logo.jsx'
+export { Logo } from './components/Logo.jsx'
 export { default as Label } from './components/Label.jsx'
 export { default as Preview } from './components/icons/Preview.jsx'
 export { default as Publish } from './components/icons/Publish.jsx'
 export { default as Slider } from './components/Slider.jsx'
 export { default as Themes } from './components/icons/Themes.jsx'
+
+// Templates
+export { Page } from './components/templates/Page.jsx'
 
 // Platform
 export {
