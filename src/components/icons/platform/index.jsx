@@ -47,7 +47,7 @@ const Link = styled.div`
   background-color: ${({ active }) => (active ? poison : black)};
   border-radius: 0.4rem;
   border-color: ${({ color }) => color || white};
-  border-width: 2px;
+  border-width: 0.1rem;
   border-style: solid;
   box-sizing: border-box;
 `

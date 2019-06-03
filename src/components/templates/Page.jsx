@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
 
 import { renderHtml } from '../../utils/renderHtml.js'
 
-import { ContentBox } from '../organisms/ContentBox.jsx'
+import { LogoBox } from '../organisms/LogoBox.jsx'
+import { TextBox } from '../organisms/TextBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
 import { MediaBox } from '../organisms/MediaBox.jsx'
 import { Logo } from '../Logo.jsx'
@@ -14,7 +16,7 @@ import Button from '../Button.jsx'
 import Gigs from '../Gigs.jsx'
 import { getGigs } from '../../api/gigs/index.js'
 
-import styled from 'styled-components'
+import GlobalStyle from '../../style/global.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -54,9 +56,9 @@ export const Page = ({ page }) => {
   switch (type) {
     case 'GIGS':
       Content = (
-        <ContentBox color={color} id="gigs">
+        <TextBox color={color} id="gigs">
           <Gigs getGigs={getGigs} api={api} slug={slug} />
-        </ContentBox>
+        </TextBox>
       )
 
       break
@@ -65,41 +67,44 @@ export const Page = ({ page }) => {
       break
 
     default:
-      Content = <ContentBox color={color}>{renderHtml(text)}</ContentBox>
+      Content = <TextBox color={color}>{renderHtml(text)}</TextBox>
       break
   }
 
   return (
-    <PageContainer
-      image={background.image && background.image.url}
-      fullscreen={background.fullscreen}
-      color={background.color}
-    >
-      {/* Back Link to onescreener.com */}
-      <BackLink
-        href="http://www.onescreener.com"
-        target="_blank"
-        title="created with onescreener.com"
+    <Fragment>
+      <GlobalStyle />
+      <PageContainer
+        image={background.image && background.image.url}
+        fullscreen={background.fullscreen}
+        color={background.color}
       >
-        <span>created by onescreener.com</span>
-      </BackLink>
+        {/* Back Link to onescreener.com */}
+        <BackLink
+          href="http://www.onescreener.com"
+          target="_blank"
+          title="created with onescreener.com"
+        >
+          <span>created by onescreener.com</span>
+        </BackLink>
 
-      {/* Logo */}
-      {logo && logo.image && (
-        <ContentBox position={logo.position} zIndex={2}>
-          <Logo logo={logo} />
-        </ContentBox>
-      )}
+        {/* Logo */}
+        {logo && logo.image && (
+          <LogoBox position={logo.position} zIndex={2}>
+            <Logo logo={logo} />
+          </LogoBox>
+        )}
 
-      {/* Logo */}
-      {Content}
+        {/* Logo */}
+        {Content}
 
-      {/* Links */}
-      {links.list.length > 0 && (
-        <LinksBox position={links.position}>
-          {Links(links.list, content.color)}
-        </LinksBox>
-      )}
-    </PageContainer>
+        {/* Links */}
+        {links.list.length > 0 && (
+          <LinksBox position={links.position}>
+            {Links(links.list, content.color)}
+          </LinksBox>
+        )}
+      </PageContainer>
+    </Fragment>
   )
 }

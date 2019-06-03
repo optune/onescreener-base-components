@@ -3,10 +3,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledContent = styled.div`
-  > * {
-    text-align: center;
-  }
-
   margin: 0 auto;
   width: 100%;
 `

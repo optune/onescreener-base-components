@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const ContentContainer = styled.div`
+const LogoContainer = styled.div`
   position: absolute;
   top: 0;
   bottom: 0;
@@ -12,16 +12,6 @@ const ContentContainer = styled.div`
   margin: 0.5rem;
   z-index: ${({ zIndex }) => zIndex};
   pointer-events: none;
-
-  li,
-  p,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    color: ${({ color }) => color};
-  }
 
   &.top-left {
     align-items: flex-start;
@@ -69,13 +59,13 @@ const ContentContainer = styled.div`
   }
 `
 
-export const ContentBox = ({ position, children, ...other }) => (
-  <ContentContainer
+export const LogoBox = ({ position, children, ...other }) => (
+  <LogoContainer
     className={
       position > '' ? position.toLowerCase().replace('_', '-') : 'top-center'
     }
     {...other}
   >
     {children}
-  </ContentContainer>
+  </LogoContainer>
 )

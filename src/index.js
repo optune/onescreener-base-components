@@ -34,5 +34,6 @@ export {
 
 export { default as colors } from './style/colors.js'
 export { width } from './style/width.js'
+export { MediaSmall } from './style/media.js'
 
 export { getGigs } from './api/gigs/index.js'

@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 
-import { poison, white, grey } from '../style/colors.js'
+import { poison, white, grey } from './colors.js'
+import { MediaSmall } from './media.js'
 
 // FIXME: make sure fonts load in browser
 export default createGlobalStyle`
@@ -11,27 +12,25 @@ export default createGlobalStyle`
 
   html {
     font-size: 14px;
+
+    @media ${MediaSmall} {
+      font-size: 10px;
+    }
   }
 
   body {
     min-height: 100%;
     padding: 0;
     margin: 0 auto;
-    color: ${grey};
     background-color: #f7f7f7;
     display: flex;
     justify-content: center;
     /* define grid layout desktop main mode */
     width: 100%;
-
     font-family: 'Brandon Text Regular', sans-serif;
+  }
 
-    a {
-      color: ${poison};
-    }
-
-    span, p {
-      color: ${grey};
-    }
+  p {
+    font-size: 1rem;
   }
 `

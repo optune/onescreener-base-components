@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 import styled, { css } from 'styled-components'
-
 import ReactPlayer from 'react-player'
+
+import { MediaSmall } from '../../style/media.js'
 
 const MediaContainer = styled.div`
   position: absolute;
@@ -29,7 +30,7 @@ const MediaPlayer = styled.div`
           justify-content: center;
           padding: 25% 25%;
 
-          @media (max-width: 736px) {
+          @media ${MediaSmall} {
             padding: 25% 0.5rem;
           }
         `}
