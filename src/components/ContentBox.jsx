@@ -9,7 +9,7 @@ import Gigs from './Gigs.jsx'
 import { getGigs } from '../api/gigs/index.js'
 
 const ContentBox = ({ content, gigAPI, isEdit }) => {
-  const { type, color, text, mediaUrl } = content
+  const { type, color, text, media } = content
   const { api, slug } = gigAPI || { api: '', slug: '' }
 
   switch (type) {
@@ -22,7 +22,7 @@ const ContentBox = ({ content, gigAPI, isEdit }) => {
       )
 
     case 'MEDIA':
-      return <ReactPlayer url={mediaUrl} playing={!isEdit} />
+      return <ReactPlayer url={media.url} playing={false} />
 
     default:
       return (

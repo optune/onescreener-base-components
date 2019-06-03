@@ -9,8 +9,9 @@ const LinksContainer = styled.div`
   left: 0;
   right: 0;
   display: flex;
-  margin: 20px;
+  margin: 0.5rem;
   z-index: ${({ zIndex }) => zIndex};
+  pointer-events: none;
 `
 
 const LinksList = styled.div`
@@ -19,6 +20,7 @@ const LinksList = styled.div`
   flex-flow: row;
   width: 100%;
   height: 3.6rem;
+  pointer-events: all;
 
   &.bottom-center {
     bottom: 0;

@@ -9,8 +9,9 @@ const ContentContainer = styled.div`
   left: 0;
   right: 0;
   display: flex;
-  margin: 20px;
+  margin: 0.5rem;
   z-index: ${({ zIndex }) => zIndex};
+  pointer-events: none;
 
   li,
   p,

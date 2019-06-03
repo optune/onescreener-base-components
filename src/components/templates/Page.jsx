@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import ReactPlayer from 'react-player'
 
 import { renderHtml } from '../../utils/renderHtml.js'
 
 import { ContentBox } from '../organisms/ContentBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
+import { MediaBox } from '../organisms/MediaBox.jsx'
 import { Logo } from '../Logo.jsx'
 
 import { Links } from '../icons/platform/index.jsx'
@@ -29,9 +29,24 @@ const PageContainer = styled.div`
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
 `
 
+const BackLink = styled.a`
+  position: fixed;
+  background-image: url(https://www.onescreener.com/img/onescreener-logo.svg);
+  background-size: 60px 15px;
+  background-color: #808080;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 70px;
+  height: 15px;
+  opacity: 0.3;
+  transform: rotate(-90deg);
+  transform-origin: 100% 100%;
+  right: 0;
+`
+
 export const Page = ({ page }) => {
   const { background, logo, content, gigAPI } = page
-  const { type, color, text, mediaUrl } = content
+  const { type, color, text, media } = content
   const { api, slug } = gigAPI || { api: '', slug: '' }
   const { links } = page || { links: { list: [] } }
 
@@ -46,7 +61,7 @@ export const Page = ({ page }) => {
 
       break
     case 'MEDIA':
-      Content = <ReactPlayer url={mediaUrl} playing />
+      Content = <MediaBox media={media} />
       break
 
     default:
@@ -60,15 +75,24 @@ export const Page = ({ page }) => {
       fullscreen={background.fullscreen}
       color={background.color}
     >
+      {/* Back Link to onescreener.com */}
+      <BackLink
+        href="http://www.onescreener.com"
+        target="_blank"
+        title="created with onescreener.com"
+      >
+        <span>created by onescreener.com</span>
+      </BackLink>
+
       {/* Logo */}
       {logo && logo.image && (
-        <ContentBox position={logo.position}>
+        <ContentBox position={logo.position} zIndex={2}>
           <Logo logo={logo} />
         </ContentBox>
       )}
 
       {/* Logo */}
-      <ContentBox position={content.position}>{Content}</ContentBox>
+      {Content}
 
       {/* Links */}
       {links.list.length > 0 && (
