@@ -106,7 +106,6 @@
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "marked": "^0.6.2",
     "ramda": "^0.26.1",
     "react-async": "^6.2.0",
     "react-html-parser": "^2.0.2",
