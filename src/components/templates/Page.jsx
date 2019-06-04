@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 import { renderHtml } from '../../utils/renderHtml.js'
@@ -17,6 +17,7 @@ import Gigs from '../Gigs.jsx'
 import { getGigs } from '../../api/gigs/index.js'
 
 import GlobalStyle from '../../style/global.js'
+import { MediaSmall } from '../../style/media.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -29,6 +30,7 @@ const PageContainer = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
+  display: flex;
 `
 
 const BackLink = styled.a`
@@ -46,7 +48,19 @@ const BackLink = styled.a`
   right: 0;
 `
 
+const mql = window.matchMedia(MediaSmall)
+
 export const Page = ({ page }) => {
+  const [mediaQuery, setMediaQuery] = useState(
+    mql.matches ? 'mobile' : 'desktop'
+  )
+
+  useEffect(() => {
+    const handler = () => setMediaQuery(mql.matches ? 'mobile' : 'desktop')
+    mql.addListener(handler)
+    return () => mql.removeListener(handler)
+  }, [])
+
   const { background, logo, content, gigAPI } = page
   const { type, color, text, media } = content
   const { api, slug } = gigAPI || { api: '', slug: '' }
@@ -71,6 +85,8 @@ export const Page = ({ page }) => {
       break
   }
 
+  
+
   return (
     <Fragment>
       <GlobalStyle />
@@ -90,7 +106,7 @@ export const Page = ({ page }) => {
 
         {/* Logo */}
         {logo && logo.image && (
-          <LogoBox position={logo.position} zIndex={2}>
+          <LogoBox position={mediaQuery == 'mobile' ? 'TOP_CENTER' : logo.position} zIndex={2}>
             <Logo logo={logo} />
           </LogoBox>
         )}
@@ -100,7 +116,7 @@ export const Page = ({ page }) => {
 
         {/* Links */}
         {links.list.length > 0 && (
-          <LinksBox position={links.position}>
+          <LinksBox position={mediaQuery == 'mobile' ? 'BOTTOM_CENTER' : links.position}>
             {Links(links.list, content.color)}
           </LinksBox>
         )}
