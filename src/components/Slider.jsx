@@ -24,11 +24,11 @@ const MovingFlexRowContainer = styled.div`
   width: 100%;
 
   margin-left: ${({ activeIndex }) =>
-    `${desktop.x / 2 - activeIndex * (desktop.x + 2 * desktop.margin)}px`};
+    `${-(desktop.x / 2 - activeIndex * (desktop.x + 2 * desktop.margin))}px`};
 
   @media (max-width: 600px) {
     margin-left: ${({ activeIndex }) =>
-      `${mobile.x / 2 - activeIndex * (mobile.x + 2 * mobile.margin)}px`};
+      `${-(mobile.x / 2 - activeIndex * (mobile.x + 2 * mobile.margin))}px`};
   }
   transition: margin-left 0.5s ease-out;
 `

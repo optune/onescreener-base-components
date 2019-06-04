@@ -11,7 +11,7 @@ export default createGlobalStyle`
   }
 
   html {
-    font-size: 14px;
+    font-size: 12px;
 
     @media ${MediaSmall} {
       font-size: 10px;
@@ -28,6 +28,26 @@ export default createGlobalStyle`
     /* define grid layout desktop main mode */
     width: 100%;
     font-family: 'Brandon Text Regular', sans-serif;
+  }
+
+  h1 {
+    font-size: 2.4rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  h4 {
+    font-size: 1.4rem;
+  }
+
+  h5 {
+    font-size: 1.2rem;
   }
 
   p {
