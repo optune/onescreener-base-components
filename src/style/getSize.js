@@ -1,3 +1,9 @@
-const Size = [1, 2, 3, 6, 10]
+const LogoSize = {
+  xs: '3rem',
+  s: '6rem',
+  m: '12rem',
+  l: '15rem',
+  xl: '18rem',
+}
 
-export const getSize = size => `${Size[size]}rem`
+export const getSize = size => LogoSize[size]

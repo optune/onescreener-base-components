@@ -10,12 +10,20 @@ export default createGlobalStyle`
     src: url(/fonts/brandon-text-regular.woff2);
   }
 
-  html {
-    font-size: 12px;
+  :root {
+    --basic-font-size: 16px;
+    
+    --margin-links: 2rem;
+  }
 
-    @media ${MediaSmall} {
-      font-size: 10px;
+  @media ${MediaSmall} {
+    :root {
+      --basic-font-size: 12px;
     }
+  }
+
+  html {
+    font-size: var(--basic-font-size);
   }
 
   body {
@@ -28,6 +36,7 @@ export default createGlobalStyle`
     /* define grid layout desktop main mode */
     width: 100%;
     font-family: 'Brandon Text Regular', sans-serif;
+    line-height: normal;
   }
 
   h1 {

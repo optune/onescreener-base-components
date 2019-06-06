@@ -4,20 +4,12 @@ import styled, { css } from 'styled-components'
 
 import { MediaSmall } from '../../style/media.js'
 
-const TextContainer = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-`
-
 const Text = styled.div`
-  position: relative;
-  height: 100%;
-  width: 100%;
-  padding: 30% 25% 20%;
+  margin: auto;
+  max-height: 60vh;
+  width: 60vw;
+  max-width: 1200px;
+  overflow: hidden;
 
   & li,
   p,
@@ -28,15 +20,14 @@ const Text = styled.div`
   h5,
   span {
     color: ${({ color }) => color};
+    white-space: pre-wrap;
   }
 
   @media ${MediaSmall} {
-    padding: 35% 1rem;
+    width: 80vw;
   }
 `
 
 export const TextBox = ({ children, color }) => (
-  <TextContainer>
-    <Text color={color}>{children}</Text>
-  </TextContainer>
+  <Text color={color}>{children}</Text>
 )
