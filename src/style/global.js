@@ -10,12 +10,27 @@ export default createGlobalStyle`
     src: url(/fonts/brandon-text-regular.woff2);
   }
 
-  html {
-    font-size: 12px;
+  :root {
+    --basic-font-size: 100%;
+    
+    --margin-logo: 64px;
+    --logo-size-0: 100px; 
+    --logo-size-1: 150px; 
+    --logo-size-2: 200px; 
+    --logo-size-3: 250px; 
+    --logo-size-4: 300px;
 
-    @media ${MediaSmall} {
-      font-size: 10px;
+    --margin-links: 32px;
+  }
+
+  @media ${MediaSmall} {
+    :root {
+      --basic-font-size: 80%;
     }
+  }
+
+  html {
+    font-size: var(--basic-font-size);
   }
 
   body {
@@ -28,6 +43,7 @@ export default createGlobalStyle`
     /* define grid layout desktop main mode */
     width: 100%;
     font-family: 'Brandon Text Regular', sans-serif;
+    line-height: normal;
   }
 
   h1 {
