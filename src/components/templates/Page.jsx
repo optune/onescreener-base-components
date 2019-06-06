@@ -6,6 +6,7 @@ import { renderHtml } from '../../utils/renderHtml.js'
 
 import { LogoBox } from '../organisms/LogoBox.jsx'
 import { TextBox } from '../organisms/TextBox.jsx'
+import { GigsBox } from '../organisms/GigsBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
 import { MediaBox } from '../organisms/MediaBox.jsx'
 import { Logo } from '../Logo.jsx'
@@ -13,7 +14,7 @@ import { Logo } from '../Logo.jsx'
 import { Links } from '../icons/platform/index.jsx'
 
 import Button from '../Button.jsx'
-import Gigs from '../Gigs.jsx'
+
 import { getGigs } from '../../api/gigs/index.js'
 
 import GlobalStyle from '../../style/global.js'
@@ -48,16 +49,28 @@ const BackLink = styled.a`
 
 export const Page = ({ page }) => {
   const { background, logo, content, gigAPI } = page
-  const { type, color, text, media } = content
-  const { api, slug } = gigAPI || { api: '', slug: '' }
+  const {
+    type,
+    color,
+    colorAccent,
+    colorBackground,
+    gigsAPI,
+    media,
+    text,
+  } = content
+  const { provider, slug } = gigsAPI || { provider: '', slug: '' }
   const { links } = page || { links: { list: [] } }
+
+  console.log(content)
+
+  const colors = { color, colorBackground, colorAccent }
 
   let Content
   switch (type) {
     case 'GIGS':
       Content = (
-        <TextBox color={color} id="gigs">
-          <Gigs getGigs={getGigs} api={api} slug={slug} />
+        <TextBox {...colors} id="gigs">
+          <GigsBox getGigs={getGigs} api={provider} slug={slug} {...colors} />
         </TextBox>
       )
 
@@ -67,7 +80,7 @@ export const Page = ({ page }) => {
       break
 
     default:
-      Content = <TextBox color={color}>{renderHtml(text)}</TextBox>
+      Content = <TextBox {...colors}>{renderHtml(text)}</TextBox>
       break
   }
 
@@ -101,7 +114,7 @@ export const Page = ({ page }) => {
         {/* Links */}
         {links.list.length > 0 && (
           <LinksBox position={links.position}>
-            {Links(links.list, content.color)}
+            {Links(links.list, content)}
           </LinksBox>
         )}
       </PageContainer>

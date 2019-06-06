@@ -1,7 +1,7 @@
 import { formatGigDate } from '../utils.js'
 
 export const gigatools = {
-  url: slug => `http://gigs.gigatools.com/user/${slug}.json`,
+  url: slug => `https://gigs.gigatools.com/user/${slug}.json`,
   extractEvents: result => {
     const [
       {

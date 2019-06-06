@@ -44,12 +44,37 @@ const Link = styled.div`
   padding: 0px;
   width: 3rem;
   height: 3rem;
-  background-color: ${({ active }) => (active ? poison : black)};
+  background-color: ${({ colorBackground }) => colorBackground};
   border-radius: 0.4rem;
-  border-color: ${({ color }) => color || white};
+  border-color: ${({ color }) => color || 'transparent'};
   border-width: 0.1rem;
   border-style: solid;
   box-sizing: border-box;
+
+  &:hover {
+    border-color: ${({ colorAccent }) => colorAccent};
+
+    &.icon g {
+      & path,
+      line,
+      circle,
+      polygon,
+      polyline,
+      rect,
+      ellipse {
+        fill: ${({ colorAccent }) => colorAccent};
+        stroke: ${({ colorAccent }) => colorAccent};
+
+        &[fill='none'] {
+          fill: none;
+        }
+
+        &[stroke='none'] {
+          stroke: none;
+        }
+      }
+    }
+  }
 `
 const LinkIcon = ({ platform }) => styled(PlatformIcon[platform])`
   width: 1.9rem;
@@ -63,8 +88,8 @@ const LinkIcon = ({ platform }) => styled(PlatformIcon[platform])`
     polyline,
     rect,
     ellipse {
-      fill: ${({ color }) => color || white};
-      stroke: ${({ color }) => color || white};
+      fill: ${({ color }) => color};
+      stroke: ${({ color }) => color};
 
       &[fill='none'] {
         fill: none;
@@ -77,12 +102,18 @@ const LinkIcon = ({ platform }) => styled(PlatformIcon[platform])`
   }
 `
 
-export const PlatformLink = ({ url, platform, color, active }) => {
+export const PlatformLink = ({
+  color,
+  colorAccent,
+  colorBackground,
+  platform,
+  url,
+}) => {
   const Icon = LinkIcon({ platform })
   return (
     <a href={url}>
-      <Link active={active} color={color}>
-        <Icon color={color} />
+      <Link color={color} colorBackground={colorBackground}>
+        <Icon color={color} colorAccent={colorAccent} />
       </Link>
     </a>
   )
@@ -90,9 +121,9 @@ export const PlatformLink = ({ url, platform, color, active }) => {
 
 export const PlatformLinks = Object.keys(PlatformIcon).map(platform => {
   const Icon = LinkIcon({ platform })
-  const PlatformLinkIcon = ({ active, color, onClick }) => (
+  const PlatformLinkIcon = ({ color, onClick }) => (
     <a onClick={onClick}>
-      <Link active={active}>
+      <Link>
         <Icon color={color} />
       </Link>
     </a>
@@ -104,7 +135,15 @@ export const PlatformLinks = Object.keys(PlatformIcon).map(platform => {
   }
 })
 
-export const Links = (links, color) =>
+export const Links = (links, content) =>
   links
     .filter(({ platform, url }) => !!PlatformIcon[platform] && url > '')
-    .map(link => <PlatformLink {...link} key={link.platform} color={color} />)
+    .map(link => (
+      <PlatformLink
+        {...link}
+        key={link.platform}
+        color={content.color}
+        colorBackground={content.colorBackground}
+        colorAccent={content.colorAccent || content.color}
+      />
+    ))
