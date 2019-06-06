@@ -1,9 +1,9 @@
 const LogoSize = {
-  xs: '3rem',
-  s: '6rem',
-  m: '9rem',
-  l: '12rem',
-  xl: '18rem',
+  XS: '3rem',
+  S: '6rem',
+  M: '9rem',
+  L: '12rem',
+  XL: '18rem',
 }
 
 export const getSize = size => LogoSize[size]

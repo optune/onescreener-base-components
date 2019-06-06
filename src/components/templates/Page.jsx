@@ -75,8 +75,6 @@ export const Page = ({ page }) => {
   const { provider, slug } = gigsAPI || { provider: '', slug: '' }
   const { links } = page || { links: { list: [] } }
 
-  console.log(content)
-
   const colors = { color, colorBackground, colorAccent }
 
   let Content
@@ -133,7 +131,7 @@ export const Page = ({ page }) => {
           <LinksBox
             position={mediaQuery == 'mobile' ? 'BOTTOM_CENTER' : links.position}
           >
-            {Links(links.list, content.color)}
+            {Links(links, content)}
           </LinksBox>
         )}
       </PageContainer>

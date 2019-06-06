@@ -2,8 +2,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { white, poison, black } from '../../../style/colors'
-
 import { BandcampIcon } from './Bandcamp.jsx'
 import { BiographyIcon } from './Biography.jsx'
 import { FacebookIcon } from './Facebook.jsx'
@@ -45,16 +43,19 @@ const Link = styled.div`
   width: 3rem;
   height: 3rem;
   background-color: ${({ colorBackground }) => colorBackground};
-  border-radius: 0.4rem;
+  border-radius: ${({ circle, square }) =>
+    (circle && '50%') || (square && 'none') || '0.4rem'};
   border-color: ${({ color }) => color || 'transparent'};
-  border-width: 0.1rem;
+  border-width: ${({ border }) => (border / 10) * 0.5}rem;
   border-style: solid;
   box-sizing: border-box;
+  transition: border-color 0.25s ease-out, background-color 0.25s ease-out;
 
   &:hover {
+    background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
     border-color: ${({ colorAccent }) => colorAccent};
 
-    &.icon g {
+    & .icon g {
       & path,
       line,
       circle,
@@ -90,6 +91,7 @@ const LinkIcon = ({ platform }) => styled(PlatformIcon[platform])`
     ellipse {
       fill: ${({ color }) => color};
       stroke: ${({ color }) => color};
+      transition: fill 0.25s ease-out, stroke 0.25 ease-out;
 
       &[fill='none'] {
         fill: none;
@@ -103,17 +105,29 @@ const LinkIcon = ({ platform }) => styled(PlatformIcon[platform])`
 `
 
 export const PlatformLink = ({
+  border,
+  circle,
   color,
   colorAccent,
   colorBackground,
+  colorBackgroundAccent,
   platform,
+  square,
   url,
 }) => {
   const Icon = LinkIcon({ platform })
   return (
     <a href={url}>
-      <Link color={color} colorBackground={colorBackground}>
-        <Icon color={color} colorAccent={colorAccent} />
+      <Link
+        border={border}
+        circle={circle}
+        color={color}
+        colorAccent={colorAccent}
+        colorBackground={colorBackground}
+        colorBackgroundAccent={colorBackgroundAccent}
+        square={square}
+      >
+        <Icon color={color} />
       </Link>
     </a>
   )
@@ -136,14 +150,15 @@ export const PlatformLinks = Object.keys(PlatformIcon).map(platform => {
 })
 
 export const Links = (links, content) =>
-  links
+  links.list
     .filter(({ platform, url }) => !!PlatformIcon[platform] && url > '')
     .map(link => (
       <PlatformLink
-        {...link}
         key={link.platform}
-        color={content.color}
-        colorBackground={content.colorBackground}
-        colorAccent={content.colorAccent || content.color}
+        border={links.border}
+        circle={links.circle}
+        square={links.square}
+        {...link}
+        {...content}
       />
     ))

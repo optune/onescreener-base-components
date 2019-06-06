@@ -15,15 +15,7 @@ const LogoImage = styled.img`
   margin: 1rem;
 `
 
-const LogoSize = {
-  0: 'xs',
-  1: 's',
-  2: 'm',
-  3: 'l',
-  4: 'xl',
-}
-
 export const Logo = ({ logo }) =>
   logo && logo.image ? (
-    <LogoImage src={logo.image.url} size={getSize(LogoSize[logo.size])} />
+    <LogoImage src={logo.image.url} size={getSize(logo.size)} />
   ) : null
