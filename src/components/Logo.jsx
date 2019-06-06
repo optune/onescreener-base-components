@@ -12,7 +12,7 @@ const LogoImage = styled.img`
   max-width: 800px;
   width: ${({ size }) => size};
   height: ${({ size }) => size};
-  margin: 4rem;
+  margin: 1rem;
 `
 
 const LogoSize = {

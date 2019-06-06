@@ -1,8 +1,8 @@
 const LogoSize = {
   xs: '3rem',
   s: '6rem',
-  m: '12rem',
-  l: '15rem',
+  m: '9rem',
+  l: '12rem',
   xl: '18rem',
 }
 
