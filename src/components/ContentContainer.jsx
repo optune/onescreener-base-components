@@ -11,17 +11,6 @@ const ContentContainer = styled(CenterContainer)`
     margin: 2em auto;
   }
 
-  > p,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  span {
-    margin: 1.2em;
-  }
-
   padding-top: 50px; /* height of top navigation bar */
   padding-bottom: 120px; /* height of bottom bar */
 `

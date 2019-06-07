@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
+import styled from 'styled-components'
 
 import { renderHtml } from '../../utils/renderHtml.js'
 
-import { ContentBox } from '../organisms/ContentBox.jsx'
+import { LogoBox } from '../organisms/LogoBox.jsx'
+import { TextBox } from '../organisms/TextBox.jsx'
+import { GigsBox } from '../organisms/GigsBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
 import { MediaBox } from '../organisms/MediaBox.jsx'
 import { Logo } from '../Logo.jsx'
@@ -11,10 +14,11 @@ import { Logo } from '../Logo.jsx'
 import { Links } from '../icons/platform/index.jsx'
 
 import Button from '../Button.jsx'
-import Gigs from '../Gigs.jsx'
+
 import { getGigs } from '../../api/gigs/index.js'
 
-import styled from 'styled-components'
+import GlobalStyle from '../../style/global.js'
+import { MediaSmall } from '../../style/media.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -27,6 +31,7 @@ const PageContainer = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
+  display: flex;
 `
 
 const BackLink = styled.a`
@@ -44,19 +49,41 @@ const BackLink = styled.a`
   right: 0;
 `
 
+const mql = window.matchMedia(MediaSmall)
+
 export const Page = ({ page }) => {
+  const [mediaQuery, setMediaQuery] = useState(
+    mql.matches ? 'mobile' : 'desktop'
+  )
+
+  useEffect(() => {
+    const handler = () => setMediaQuery(mql.matches ? 'mobile' : 'desktop')
+    mql.addListener(handler)
+    return () => mql.removeListener(handler)
+  }, [])
+
   const { background, logo, content, gigAPI } = page
-  const { type, color, text, media } = content
-  const { api, slug } = gigAPI || { api: '', slug: '' }
+  const {
+    type,
+    color,
+    colorAccent,
+    colorBackground,
+    gigsAPI,
+    media,
+    text,
+  } = content
+  const { provider, slug } = gigsAPI || { provider: '', slug: '' }
   const { links } = page || { links: { list: [] } }
+
+  const colors = { color, colorBackground, colorAccent }
 
   let Content
   switch (type) {
     case 'GIGS':
       Content = (
-        <ContentBox color={color} id="gigs">
-          <Gigs getGigs={getGigs} api={api} slug={slug} />
-        </ContentBox>
+        <TextBox {...colors} id="gigs">
+          <GigsBox getGigs={getGigs} api={provider} slug={slug} {...colors} />
+        </TextBox>
       )
 
       break
@@ -65,41 +92,49 @@ export const Page = ({ page }) => {
       break
 
     default:
-      Content = <ContentBox color={color}>{renderHtml(text)}</ContentBox>
+      Content = <TextBox {...colors}>{renderHtml(text)}</TextBox>
       break
   }
 
   return (
-    <PageContainer
-      image={background.image && background.image.url}
-      fullscreen={background.fullscreen}
-      color={background.color}
-    >
-      {/* Back Link to onescreener.com */}
-      <BackLink
-        href="http://www.onescreener.com"
-        target="_blank"
-        title="created with onescreener.com"
+    <Fragment>
+      <GlobalStyle />
+      <PageContainer
+        image={background.image && background.image.url}
+        fullscreen={background.fullscreen}
+        color={background.color}
       >
-        <span>created by onescreener.com</span>
-      </BackLink>
+        {/* Back Link to onescreener.com */}
+        <BackLink
+          href="http://www.onescreener.com"
+          target="_blank"
+          title="created with onescreener.com"
+        >
+          <span>created by onescreener.com</span>
+        </BackLink>
 
-      {/* Logo */}
-      {logo && logo.image && (
-        <ContentBox position={logo.position} zIndex={2}>
-          <Logo logo={logo} />
-        </ContentBox>
-      )}
+        {/* Logo */}
+        {logo && logo.image && (
+          <LogoBox
+            position={mediaQuery == 'mobile' ? 'TOP_CENTER' : logo.position}
+            zIndex={2}
+          >
+            <Logo logo={logo} />
+          </LogoBox>
+        )}
 
-      {/* Logo */}
-      {Content}
+        {/* Logo */}
+        {Content}
 
-      {/* Links */}
-      {links.list.length > 0 && (
-        <LinksBox position={links.position}>
-          {Links(links.list, content.color)}
-        </LinksBox>
-      )}
-    </PageContainer>
+        {/* Links */}
+        {links.list.length > 0 && (
+          <LinksBox
+            position={mediaQuery == 'mobile' ? 'BOTTOM_CENTER' : links.position}
+          >
+            {Links(links, content)}
+          </LinksBox>
+        )}
+      </PageContainer>
+    </Fragment>
   )
 }

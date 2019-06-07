@@ -2,29 +2,30 @@ import 'isomorphic-fetch' // makes fetch() available
 import { has, map, slice, pipe as _ } from 'ramda'
 import { optune, bandsintown, gigatools } from './apis.js'
 
-const fetchEventsAPIResponse = async url => {
-  let res = { ok: false }
-  try {
-    res = await fetch(url)
-  } catch (e) {
-    console.error('fetching failed', e)
-  }
-  let parsedResult = []
-  if (res.ok) {
+const fetchEventsAPIResponse = async url =>
+  new Promise((resolve, reject) => {
+    let res = { ok: false }
+
     try {
-      parsedResult = await res.json()
+      fetch(url).then(res => {
+        console.log(res.json())
+        try {
+          resolve(res.json())
+        } catch (e) {
+          console.error('Parse error', e)
+          reject('Parsing failed')
+        }
+      })
     } catch (e) {
-      console.warn(`parsing error for ${url}, setting empty data`)
-      parsedResult = []
+      console.error('fetching failed', e)
+      reject('Fetch failed')
     }
-  }
-  return parsedResult
-}
+  })
 
 const ApiProviders = {
-  optune,
-  bandsintown,
-  gigatools,
+  OPTUNE: optune,
+  BANDSINTOWN: bandsintown,
+  GIGATOOLS: gigatools,
 }
 
 const transformVenue = ({ startDate, title, venue }) => {
@@ -45,9 +46,13 @@ const transformVenue = ({ startDate, title, venue }) => {
 
 const getGigs = async ({ api, slug, limit = 5 }) => {
   const Api = ApiProviders[api]
+
   const transforms = _(Api.transformEvent, transformVenue)
 
-  const data = await fetchEventsAPIResponse(Api.url(slug))
+  const data = await fetchEventsAPIResponse(Api.url(slug)).catch(error => {
+    throw error
+  })
+
   // result should always be an array with plain events
   const result = has('extractEvents')(Api) ? Api.extractEvents(data) : data
   return map(transforms, slice(0, limit)(result))
