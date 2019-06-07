@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 
 import { renderHtml } from '../../utils/renderHtml.js'
@@ -18,7 +18,6 @@ import Button from '../Button.jsx'
 import { getGigs } from '../../api/gigs/index.js'
 
 import GlobalStyle from '../../style/global.js'
-import { MediaSmall } from '../../style/media.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -49,19 +48,7 @@ const BackLink = styled.a`
   right: 0;
 `
 
-const mql = window.matchMedia(MediaSmall)
-
 export const Page = ({ page }) => {
-  const [mediaQuery, setMediaQuery] = useState(
-    mql.matches ? 'mobile' : 'desktop'
-  )
-
-  useEffect(() => {
-    const handler = () => setMediaQuery(mql.matches ? 'mobile' : 'desktop')
-    mql.addListener(handler)
-    return () => mql.removeListener(handler)
-  }, [])
-
   const { background, logo, content, gigAPI } = page
   const {
     type,
@@ -115,10 +102,7 @@ export const Page = ({ page }) => {
 
         {/* Logo */}
         {logo && logo.image && (
-          <LogoBox
-            position={mediaQuery == 'mobile' ? 'TOP_CENTER' : logo.position}
-            zIndex={2}
-          >
+          <LogoBox position={logo.position} zIndex={2}>
             <Logo logo={logo} />
           </LogoBox>
         )}
@@ -128,11 +112,7 @@ export const Page = ({ page }) => {
 
         {/* Links */}
         {links.list.length > 0 && (
-          <LinksBox
-            position={mediaQuery == 'mobile' ? 'BOTTOM_CENTER' : links.position}
-          >
-            {Links(links, content)}
-          </LinksBox>
+          <LinksBox position={links.position}>{Links(links, content)}</LinksBox>
         )}
       </PageContainer>
     </Fragment>
