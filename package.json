@@ -1,12 +1,13 @@
 {
   "name": "@optune/onescreener-base-components",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Onescreener Base Components",
   "main": "lib/index.js",
   "scripts": {
     "clean": "rm -rf lib",
     "remove-react": "rm -rf node_modules/react node_modules/react-dom  node_modules/styled-components",
     "lint": "eslint .",
+    "prepublishOnly": "npm run build:prod",
     "build": "meteor npm run remove-react && rollup -c config/dev.js",
     "build:prod": "meteor npm run remove-react && rollup -c config/prod.js",
     "watch": "meteor npm run remove-react && rollup -c config/dev.js -w",
