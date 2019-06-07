@@ -9,7 +9,7 @@ const LinksContainer = styled.div`
   left: 0;
   right: 0;
   display: flex;
-  margin: 0.5rem;
+  margin: 2rem;
   z-index: ${({ zIndex }) => zIndex};
   pointer-events: none;
 `

@@ -2,8 +2,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { white, poison, black } from '../../../style/colors'
-
 import { BandcampIcon } from './Bandcamp.jsx'
 import { BiographyIcon } from './Biography.jsx'
 import { FacebookIcon } from './Facebook.jsx'
@@ -44,12 +42,40 @@ const Link = styled.div`
   padding: 0px;
   width: 3rem;
   height: 3rem;
-  background-color: ${({ active }) => (active ? poison : black)};
-  border-radius: 0.4rem;
-  border-color: ${({ color }) => color || white};
-  border-width: 2px;
+  background-color: ${({ colorBackground }) => colorBackground};
+  border-radius: ${({ circle, square }) =>
+    (circle && '50%') || (square && 'none') || '0.4rem'};
+  border-color: ${({ color }) => color || 'transparent'};
+  border-width: ${({ border }) => (border / 10) * 0.5}rem;
   border-style: solid;
   box-sizing: border-box;
+  transition: border-color 0.25s ease-out, background-color 0.25s ease-out;
+
+  &:hover {
+    background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
+    border-color: ${({ colorAccent }) => colorAccent};
+
+    & .icon g {
+      & path,
+      line,
+      circle,
+      polygon,
+      polyline,
+      rect,
+      ellipse {
+        fill: ${({ colorAccent }) => colorAccent};
+        stroke: ${({ colorAccent }) => colorAccent};
+
+        &[fill='none'] {
+          fill: none;
+        }
+
+        &[stroke='none'] {
+          stroke: none;
+        }
+      }
+    }
+  }
 `
 const LinkIcon = ({ platform }) => styled(PlatformIcon[platform])`
   width: 1.9rem;
@@ -63,8 +89,9 @@ const LinkIcon = ({ platform }) => styled(PlatformIcon[platform])`
     polyline,
     rect,
     ellipse {
-      fill: ${({ color }) => color || white};
-      stroke: ${({ color }) => color || white};
+      fill: ${({ color }) => color};
+      stroke: ${({ color }) => color};
+      transition: fill 0.25s ease-out, stroke 0.25 ease-out;
 
       &[fill='none'] {
         fill: none;
@@ -77,11 +104,29 @@ const LinkIcon = ({ platform }) => styled(PlatformIcon[platform])`
   }
 `
 
-export const PlatformLink = ({ url, platform, color, active }) => {
+export const PlatformLink = ({
+  border,
+  circle,
+  color,
+  colorAccent,
+  colorBackground,
+  colorBackgroundAccent,
+  platform,
+  square,
+  url,
+}) => {
   const Icon = LinkIcon({ platform })
   return (
     <a href={url}>
-      <Link active={active} color={color}>
+      <Link
+        border={border}
+        circle={circle}
+        color={color}
+        colorAccent={colorAccent}
+        colorBackground={colorBackground}
+        colorBackgroundAccent={colorBackgroundAccent}
+        square={square}
+      >
         <Icon color={color} />
       </Link>
     </a>
@@ -90,9 +135,9 @@ export const PlatformLink = ({ url, platform, color, active }) => {
 
 export const PlatformLinks = Object.keys(PlatformIcon).map(platform => {
   const Icon = LinkIcon({ platform })
-  const PlatformLinkIcon = ({ active, color, onClick }) => (
+  const PlatformLinkIcon = ({ color, onClick }) => (
     <a onClick={onClick}>
-      <Link active={active}>
+      <Link>
         <Icon color={color} />
       </Link>
     </a>
@@ -104,7 +149,16 @@ export const PlatformLinks = Object.keys(PlatformIcon).map(platform => {
   }
 })
 
-export const Links = (links, color) =>
-  links
+export const Links = (links, content) =>
+  links.list
     .filter(({ platform, url }) => !!PlatformIcon[platform] && url > '')
-    .map(link => <PlatformLink {...link} key={link.platform} color={color} />)
+    .map(link => (
+      <PlatformLink
+        key={link.platform}
+        border={links.border}
+        circle={links.circle}
+        square={links.square}
+        {...link}
+        {...content}
+      />
+    ))
