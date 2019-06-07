@@ -46,7 +46,7 @@ const Link = styled.div`
   border-radius: ${({ circle, square }) =>
     (circle && '50%') || (square && 'none') || '0.4rem'};
   border-color: ${({ color }) => color || 'transparent'};
-  border-width: ${({ border }) => (border / 10)}rem;
+  border-width: ${({ border }) => border / 10}rem;
   border-style: solid;
   box-sizing: border-box;
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out;
