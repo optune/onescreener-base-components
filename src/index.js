@@ -15,8 +15,6 @@ export { default as Preview } from './components/icons/Preview.jsx'
 export { default as Publish } from './components/icons/Publish.jsx'
 export { default as Themes } from './components/icons/Themes.jsx'
 
-export { default as Slider } from './components/Slider.jsx'
-
 // Templates
 export { Page } from './components/templates/Page.jsx'
 
