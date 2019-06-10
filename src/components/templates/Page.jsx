@@ -28,7 +28,7 @@ const PageContainer = styled.div`
   background-color: ${({ color }) => color};
   background-image: ${({ image }) => `url(${image})`};
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: ${({ focusPoint }) => focusPoint};
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
   display: flex;
 `
@@ -88,6 +88,7 @@ export const Page = ({ page }) => {
       <GlobalStyle />
       <PageContainer
         image={background.image && background.image.url}
+        focusPoint={background.focusPoint}
         fullscreen={background.fullscreen}
         color={background.color}
       >
