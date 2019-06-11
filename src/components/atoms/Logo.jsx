@@ -3,7 +3,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { getSize } from '../style/getSize.js'
+const LogoSize = {
+  XS: '8.333%',
+  S: '16.666%',
+  M: '33.333%',
+  L: '50%',
+  XL: '66.666%',
+}
 
 const LogoImage = styled.img`
   display: block;
@@ -17,5 +23,5 @@ const LogoImage = styled.img`
 
 export const Logo = ({ logo }) =>
   logo && logo.image ? (
-    <LogoImage src={logo.image.url} size={getSize(logo.size)} />
+    <LogoImage src={logo.image.url} size={LogoSize(logo.size)} />
   ) : null

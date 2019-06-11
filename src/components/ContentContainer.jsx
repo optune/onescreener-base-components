@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import CenterContainer from './CenterContainer.jsx'
 
 const ContentContainer = styled.div`
   position: relative;

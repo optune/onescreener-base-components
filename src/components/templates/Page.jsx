@@ -4,16 +4,15 @@ import styled from 'styled-components'
 
 import { renderHtml } from '../../utils/renderHtml.js'
 
+import { Logo } from '../atoms/Logo.jsx'
+
 import { LogoBox } from '../organisms/LogoBox.jsx'
 import { TextBox } from '../organisms/TextBox.jsx'
 import { GigsBox } from '../organisms/GigsBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
 import { MediaBox } from '../organisms/MediaBox.jsx'
-import { Logo } from '../Logo.jsx'
 
 import { Links } from '../icons/platform/index.jsx'
-
-import Button from '../Button.jsx'
 
 import { getGigs } from '../../api/gigs/index.js'
 

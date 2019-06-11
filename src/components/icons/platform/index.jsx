@@ -17,21 +17,28 @@ import { TumblrIcon } from './Tumblr.jsx'
 import { TwitterIcon } from './Twitter.jsx'
 import { YoutubeIcon } from './Youtube.jsx'
 
-export const PlatformIcon = {
+export const PlatformLinkIcon = {
+  // Optune Links
+  OPTUNEARTISTPROFILE: OptuneIcon,
+  OPTUNEBOOKINGS: OptuneIcon,
+  OPTUNEREQUESTFORM: OptuneIcon,
+  // Platform Links
   BANDCAMP: BandcampIcon,
-  BIOGRAPHY: BiographyIcon,
   FACEBOOK: FacebookIcon,
   INSTAGRAM: InstagramIcon,
   LASTFM: LastFMIcon,
-  MAIL: MailIcon,
   MIXCLOUD: MixcloudIcon,
-  OPTUNE: OptuneIcon,
   SOUNDCLOUD: SoundcloudIcon,
   SPOTIFY: SpotifyIcon,
-  TECHRIDER: TechRiderIcon,
   TUMBLR: TumblrIcon,
   TWITTER: TwitterIcon,
   YOUTUBE: YoutubeIcon,
+  // Content (URL) Links
+  ABOUT: TechRiderIcon,
+  BIOGRAPHY: BiographyIcon,
+  MAIL: MailIcon,
+  PRESSKIT: TechRiderIcon,
+  TECHRIDER: TechRiderIcon,
 }
 
 const Link = styled.div`
@@ -40,8 +47,8 @@ const Link = styled.div`
   align-items: center;
   margin: 0.6rem;
   padding: 0px;
-  width: 3rem;
-  height: 3rem;
+  width: 3.3rem;
+  height: 3.3rem;
   background-color: ${({ colorBackground }) => colorBackground};
   border-radius: ${({ circle, square }) =>
     (circle && '50%') || (square && 'none') || '0.4rem'};
@@ -49,6 +56,8 @@ const Link = styled.div`
   border-width: ${({ border }) => border / 10}rem;
   border-style: solid;
   box-sizing: border-box;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 0 0 rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out;
 
   &:hover {
@@ -77,9 +86,9 @@ const Link = styled.div`
     }
   }
 `
-const LinkIcon = ({ platform }) => styled(PlatformIcon[platform])`
-  width: 1.9rem;
-  height: 1.9rem;
+const LinkIconMapper = ({ platform }) => styled(PlatformLinkIcon[platform])`
+  width: 2rem;
+  height: 2rem;
 
   &.icon g {
     & path,
@@ -115,7 +124,7 @@ export const PlatformLink = ({
   square,
   url,
 }) => {
-  const Icon = LinkIcon({ platform })
+  const Icon = LinkIconMapper({ platform })
   return (
     <a href={url}>
       <Link
@@ -133,11 +142,24 @@ export const PlatformLink = ({
   )
 }
 
-export const PlatformLinks = Object.keys(PlatformIcon).map(platform => {
-  const Icon = LinkIcon({ platform })
-  const PlatformLinkIcon = ({ color, onClick }) => (
+export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
+  const Icon = LinkIconMapper({ platform })
+  const LinkIcon = ({
+    border,
+    color,
+    colorAccent,
+    colorBackground,
+    colorBackgroundAccent,
+    onClick,
+  }) => (
     <a onClick={onClick}>
-      <Link>
+      <Link
+        border={border}
+        color={color}
+        colorAccent={colorAccent}
+        colorBackground={colorBackground}
+        colorBackgroundAccent={colorBackgroundAccent}
+      >
         <Icon color={color} />
       </Link>
     </a>
@@ -145,13 +167,13 @@ export const PlatformLinks = Object.keys(PlatformIcon).map(platform => {
 
   return {
     platform,
-    PlatformLinkIcon,
+    LinkIcon,
   }
 })
 
 export const Links = (links, content) =>
   links.list
-    .filter(({ platform, url }) => !!PlatformIcon[platform] && url > '')
+    .filter(({ platform, url }) => !!EveryLinkIcon[platform] && url > '')
     .map(link => (
       <PlatformLink
         key={link.platform}
