@@ -23,5 +23,5 @@ const LogoImage = styled.img`
 
 export const Logo = ({ logo }) =>
   logo && logo.image ? (
-    <LogoImage src={logo.image.url} size={LogoSize(logo.size)} />
+    <LogoImage src={logo.image.url} size={LogoSize[logo.size]} />
   ) : null
