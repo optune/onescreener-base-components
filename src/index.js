@@ -7,7 +7,6 @@ export { default as CenterContainer } from './components/CenterContainer.jsx'
 export { default as ContentContainer } from './components/ContentContainer.jsx'
 
 export { Logo } from './components/Logo.jsx'
-export { default as Label } from './components/Label.jsx'
 
 // Icons
 export { default as Edit } from './components/icons/Edit.jsx'

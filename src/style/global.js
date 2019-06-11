@@ -35,28 +35,4 @@ export default createGlobalStyle`
     font-family: 'Brandon Text Regular', sans-serif;
     line-height: normal;
   }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  h3 {
-    font-size: 1.2rem;
-  }
-
-  h4 {
-    font-size: 1.0rem;
-  }
-
-  h5 {
-    font-size: 0.8rem;
-  }
-
-  p {
-    font-size: 1rem;
-  }
 `
