@@ -32,7 +32,7 @@ const defaultProps = {
   viewBox,
 }
 
-export default Object.assign(Image, {
+export const PublishIcon = Object.assign(Image, {
   getDimensions,
   getDimensionsCss,
   defaultProps,

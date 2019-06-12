@@ -71,7 +71,7 @@ const defaultProps = {
   viewBox,
 }
 
-export default Object.assign(Image, {
+export const PreviewIcon = Object.assign(Image, {
   getDimensions,
   getDimensionsCss,
   defaultProps,

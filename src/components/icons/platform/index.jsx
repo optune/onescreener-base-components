@@ -56,8 +56,10 @@ const Link = styled.div`
   border-width: ${({ border }) => border / 10}rem;
   border-style: solid;
   box-sizing: border-box;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 0 0 rgba(0, 0, 0, 0.05),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: ${({ noShadow }) =>
+    noShadow
+      ? 'none'
+      : '0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 0 0 rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.05)'};
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out;
 
   &:hover {
@@ -120,6 +122,7 @@ export const PlatformLink = ({
   colorAccent,
   colorBackground,
   colorBackgroundAccent,
+  noShadow,
   platform,
   square,
   url,
@@ -134,6 +137,7 @@ export const PlatformLink = ({
         colorAccent={colorAccent}
         colorBackground={colorBackground}
         colorBackgroundAccent={colorBackgroundAccent}
+        noShadow
         square={square}
       >
         <Icon color={color} />
