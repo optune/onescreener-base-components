@@ -17,6 +17,8 @@ import { TumblrIcon } from './Tumblr.jsx'
 import { TwitterIcon } from './Twitter.jsx'
 import { YoutubeIcon } from './Youtube.jsx'
 
+import { MediaSmall, MediaMobile } from '../../../style/media.js'
+
 export const PlatformLinkIcon = {
   // Optune Links
   OPTUNEARTISTPROFILE: OptuneIcon,
@@ -45,10 +47,9 @@ const Link = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0.6rem;
+  width: 3.6rem;
+  height: 3.6rem;
   padding: 0px;
-  width: 3.3rem;
-  height: 3.3rem;
   background-color: ${({ colorBackground }) => colorBackground};
   border-radius: ${({ circle, square }) =>
     (circle && '50%') || (square && 'none') || '0.4rem'};
@@ -61,6 +62,16 @@ const Link = styled.div`
       ? 'none'
       : '0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 0 0 rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.05)'};
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out;
+
+  margin: 1rem;
+
+  @media ${MediaSmall} {
+    margin: 0.7rem;
+  }
+
+  @media ${MediaMobile} {
+    margin: 0.5rem;
+  }
 
   &:hover {
     background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};

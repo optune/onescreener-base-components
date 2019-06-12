@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 
-import { MediaSmall } from './media.js'
+import { MediaSmall, MediaMobile } from './media.js'
 
 // FIXME: make sure fonts load in browser
 export default createGlobalStyle`
@@ -16,6 +16,12 @@ export default createGlobalStyle`
   @media ${MediaSmall} {
     :root {
       --basic-font-size: 12px;
+    }
+  }
+
+  @media ${MediaMobile} {
+    :root {
+      --basic-font-size: 10px;
     }
   }
 

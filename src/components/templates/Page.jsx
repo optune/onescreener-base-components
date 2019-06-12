@@ -2,19 +2,13 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 
-import { renderHtml } from '../../utils/renderHtml.js'
-
 import { Logo } from '../atoms/Logo.jsx'
 
 import { LogoBox } from '../organisms/LogoBox.jsx'
-import { TextBox } from '../organisms/TextBox.jsx'
-import { GigsBox } from '../organisms/GigsBox.jsx'
+import { ContentBox } from '../organisms/ContentBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
-import { MediaBox } from '../organisms/MediaBox.jsx'
 
 import { Links } from '../icons/platform/index.jsx'
-
-import { getGigs } from '../../api/gigs/index.js'
 
 import GlobalStyle from '../../style/global.js'
 
@@ -49,38 +43,7 @@ const BackLink = styled.a`
 
 export const Page = ({ page }) => {
   const { background, logo, content, gigAPI } = page
-  const {
-    type,
-    color,
-    colorAccent,
-    colorBackground,
-    gigsAPI,
-    media,
-    text,
-  } = content
-  const { provider, slug } = gigsAPI || { provider: '', slug: '' }
   const { links } = page || { links: { list: [] } }
-
-  const colors = { color, colorBackground, colorAccent }
-
-  let Content
-  switch (type) {
-    case 'GIGS':
-      Content = (
-        <TextBox {...colors} id="gigs">
-          <GigsBox getGigs={getGigs} api={provider} slug={slug} {...colors} />
-        </TextBox>
-      )
-
-      break
-    case 'MEDIA':
-      Content = <MediaBox media={media} />
-      break
-
-    default:
-      Content = <TextBox {...colors}>{renderHtml(text)}</TextBox>
-      break
-  }
 
   return (
     <Fragment>
@@ -108,7 +71,7 @@ export const Page = ({ page }) => {
         )}
 
         {/* Logo */}
-        {Content}
+        <ContentBox content={content} linksPosition={links.position}/>
 
         {/* Links */}
         {links.list.length > 0 && (

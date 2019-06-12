@@ -5,13 +5,18 @@ import styled, { css } from 'styled-components'
 import { MediaSmall } from '../../style/media.js'
 
 const Text = styled.div`
-  margin: auto;
-  max-height: 60vh;
-  width: 60vw;
-  max-width: 1200px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 1rem 2rem;
   overflow: hidden;
+  background-color: ${({ colorBackground }) =>
+    colorBackground || 'transparent'};
+  color: ${({ color }) => color};
+  transition: color 0.3s ease-out;
 
-  & li,
+  & a,
+  li,
   p,
   h1,
   h2,
@@ -21,13 +26,20 @@ const Text = styled.div`
   span {
     color: ${({ color }) => color};
     white-space: pre-wrap;
+    transition: color 0.3s ease-out;
   }
 
-  @media ${MediaSmall} {
-    width: 80vw;
+  & a:hover {
+    color: ${({ color, colorAccent }) => colorAccent || color};
   }
 `
 
-export const TextBox = ({ children, color }) => (
-  <Text color={color}>{children}</Text>
+export const TextBox = ({ children, color, colorBackground, colorAccent }) => (
+  <Text
+    color={color}
+    colorBackground={colorBackground}
+    colorAccent={colorAccent}
+  >
+    {children}
+  </Text>
 )
