@@ -40,6 +40,6 @@ export const TextBox = ({ children, color, colorBackground, colorAccent }) => (
     colorBackground={colorBackground}
     colorAccent={colorAccent}
   >
-    {children}
+    {children} 
   </Text>
 )

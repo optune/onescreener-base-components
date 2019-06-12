@@ -99,8 +99,8 @@ const ResponsiveContainer = styled.div`
 `
 
 const getArea = ({ position, span }) => {
-  const [startRowField, startColumnField] = position.split('/')
-  const [rowSpanField, columnSpanField] = span.split('/')
+  const [startRowField, startColumnField] = (position || '4/2').split('/')
+  const [rowSpanField, columnSpanField] = (span || '2/4').split('/')
 
   const startRow = parseInt(startRowField)
   const startColumn = parseInt(startColumnField)
