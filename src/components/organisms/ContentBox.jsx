@@ -85,9 +85,11 @@ const FullscreenContainer = styled.div`
   left: 0;
   height: 100vh;
   width: 100vw;
+  z-index: 1;
 `
 const ResponsiveContainer = styled.div`
   position: absolute;
+  z-index: 3;
   ${({ area, linksPosition }) => getGridArea(area, linksPosition)}
 
   @media ${MediaSmall} {
@@ -129,8 +131,6 @@ export const ContentBox = ({ content, linksPosition }) => {
   const { links } = page || { links: { list: [] } }
   const colors = { color, colorBackground, colorAccent }
   const area = getArea({ position, span })
-
-  console.log('CONTENT AREA', area)
 
   /*
    * Set content component

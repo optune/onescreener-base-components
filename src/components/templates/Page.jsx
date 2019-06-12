@@ -71,11 +71,13 @@ export const Page = ({ page }) => {
         )}
 
         {/* Logo */}
-        <ContentBox content={content} linksPosition={links.position}/>
+        <ContentBox content={content} linksPosition={links.position} />
 
         {/* Links */}
         {links.list.length > 0 && (
-          <LinksBox position={links.position}>{Links(links, content)}</LinksBox>
+          <LinksBox position={links.position} zIndex={4}>
+            {Links(links, content)}
+          </LinksBox>
         )}
       </PageContainer>
     </Fragment>
