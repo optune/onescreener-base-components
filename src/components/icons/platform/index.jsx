@@ -63,7 +63,7 @@ const Link = styled.div`
 
   margin: 1rem;
 
-  &:hover {
+  &:hover:not(:focus) {
     background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
     border-color: ${({ colorAccent }) => colorAccent};
 

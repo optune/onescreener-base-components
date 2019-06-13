@@ -18,11 +18,14 @@ const DEFAULTS = {
 
   // the maximum font size in pixel.
   minFontSize: 1,
+
+  // avoid line breaks
+  includeWidth: false,
 }
 
 const updateFontSize = (
   element,
-  { maxFontSize, minFontSize, step } = DEFAULTS
+  { maxFontSize, minFontSize, step, includeWidth }
 ) => {
   const style = window.getComputedStyle(element)
   let fontSize = parseInt(style.fontSize)
@@ -32,7 +35,10 @@ const updateFontSize = (
   const parentHeight = element.parentElement.clientHeight
 
   const inBounds = () => {
-    return parentHeight >= element.scrollHeight
+    return (
+      parentHeight >= element.scrollHeight &&
+      (!includeWidth || parentWidth >= element.scrollWidth)
+    )
   }
 
   const grow = () => {
@@ -80,7 +86,7 @@ const updateFontSize = (
   return
 }
 
-export const AutoTextFit = ({ options, children }) => {
+export const AutoTextFit = ({ children, ...options }) => {
   let TextContainer = React.createRef()
   const [initialized, setInitialized] = useState(false)
   const [resizing, setResizing] = useState(false)
@@ -114,11 +120,12 @@ export const AutoTextFit = ({ options, children }) => {
 }
 
 AutoTextFit.propTypes = {
-  options: PropTypes.shape({
-    step: PropTypes.number,
-    maxFontSize: PropTypes.number,
-    minFontSize: PropTypes.number,
-    onResize: PropTypes.bool,
-  }),
+  step: PropTypes.number,
+  maxFontSize: PropTypes.number,
+  minFontSize: PropTypes.number,
+  onResize: PropTypes.bool,
+  includeWidth: PropTypes.bool,
   children: PropTypes.node,
 }
+
+AutoTextFit.defaultProps = DEFAULTS

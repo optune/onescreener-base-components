@@ -8,7 +8,6 @@ const fetchEventsAPIResponse = async url =>
 
     try {
       fetch(url).then(res => {
-        console.log(res.json())
         try {
           resolve(res.json())
         } catch (e) {
@@ -28,7 +27,8 @@ const ApiProviders = {
   GIGATOOLS: gigatools,
 }
 
-const transformVenue = ({ startDate, title, venue }) => {
+const transformVenue = ({ startDate, title, venue, website }) => {
+  console.log(title, website)
   const { name, city } =
     venue ||
     [{ name: null, city: null }]
@@ -41,10 +41,19 @@ const transformVenue = ({ startDate, title, venue }) => {
           },
         { name: 'unknown', city: 'unknown' }
       )
-  return `${startDate}: ${title}, ${name}, ${city}`
+
+  return {
+    startDate,
+    title,
+    venue: {
+      name,
+      city,
+    },
+    website,
+  }
 }
 
-const getGigs = async ({ api, slug, limit = 5 }) => {
+export const getGigs = async ({ api, slug, limit }) => {
   const Api = ApiProviders[api]
 
   const transforms = _(Api.transformEvent, transformVenue)
@@ -55,9 +64,10 @@ const getGigs = async ({ api, slug, limit = 5 }) => {
 
   // result should always be an array with plain events
   const result = has('extractEvents')(Api) ? Api.extractEvents(data) : data
-  return map(transforms, slice(0, limit)(result))
+  console.log(result)
+  const mappedResult = map(transforms, slice(0, limit)(result))
+
+  return mappedResult
 
   // limit client side since not all APIs have a number based limit for events
 }
-
-export { getGigs }

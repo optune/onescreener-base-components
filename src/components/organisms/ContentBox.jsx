@@ -2,8 +2,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 
-import { getGigs } from '../../api/gigs/index.js'
-
 import { TextBox } from '../organisms/TextBox.jsx'
 import { GigsBox } from '../organisms/GigsBox.jsx'
 import { MediaBox } from '../organisms/MediaBox.jsx'
@@ -113,7 +111,7 @@ const getArea = ({ position, span }) => {
   return { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan }
 }
 
-export const ContentBox = ({ content, linksPosition }) => {
+export const ContentBox = ({ content, links }) => {
   /*
    * Get content values
    */
@@ -121,6 +119,7 @@ export const ContentBox = ({ content, linksPosition }) => {
     color,
     colorAccent,
     colorBackground,
+    colorBackgroundAccent,
     gigsAPI,
     media,
     position,
@@ -129,9 +128,9 @@ export const ContentBox = ({ content, linksPosition }) => {
     type,
   } = content
   const { provider, slug } = gigsAPI || { provider: '', slug: '' }
-  const { links } = page || { links: { list: [] } }
-  const colors = { color, colorBackground, colorAccent }
+  const colors = { color, colorAccent, colorBackground, colorBackgroundAccent }
   const area = getArea({ position, span })
+  const { border, circle, square } = links
 
   /*
    * Set content component
@@ -142,9 +141,14 @@ export const ContentBox = ({ content, linksPosition }) => {
   switch (type) {
     case 'GIGS':
       Content = (
-        <TextBox {...colors} id="gigs">
-          <GigsBox getGigs={getGigs} api={provider} slug={slug} {...colors} />
-        </TextBox>
+        <GigsBox
+          api={provider}
+          border={border}
+          circle={circle}
+          slug={slug}
+          square={square}
+          {...colors}
+        />
       )
       break
     case 'MEDIA':
@@ -160,7 +164,10 @@ export const ContentBox = ({ content, linksPosition }) => {
   return fullscreen ? (
     <FullscreenContainer>{Content}</FullscreenContainer>
   ) : (
-    <ResponsiveContainer area={area} linksPosition={linksPosition}>
+    <ResponsiveContainer
+      area={area}
+      linksPosition={links.list.length > 0 ? links.position : 'NONE'}
+    >
       {Content}
     </ResponsiveContainer>
   )
