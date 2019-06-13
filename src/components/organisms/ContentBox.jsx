@@ -90,6 +90,7 @@ const FullscreenContainer = styled.div`
 const ResponsiveContainer = styled.div`
   position: absolute;
   z-index: 3;
+  
   ${({ area, linksPosition }) => getGridArea(area, linksPosition)}
 
   @media ${MediaSmall} {

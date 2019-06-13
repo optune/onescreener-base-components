@@ -71,7 +71,10 @@ export const Page = ({ page }) => {
         )}
 
         {/* Logo */}
-        <ContentBox content={content} linksPosition={links.position} />
+        <ContentBox
+          content={content}
+          linksPosition={links.list.length > 0 ? links.position : 'NONE'}
+        />
 
         {/* Links */}
         {links.list.length > 0 && (

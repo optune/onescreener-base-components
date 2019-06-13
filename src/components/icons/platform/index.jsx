@@ -17,8 +17,6 @@ import { TumblrIcon } from './Tumblr.jsx'
 import { TwitterIcon } from './Twitter.jsx'
 import { YoutubeIcon } from './Youtube.jsx'
 
-import { MediaSmall, MediaMobile } from '../../../style/media.js'
-
 export const PlatformLinkIcon = {
   // Optune Links
   OPTUNEARTISTPROFILE: OptuneIcon,
@@ -64,14 +62,6 @@ const Link = styled.div`
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out;
 
   margin: 1rem;
-
-  @media ${MediaSmall} {
-    margin: 0.7rem;
-  }
-
-  @media ${MediaMobile} {
-    margin: 0.5rem;
-  }
 
   &:hover {
     background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
