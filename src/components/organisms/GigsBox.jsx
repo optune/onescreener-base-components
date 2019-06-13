@@ -26,12 +26,10 @@ const Gig = styled.li`
   margin: 1em 0;
   transition: all 0.3s ease-out;
 
-  & p.gig,
+  & p.gig {
     margin: 0;
-    line-height: 1.7;
+    line-height: 1.5;
   }
-
-  
 `
 
 const StartDate = styled.p`
@@ -60,16 +58,16 @@ const InfoText = styled.p`
 const ShowMoreButton = styled.button`
   font-size: 1em;
   line-height: 1em;
-  margin: 1.5em auto;
-  padding: 0.5em 2em;
+  width: auto;
+  margin: 0.5em auto;
+  padding: 0.5em 1.8em 0.5em 2.2em;
   border-color: ${({ color }) => color || 'transparent'};
   border-width: ${({ border }) => border / 10}rem;
   border-style: solid;
   border-radius: ${({ square, circle }) =>
     (circle && '1em') || (square && 0) || '0.4rem'};
   color: ${({ color }) => color};
-  background-color: ${({ colorBackground }) =>
-    colorBackground || 'transparent'};
+  background-color: transparent;
   transition: color 0.3s, background-color 0.3s, border 0.3s;
 
   :hover {
