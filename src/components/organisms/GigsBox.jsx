@@ -7,6 +7,17 @@ import { TextBox } from './TextBox.jsx'
 
 import { getGigs } from '../../api/gigs/index.js'
 
+const InfoContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 1rem 2rem;
+  overflow: hidden;
+  background-color: ${({ colorBackground }) =>
+    colorBackground || 'transparent'};
+  color: ${({ color }) => color};
+`
+
 const GigHead = styled.h2`
   margin-top: 0;
   color: ${({ color }) => color};
@@ -98,8 +109,18 @@ export const GigsBox = ({
   console.log(data)
 
   return (
-    (isLoading && <InfoText color={color}>Loading gigs ...</InfoText>) ||
-    ((error || !data) && <InfoText color={color}>No gigs found</InfoText>) || (
+    (isLoading && (
+      <InfoContainer color={color} colorBackground={colorBackground}>
+        <GigHead>Upcoming Gigs</GigHead>
+        <InfoText color={color}>Loading gigs ...</InfoText>
+      </InfoContainer>
+    )) ||
+    ((error || !data) && (
+      <InfoContainer color={color} colorBackground={colorBackground}>
+        <GigHead>Upcoming Gigs</GigHead>
+        <InfoText color={color}>No gigs found</InfoText>
+      </InfoContainer>
+    )) || (
       <TextBox
         color={color}
         colorAccent={colorAccent}
