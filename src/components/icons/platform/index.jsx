@@ -2,6 +2,11 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { AboutIcon } from './About.jsx'
+import { ArtistProfileIcon } from './ArtistProfile.jsx'
+import { RequestFormIcon } from './RequestForm.jsx'
+import { PressKitIcon } from './PressKit.jsx'
+import { GigsIcon } from './Gigs.jsx'
 import { BandcampIcon } from './Bandcamp.jsx'
 import { BiographyIcon } from './Biography.jsx'
 import { FacebookIcon } from './Facebook.jsx'
@@ -19,9 +24,9 @@ import { YoutubeIcon } from './Youtube.jsx'
 
 export const PlatformLinkIcon = {
   // Optune Links
-  OPTUNEARTISTPROFILE: OptuneIcon,
-  OPTUNEBOOKINGS: OptuneIcon,
-  OPTUNEREQUESTFORM: OptuneIcon,
+  OPTUNEARTISTPROFILE: ArtistProfileIcon,
+  OPTUNEBOOKINGS: GigsIcon,
+  OPTUNEREQUESTFORM: RequestFormIcon,
   // Platform Links
   BANDCAMP: BandcampIcon,
   FACEBOOK: FacebookIcon,
@@ -34,10 +39,10 @@ export const PlatformLinkIcon = {
   TWITTER: TwitterIcon,
   YOUTUBE: YoutubeIcon,
   // Content (URL) Links
-  ABOUT: TechRiderIcon,
+  ABOUT: AboutIcon,
   BIOGRAPHY: BiographyIcon,
   MAIL: MailIcon,
-  PRESSKIT: TechRiderIcon,
+  PRESSKIT: PressKitIcon,
   TECHRIDER: TechRiderIcon,
 }
 
