@@ -106,18 +106,16 @@ export const GigsBox = ({
     limit: 3,
   })
 
-  console.log(data)
-
   return (
     (isLoading && (
       <InfoContainer color={color} colorBackground={colorBackground}>
-        <GigHead>Upcoming Gigs</GigHead>
+        <GigHead color={color}>Upcoming Gigs</GigHead>
         <InfoText color={color}>Loading gigs ...</InfoText>
       </InfoContainer>
     )) ||
     ((error || !data) && (
       <InfoContainer color={color} colorBackground={colorBackground}>
-        <GigHead>Upcoming Gigs</GigHead>
+        <GigHead color={color}>Upcoming Gigs</GigHead>
         <InfoText color={color}>No gigs found</InfoText>
       </InfoContainer>
     )) || (
@@ -127,7 +125,7 @@ export const GigsBox = ({
         colorBackground={colorBackground}
         colorBackgroundAccent={colorBackgroundAccent}
       >
-        <GigHead>Upcoming Gigs</GigHead>
+        <GigHead color={color}>Upcoming Gigs</GigHead>
         <GigList>
           {data.map(({ title, startDate, venue, website }, key) => (
             <Gig key={key} color={color} colorAccent={colorAccent}>
