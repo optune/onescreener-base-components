@@ -134,7 +134,6 @@ export const PlatformLink = ({
   square,
   url,
 }) => {
-  console.log(label)
   const Icon = LinkIconMapper({ platform })
   return (
     <a

@@ -28,7 +28,6 @@ const ApiProviders = {
 }
 
 const transformVenue = ({ startDate, title, venue, website }) => {
-  console.log(title, website)
   const { name, city } =
     venue ||
     [{ name: null, city: null }]
@@ -64,7 +63,6 @@ export const getGigs = async ({ api, slug, limit }) => {
 
   // result should always be an array with plain events
   const result = has('extractEvents')(Api) ? Api.extractEvents(data) : data
-  console.log(result)
   const mappedResult = map(transforms, slice(0, limit)(result))
 
   return mappedResult
