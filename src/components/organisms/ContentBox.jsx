@@ -41,13 +41,13 @@ const getGridArea = (
     case 'BOTTOM_CENTER':
     case 'BOTTOM_LEFT':
     case 'BOTTOM_RIGHT':
-      if (!isTop) marginVLinks += LinkMargin
+      if (!isTop && endRow === 6) marginVLinks += LinkMargin
       break
     case 'CENTER_RIGHT':
-      if (!isLeft) marginHLinks += LinkMargin
+      if (!isLeft && endColumn === 6) marginHLinks += LinkMargin
       break
     case 'CENTER_LEFT':
-      if (isLeft) marginHLinks += LinkMargin
+      if (isLeft && startColumn === 1) marginHLinks += LinkMargin
       break
     default:
     // Do nothing
