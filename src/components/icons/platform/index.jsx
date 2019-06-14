@@ -123,14 +123,19 @@ export const PlatformLink = ({
   colorAccent,
   colorBackground,
   colorBackgroundAccent,
+  label,
   noShadow,
   platform,
   square,
   url,
 }) => {
+  console.log(label)
   const Icon = LinkIconMapper({ platform })
   return (
-    <a href={url}>
+    <a
+      href={url}
+      title={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
+    >
       <Link
         border={border}
         circle={circle}

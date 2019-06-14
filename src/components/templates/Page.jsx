@@ -26,9 +26,11 @@ const PageContainer = styled.div`
   display: flex;
 `
 
+const BacklinkUrl =
+  'https://res.cloudinary.com/optune-me/image/upload/c_thumb,e_blackwhite,g_face,w_100/v1558014130/onescreener-v2/app/logo-onescreener.svg'
 const BackLink = styled.a`
   position: fixed;
-  background-image: url(https://www.onescreener.com/img/onescreener-logo.svg);
+  background-image: url(${BacklinkUrl});
   background-size: 60px 15px;
   background-color: #808080;
   background-position: center;
@@ -39,9 +41,15 @@ const BackLink = styled.a`
   transform: rotate(-90deg);
   transform-origin: 100% 100%;
   right: 0;
+
+  & h1 {
+    color: #808080;
+    font-size: 1px;
+    opacity: 0.1;
+  }
 `
 
-export const Page = ({ page }) => {
+export const Page = ({ page, noBacklink }) => {
   const { background, logo, content, gigAPI } = page
   const { links } = page || { links: { list: [] } }
 
@@ -55,13 +63,15 @@ export const Page = ({ page }) => {
         color={background.color}
       >
         {/* Back Link to onescreener.com */}
-        <BackLink
-          href="http://www.onescreener.com"
-          target="_blank"
-          title="created with onescreener.com"
-        >
-          <span>created by onescreener.com</span>
-        </BackLink>
+        {!noBacklink && (
+          <BackLink
+            href="https://www.onescreener.com"
+            target="_blank"
+            title="created with onescreener.com"
+          >
+            <h1>created by onescreener.com</h1>
+          </BackLink>
+        )}
 
         {/* Logo */}
         {logo && logo.image && (
@@ -71,10 +81,7 @@ export const Page = ({ page }) => {
         )}
 
         {/* Logo */}
-        <ContentBox
-          content={content}
-          links={links}
-        />
+        <ContentBox content={content} links={links} />
 
         {/* Links */}
         {links.list.length > 0 && (
