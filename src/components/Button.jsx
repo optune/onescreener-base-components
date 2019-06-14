@@ -5,7 +5,7 @@ import { black, grey, poison, white } from '../style/colors.js'
 const StyledButton = styled.button`
   display: flex;
   justify-content: center;
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 600;
   color: ${({ secondary, disabled }) =>
     (disabled && grey) || (secondary && poison) || white};
@@ -20,13 +20,13 @@ const StyledButton = styled.button`
           overflow: hidden;
         `
       : css`
-          line-height: 8px;
-          padding: 16px;
+          line-height: 1rem;
+          padding: 1rem;
           width: auto;
           overflow: none;
         `};
 
-  min-height: 40px;
+  min-height: 34px;
   background-color: ${({ secondary, disabled }) =>
     (disabled && black) || (secondary && white) || poison};
   border-radius: ${({ secondary, round }) =>

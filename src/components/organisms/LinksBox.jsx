@@ -2,6 +2,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { MediaMobile, NotMediaMobile } from '../../style/media.js'
+
 const LinksContainer = styled.div`
   position: absolute;
   top: 0;
@@ -9,7 +11,7 @@ const LinksContainer = styled.div`
   left: 0;
   right: 0;
   display: flex;
-  margin: 2rem;
+  margin: 0;
   z-index: ${({ zIndex }) => zIndex};
   pointer-events: none;
 `
@@ -19,41 +21,49 @@ const LinksList = styled.div`
   display: flex;
   flex-flow: row;
   width: 100%;
-  height: 3.6rem;
+  height: auto;
   pointer-events: all;
 
-  &.bottom-center {
+  @media ${NotMediaMobile} {
+    &.bottom-center {
+      bottom: 0;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    &.bottom-left {
+      bottom: 0;
+      justify-content: flex-start;
+      white-space: nowrap;
+    }
+
+    &.bottom-right {
+      bottom: 0;
+      justify-content: flex-end;
+      white-space: nowrap;
+    }
+
+    &.center-right {
+      right: 0;
+      width: auto;
+      height: 100%;
+      flex-flow: column;
+      justify-content: center;
+    }
+
+    &.center-left {
+      left: 0;
+      width: auto;
+      height: 100%;
+      flex-flow: column;
+      justify-content: center;
+    }
+  }
+
+  @media ${MediaMobile} {
     bottom: 0;
     justify-content: center;
     white-space: nowrap;
-  }
-
-  &.bottom-left {
-    bottom: 0;
-    justify-content: flex-start;
-    white-space: nowrap;
-  }
-
-  &.bottom-right {
-    bottom: 0;
-    justify-content: flex-end;
-    white-space: nowrap;
-  }
-
-  &.center-right {
-    right: 0;
-    width: 3.6rem;
-    height: 100%;
-    flex-flow: column;
-    justify-content: center;
-  }
-
-  &.center-left {
-    left: 0;
-    width: 3.6rem;
-    height: 100%;
-    flex-flow: column;
-    justify-content: center;
   }
 `
 

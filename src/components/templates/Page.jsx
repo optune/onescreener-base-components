@@ -2,20 +2,13 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 
-import { renderHtml } from '../../utils/renderHtml.js'
+import { Logo } from '../atoms/Logo.jsx'
 
 import { LogoBox } from '../organisms/LogoBox.jsx'
-import { TextBox } from '../organisms/TextBox.jsx'
-import { GigsBox } from '../organisms/GigsBox.jsx'
+import { ContentBox } from '../organisms/ContentBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
-import { MediaBox } from '../organisms/MediaBox.jsx'
-import { Logo } from '../Logo.jsx'
 
 import { Links } from '../icons/platform/index.jsx'
-
-import Button from '../Button.jsx'
-
-import { getGigs } from '../../api/gigs/index.js'
 
 import GlobalStyle from '../../style/global.js'
 
@@ -28,7 +21,7 @@ const PageContainer = styled.div`
   background-color: ${({ color }) => color};
   background-image: ${({ image }) => `url(${image})`};
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: ${({ focusPoint }) => focusPoint};
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
   display: flex;
 `
@@ -50,44 +43,14 @@ const BackLink = styled.a`
 
 export const Page = ({ page }) => {
   const { background, logo, content, gigAPI } = page
-  const {
-    type,
-    color,
-    colorAccent,
-    colorBackground,
-    gigsAPI,
-    media,
-    text,
-  } = content
-  const { provider, slug } = gigsAPI || { provider: '', slug: '' }
   const { links } = page || { links: { list: [] } }
-
-  const colors = { color, colorBackground, colorAccent }
-
-  let Content
-  switch (type) {
-    case 'GIGS':
-      Content = (
-        <TextBox {...colors} id="gigs">
-          <GigsBox getGigs={getGigs} api={provider} slug={slug} {...colors} />
-        </TextBox>
-      )
-
-      break
-    case 'MEDIA':
-      Content = <MediaBox media={media} />
-      break
-
-    default:
-      Content = <TextBox {...colors}>{renderHtml(text)}</TextBox>
-      break
-  }
 
   return (
     <Fragment>
       <GlobalStyle />
       <PageContainer
         image={background.image && background.image.url}
+        focusPoint={background.focusPoint}
         fullscreen={background.fullscreen}
         color={background.color}
       >
@@ -108,11 +71,16 @@ export const Page = ({ page }) => {
         )}
 
         {/* Logo */}
-        {Content}
+        <ContentBox
+          content={content}
+          links={links}
+        />
 
         {/* Links */}
         {links.list.length > 0 && (
-          <LinksBox position={links.position}>{Links(links, content)}</LinksBox>
+          <LinksBox position={links.position} zIndex={4}>
+            {Links(links, content)}
+          </LinksBox>
         )}
       </PageContainer>
     </Fragment>

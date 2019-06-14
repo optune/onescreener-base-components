@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 
-import { MediaSmall } from './media.js'
+import { MediaSmall, MediaMobile } from './media.js'
 
 // FIXME: make sure fonts load in browser
 export default createGlobalStyle`
@@ -19,6 +19,12 @@ export default createGlobalStyle`
     }
   }
 
+  @media ${MediaMobile} {
+    :root {
+      --basic-font-size: 10px;
+    }
+  }
+
   html {
     font-size: var(--basic-font-size);
   }
@@ -34,29 +40,5 @@ export default createGlobalStyle`
     width: 100%;
     font-family: 'Brandon Text Regular', sans-serif;
     line-height: normal;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  h3 {
-    font-size: 1.2rem;
-  }
-
-  h4 {
-    font-size: 1.0rem;
-  }
-
-  h5 {
-    font-size: 0.8rem;
-  }
-
-  p {
-    font-size: 1rem;
   }
 `
