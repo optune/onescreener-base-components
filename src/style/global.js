@@ -9,24 +9,16 @@ export default createGlobalStyle`
     src: url(/fonts/brandon-text-regular.woff2);
   }
 
-  :root {
-    --basic-font-size: 14px;
-  }
-
-  @media ${MediaSmall} {
-    :root {
-      --basic-font-size: 12px;
-    }
-  }
-
-  @media ${MediaMobile} {
-    :root {
-      --basic-font-size: 10px;
-    }
-  }
-
   html {
-    font-size: var(--basic-font-size);
+    font-size: 14px;
+
+    @media ${MediaSmall} {
+      font-size: 12px;
+    }
+
+    @media ${MediaMobile} {
+      font-size: 10px;
+    }
   }
 
   body {
