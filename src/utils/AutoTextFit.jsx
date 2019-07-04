@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const AutoFitTextContainer = styled.div`
+const TextContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
   display: flex;
+  padding: ${({ padding }) => padding};
+`
+
+const TextContent = styled.div`
+  width: 100%;
 `
 
 const DEFAULTS = {
@@ -86,8 +91,8 @@ const updateFontSize = (
   return
 }
 
-export const AutoTextFit = ({ children, ...options }) => {
-  let TextContainer = React.createRef()
+export const AutoTextFit = ({ children, padding, ...options }) => {
+  let TextRef = React.createRef()
   const [initialized, setInitialized] = useState(false)
   const [resizing, setResizing] = useState(false)
   const [windowSize, setWindowSize] = useState(
@@ -97,7 +102,7 @@ export const AutoTextFit = ({ children, ...options }) => {
   useEffect(() => {
     if (!resizing) {
       setResizing(true)
-      const element = TextContainer.current
+      const element = TextRef.current
       updateFontSize(element, options)
       return () => setResizing(false)
     }
@@ -113,13 +118,16 @@ export const AutoTextFit = ({ children, ...options }) => {
   }, [initialized])
 
   return (
-    <AutoFitTextContainer>
-      <div ref={TextContainer}>{children}</div>
-    </AutoFitTextContainer>
+    <TextContainer padding={padding}>
+      <TextContent ref={TextRef}>
+        {children}
+      </TextContent>
+    </TextContainer>
   )
 }
 
 AutoTextFit.propTypes = {
+  padding: PropTypes.string,
   step: PropTypes.number,
   maxFontSize: PropTypes.number,
   minFontSize: PropTypes.number,

@@ -9,7 +9,6 @@ const Text = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  padding: 1rem 2rem;
   overflow: hidden;
   background-color: ${({ colorBackground }) =>
     colorBackground || 'transparent'};
@@ -76,7 +75,11 @@ export const TextBox = ({
     colorAccent={colorAccent}
     includeWidth={includeWidth}
   >
-    <AutoTextFit includeWidth={includeWidth} {...otherOptions}>
+    <AutoTextFit
+      includeWidth={includeWidth}
+      padding="1rem 2rem"
+      {...otherOptions}
+    >
       {children}
     </AutoTextFit>
   </Text>
