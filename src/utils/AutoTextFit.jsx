@@ -119,13 +119,13 @@ export class AutoTextFit extends Component {
 
   componentDidUpdate() {
     const { ssrDone, resized } = this.state
-    if (ssrDone && resized) {
+
+    if (ssrDone && !resized) {
       // Resize text if window size is set or changes
       const { maxFontSize, minFontSize, step, includeWidth } = this.props
       const options = { maxFontSize, minFontSize, step, includeWidth }
       const element = this.TextRef.current
 
-      // Resize in asynchronious task
       updateFontSize(element, options)
 
       this.setState({ resized: true })
@@ -136,8 +136,6 @@ export class AutoTextFit extends Component {
     const { children, padding } = this.props
     const { ssrDone, resized } = this.state
 
-    console.log('State', ssrDone, resized)
-    
     return (
       <TextContainer padding={padding} show={ssrDone && resized}>
         <TextContent ref={this.TextRef}>{children}</TextContent>
