@@ -7,7 +7,6 @@ const TextContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  padding: ${({ padding }) => padding};
   opacity: ${({ show }) => (show ? 1 : 0.1)};
   transition: opacity 0.3s;
 `
@@ -137,7 +136,7 @@ export class AutoTextFit extends Component {
     const { ssrDone, resized } = this.state
 
     return (
-      <TextContainer padding={padding} show={ssrDone && resized}>
+      <TextContainer show={ssrDone && resized}>
         <TextContent ref={this.TextRef}>{children}</TextContent>
       </TextContainer>
     )

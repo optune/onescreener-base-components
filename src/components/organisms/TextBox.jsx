@@ -5,14 +5,24 @@ import styled, { css } from 'styled-components'
 import { MediaSmall } from '../../style/media.js'
 import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
 
+const TextBackground = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  background-color: ${({ colorBackground }) =>
+    colorBackground || 'transparent'};
+  padding: 1em 2em;
+`
+
 const Text = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  overflow: hidden;
-  background-color: ${({ colorBackground }) =>
-    colorBackground || 'transparent'};
-  color: ${({ color }) => color};
+  
+  color: ${({ colorPrimary }) => colorPrimary};
   transition: color 0.3s ease-out;
 
   & h1,
@@ -69,18 +79,11 @@ export const TextBox = ({
   includeWidth,
   ...otherOptions
 }) => (
-  <Text
-    color={color}
-    colorBackground={colorBackground}
-    colorAccent={colorAccent}
-    includeWidth={includeWidth}
-  >
-    <AutoTextFit
-      includeWidth={includeWidth}
-      padding="1rem 2rem"
-      {...otherOptions}
-    >
-      {children}
-    </AutoTextFit>
-  </Text>
+  <TextBackground colorBackground={colorBackground}>
+    <Text colorPrimary={color} colorAccent={colorAccent} includeWidth={includeWidth}>
+      <AutoTextFit includeWidth={includeWidth} {...otherOptions}>
+        {children}
+      </AutoTextFit>
+    </Text>
+  </TextBackground>
 )
