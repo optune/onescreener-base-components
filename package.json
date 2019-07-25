@@ -72,6 +72,15 @@
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react"
+    ],
+    "plugins": [
+      [
+        "babel-plugin-styled-components",
+        {
+          "ssr": true,
+          "displayName": true
+        }
+      ]
     ]
   },
   "devDependencies": {
@@ -82,6 +91,7 @@
     "@storybook/react": "^5.0.11",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
+    "babel-plugin-styled-components": "^1.10.6",
     "babel-runtime": "^6.26.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.2.0",
