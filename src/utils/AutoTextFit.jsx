@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
@@ -8,6 +8,8 @@ const TextContainer = styled.div`
   height: 100%;
   display: flex;
   padding: ${({ padding }) => padding};
+  opacity: ${({ show }) => (show ? 1 : 0.1)};
+  transition: opacity 0.3s;
 `
 
 const TextContent = styled.div`
@@ -91,39 +93,57 @@ const updateFontSize = (
   return
 }
 
-export const AutoTextFit = ({ children, padding, ...options }) => {
-  let TextRef = React.createRef()
-  const [initialized, setInitialized] = useState(false)
-  const [resizing, setResizing] = useState(false)
-  const [windowSize, setWindowSize] = useState(
-    `${window.innerWidth}/${window.innerHeight}`
-  )
+export class AutoTextFit extends Component {
+  constructor(props) {
+    super(props)
 
-  useEffect(() => {
-    if (!resizing) {
-      setResizing(true)
-      const element = TextRef.current
-      updateFontSize(element, options)
-      return () => setResizing(false)
+    this.state = {
+      ssrDone: false,
+      resized: true,
     }
-  }, [windowSize])
 
-  // Add window resize listener
-  useEffect(() => {
-    const setNewWindowSize = () =>
-      setWindowSize(`${window.innerWidth}/${window.innerHeight}`)
-    window.addEventListener('resize', setNewWindowSize)
-    setInitialized(true)
-    return () => window.removeEventListener('resize', setNewWindowSize)
-  }, [initialized])
+    this.setNewWindowSize = this.setNewWindowSize.bind(this)
+    this.TextRef = createRef()
+  }
 
-  return (
-    <TextContainer padding={padding}>
-      <TextContent ref={TextRef}>
-        {children}
-      </TextContent>
-    </TextContainer>
-  )
+  setNewWindowSize() {
+    this.setState({ resized: false })
+  }
+
+  componentDidMount() {
+    // Add window resize listener
+    window.addEventListener('resize', this.setNewWindowSize)
+
+    this.setState({ ssrDone: true, resized: false })
+  }
+
+  componentDidUpdate() {
+    const { ssrDone, resized } = this.state
+    if (ssrDone && resized) {
+      // Resize text if window size is set or changes
+      const { maxFontSize, minFontSize, step, includeWidth } = this.props
+      const options = { maxFontSize, minFontSize, step, includeWidth }
+      const element = this.TextRef.current
+
+      // Resize in asynchronious task
+      updateFontSize(element, options)
+
+      this.setState({ resized: true })
+    }
+  }
+
+  render() {
+    const { children, padding } = this.props
+    const { ssrDone, resized } = this.state
+
+    console.log('State', ssrDone, resized)
+    
+    return (
+      <TextContainer padding={padding} show={ssrDone && resized}>
+        <TextContent ref={this.TextRef}>{children}</TextContent>
+      </TextContainer>
+    )
+  }
 }
 
 AutoTextFit.propTypes = {
