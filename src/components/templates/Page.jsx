@@ -27,11 +27,12 @@ const PageContainer = styled.div`
 `
 
 const BacklinkUrl =
-  'https://res.cloudinary.com/optune-me/image/upload/c_thumb,e_blackwhite,g_face,w_100/v1558014130/onescreener-v2/app/logo-onescreener.svg'
+  'https://res.cloudinary.com/optune-me/image/upload/b_rgb:808080,bo_10px_solid_rgb:808080,e_blackwhite,q_auto:good/v1558014130/onescreener-v2/app/logo-onescreener.png'
+  
 const BackLink = styled.a`
   position: fixed;
   background-image: url(${BacklinkUrl});
-  background-size: 60px 15px;
+  background-size: contain;
   background-color: #808080;
   background-position: center;
   background-repeat: no-repeat;
@@ -41,6 +42,7 @@ const BackLink = styled.a`
   transform: rotate(-90deg);
   transform-origin: 100% 100%;
   right: 0;
+  color: #ffffff;
 
   & h1 {
     color: #808080;
