@@ -157,7 +157,11 @@ export const ContentBox = ({ content, links }) => {
       break
 
     default:
-      Content = <TextBox {...colors}>{renderHtml(text)}</TextBox>
+      Content = (
+        <TextBox {...colors} includeWidth>
+          {renderHtml(text)}
+        </TextBox>
+      )
       break
   }
 

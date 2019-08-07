@@ -35,27 +35,37 @@ const Text = styled.div`
   p,
   span {
     font-size: 1em;
-    color: ${({ color }) => color};
+    color: ${({ colorPrimary }) => colorPrimary};
     white-space: ${({ includeWidth }) =>
       includeWidth ? 'nowrap' : 'pre-wrap'};
     transition: color 0.3s ease-out;
-    line-height: 1.2;
-    margin: 1em 0;
+    line-height: 1.4;
+    margin: 0.5em 0;
+    padding: 0;
+  }
+
+  & .separator-line {
+    background: ${({ colorPrimary }) => colorPrimary};
+    height: 0.1em;
+    min-height: 1px;
+    margin 1em 0;
     padding: 0;
   }
 
   & a:hover {
-    color: ${({ color, colorAccent }) => colorAccent || color};
+    color: ${({ colorPrimary, colorAccent }) => colorAccent || colorPrimary};
   }
 
   & h1 {
     font-size: 1.8em;
     font-weight: bold;
+    margin: 1.3em;
   }
 
   & h2 {
     font-size: 1.5em;
     font-weight: bold;
+    margin: 1em;
   }
 
   & h3 {
@@ -80,7 +90,11 @@ export const TextBox = ({
   ...otherOptions
 }) => (
   <TextBackground colorBackground={colorBackground}>
-    <Text colorPrimary={color} colorAccent={colorAccent} includeWidth={includeWidth}>
+    <Text
+      colorPrimary={color}
+      colorAccent={colorAccent}
+      includeWidth={includeWidth}
+    >
       <AutoTextFit includeWidth={includeWidth} {...otherOptions}>
         {children}
       </AutoTextFit>
