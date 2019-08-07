@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const LogoSize = {
   XS: '8.333%',
@@ -14,14 +14,17 @@ const LogoSize = {
 const LogoImage = styled.img`
   display: block;
   object-fit: contain;
-  max-height: 45vh;
-  max-width: 800px;
-  width: ${({ size }) => size};
-  height: ${({ size }) => size};
   margin: 1rem;
+
+  ${({ orientation, size }) =>
+    orientation === 'LANDSCAPE' ? `height: ${size};` : `width: ${size};`}
 `
 
 export const Logo = ({ logo }) =>
   logo && logo.image ? (
-    <LogoImage src={logo.image.url} size={LogoSize[logo.size]} />
+    <LogoImage
+      src={logo.image.url}
+      size={LogoSize[logo.size]}
+      orientation={logo.image.orientation}
+    />
   ) : null
