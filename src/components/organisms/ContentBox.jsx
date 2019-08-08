@@ -15,6 +15,8 @@ const GridUnit = 16.666 // = 100 : 6
 const MaxSpanMobile = 4 * GridUnit
 const LinkMargin = 5
 
+const round = a => a.toFixed(2)
+
 const getGridArea = (
   { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan },
   linksPosition
@@ -23,14 +25,17 @@ const getGridArea = (
   const isLeft = GridSize - endColumn >= startColumn - 1
   const positionH = isLeft ? 'left' : 'right'
 
-  const isTop = GridSize - endRow >= startRow - 1
-  const positionV = isTop ? 'top' : 'bottom'
+  const isBottom =
+    GridSize - endRow < startRow - 1 ||
+    (endRow === 6 &&
+      ['BOTTOM_CENTER', 'BOTTOM_LEFT', 'BOTTOM_RIGHT'].includes(linksPosition))
+  const positionV = isBottom ? 'bottom' : 'top'
 
   // Calculate vertical and horizontal margins and width
   const marginHUnit = isLeft ? startColumn - 1 : 6 - endColumn
   const marginH = (marginHUnit * GridUnit).toFixed(3)
 
-  const marginVUnit = isTop ? startRow - 1 : 6 - endRow
+  const marginVUnit = isBottom ? 6 - endRow : startRow - 1
   const marginV = (marginVUnit * GridUnit).toFixed(3)
 
   let marginVLinks = 0
@@ -41,7 +46,7 @@ const getGridArea = (
     case 'BOTTOM_CENTER':
     case 'BOTTOM_LEFT':
     case 'BOTTOM_RIGHT':
-      if (!isTop && endRow === 6) marginVLinks += LinkMargin
+      if (isBottom && endRow === 6) marginVLinks += LinkMargin
       break
     case 'CENTER_RIGHT':
       if (!isLeft && endColumn === 6) marginHLinks += LinkMargin
@@ -53,10 +58,14 @@ const getGridArea = (
     // Do nothing
   }
 
-  const width = columnSpan * GridUnit
-  const widthCorrection = (columnSpan * (marginHLinks + 2)) / GridSize
-  const height = rowSpan * GridUnit
-  const heightCorrection = (rowSpan * (marginVLinks + 2)) / GridSize
+  const width = round(columnSpan * GridUnit)
+  const widthCorrection = round((columnSpan * (marginHLinks + 2)) / GridSize)
+
+  const height = round(rowSpan * GridUnit)
+  const heightCorrection = round((rowSpan * (marginVLinks + 2)) / GridSize)
+
+  console.log(isBottom, endRow, marginVLinks)
+  console.log(height, heightCorrection)
 
   const area = `
     ${positionH}: calc(${marginH}vw + ${marginHLinks + 1}rem);
@@ -66,7 +75,7 @@ const getGridArea = (
 
     @media ${MediaMobile} {
       ${positionH}: calc(${marginH}vw + 1rem);
-      ${positionV}: calc(${marginV}vh + ${isTop ? 1 : LinkMargin + 1}rem);
+      ${positionV}: calc(${marginV}vh + ${isBottom ? LinkMargin + 1 : 1}rem);
       width: calc(${width}vw - ${(columnSpan * 2) / GridSize}rem);
       height: calc(${height}vh - ${(rowSpan * (LinkMargin + 2)) / GridSize}rem);
     }
@@ -116,6 +125,7 @@ export const ContentBox = ({ content, links }) => {
    * Get content values
    */
   const {
+    alignHorizontal,
     color,
     colorAccent,
     colorBackground,
@@ -126,6 +136,7 @@ export const ContentBox = ({ content, links }) => {
     span,
     text,
     type,
+    wordWrap,
   } = content
   const { provider, slug } = gigsAPI || { provider: '', slug: '' }
   const colors = { color, colorAccent, colorBackground, colorBackgroundAccent }
@@ -158,7 +169,11 @@ export const ContentBox = ({ content, links }) => {
 
     default:
       Content = (
-        <TextBox {...colors} includeWidth>
+        <TextBox
+          {...colors}
+          wordWrap={wordWrap}
+          alignHorizontal={alignHorizontal}
+        >
           {renderHtml(text)}
         </TextBox>
       )

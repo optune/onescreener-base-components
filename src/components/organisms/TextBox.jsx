@@ -36,8 +36,7 @@ const Text = styled.div`
   span {
     font-size: 1em;
     color: ${({ colorPrimary }) => colorPrimary};
-    white-space: ${({ includeWidth }) =>
-      includeWidth ? 'nowrap' : 'pre-wrap'};
+    white-space: ${({ wordWrap }) => (wordWrap ? 'pre-wrap' : 'nowrap')};
     transition: color 0.3s ease-out;
     line-height: 1.4;
     margin: 0.5em 0;
@@ -86,16 +85,12 @@ export const TextBox = ({
   color,
   colorBackground,
   colorAccent,
-  includeWidth,
+  wordWrap,
   ...otherOptions
 }) => (
   <TextBackground colorBackground={colorBackground}>
-    <Text
-      colorPrimary={color}
-      colorAccent={colorAccent}
-      includeWidth={includeWidth}
-    >
-      <AutoTextFit includeWidth={includeWidth} {...otherOptions}>
+    <Text colorPrimary={color} colorAccent={colorAccent} wordWrap={wordWrap}>
+      <AutoTextFit includeWidth={!wordWrap} {...otherOptions}>
         {children}
       </AutoTextFit>
     </Text>

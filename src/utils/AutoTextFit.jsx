@@ -2,17 +2,26 @@ import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+const HorizontalAlignment = {
+  CENTER_LEFT: 'flex-start',
+  CENTER_CENTER: 'center',
+  CENTER_RIGHT: 'flex-end',
+}
+
 const TextContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  display: flex;
   opacity: ${({ show }) => (show ? 1 : 0.1)};
   transition: opacity 0.3s;
+
+  display: flex;
+  justify-content: ${({ alignHorizontal = 'CENTER_LEFT' }) =>
+    HorizontalAlignment[alignHorizontal]};
 `
 
 const TextContent = styled.div`
-  width: 100%;
+  max-width: 100%;
 `
 
 const DEFAULTS = {
@@ -132,11 +141,14 @@ export class AutoTextFit extends Component {
   }
 
   render() {
-    const { children, padding } = this.props
+    const { alignHorizontal, children, padding } = this.props
     const { ssrDone, resized } = this.state
 
     return (
-      <TextContainer show={ssrDone && resized}>
+      <TextContainer
+        show={ssrDone && resized}
+        alignHorizontal={alignHorizontal}
+      >
         <TextContent ref={this.TextRef}>{children}</TextContent>
       </TextContainer>
     )
@@ -144,6 +156,7 @@ export class AutoTextFit extends Component {
 }
 
 AutoTextFit.propTypes = {
+  alignHorizontal: PropTypes.oneOf(Object.keys(HorizontalAlignment)),
   padding: PropTypes.string,
   step: PropTypes.number,
   maxFontSize: PropTypes.number,
