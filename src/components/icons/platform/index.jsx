@@ -182,6 +182,8 @@ export const PlatformLink = ({
     <a
       href={url}
       alt={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
+      target="_blank"
+      rel="noopener noreferrer"
     >
       <Link
         border={border}

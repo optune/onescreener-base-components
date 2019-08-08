@@ -64,9 +64,6 @@ const getGridArea = (
   const height = round(rowSpan * GridUnit)
   const heightCorrection = round((rowSpan * (marginVLinks + 2)) / GridSize)
 
-  console.log(isBottom, endRow, marginVLinks)
-  console.log(height, heightCorrection)
-
   const area = `
     ${positionH}: calc(${marginH}vw + ${marginHLinks + 1}rem);
     ${positionV}: calc(${marginV}vh + ${marginVLinks + 1}rem);
