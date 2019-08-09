@@ -7,9 +7,6 @@ export { Logo } from './components/atoms/Logo.jsx'
 // Templates
 export { Page } from './components/templates/Page.jsx'
 
-// Icons
-export * from './components/icons'
-
 // Platform Icons
 export {
   PlatformLink,

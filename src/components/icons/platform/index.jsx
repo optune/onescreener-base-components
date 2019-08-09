@@ -213,13 +213,14 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
     colorBackgroundAccent,
     onClick,
   }) => (
-    <a onClick={onClick}>
+    <a onClick={onClick} target="_blank" rel="noopener noreferrer">
       <Link
         border={border}
         color={color}
         colorAccent={colorAccent}
         colorBackground={colorBackground}
         colorBackgroundAccent={colorBackgroundAccent}
+        size="M"
       >
         <Icon color={color} />
       </Link>
