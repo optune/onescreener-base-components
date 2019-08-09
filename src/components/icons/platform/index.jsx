@@ -55,9 +55,9 @@ const ShapeSize = {
     L: '5.2rem',
   },
   Mobile: {
-    S: '3.6rem',
-    M: '4rem',
-    L: '4.4rem',
+    S: '3.2rem',
+    M: '3.6rem',
+    L: '4rem',
   },
 }
 
@@ -99,7 +99,7 @@ const Link = styled.div`
   @media ${MediaMobile} {
     width: ${({ size }) => ShapeSize.Mobile[size]};
     height: ${({ size }) => ShapeSize.Mobile[size]};
-    margin: ${({ margin }) => margin || '0.8rem'};
+    margin: ${({ margin }) => margin || '0.5rem'};
   }
 
   &:hover:not(:focus) {
