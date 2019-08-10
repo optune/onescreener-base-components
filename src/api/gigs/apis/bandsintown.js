@@ -1,4 +1,4 @@
-import { formatGigDate } from '../utils.js'
+import { formatGigDate } from '../utils/formatGigDate.js'
 
 export const bandsintown = {
   url: slug =>

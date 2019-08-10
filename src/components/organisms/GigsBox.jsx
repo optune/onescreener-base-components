@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { useAsync } from 'react-async'
 
 import { TextBox } from './TextBox.jsx'
 
@@ -96,26 +95,28 @@ export const GigsBox = ({
   colorAccent,
   colorBackground,
   colorBackgroundAccent,
-  slug,
   square,
 }) => {
-  const { data, error, isLoading } = useAsync({
-    promiseFn: getGigs,
-    api,
-    slug,
-    limit: 3,
+  const [gigs, setGigs] = useState({ loading: true, data: [] })
+
+  useEffect(() => {
+    if (gigs.loading) {
+      getGigs(api).then(data => {
+        setGigs({ loading: false, data })
+      })
+    }
   })
 
   return (
-    (isLoading && (
+    (gigs.loading && (
       <InfoContainer color={color} colorBackground={colorBackground}>
-        <GigHead color={color}>Upcoming Gigs</GigHead>
+        <GigHead color={color}>{api.title}</GigHead>
         <InfoText color={color}>Loading gigs ...</InfoText>
       </InfoContainer>
     )) ||
-    ((error || !data) && (
+    (gigs.data.length === 0 && (
       <InfoContainer color={color} colorBackground={colorBackground}>
-        <GigHead color={color}>Upcoming Gigs</GigHead>
+        <GigHead color={color}>{api.title}</GigHead>
         <InfoText color={color}>No gigs found</InfoText>
       </InfoContainer>
     )) || (
@@ -125,22 +126,26 @@ export const GigsBox = ({
         colorBackground={colorBackground}
         colorBackgroundAccent={colorBackgroundAccent}
       >
-        <GigHead color={color}>Upcoming Gigs</GigHead>
+        <GigHead color={color}>{api.title}</GigHead>
         <GigList>
-          {data.map(({ title, startDate, venue, website }, key) => (
+          {gigs.data.map(({ title, startDate, venue, website }, key) => (
             <Gig key={key} color={color} colorAccent={colorAccent}>
               <StartDate className="gig">{startDate}</StartDate>
               <Event className="gig">
-                {website ? <a href={website}>{title}</a> : title}
+                {website ? <a href={website}>{api.title}</a> : title}
               </Event>
               <Venue className="gig">
-                {venue.name}, {venue.city}
+                {venue.name}
+                {venue.city > '' && ', '}
+                {venue.city}
               </Venue>
             </Gig>
           ))}
         </GigList>
         <a
-          href={`https://api.optune.me/v4/events/${slug}?header=1&theme=black&ticketlinks=true`}
+          href={`https://api.optune.me/v2/events/${
+            api.slug
+          }?header=1&theme=black&ticketlinks=true`}
         >
           <ShowMoreButton
             border={border}

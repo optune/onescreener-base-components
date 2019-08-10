@@ -135,7 +135,6 @@ export const ContentBox = ({ content, links }) => {
     type,
     wordWrap,
   } = content
-  const { provider, slug } = gigsAPI || { provider: '', slug: '' }
   const colors = { color, colorAccent, colorBackground, colorBackgroundAccent }
   const area = getArea({ position, span })
   const { border, circle, square } = links
@@ -150,11 +149,11 @@ export const ContentBox = ({ content, links }) => {
     case 'GIGS':
       Content = (
         <GigsBox
-          api={provider}
+          api={gigsAPI}
           border={border}
           circle={circle}
-          slug={slug}
           square={square}
+          alignHorizontal={alignHorizontal}
           {...colors}
         />
       )
