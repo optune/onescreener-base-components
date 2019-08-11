@@ -39,7 +39,7 @@ const Text = styled.div`
     white-space: ${({ wordWrap }) => (wordWrap ? 'pre-wrap' : 'nowrap')};
     transition: color 0.3s ease-out;
     line-height: 1.4;
-    margin: 0.5em 0;
+    margin: 0.35em 0;
     padding: 0;
   }
 
@@ -58,13 +58,12 @@ const Text = styled.div`
   & h1 {
     font-size: 1.8em;
     font-weight: bold;
-    margin: 1.3em;
+    margin: 1em 0;
   }
 
   & h2 {
     font-size: 1.5em;
     font-weight: bold;
-    margin: 1em;
   }
 
   & h3 {
@@ -89,7 +88,11 @@ export const TextBox = ({
   ...otherOptions
 }) => (
   <TextBackground colorBackground={colorBackground}>
-    <Text colorPrimary={color} colorAccent={colorAccent} wordWrap={wordWrap}>
+    <Text
+      colorPrimary={color}
+      colorAccent={colorAccent}
+      wordWrap={wordWrap}
+    >
       <AutoTextFit includeWidth={!wordWrap} {...otherOptions}>
         {children}
       </AutoTextFit>

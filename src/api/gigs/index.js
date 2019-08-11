@@ -2,6 +2,11 @@ import 'isomorphic-fetch' // makes fetch() available
 import { ApiProviders } from './apis/index.js'
 import { transformVenue } from './utils/transformVenue.js'
 
+export const Type = {
+  MONTH: 'month',
+  GIG: 'gig',
+}
+
 const fetchGigs = url =>
   new Promise((resolve, reject) => {
     let res = { ok: false }
@@ -20,7 +25,38 @@ const fetchGigs = url =>
     }
   })
 
-const transformGigs = api => a => a.map(api.transformEvent).map(transformVenue)
+const transformGigs = api => events => {
+  const gigs = []
+
+  let previousYear = 0
+  let previousMonth = 0
+
+  events
+    .map(api.transformEvent)
+    .map(transformVenue)
+    .sort((a, b) => a.startDate.date - b.startDate.date)
+    .forEach(event => {
+      const { year, month } = event.startDate
+
+      if (year > previousYear || month > previousMonth) {
+        gigs.push({
+          type: Type.MONTH,
+          startDate: { year, month },
+        })
+        previousYear = year
+        previousMonth = month
+      }
+
+      gigs.push({
+        type: Type.GIG,
+        ...event,
+      })
+    })
+
+  console.log(gigs)
+
+  return gigs
+}
 
 export const getGigs = async ({
   provider,
