@@ -1,9 +1,14 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 import { MediaSmall } from '../../style/media.js'
 import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
+
+const FadeIn = keyframes`
+  from { opacity: 0.1; }
+  to { opacity: 1; }
+`
 
 const TextBackground = styled.div`
   position: absolute;
@@ -11,10 +16,7 @@ const TextBackground = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  overflow: hidden;
-  background-color: ${({ colorBackground }) =>
-    colorBackground || 'transparent'};
-  padding: 1em 2em;
+  animation: ${FadeIn} 0.3s ease-out;
 `
 
 const Text = styled.div`
@@ -39,7 +41,7 @@ const Text = styled.div`
     white-space: ${({ wordWrap }) => (wordWrap ? 'pre-wrap' : 'nowrap')};
     transition: color 0.3s ease-out;
     line-height: 1.4;
-    margin: 0.35em 0;
+    margin: 0 0 0.1em;
     padding: 0;
   }
 
@@ -87,13 +89,13 @@ export const TextBox = ({
   wordWrap,
   ...otherOptions
 }) => (
-  <TextBackground colorBackground={colorBackground}>
-    <Text
-      colorPrimary={color}
-      colorAccent={colorAccent}
-      wordWrap={wordWrap}
-    >
-      <AutoTextFit includeWidth={!wordWrap} {...otherOptions}>
+  <TextBackground>
+    <Text colorPrimary={color} colorAccent={colorAccent} wordWrap={wordWrap}>
+      <AutoTextFit
+        colorBackground={colorBackground}
+        includeWidth={!wordWrap}
+        {...otherOptions}
+      >
         {children}
       </AutoTextFit>
     </Text>

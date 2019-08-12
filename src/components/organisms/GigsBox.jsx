@@ -4,6 +4,8 @@ import styled from 'styled-components'
 
 import { TextBox } from './TextBox.jsx'
 
+import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
+
 import { getGigs, Type } from '../../api/gigs/index.js'
 
 const TextAlign = {
@@ -18,9 +20,8 @@ const InfoContainer = styled.div`
   height: 100%;
   padding: 1rem 2rem;
   overflow: hidden;
-  background-color: ${({ colorBackground }) =>
-    colorBackground || 'transparent'};
-  color: ${({ color }) => color};
+  opacity: ${({ active }) => (active ? 1 : 0)};
+  transition: opacity 0.3s ease-out;
 `
 
 const InfoText = styled.p`
@@ -67,30 +68,34 @@ const Venue = styled.span`
 `
 
 const ShowMoreContainer = styled.div`
-  text-align: ${({ alignHorizontal }) => TextAlign[alignHorizontal]};
-  margin-top: 1.5em;
-`
-const ShowMoreButton = styled.button`
-  font-size: 1em;
-  line-height: 1em;
-  width: auto;
-  margin: 0.5em auto;
-  padding: 0.5em 1.8em 0.5em 2.2em;
-  border-color: ${({ color }) => color || 'transparent'};
-  border-width: ${({ border }) => border / 10}rem;
-  border-style: solid;
-  border-radius: ${({ square, circle }) =>
-    (circle && '1em') || (square && 0) || '0.4rem'};
-  color: ${({ color }) => color};
-  background-color: transparent;
-  transition: color 0.3s, background-color 0.3s, border 0.3s;
+  padding-top: 1.5em;
 
-  :hover {
-    color: ${({ colorAccent }) => colorAccent};
-    border-color: ${({ colorAccent }) => colorAccent};
-    background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
+  & p {
+    text-align: ${({ alignHorizontal }) => TextAlign[alignHorizontal]};
   }
 `
+
+// const ShowMoreButton = styled.button`
+//   font-size: 1em;
+//   line-height: 1em;
+//   width: auto;
+//   margin: 0.5em auto;
+//   padding: 0.5em 1.8em 0.5em 2.2em;
+//   border-color: ${({ color }) => color || 'transparent'};
+//   border-width: ${({ border }) => border / 10}rem;
+//   border-style: solid;
+//   border-radius: ${({ square, circle }) =>
+//     (circle && '1em') || (square && 0) || '0.4rem'};
+//   color: ${({ color }) => color};
+//   background-color: transparent;
+//   transition: color 0.3s, background-color 0.3s, border 0.3s;
+
+//   :hover {
+//     color: ${({ colorAccent }) => colorAccent};
+//     border-color: ${({ colorAccent }) => colorAccent};
+//     background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
+//   }
+// `
 
 const GigsTitle = ({ title, alignHorizontal, color, withLine }) => (
   <Fragment>
@@ -101,8 +106,6 @@ const GigsTitle = ({ title, alignHorizontal, color, withLine }) => (
   </Fragment>
 )
 
-const Day = startDate =>
-  startDate.day < 10 ? `0${startDate.day}` : startDate.day
 const Month = startDate =>
   startDate.month < 10 ? `0${startDate.month}` : startDate.month
 const Year = startDate => startDate.year.toString().substring(2)
@@ -117,19 +120,26 @@ const MonthItem = ({ month, alignHorizontal }) => {
     </Gig>
   )
 }
+
+const GigDate = (startDate, showDay) =>
+  showDay ? startDate.day : startDate.formattedDate
 const GigTitle = (title, venue) => (title > '' ? title : venue.name)
 const GigVenue = (title, venue) =>
   title > ''
     ? `${venue.name || ''}${(venue.name > '' && venue.city > '' && ', ') ||
         ''}${venue.city || ''}`
     : venue.city || ''
-const GigItem = ({ gig, alignHorizontal }) => {
+
+const GigItem = ({ gig, alignHorizontal, showDay }) => {
   const { title, startDate, venue, website } = gig
+
+  const gigDate = GigDate(startDate, showDay)
   const gigTitle = GigTitle(title, venue)
   const gigVenue = GigVenue(title, venue)
+
   return (
     <Gig alignHorizontal={alignHorizontal}>
-      {Day(startDate)}
+      {gigDate}
       {' | '}
       {website ? (
         <a href={website} target="_blank" rel="noopener noreferrer">
@@ -165,89 +175,82 @@ export const GigsBox = ({
     }
   })
 
+  const showGigs = !gigs.loading && gigs.data.length > 0
+
   return (
-    (gigs.loading && (
-      <InfoContainer color={color} colorBackground={colorBackground}>
-        <GigsTitle
+    <Fragment>
+      <InfoContainer color={color} active={!showGigs}>
+        <AutoTextFit
           alignHorizontal={alignHorizontal}
-          color={color}
-          title={api.title}
-          withLine
-        />
-        <InfoText color={color} alignHorizontal={alignHorizontal}>
-          Loading gigs ...
-        </InfoText>
+          colorBackground={colorBackground}
+          includeWidth
+        >
+          <GigsTitle
+            alignHorizontal={alignHorizontal}
+            color={color}
+            title={api.title}
+            withLine={api.includeMonthTitle}
+          />
+          <InfoText color={color} alignHorizontal={alignHorizontal}>
+            {gigs.loading ? 'Loading gigs ...' : 'No gigs found'}
+          </InfoText>
+        </AutoTextFit>
       </InfoContainer>
-    )) ||
-    (gigs.data.length === 0 && (
-      <InfoContainer color={color} colorBackground={colorBackground}>
-        <GigsTitle
+
+      {showGigs && (
+        <TextBox
           alignHorizontal={alignHorizontal}
           color={color}
-          title={api.title}
-          withLine
-        />
-        <InfoText color={color} alignHorizontal={alignHorizontal}>
-          No gigs found
-        </InfoText>
-      </InfoContainer>
-    )) || (
-      <TextBox
-        alignHorizontal={alignHorizontal}
-        color={color}
-        colorAccent={colorAccent}
-        colorBackground={colorBackground}
-        colorBackgroundAccent={colorBackgroundAccent}
-        wordWrap={false}
-      >
-        <GigsTitle
-          alignHorizontal={alignHorizontal}
-          color={color}
-          title={api.title}
-        />
-        <GigList>
-          {gigs.data.map(({ type, ...gig }, key) =>
-            type === Type.MONTH ? (
-              <MonthItem
-                key={key}
-                month={gig}
-                alignHorizontal={alignHorizontal}
-              />
-            ) : (
-              <GigItem key={key} alignHorizontal={alignHorizontal} gig={gig} />
-            )
-          )}
-        </GigList>
-        {/* <StartDate className="gig">{startDate}</StartDate>
-              <Event className="gig">
-                {website ? <a href={website}>{title}</a> : title}
-              </Event>
-              <Venue className="gig">
-                {venue.name}
-                {venue.city > '' && ', '}
-                {venue.city}
-              </Venue>
-            </GigItem>*/}
-        <ShowMoreContainer alignHorizontal={alignHorizontal}>
-          <a
-            href={`https://api.optune.me/v2/events/${
-              api.slug
-            }?header=1&theme=black&ticketlinks=true`}
-          >
-            <ShowMoreButton
-              border={border}
-              color={color}
-              colorAccent={colorAccent}
-              colorBackground={colorBackground}
-              colorBackgroundAccent={colorBackgroundAccent}
-              circle={circle}
-              square={square}
-            >
-              Show More
-            </ShowMoreButton>
-          </a>
-        </ShowMoreContainer>
-      </TextBox>
-    )
+          colorAccent={colorAccent}
+          colorBackground={colorBackground}
+          colorBackgroundAccent={colorBackgroundAccent}
+          wordWrap={false}
+        >
+          {/*
+           * Gigs List
+           */}
+
+          <GigsTitle
+            alignHorizontal={alignHorizontal}
+            color={color}
+            title={api.title}
+          />
+          <GigList>
+            {gigs.data.map(({ type, ...gig }, key) =>
+              type === Type.MONTH ? (
+                <MonthItem
+                  key={key}
+                  month={gig}
+                  alignHorizontal={alignHorizontal}
+                />
+              ) : (
+                <GigItem
+                  key={key}
+                  alignHorizontal={alignHorizontal}
+                  showDay={api.includeMonthTitle}
+                  gig={gig}
+                />
+              )
+            )}
+          </GigList>
+
+          {/*
+           * Show More
+           */}
+
+          <ShowMoreContainer alignHorizontal={alignHorizontal}>
+            <p>
+              <a
+                href={`https://api.optune.me/v4/events/${
+                  api.slug
+                }?header=1&theme=black&ticketlinks=true`}
+              >
+                Show More
+              </a>
+            </p>
+          </ShowMoreContainer>
+        </TextBox>
+      )}
+    </Fragment>
   )
 }

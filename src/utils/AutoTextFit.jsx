@@ -22,6 +22,9 @@ const TextContainer = styled.div`
 
 const TextContent = styled.div`
   max-width: 100%;
+  padding: 1em 2em;
+  background-color: ${({ colorBackground }) =>
+    colorBackground || 'transparent'};
 `
 
 const DEFAULTS = {
@@ -141,7 +144,7 @@ export class AutoTextFit extends Component {
   }
 
   render() {
-    const { alignHorizontal, children, padding } = this.props
+    const { alignHorizontal, children, colorBackground, padding } = this.props
     const { ssrDone, resized } = this.state
 
     return (
@@ -149,7 +152,13 @@ export class AutoTextFit extends Component {
         show={ssrDone && resized}
         alignHorizontal={alignHorizontal}
       >
-        <TextContent ref={this.TextRef}>{children}</TextContent>
+        <TextContent ref={this.TextRef} colorBackground={colorBackground}>
+          {children}
+          {/* Give some space at the end */}
+          <p>
+            <br />
+          </p>
+        </TextContent>
       </TextContainer>
     )
   }
@@ -157,13 +166,14 @@ export class AutoTextFit extends Component {
 
 AutoTextFit.propTypes = {
   alignHorizontal: PropTypes.oneOf(Object.keys(HorizontalAlignment)),
-  padding: PropTypes.string,
-  step: PropTypes.number,
+  children: PropTypes.node,
+  colorBackground: PropTypes.string,
+  includeWidth: PropTypes.bool,
   maxFontSize: PropTypes.number,
   minFontSize: PropTypes.number,
   onResize: PropTypes.bool,
-  includeWidth: PropTypes.bool,
-  children: PropTypes.node,
+  padding: PropTypes.string,
+  step: PropTypes.number,
 }
 
 AutoTextFit.defaultProps = DEFAULTS
