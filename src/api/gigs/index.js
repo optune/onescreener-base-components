@@ -25,7 +25,7 @@ const fetchGigs = url =>
     }
   })
 
-const transformGigs = api => events => {
+const transformGigs = api => includeMonthTitle => events => {
   const gigs = []
 
   let previousYear = 0
@@ -36,15 +36,17 @@ const transformGigs = api => events => {
     .map(transformVenue)
     .sort((a, b) => a.startDate.date - b.startDate.date)
     .forEach(event => {
-      const { year, month } = event.startDate
+      if (includeMonthTitle) {
+        const { year, month } = event.startDate
 
-      if (year > previousYear || month > previousMonth) {
-        gigs.push({
-          type: Type.MONTH,
-          startDate: { year, month },
-        })
-        previousYear = year
-        previousMonth = month
+        if (year > previousYear || month > previousMonth) {
+          gigs.push({
+            type: Type.MONTH,
+            startDate: { year, month },
+          })
+          previousYear = year
+          previousMonth = month
+        }
       }
 
       gigs.push({
@@ -53,8 +55,6 @@ const transformGigs = api => events => {
       })
     })
 
-  console.log(gigs)
-
   return gigs
 }
 
@@ -62,6 +62,7 @@ export const getGigs = async ({
   provider,
   slug,
   limit,
+  includeMonthTitle,
   includePast,
   ...other
 }) => {
@@ -74,5 +75,5 @@ export const getGigs = async ({
   // result should always be an array with plain events
   const gigs = !!api.extractEvents ? api.extractEvents(data) : data
 
-  return transformGigs(api)(gigs)
+  return transformGigs(api)(includeMonthTitle)(gigs)
 }
