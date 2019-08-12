@@ -42,7 +42,8 @@ const transformGigs = api => includeMonthTitle => events => {
         if (year > previousYear || month > previousMonth) {
           gigs.push({
             type: Type.MONTH,
-            startDate: { year, month },
+            year,
+            month,
           })
           previousYear = year
           previousMonth = month

@@ -13,13 +13,19 @@ import { renderHtml } from '../../utils/renderHtml.js'
 const GridSize = 6
 const GridUnit = 16.666 // = 100 : 6
 const MaxSpanMobile = 4 * GridUnit
-const LinkMargin = 5
+
+const LinkMargin = {
+  L: 9,
+  M: 7,
+  S: 5,
+}
 
 const round = a => a.toFixed(2)
 
 const getGridArea = (
   { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan },
-  linksPosition
+  linksPosition,
+  linksSize = 'M'
 ) => {
   // Decide if margin is calculated from top or bottom and left or right
   const isLeft = GridSize - endColumn >= startColumn - 1
@@ -41,18 +47,20 @@ const getGridArea = (
   let marginVLinks = 0
   let marginHLinks = 0
 
+  const linkMargin = LinkMargin[linksSize]
+
   // Give extra margin if links are at same side as content
   switch (linksPosition) {
     case 'BOTTOM_CENTER':
     case 'BOTTOM_LEFT':
     case 'BOTTOM_RIGHT':
-      if (isBottom && endRow === 6) marginVLinks += LinkMargin
+      if (isBottom && endRow === 6) marginVLinks += linkMargin
       break
     case 'CENTER_RIGHT':
-      if (!isLeft && endColumn === 6) marginHLinks += LinkMargin
+      if (!isLeft && endColumn === 6) marginHLinks += linkMargin
       break
     case 'CENTER_LEFT':
-      if (isLeft && startColumn === 1) marginHLinks += LinkMargin
+      if (isLeft && startColumn === 1) marginHLinks += linkMargin
       break
     default:
     // Do nothing
@@ -72,9 +80,9 @@ const getGridArea = (
 
     @media ${MediaMobile} {
       ${positionH}: calc(${marginH}vw + 1rem);
-      ${positionV}: calc(${marginV}vh + ${isBottom ? LinkMargin + 1 : 1}rem);
+      ${positionV}: calc(${marginV}vh + ${isBottom ? linkMargin + 1 : 1}rem);
       width: calc(${width}vw - ${(columnSpan * 2) / GridSize}rem);
-      height: calc(${height}vh - ${(rowSpan * (LinkMargin + 2)) / GridSize}rem);
+      height: calc(${height}vh - ${(rowSpan * (linkMargin + 2)) / GridSize}rem);
     }
   `
 
@@ -95,7 +103,8 @@ const ResponsiveContainer = styled.div`
   position: absolute;
   z-index: 3;
   
-  ${({ area, linksPosition }) => getGridArea(area, linksPosition)}
+  ${({ area, linksPosition, linksSize }) =>
+    getGridArea(area, linksPosition, linksSize)}
 
   @media ${MediaSmall} {
     min-width: 33.333vw;
@@ -182,6 +191,7 @@ export const ContentBox = ({ content, links }) => {
     <ResponsiveContainer
       area={area}
       linksPosition={links.list.length > 0 ? links.position : 'NONE'}
+      linksSize={links.size}
     >
       {Content}
     </ResponsiveContainer>

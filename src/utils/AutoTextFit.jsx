@@ -55,7 +55,7 @@ const updateFontSize = (
   const inBounds = () => {
     return (
       parentHeight >= element.scrollHeight &&
-      (!includeWidth || parentWidth >= element.scrollWidth)
+      (!includeWidth || parentWidth > element.scrollWidth)
     )
   }
 

@@ -22,15 +22,35 @@ const InfoContainer = styled.div`
   overflow: hidden;
   opacity: ${({ active }) => (active ? 1 : 0)};
   transition: opacity 0.3s ease-out;
-`
 
-const InfoText = styled.p`
-  color: ${({ color }) => color};
-  text-align: ${({ alignHorizontal }) => TextAlign[alignHorizontal]};
+  & h2,
+  p,
+  span {
+    font-size: 1em;
+    color: ${({ color }) => color};
+    white-space: nowrap;
+    text-align: ${({ alignHorizontal }) => TextAlign[alignHorizontal]};
+    line-height: 1.4;
+    margin: 0 0 0.1em;
+    padding: 0;
+  }
+
+  & .separator-line {
+    background: ${({ color }) => color};
+    height: 0.1em;
+    min-height: 1px;
+    margin 1em 0;
+    padding: 0;
+  }
+
+  & h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
 `
 
 const GigHead = styled.h2`
-  color: ${({ color }) => color};
   text-align: ${({ alignHorizontal }) => TextAlign[alignHorizontal]};
 `
 
@@ -97,26 +117,20 @@ const ShowMoreContainer = styled.div`
 //   }
 // `
 
-const GigsTitle = ({ title, alignHorizontal, color, withLine }) => (
+const GigsTitle = ({ title, alignHorizontal, withLine }) => (
   <Fragment>
-    <GigHead alignHorizontal={alignHorizontal} color={color}>
-      {title}
-    </GigHead>
+    <GigHead alignHorizontal={alignHorizontal}>{title}</GigHead>
     {withLine && <hr className="separator-line" />}
   </Fragment>
 )
-
-const Month = startDate =>
-  startDate.month < 10 ? `0${startDate.month}` : startDate.month
-const Year = startDate => startDate.year.toString().substring(2)
 
 const MonthItem = ({ month, alignHorizontal }) => {
   return (
     <Gig alignHorizontal={alignHorizontal}>
       <hr className="separator-line" />
-      <b>{Month(month.startDate)}</b>
+      <b>{month.month}</b>
       {' | '}
-      {Year(month.startDate)}
+      {month.year}
     </Gig>
   )
 }
@@ -179,7 +193,15 @@ export const GigsBox = ({
 
   return (
     <Fragment>
-      <InfoContainer color={color} active={!showGigs}>
+      {/*
+       * Loading and no gigs message
+       */}
+
+      <InfoContainer
+        color={color}
+        alignHorizontal={alignHorizontal}
+        active={!showGigs}
+      >
         <AutoTextFit
           alignHorizontal={alignHorizontal}
           colorBackground={colorBackground}
@@ -191,11 +213,13 @@ export const GigsBox = ({
             title={api.title}
             withLine={api.includeMonthTitle}
           />
-          <InfoText color={color} alignHorizontal={alignHorizontal}>
-            {gigs.loading ? 'Loading gigs ...' : 'No gigs found'}
-          </InfoText>
+          <p>{gigs.loading ? 'Loading gigs ...' : 'No gigs found'}</p>
         </AutoTextFit>
       </InfoContainer>
+
+      {/*
+       * Gigs List
+       */}
 
       {showGigs && (
         <TextBox
@@ -210,11 +234,7 @@ export const GigsBox = ({
            * Gigs List
            */}
 
-          <GigsTitle
-            alignHorizontal={alignHorizontal}
-            color={color}
-            title={api.title}
-          />
+          <GigsTitle alignHorizontal={alignHorizontal} title={api.title} />
           <GigList>
             {gigs.data.map(({ type, ...gig }, key) =>
               type === Type.MONTH ? (
@@ -238,17 +258,21 @@ export const GigsBox = ({
            * Show More
            */}
 
-          <ShowMoreContainer alignHorizontal={alignHorizontal}>
-            <p>
-              <a
-                href={`https://api.optune.me/v4/events/${
-                  api.slug
-                }?header=1&theme=black&ticketlinks=true`}
-              >
-                Show More
-              </a>
-            </p>
-          </ShowMoreContainer>
+          {api.includeShowMore && (
+            <ShowMoreContainer alignHorizontal={alignHorizontal}>
+              <p>
+                <a
+                  href={`https://api.optune.me/v4/events/${
+                    api.slug
+                  }?header=1&theme=black&ticketlinks=true`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Show More
+                </a>
+              </p>
+            </ShowMoreContainer>
+          )}
         </TextBox>
       )}
     </Fragment>
