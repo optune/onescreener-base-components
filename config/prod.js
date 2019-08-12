@@ -9,11 +9,7 @@ fs.unlink('lib/index.js.map', () => {})
 
 const prod = {
   ...config,
-  plugins: [
-    ...config.plugins,
-    terser(),
-    analyze({ limit: 5, filter: [], root: __dirname }),
-  ],
+  plugins: [...config.plugins, terser(), analyze({ limit: 5, filter: [], root: __dirname })],
 }
 
 export default prod

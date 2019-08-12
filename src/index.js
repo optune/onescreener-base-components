@@ -8,11 +8,7 @@ export { Logo } from './components/atoms/Logo.jsx'
 export { Page } from './components/templates/Page.jsx'
 
 // Platform Icons
-export {
-  PlatformLink,
-  PlatformLinks,
-  Links,
-} from './components/icons/platform/index.jsx'
+export { PlatformLink, PlatformLinks, Links } from './components/icons/platform/index.jsx'
 
 export { MediaSmall } from './style/media.js'
 
