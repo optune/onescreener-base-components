@@ -51,6 +51,7 @@ const Text = styled.div`
     min-height: 1px;
     margin 1em 0;
     padding: 0;
+    border: none;
   }
 
   & a:hover {
