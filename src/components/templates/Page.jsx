@@ -28,7 +28,7 @@ const PageContainer = styled.div`
 
 const BacklinkUrl =
   'https://res.cloudinary.com/optune-me/image/upload/b_rgb:808080,bo_10px_solid_rgb:808080,e_blackwhite,q_auto:good/v1558014130/onescreener-v2/app/logo-onescreener.png'
-  
+
 const BackLink = styled.a`
   position: fixed;
   background-image: url(${BacklinkUrl});
@@ -46,7 +46,7 @@ const BackLink = styled.a`
 
   & h1 {
     color: #808080;
-    font-size: 1px;
+    font-size: 5px;
     opacity: 0.1;
   }
 `
