@@ -3,7 +3,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 
-const LogoSize = {
+const LogoSizeLandscape = {
   XS: '8.333%',
   S: '16.666%',
   M: '33.333%',
@@ -11,20 +11,45 @@ const LogoSize = {
   XL: '66.666%',
 }
 
+const LogoSizePortrait = {
+  XS: '16.666%',
+  S: '33.333%',
+  M: '50%',
+  L: '66.666%',
+  XL: 'calc(100% - 2rem)',
+}
+
 const LogoImage = styled.img`
-  display: block;
+  display: flex;
   object-fit: contain;
   margin: 1rem;
+  max-width: unset;
+  max-height: unset;
 
-  ${({ orientation, size }) =>
-    orientation === 'LANDSCAPE' ? `height: ${size};` : `width: ${size};`}
+  @media screen and (orientation: portrait) {
+    ${({ orientation, size }) =>
+      orientation === 'LANDSCAPE'
+        ? css`
+            width: ${LogoSizePortrait[size]};
+          `
+        : css`
+            width: ${LogoSizePortrait[size]};
+          `}
+  }
+
+  @media screen and (orientation: landscape) {
+    ${({ orientation, size }) =>
+      orientation === 'LANDSCAPE'
+        ? css`
+            width: ${LogoSizeLandscape[size]};
+          `
+        : css`
+            height: ${LogoSizeLandscape[size]};
+          `}
+  }
 `
 
 export const Logo = ({ logo }) =>
   logo && logo.image ? (
-    <LogoImage
-      src={logo.image.url}
-      size={LogoSize[logo.size]}
-      orientation={logo.image.orientation}
-    />
+    <LogoImage src={logo.image.url} size={logo.size} orientation={logo.image.orientation} />
   ) : null
