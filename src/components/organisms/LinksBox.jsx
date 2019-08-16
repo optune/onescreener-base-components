@@ -70,11 +70,7 @@ const LinksList = styled.div`
 export const LinksBox = ({ children, position, zIndex }) => (
   <LinksContainer zIndex={zIndex}>
     <LinksList
-      className={
-        position > ''
-          ? position.toLowerCase().replace('_', '-')
-          : 'bottom-center'
-      }
+      className={position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'}
     >
       {children}
     </LinksList>
