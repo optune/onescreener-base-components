@@ -119,7 +119,6 @@
   "dependencies": {
     "dateformat": "^3.0.3",
     "isomorphic-fetch": "^2.2.1",
-    "react-async": "^6.2.0",
     "react-html-parser": "^2.0.2",
     "react-player": "^1.11.0"
   },
