@@ -136,13 +136,11 @@ const MonthItem = ({ month, alignHorizontal }) => {
   )
 }
 
-const GigDate = (startDate, showDay) =>
-  showDay ? startDate.day : startDate.formattedDate
+const GigDate = (startDate, showDay) => (showDay ? startDate.day : startDate.formattedDate)
 const GigTitle = (title, venue) => (title > '' ? title : venue.name)
 const GigVenue = (title, venue) =>
   title > ''
-    ? `${venue.name || ''}${(venue.name > '' && venue.city > '' && ', ') ||
-        ''}${venue.city || ''}`
+    ? `${venue.name || ''}${(venue.name > '' && venue.city > '' && ', ') || ''}${venue.city || ''}`
     : venue.city || ''
 
 const GigItem = ({ gig, alignHorizontal, showDay }) => {
@@ -171,20 +169,23 @@ const GigItem = ({ gig, alignHorizontal, showDay }) => {
 
 export const GigsBox = ({
   alignHorizontal,
-  api,
   border,
   circle,
   color,
   colorAccent,
   colorBackground,
   colorBackgroundAccent,
+  gigsAPI,
+  gigsList,
   square,
 }) => {
-  const [gigs, setGigs] = useState({ loading: true, data: [] })
+  const [gigs, setGigs] = useState(
+    Array.isArray(gigsList) ? { loading: false, data: gigsList } : { loading: true, data: [] }
+  )
 
   useEffect(() => {
     if (gigs.loading) {
-      getGigs(api).then(data => {
+      getGigs(gigsAPI).then(data => {
         setGigs({ loading: false, data })
       })
     }
@@ -198,11 +199,7 @@ export const GigsBox = ({
        * Loading and no gigs message
        */}
 
-      <InfoContainer
-        color={color}
-        alignHorizontal={alignHorizontal}
-        active={!showGigs}
-      >
+      <InfoContainer color={color} alignHorizontal={alignHorizontal} active={!showGigs}>
         <AutoTextFit
           alignHorizontal={alignHorizontal}
           colorBackground={colorBackground}
@@ -211,8 +208,8 @@ export const GigsBox = ({
           <GigsTitle
             alignHorizontal={alignHorizontal}
             color={color}
-            title={api.title}
-            withLine={api.includeMonthTitle}
+            title={gigsAPI.title}
+            withLine={gigsAPI.includeMonthTitle}
           />
           <p>{gigs.loading ? 'Loading gigs ...' : 'No gigs found'}</p>
         </AutoTextFit>
@@ -235,20 +232,16 @@ export const GigsBox = ({
            * Gigs List
            */}
 
-          <GigsTitle alignHorizontal={alignHorizontal} title={api.title} />
+          <GigsTitle alignHorizontal={alignHorizontal} title={gigsAPI.title} />
           <GigList>
             {gigs.data.map(({ type, ...gig }, key) =>
               type === Type.MONTH ? (
-                <MonthItem
-                  key={key}
-                  month={gig}
-                  alignHorizontal={alignHorizontal}
-                />
+                <MonthItem key={key} month={gig} alignHorizontal={alignHorizontal} />
               ) : (
                 <GigItem
                   key={key}
                   alignHorizontal={alignHorizontal}
-                  showDay={api.includeMonthTitle}
+                  showDay={gigsAPI.includeMonthTitle}
                   gig={gig}
                 />
               )
@@ -259,12 +252,12 @@ export const GigsBox = ({
            * Show More
            */}
 
-          {api.includeShowMore && (
+          {gigsAPI.includeShowMore && (
             <ShowMoreContainer alignHorizontal={alignHorizontal}>
               <p>
                 <a
                   href={`https://api.optune.me/v4/events/${
-                    api.slug
+                    gigsAPI.slug
                   }?header=1&theme=black&ticketlinks=true`}
                   target="_blank"
                   rel="noopener noreferrer"

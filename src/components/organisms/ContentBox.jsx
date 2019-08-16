@@ -33,8 +33,7 @@ const getGridArea = (
 
   const isBottom =
     GridSize - endRow < startRow - 1 ||
-    (endRow === 6 &&
-      ['BOTTOM_CENTER', 'BOTTOM_LEFT', 'BOTTOM_RIGHT'].includes(linksPosition))
+    (endRow === 6 && ['BOTTOM_CENTER', 'BOTTOM_LEFT', 'BOTTOM_RIGHT'].includes(linksPosition))
   const positionV = isBottom ? 'bottom' : 'top'
 
   // Calculate vertical and horizontal margins and width
@@ -103,8 +102,7 @@ const ResponsiveContainer = styled.div`
   position: absolute;
   z-index: 3;
   
-  ${({ area, linksPosition, linksSize }) =>
-    getGridArea(area, linksPosition, linksSize)}
+  ${({ area, linksPosition, linksSize }) => getGridArea(area, linksPosition, linksSize)}
 
   @media ${MediaSmall} {
     min-width: 33.333vw;
@@ -137,6 +135,7 @@ export const ContentBox = ({ content, links }) => {
     colorBackground,
     colorBackgroundAccent,
     gigsAPI,
+    gigsList,
     media,
     position,
     span,
@@ -158,11 +157,12 @@ export const ContentBox = ({ content, links }) => {
     case 'GIGS':
       Content = (
         <GigsBox
-          api={gigsAPI}
+          alignHorizontal={alignHorizontal}
           border={border}
           circle={circle}
+          gigsAPI={gigsAPI}
+          gigsList={gigsList}
           square={square}
-          alignHorizontal={alignHorizontal}
           {...colors}
         />
       )
@@ -174,11 +174,7 @@ export const ContentBox = ({ content, links }) => {
 
     default:
       Content = (
-        <TextBox
-          {...colors}
-          wordWrap={wordWrap}
-          alignHorizontal={alignHorizontal}
-        >
+        <TextBox {...colors} wordWrap={wordWrap} alignHorizontal={alignHorizontal}>
           {renderHtml(text)}
         </TextBox>
       )
