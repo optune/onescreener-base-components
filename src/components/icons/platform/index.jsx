@@ -22,6 +22,8 @@ import { TumblrIcon } from './Tumblr.jsx'
 import { TwitterIcon } from './Twitter.jsx'
 import { YoutubeIcon } from './Youtube.jsx'
 
+import { MediaMobile } from '../../../style/media.js'
+
 export const PlatformLinkIcon = {
   // Optune Links
   OPTUNEARTISTPROFILE: ArtistProfileIcon,
@@ -46,12 +48,36 @@ export const PlatformLinkIcon = {
   TECHRIDER: TechRiderIcon,
 }
 
+const ShapeSize = {
+  Desktop: {
+    S: '3.6rem',
+    M: '4.4rem',
+    L: '5.2rem',
+  },
+  Mobile: {
+    S: '3.2rem',
+    M: '3.6rem',
+    L: '4rem',
+  },
+}
+
+const IconSize = {
+  Desktop: {
+    S: '1.8rem',
+    M: '2.4rem',
+    L: '3.0rem',
+  },
+  Mobile: {
+    S: '1.8rem',
+    M: '2.2rem',
+    L: '2.6rem',
+  },
+}
+
 const Link = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 3.6rem;
-  height: 3.6rem;
   padding: 0px;
   background-color: ${({ colorBackground }) => colorBackground};
   border-radius: ${({ circle, square }) =>
@@ -66,7 +92,15 @@ const Link = styled.div`
       : '0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 0 0 rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.05)'};
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out;
 
-  margin: 1rem;
+  width: ${({ size }) => ShapeSize.Desktop[size]};
+  height: ${({ size }) => ShapeSize.Desktop[size]};
+  margin: ${({ margin }) => margin || '1rem'};
+
+  @media ${MediaMobile} {
+    width: ${({ size }) => ShapeSize.Mobile[size]};
+    height: ${({ size }) => ShapeSize.Mobile[size]};
+    margin: ${({ margin }) => margin || '0.5rem'};
+  }
 
   &:hover:not(:focus) {
     background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
@@ -94,9 +128,16 @@ const Link = styled.div`
     }
   }
 `
-const LinkIconMapper = ({ platform }) => styled(PlatformLinkIcon[platform])`
-  width: 2rem;
-  height: 2rem;
+const LinkIconMapper = ({ platform, size = 'M' }) => styled(
+  PlatformLinkIcon[platform]
+)`
+  width: ${IconSize.Desktop[size]};
+  height: ${IconSize.Desktop[size]};
+
+  @media ${MediaMobile} {
+    width: ${IconSize.Mobile[size]};
+    height: ${IconSize.Mobile[size]};
+  }
 
   &.icon g {
     & path,
@@ -128,14 +169,22 @@ export const PlatformLink = ({
   colorAccent,
   colorBackground,
   colorBackgroundAccent,
+  label,
+  margin,
   noShadow,
   platform,
+  size,
   square,
   url,
 }) => {
-  const Icon = LinkIconMapper({ platform })
+  const Icon = LinkIconMapper({ platform, size })
   return (
-    <a href={url}>
+    <a
+      href={url}
+      alt={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <Link
         border={border}
         circle={circle}
@@ -143,7 +192,9 @@ export const PlatformLink = ({
         colorAccent={colorAccent}
         colorBackground={colorBackground}
         colorBackgroundAccent={colorBackgroundAccent}
+        margin={margin}
         noShadow
+        size={size || 'M'}
         square={square}
       >
         <Icon color={color} />
@@ -162,13 +213,14 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
     colorBackgroundAccent,
     onClick,
   }) => (
-    <a onClick={onClick}>
+    <a onClick={onClick} target="_blank" rel="noopener noreferrer">
       <Link
         border={border}
         color={color}
         colorAccent={colorAccent}
         colorBackground={colorBackground}
         colorBackgroundAccent={colorBackgroundAccent}
+        size="M"
       >
         <Icon color={color} />
       </Link>
@@ -190,7 +242,11 @@ export const Links = (links, content) =>
         border={links.border}
         circle={links.circle}
         square={links.square}
+        size={links.size}
+        color={content.color}
+        colorAccent={content.colorAccent}
+        colorBackground={content.colorBackground}
+        colorBackgroundAccent={content.colorBackgroundAccent}
         {...link}
-        {...content}
       />
     ))

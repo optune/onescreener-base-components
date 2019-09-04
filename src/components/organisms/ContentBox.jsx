@@ -13,50 +13,63 @@ import { renderHtml } from '../../utils/renderHtml.js'
 const GridSize = 6
 const GridUnit = 16.666 // = 100 : 6
 const MaxSpanMobile = 4 * GridUnit
-const LinkMargin = 5
+
+const LinkMargin = {
+  L: 9,
+  M: 7,
+  S: 5,
+}
+
+const round = a => a.toFixed(2)
 
 const getGridArea = (
   { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan },
-  linksPosition
+  linksPosition,
+  linksSize = 'M'
 ) => {
   // Decide if margin is calculated from top or bottom and left or right
   const isLeft = GridSize - endColumn >= startColumn - 1
   const positionH = isLeft ? 'left' : 'right'
 
-  const isTop = GridSize - endRow >= startRow - 1
-  const positionV = isTop ? 'top' : 'bottom'
+  const isBottom =
+    GridSize - endRow < startRow - 1 ||
+    (endRow === 6 && ['BOTTOM_CENTER', 'BOTTOM_LEFT', 'BOTTOM_RIGHT'].includes(linksPosition))
+  const positionV = isBottom ? 'bottom' : 'top'
 
   // Calculate vertical and horizontal margins and width
   const marginHUnit = isLeft ? startColumn - 1 : 6 - endColumn
   const marginH = (marginHUnit * GridUnit).toFixed(3)
 
-  const marginVUnit = isTop ? startRow - 1 : 6 - endRow
+  const marginVUnit = isBottom ? 6 - endRow : startRow - 1
   const marginV = (marginVUnit * GridUnit).toFixed(3)
 
   let marginVLinks = 0
   let marginHLinks = 0
+
+  const linkMargin = LinkMargin[linksSize]
 
   // Give extra margin if links are at same side as content
   switch (linksPosition) {
     case 'BOTTOM_CENTER':
     case 'BOTTOM_LEFT':
     case 'BOTTOM_RIGHT':
-      if (!isTop) marginVLinks += LinkMargin
+      if (isBottom && endRow === 6) marginVLinks += linkMargin
       break
     case 'CENTER_RIGHT':
-      if (!isLeft) marginHLinks += LinkMargin
+      if (!isLeft && endColumn === 6) marginHLinks += linkMargin
       break
     case 'CENTER_LEFT':
-      if (isLeft) marginHLinks += LinkMargin
+      if (isLeft && startColumn === 1) marginHLinks += linkMargin
       break
     default:
     // Do nothing
   }
 
-  const width = columnSpan * GridUnit
-  const widthCorrection = (columnSpan * (marginHLinks + 2)) / GridSize
-  const height = rowSpan * GridUnit
-  const heightCorrection = (rowSpan * (marginVLinks + 2)) / GridSize
+  const width = round(columnSpan * GridUnit)
+  const widthCorrection = round((columnSpan * (marginHLinks + 2)) / GridSize)
+
+  const height = round(rowSpan * GridUnit)
+  const heightCorrection = round((rowSpan * (marginVLinks + 2)) / GridSize)
 
   const area = `
     ${positionH}: calc(${marginH}vw + ${marginHLinks + 1}rem);
@@ -66,9 +79,9 @@ const getGridArea = (
 
     @media ${MediaMobile} {
       ${positionH}: calc(${marginH}vw + 1rem);
-      ${positionV}: calc(${marginV}vh + ${isTop ? 1 : LinkMargin + 1}rem);
+      ${positionV}: calc(${marginV}vh + ${isBottom ? linkMargin + 1 : 1}rem);
       width: calc(${width}vw - ${(columnSpan * 2) / GridSize}rem);
-      height: calc(${height}vh - ${(rowSpan * (LinkMargin + 2)) / GridSize}rem);
+      height: calc(${height}vh - ${(rowSpan * (linkMargin + 2)) / GridSize}rem);
     }
   `
 
@@ -89,7 +102,7 @@ const ResponsiveContainer = styled.div`
   position: absolute;
   z-index: 3;
   
-  ${({ area, linksPosition }) => getGridArea(area, linksPosition)}
+  ${({ area, linksPosition, linksSize }) => getGridArea(area, linksPosition, linksSize)}
 
   @media ${MediaSmall} {
     min-width: 33.333vw;
@@ -116,18 +129,20 @@ export const ContentBox = ({ content, links }) => {
    * Get content values
    */
   const {
+    alignHorizontal,
     color,
     colorAccent,
     colorBackground,
     colorBackgroundAccent,
     gigsAPI,
+    gigsList,
     media,
     position,
     span,
     text,
     type,
+    wordWrap,
   } = content
-  const { provider, slug } = gigsAPI || { provider: '', slug: '' }
   const colors = { color, colorAccent, colorBackground, colorBackgroundAccent }
   const area = getArea({ position, span })
   const { border, circle, square } = links
@@ -142,10 +157,11 @@ export const ContentBox = ({ content, links }) => {
     case 'GIGS':
       Content = (
         <GigsBox
-          api={provider}
+          alignHorizontal={alignHorizontal}
           border={border}
           circle={circle}
-          slug={slug}
+          gigsAPI={gigsAPI}
+          gigsList={gigsList}
           square={square}
           {...colors}
         />
@@ -157,7 +173,11 @@ export const ContentBox = ({ content, links }) => {
       break
 
     default:
-      Content = <TextBox {...colors}>{renderHtml(text)}</TextBox>
+      Content = (
+        <TextBox {...colors} wordWrap={wordWrap} alignHorizontal={alignHorizontal}>
+          {renderHtml(text)}
+        </TextBox>
+      )
       break
   }
 
@@ -167,6 +187,7 @@ export const ContentBox = ({ content, links }) => {
     <ResponsiveContainer
       area={area}
       linksPosition={links.list.length > 0 ? links.position : 'NONE'}
+      linksSize={links.size}
     >
       {Content}
     </ResponsiveContainer>

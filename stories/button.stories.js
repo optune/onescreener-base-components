@@ -6,9 +6,7 @@ import { action } from '@storybook/addon-actions'
 import { AnchorButton, Button, AddButton } from '../src/index.js'
 
 storiesOf('Atom/Buttons/Button', module)
-  .add('primary with text', () => (
-    <Button onClick={action('clicked')}>Hello Button</Button>
-  ))
+  .add('primary with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
   .add('primary with text and shadow', () => (
     <Button shadow onClick={action('clicked')}>
       Hello Button
@@ -55,8 +53,8 @@ storiesOf('Atom/Buttons/AnchorButton', module)
   ))
   .add('secondary with much more text', () => (
     <AnchorButton secondary>
-      <em>Next</em> is a great name for an AnchorButton. By the way, you could
-      click here, and try to copy it&#39;s text but nothing will happen!
+      <em>Next</em> is a great name for an AnchorButton. By the way, you could click here, and try
+      to copy it&#39;s text but nothing will happen!
     </AnchorButton>
   ))
   .add('secondary with text, a Link and shadow', () => (
@@ -72,6 +70,4 @@ storiesOf('Atom/Buttons/AnchorButton', module)
     </AnchorButton>
   ))
 
-storiesOf('Atom/Buttons/AddButton', module).add('addButton', () => (
-  <AddButton href="#" />
-))
+storiesOf('Atom/Buttons/AddButton', module).add('addButton', () => <AddButton href="#" />)

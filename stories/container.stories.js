@@ -18,8 +18,8 @@ storiesOf('Atom/Container/Center', module)
       <CenterContainer column={boolean('Column', false)}>
         <Button>Left</Button>
         <p>
-          Text Lorem ipsum whatever you like to read here it should be
-          reaaaaally long and have <a href="#">Links</a> and such.
+          Text Lorem ipsum whatever you like to read here it should be reaaaaally long and have{' '}
+          <a href="#">Links</a> and such.
           <br />
           And also Linebreaks
         </p>
@@ -38,8 +38,8 @@ storiesOf('Atom/Container/Center', module)
       <div>
         <Button>Left</Button>
         <p>
-          Text Lorem ipsum whatever you like to read here it should be
-          reaaaaally long and have <a href="#">Links</a> and such.
+          Text Lorem ipsum whatever you like to read here it should be reaaaaally long and have{' '}
+          <a href="#">Links</a> and such.
           <br />
           And also Linebreaks
         </p>
@@ -59,8 +59,8 @@ storiesOf('Atom/Container/Content', module).add('primary with text', () => (
     <h1>Header</h1>
     <Button>Top</Button>
     <p>
-      Text Lorem ipsum whatever you like to read here it should be reaaaaally
-      long and have <AnchorButton href="#">Links</AnchorButton> and such.
+      Text Lorem ipsum whatever you like to read here it should be reaaaaally long and have{' '}
+      <AnchorButton href="#">Links</AnchorButton> and such.
       <br />
       And also Linebreaks
     </p>

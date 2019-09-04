@@ -1,11 +1,15 @@
 import 'isomorphic-fetch' // makes fetch() available
-import { has, map, slice, pipe as _ } from 'ramda'
-import { optune, bandsintown, gigatools } from './apis.js'
+import { ApiProviders } from './apis/index.js'
+import { transformVenue } from './utils/transformVenue.js'
 
-const fetchEventsAPIResponse = async url =>
+export const Type = {
+  MONTH: 'month',
+  GIG: 'gig',
+}
+
+const fetchGigs = url =>
   new Promise((resolve, reject) => {
     let res = { ok: false }
-
     try {
       fetch(url).then(res => {
         try {
@@ -21,53 +25,56 @@ const fetchEventsAPIResponse = async url =>
     }
   })
 
-const ApiProviders = {
-  OPTUNE: optune,
-  BANDSINTOWN: bandsintown,
-  GIGATOOLS: gigatools,
+const transformGigs = api => includeMonthTitle => events => {
+  const gigs = []
+
+  let previousYear = 0
+  let previousMonth = 0
+
+  events
+    .map(api.transformEvent)
+    .map(transformVenue)
+    .sort((a, b) => a.startDate.date - b.startDate.date)
+    .forEach(event => {
+      if (includeMonthTitle) {
+        const { year, month } = event.startDate
+
+        if (year > previousYear || month > previousMonth) {
+          gigs.push({
+            type: Type.MONTH,
+            year,
+            month,
+          })
+          previousYear = year
+          previousMonth = month
+        }
+      }
+
+      gigs.push({
+        type: Type.GIG,
+        ...event,
+      })
+    })
+
+  return gigs
 }
 
-const transformVenue = ({ startDate, title, venue, website }) => {
-  console.log(title, website)
-  const { name, city } =
-    venue ||
-    [{ name: null, city: null }]
-      .filter(venue => venue)
-      .reduce(
-        (acc, cur, idx) =>
-          idx === 0 && {
-            ...acc,
-            ...cur,
-          },
-        { name: 'unknown', city: 'unknown' }
-      )
+export const getGigs = async ({
+  provider,
+  slug,
+  limit,
+  includeMonthTitle,
+  includePast,
+  ...other
+}) => {
+  const api = ApiProviders[provider]
 
-  return {
-    startDate,
-    title,
-    venue: {
-      name,
-      city,
-    },
-    website,
-  }
-}
-
-export const getGigs = async ({ api, slug, limit }) => {
-  const Api = ApiProviders[api]
-
-  const transforms = _(Api.transformEvent, transformVenue)
-
-  const data = await fetchEventsAPIResponse(Api.url(slug)).catch(error => {
-    throw error
+  const data = await fetchGigs(api.url(slug, limit, includePast)).catch(() => {
+    return []
   })
 
   // result should always be an array with plain events
-  const result = has('extractEvents')(Api) ? Api.extractEvents(data) : data
-  console.log(result)
-  const mappedResult = map(transforms, slice(0, limit)(result))
+  const gigs = !!api.extractEvents ? api.extractEvents(data) : data
 
-  return mappedResult
-
-  // limit client side since not all APIs have a number based limit for events
+  return transformGigs(api)(includeMonthTitle)(gigs)
 }

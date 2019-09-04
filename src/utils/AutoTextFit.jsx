@@ -1,12 +1,30 @@
-import React, { useState, useEffect } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const AutoFitTextContainer = styled.div`
+const HorizontalAlignment = {
+  CENTER_LEFT: 'flex-start',
+  CENTER_CENTER: 'center',
+  CENTER_RIGHT: 'flex-end',
+}
+
+const TextContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+  opacity: ${({ show }) => (show ? 1 : 0.1)};
+  transition: opacity 0.3s;
+
   display: flex;
+  justify-content: ${({ alignHorizontal = 'CENTER_LEFT' }) =>
+    HorizontalAlignment[alignHorizontal]};
+`
+
+const TextContent = styled.div`
+  max-width: 100%;
+  padding: 1em 2em;
+  background-color: ${({ colorBackground }) =>
+    colorBackground || 'transparent'};
 `
 
 const DEFAULTS = {
@@ -37,7 +55,7 @@ const updateFontSize = (
   const inBounds = () => {
     return (
       parentHeight >= element.scrollHeight &&
-      (!includeWidth || parentWidth >= element.scrollWidth)
+      (!includeWidth || parentWidth > element.scrollWidth)
     )
   }
 
@@ -86,46 +104,76 @@ const updateFontSize = (
   return
 }
 
-export const AutoTextFit = ({ children, ...options }) => {
-  let TextContainer = React.createRef()
-  const [initialized, setInitialized] = useState(false)
-  const [resizing, setResizing] = useState(false)
-  const [windowSize, setWindowSize] = useState(
-    `${window.innerWidth}/${window.innerHeight}`
-  )
+export class AutoTextFit extends Component {
+  constructor(props) {
+    super(props)
 
-  useEffect(() => {
-    if (!resizing) {
-      setResizing(true)
-      const element = TextContainer.current
-      updateFontSize(element, options)
-      return () => setResizing(false)
+    this.state = {
+      ssrDone: false,
+      resized: true,
     }
-  }, [windowSize])
 
-  // Add window resize listener
-  useEffect(() => {
-    const setNewWindowSize = () =>
-      setWindowSize(`${window.innerWidth}/${window.innerHeight}`)
-    window.addEventListener('resize', setNewWindowSize)
-    setInitialized(true)
-    return () => window.removeEventListener('resize', setNewWindowSize)
-  }, [initialized])
+    this.setNewWindowSize = this.setNewWindowSize.bind(this)
+    this.TextRef = createRef()
+  }
 
-  return (
-    <AutoFitTextContainer>
-      <div ref={TextContainer}>{children}</div>
-    </AutoFitTextContainer>
-  )
+  setNewWindowSize() {
+    this.setState({ resized: false })
+  }
+
+  componentDidMount() {
+    // Add window resize listener
+    window.addEventListener('resize', this.setNewWindowSize)
+
+    this.setState({ ssrDone: true, resized: false })
+  }
+
+  componentDidUpdate() {
+    const { ssrDone, resized } = this.state
+
+    if (ssrDone && !resized) {
+      // Resize text if window size is set or changes
+      const { maxFontSize, minFontSize, step, includeWidth } = this.props
+      const options = { maxFontSize, minFontSize, step, includeWidth }
+      const element = this.TextRef.current
+
+      updateFontSize(element, options)
+
+      this.setState({ resized: true })
+    }
+  }
+
+  render() {
+    const { alignHorizontal, children, colorBackground, padding } = this.props
+    const { ssrDone, resized } = this.state
+
+    return (
+      <TextContainer
+        show={ssrDone && resized}
+        alignHorizontal={alignHorizontal}
+      >
+        <TextContent ref={this.TextRef} colorBackground={colorBackground}>
+          {children}
+          {/* Give some space at the end */}
+          <p>
+            <br />
+          </p>
+        </TextContent>
+      </TextContainer>
+    )
+  }
 }
 
 AutoTextFit.propTypes = {
-  step: PropTypes.number,
+  alignHorizontal: PropTypes.oneOf(Object.keys(HorizontalAlignment)),
+  children: PropTypes.node,
+  colorBackground: PropTypes.string,
+  includeWidth: PropTypes.bool,
   maxFontSize: PropTypes.number,
   minFontSize: PropTypes.number,
   onResize: PropTypes.bool,
-  includeWidth: PropTypes.bool,
-  children: PropTypes.node,
+  padding: PropTypes.string,
+  step: PropTypes.number,
 }
 
 AutoTextFit.defaultProps = DEFAULTS
