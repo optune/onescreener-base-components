@@ -52,46 +52,52 @@ const BackLink = styled.a`
 `
 
 export const Page = ({ page, noBacklink }) => {
-  const { background, logo, content, gigAPI } = page
-  const { links } = page || { links: { list: [] } }
+  let PageComponent = null
+  
+  if (page) {
+    const { background, logo, content, gigAPI } = page
+    const { links } = page || { links: { list: [] } }
 
-  return (
-    <Fragment>
-      <GlobalStyle />
-      <PageContainer
-        image={background.image && background.image.url}
-        focusPoint={background.focusPoint}
-        fullscreen={background.fullscreen}
-        color={background.color}
-      >
-        {/* Back Link to onescreener.com */}
-        {!noBacklink && (
-          <BackLink
-            href="https://www.onescreener.com"
-            target="_blank"
-            title="created with onescreener.com"
-          >
-            <h1>created by onescreener.com</h1>
-          </BackLink>
-        )}
+    PageComponent = (
+      <Fragment>
+        <GlobalStyle />
+        <PageContainer
+          image={background.image && background.image.url}
+          focusPoint={background.focusPoint}
+          fullscreen={background.fullscreen}
+          color={background.color}
+        >
+          {/* Back Link to onescreener.com */}
+          {!noBacklink && (
+            <BackLink
+              href="https://www.onescreener.com"
+              target="_blank"
+              title="created with onescreener.com"
+            >
+              <h1>created by onescreener.com</h1>
+            </BackLink>
+          )}
 
-        {/* Logo */}
-        {logo && logo.image && (
-          <LogoBox position={logo.position} zIndex={2}>
-            <Logo logo={logo} />
-          </LogoBox>
-        )}
+          {/* Logo */}
+          {logo && logo.image && (
+            <LogoBox position={logo.position} zIndex={2}>
+              <Logo logo={logo} />
+            </LogoBox>
+          )}
 
-        {/* Logo */}
-        <ContentBox content={content} links={links} />
+          {/* Logo */}
+          <ContentBox content={content} links={links} />
 
-        {/* Links */}
-        {links.list.length > 0 && (
-          <LinksBox position={links.position} zIndex={4}>
-            {Links(links, content)}
-          </LinksBox>
-        )}
-      </PageContainer>
-    </Fragment>
-  )
+          {/* Links */}
+          {links.list.length > 0 && (
+            <LinksBox position={links.position} zIndex={4}>
+              {Links(links, content)}
+            </LinksBox>
+          )}
+        </PageContainer>
+      </Fragment>
+    )
+  }
+
+  return PageComponent
 }
