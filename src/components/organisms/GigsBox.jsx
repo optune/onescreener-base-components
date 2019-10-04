@@ -8,6 +8,8 @@ import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
 
 import { getGigs, Type } from '../../api/gigs/index.js'
 
+import { MediaSmall } from '../../style/media.js'
+
 const TextAlign = {
   CENTER_LEFT: 'left',
   CENTER_CENTER: 'center',
@@ -42,6 +44,12 @@ const InfoContainer = styled.div`
     margin 1em 0;
     padding: 0;
     border: none;
+  }
+
+  @media ${MediaSmall} {
+    & p, span {
+      white-space: wrap;
+    }
   }
 
   & h2 {
@@ -95,28 +103,6 @@ const ShowMoreContainer = styled.div`
     text-align: ${({ alignHorizontal }) => TextAlign[alignHorizontal]};
   }
 `
-
-// const ShowMoreButton = styled.button`
-//   font-size: 1em;
-//   line-height: 1em;
-//   width: auto;
-//   margin: 0.5em auto;
-//   padding: 0.5em 1.8em 0.5em 2.2em;
-//   border-color: ${({ color }) => color || 'transparent'};
-//   border-width: ${({ border }) => border / 10}rem;
-//   border-style: solid;
-//   border-radius: ${({ square, circle }) =>
-//     (circle && '1em') || (square && 0) || '0.4rem'};
-//   color: ${({ color }) => color};
-//   background-color: transparent;
-//   transition: color 0.3s, background-color 0.3s, border 0.3s;
-
-//   :hover {
-//     color: ${({ colorAccent }) => colorAccent};
-//     border-color: ${({ colorAccent }) => colorAccent};
-//     background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
-//   }
-// `
 
 const GigsTitle = ({ title, alignHorizontal, withLine }) => (
   <Fragment>
