@@ -172,13 +172,16 @@ export const ContentBox = ({ content, links }) => {
       fullscreen = media.fullscreen
       break
 
-    default:
+    case 'TEXT':
       Content = (
         <TextBox {...colors} wordWrap={wordWrap} alignHorizontal={alignHorizontal}>
           {renderHtml(text)}
         </TextBox>
       )
       break
+
+    default:
+      Content = null
   }
 
   return fullscreen ? (
