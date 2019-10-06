@@ -2,7 +2,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
+// Social Icons
 import { AboutIcon } from './About.jsx'
+import { AmazonIcon } from './Amazon.jsx'
+import { AppleMusicIcon } from './AppleMusic.jsx'
 import { ArtistProfileIcon } from './ArtistProfile.jsx'
 import { RequestFormIcon } from './RequestForm.jsx'
 import { PressKitIcon } from './PressKit.jsx'
@@ -11,6 +14,7 @@ import { BandcampIcon } from './Bandcamp.jsx'
 import { BiographyIcon } from './Biography.jsx'
 import { FacebookIcon } from './Facebook.jsx'
 import { InstagramIcon } from './Instagram.jsx'
+import { ITunesIcon } from './ITunes.jsx'
 import { LastFMIcon } from './LastFM.jsx'
 import { MailIcon } from './Mail.jsx'
 import { MixcloudIcon } from './Mixcloud.jsx'
@@ -21,7 +25,14 @@ import { TechRiderIcon } from './TechRider.jsx'
 import { TumblrIcon } from './Tumblr.jsx'
 import { TwitterIcon } from './Twitter.jsx'
 import { YoutubeIcon } from './Youtube.jsx'
+import { VimeoIcon } from './Vimeo.jsx'
 
+// Miscellaneous Icons
+import { MiscStarIcon } from './MiscStar.jsx'
+import { MiscHeartIcon } from './MiscHeart.jsx'
+import { MiscShoppingIcon } from './MiscShopping.jsx'
+
+// Media Query
 import { MediaMobile } from '../../../style/media.js'
 
 export const PlatformLinkIcon = {
@@ -30,9 +41,12 @@ export const PlatformLinkIcon = {
   OPTUNEBOOKINGS: GigsIcon,
   OPTUNEREQUESTFORM: RequestFormIcon,
   // Platform Links
+  AMAZON: AmazonIcon,
+  APPLEMUSIC: AppleMusicIcon,
   BANDCAMP: BandcampIcon,
   FACEBOOK: FacebookIcon,
   INSTAGRAM: InstagramIcon,
+  ITUNES: ITunesIcon,
   LASTFM: LastFMIcon,
   MIXCLOUD: MixcloudIcon,
   SOUNDCLOUD: SoundcloudIcon,
@@ -40,6 +54,12 @@ export const PlatformLinkIcon = {
   TUMBLR: TumblrIcon,
   TWITTER: TwitterIcon,
   YOUTUBE: YoutubeIcon,
+  VIMEO: VimeoIcon,
+  // Miscellaneous Icons
+  HEART: MiscHeartIcon,
+  STAR: MiscStarIcon,
+  SHOPPING: MiscShoppingIcon,
+
   // Content (URL) Links
   ABOUT: AboutIcon,
   BIOGRAPHY: BiographyIcon,
@@ -80,8 +100,7 @@ const Link = styled.div`
   align-items: center;
   padding: 0px;
   background-color: ${({ colorBackground }) => colorBackground};
-  border-radius: ${({ circle, square }) =>
-    (circle && '50%') || (square && 'none') || '0.4rem'};
+  border-radius: ${({ circle, square }) => (circle && '50%') || (square && 'none') || '0.4rem'};
   border-color: ${({ color }) => color || 'transparent'};
   border-width: ${({ border }) => border / 10}rem;
   border-style: solid;
@@ -128,9 +147,7 @@ const Link = styled.div`
     }
   }
 `
-const LinkIconMapper = ({ platform, size = 'M' }) => styled(
-  PlatformLinkIcon[platform]
-)`
+const LinkIconMapper = ({ platform, size = 'M' }) => styled(PlatformLinkIcon[platform])`
   width: ${IconSize.Desktop[size]};
   height: ${IconSize.Desktop[size]};
 

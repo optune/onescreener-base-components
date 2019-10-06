@@ -4,57 +4,14 @@ import React from 'react'
 import { toSquidInkIcon, defaultStrokeFill } from '../mixins/toSquidInkIcon.jsx'
 
 export const BiographyIcon = toSquidInkIcon(() => (
-  <g id="Layer_1">
+  <g id="leaf">
+    <path {...defaultStrokeFill} d="M45,2C21.9721107,7.8791499,6,46,6,46" />
     <path
       {...defaultStrokeFill}
-      d="M36,46H11c-3.865993,0-7-3.1340065-7-7V6.5202589C4,4.0237889,6.0237889,2,8.5202589,2H12"
+      d="M9,40c0,0-5.1806107-6.5883141-2-16c0,0,0.2217793,6.5537853,2,8c0,0-2.936255-7.1195221,3-14C20.3549213,8.3161421,34.0610886,1.3014609,46,2c0,0-13.8472252,18.5241756-18,25C19.0119514,41.0159378,11.7410355,42.1088982,9,40"
     />
-    <path
-      {...defaultStrokeFill}
-      d="M30,2H8.4999952C6.0147166,2,4,4.0147166,4,6.4999957v0.0000086C4,8.9852839,6.0147166,11,8.4999952,11H30"
-    />
-
-    <line {...defaultStrokeFill} x1="9" y1="5" x2="30" y2="5" />
-    <line {...defaultStrokeFill} x1="9" y1="8" x2="30" y2="8" />
-    <line {...defaultStrokeFill} x1="9" y1="11" x2="9" y2="45" />
-
-    <g>
-      <rect
-        x="34"
-        y="9.3431454"
-        {...defaultStrokeFill}
-        width="12"
-        height="26.3137093"
-      />
-
-      <line
-        {...defaultStrokeFill}
-        x1="38"
-        y1="35.6568565"
-        x2="38"
-        y2="9.3431463"
-      />
-      <line
-        {...defaultStrokeFill}
-        x1="42"
-        y1="35.6568565"
-        x2="42"
-        y2="9.3431463"
-      />
-
-      <path
-        {...defaultStrokeFill}
-        d="M34,9.3431463V4.8710966c0-1.9484332,1.5795174-3.5279503,3.5279503-3.5279503h4.9440994C44.4204826,1.3431462,46,2.9226635,46,4.8710966v4.4720497"
-      />
-
-      <polyline
-        {...defaultStrokeFill}
-        points="34,35.6568565 40,46.6568565 46,35.6568565     "
-      />
-
-      <line {...defaultStrokeFill} x1="37" y1="41" x2="43" y2="41" />
-    </g>
-
-    <polyline {...defaultStrokeFill} points="29,18 18,18 18,29 29,29   " />
+    <path {...defaultStrokeFill} d="M16,28c0,0,6.9070377,1.9907036,11,0" />
+    <path {...defaultStrokeFill} d="M18,25c0,0,6.9070377,1.9907036,11,0" />
+    <path {...defaultStrokeFill} d="M22,18c0,0-2.4970016-4.1559143-1-8" />
   </g>
 ))
