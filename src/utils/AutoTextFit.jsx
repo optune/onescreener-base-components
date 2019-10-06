@@ -16,15 +16,13 @@ const TextContainer = styled.div`
   transition: opacity 0.3s;
 
   display: flex;
-  justify-content: ${({ alignHorizontal = 'CENTER_LEFT' }) =>
-    HorizontalAlignment[alignHorizontal]};
+  justify-content: ${({ alignHorizontal = 'CENTER_LEFT' }) => HorizontalAlignment[alignHorizontal]};
 `
 
 const TextContent = styled.div`
   max-width: 100%;
   padding: 1em 2em;
-  background-color: ${({ colorBackground }) =>
-    colorBackground || 'transparent'};
+  background-color: ${({ colorBackground }) => colorBackground || 'transparent'};
 `
 
 const DEFAULTS = {
@@ -41,10 +39,7 @@ const DEFAULTS = {
   includeWidth: false,
 }
 
-const updateFontSize = (
-  element,
-  { maxFontSize, minFontSize, step, includeWidth }
-) => {
+const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth }) => {
   const style = window.getComputedStyle(element)
   let fontSize = parseInt(style.fontSize)
   let fontSizeCandidate = maxFontSize
@@ -54,8 +49,7 @@ const updateFontSize = (
 
   const inBounds = () => {
     return (
-      parentHeight >= element.scrollHeight &&
-      (!includeWidth || parentWidth > element.scrollWidth)
+      parentHeight >= element.scrollHeight && (!includeWidth || parentWidth > element.scrollWidth)
     )
   }
 
@@ -148,10 +142,7 @@ export class AutoTextFit extends Component {
     const { ssrDone, resized } = this.state
 
     return (
-      <TextContainer
-        show={ssrDone && resized}
-        alignHorizontal={alignHorizontal}
-      >
+      <TextContainer show={ssrDone && resized} alignHorizontal={alignHorizontal}>
         <TextContent ref={this.TextRef} colorBackground={colorBackground}>
           {children}
           {/* Give some space at the end */}

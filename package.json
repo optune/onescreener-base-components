@@ -120,7 +120,8 @@
     "dateformat": "^3.0.3",
     "isomorphic-fetch": "^2.2.1",
     "react-html-parser": "^2.0.2",
-    "react-player": "^1.11.0"
+    "react-player": "^1.11.0",
+    "react-responsive": "^8.0.1"
   },
   "peerDependencies": {
     "react": "^16.8.6",

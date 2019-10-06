@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { useMediaQuery } from 'react-responsive'
 
 import { TextBox } from './TextBox.jsx'
 
@@ -20,17 +21,13 @@ const InfoContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  padding: 1rem 2rem;
   overflow: hidden;
   opacity: ${({ active }) => (active ? 1 : 0)};
   transition: opacity 0.3s ease-out;
 
-  & h2,
-  p,
-  span {
+  & h2, p, span {
     font-size: 1em;
     color: ${({ color }) => color};
-    white-space: nowrap;
     text-align: ${({ alignHorizontal }) => TextAlign[alignHorizontal]};
     line-height: 1.4;
     margin: 0 0 0.1em;
@@ -44,12 +41,6 @@ const InfoContainer = styled.div`
     margin 1em 0;
     padding: 0;
     border: none;
-  }
-
-  @media ${MediaSmall} {
-    & p, span {
-      white-space: wrap;
-    }
   }
 
   & h2 {
@@ -179,6 +170,8 @@ export const GigsBox = ({
 
   const showGigs = !gigs.loading && gigs.data.length > 0
 
+  const isSmall = useMediaQuery({ query: MediaSmall })
+
   return (
     <Fragment>
       {/*
@@ -212,7 +205,7 @@ export const GigsBox = ({
           colorAccent={colorAccent}
           colorBackground={colorBackground}
           colorBackgroundAccent={colorBackgroundAccent}
-          wordWrap={false}
+          wordWrap={isSmall}
         >
           {/*
            * Gigs List
