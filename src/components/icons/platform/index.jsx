@@ -109,7 +109,8 @@ const Link = styled.div`
     noShadow
       ? 'none'
       : '0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 0 0 rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.05)'};
-  transition: border-color 0.25s ease-out, background-color 0.25s ease-out;
+  color: ${({ color }) => color};
+  transition: border-color 0.25s ease-out, background-color 0.25s ease-out, color 0.25s ease-out;
 
   width: ${({ size }) => ShapeSize.Desktop[size]};
   height: ${({ size }) => ShapeSize.Desktop[size]};
@@ -124,6 +125,7 @@ const Link = styled.div`
   &:hover:not(:focus) {
     background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
     border-color: ${({ colorAccent }) => colorAccent};
+    color: ${({ colorAccent }) => colorAccent};
 
     & .icon g {
       & path,
@@ -198,7 +200,7 @@ export const PlatformLink = ({
   return (
     <a
       href={url}
-      alt={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
+      title={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -214,7 +216,7 @@ export const PlatformLink = ({
         size={size || 'M'}
         square={square}
       >
-        <Icon color={color} />
+        <Icon color={color} size={size} />
       </Link>
     </a>
   )
