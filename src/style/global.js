@@ -13,11 +13,11 @@ export default createGlobalStyle`
     font-size: 14px;
 
     @media ${MediaSmall} {
-      font-size: 14px;
+      font-size: 12px;
     }
 
     @media ${MediaMobile} {
-      font-size: 14px;
+      font-size: 10px;
     }
   }
 
