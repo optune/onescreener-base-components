@@ -156,6 +156,13 @@ export const GigsBox = ({
   gigsList,
   square,
 }) => {
+  // SSR State
+  const [ssrDone, setSsrDone] = useState(false)
+  useEffect(() => {
+    if (!ssrDone) setSsrDone(true)
+  }, [ssrDone])
+
+  // Gigs State
   const [gigs, setGigs] = useState(
     Array.isArray(gigsList) ? { loading: false, data: gigsList } : { loading: true, data: [] }
   )
@@ -166,10 +173,11 @@ export const GigsBox = ({
         setGigs({ loading: false, data })
       })
     }
-  })
+  }, [gigs.loading])
 
   const showGigs = !gigs.loading && gigs.data.length > 0
 
+  // Media Query
   const isSmall = useMediaQuery({ query: MediaSmall })
 
   return (
@@ -205,7 +213,7 @@ export const GigsBox = ({
           colorAccent={colorAccent}
           colorBackground={colorBackground}
           colorBackgroundAccent={colorBackgroundAccent}
-          wordWrap={isSmall}
+          wordWrap={ssrDone && isSmall}
         >
           {/*
            * Gigs List
