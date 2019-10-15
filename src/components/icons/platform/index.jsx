@@ -94,6 +94,10 @@ const IconSize = {
   },
 }
 
+const LinkWrapper = styled.a`
+  text-decoration: none;
+`
+
 const Link = styled.div`
   display: flex;
   justify-content: center;
@@ -198,7 +202,7 @@ export const PlatformLink = ({
 }) => {
   const Icon = LinkIconMapper({ platform, size })
   return (
-    <a
+    <LinkWrapper
       href={url}
       title={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
       target="_blank"
@@ -218,7 +222,7 @@ export const PlatformLink = ({
       >
         <Icon color={color} size={size} />
       </Link>
-    </a>
+    </LinkWrapper>
   )
 }
 
@@ -232,7 +236,7 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
     colorBackgroundAccent,
     onClick,
   }) => (
-    <a onClick={onClick} target="_blank" rel="noopener noreferrer">
+    <LinkWrapper onClick={onClick} target="_blank" rel="noopener noreferrer">
       <Link
         border={border}
         color={color}
@@ -243,7 +247,7 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
       >
         <Icon color={color} />
       </Link>
-    </a>
+    </LinkWrapper>
   )
 
   return {

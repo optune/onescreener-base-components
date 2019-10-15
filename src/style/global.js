@@ -33,4 +33,17 @@ export default createGlobalStyle`
     font-family: 'CeraPRO-Regular', Helvetica, sans-serif;
     line-height: normal;
   }
+
+  h1, h2, h3, h4, h5, p, li, ul, i, span, b {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+  }
+
+  ol, ul {
+    list-style: none;
+  }
 `
