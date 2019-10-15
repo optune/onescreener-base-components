@@ -108,6 +108,11 @@ const ResponsiveContainer = styled.div`
     min-width: 33.333vw;
     min-height: 33.333vw;
   }
+
+  @media ${MediaMobile} {
+    min-width: 66.666vw;
+    min-height: 66.666vw;
+  }
 `
 
 const getArea = ({ position, span }) => {
