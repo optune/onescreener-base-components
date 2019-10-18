@@ -5,7 +5,7 @@ import { MediaSmall, MediaMobile } from './media.js'
 // FIXME: make sure fonts load in browser
 export default createGlobalStyle`
   @font-face {
-    font-family: 'Brandon Text Regular', sans-serif;
+    font-family: 'CeraPRO-Regular', Helvetica, sans-serif;
     src: url(/fonts/brandon-text-regular.woff2);
   }
 
@@ -30,7 +30,20 @@ export default createGlobalStyle`
     justify-content: center;
     /* define grid layout desktop main mode */
     width: 100%;
-    font-family: 'Brandon Text Regular', sans-serif;
+    font-family: 'CeraPRO-Regular', Helvetica, sans-serif;
     line-height: normal;
+  }
+
+  h1, h2, h3, h4, h5, p, li, ul, i, span, b {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+  }
+
+  ol, ul {
+    list-style: none;
   }
 `

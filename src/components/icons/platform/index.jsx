@@ -2,7 +2,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
+// Social Icons
 import { AboutIcon } from './About.jsx'
+import { AmazonIcon } from './Amazon.jsx'
+import { AppleMusicIcon } from './AppleMusic.jsx'
 import { ArtistProfileIcon } from './ArtistProfile.jsx'
 import { RequestFormIcon } from './RequestForm.jsx'
 import { PressKitIcon } from './PressKit.jsx'
@@ -11,6 +14,7 @@ import { BandcampIcon } from './Bandcamp.jsx'
 import { BiographyIcon } from './Biography.jsx'
 import { FacebookIcon } from './Facebook.jsx'
 import { InstagramIcon } from './Instagram.jsx'
+import { ITunesIcon } from './ITunes.jsx'
 import { LastFMIcon } from './LastFM.jsx'
 import { MailIcon } from './Mail.jsx'
 import { MixcloudIcon } from './Mixcloud.jsx'
@@ -21,7 +25,14 @@ import { TechRiderIcon } from './TechRider.jsx'
 import { TumblrIcon } from './Tumblr.jsx'
 import { TwitterIcon } from './Twitter.jsx'
 import { YoutubeIcon } from './Youtube.jsx'
+import { VimeoIcon } from './Vimeo.jsx'
 
+// Miscellaneous Icons
+import { MiscStarIcon } from './MiscStar.jsx'
+import { MiscHeartIcon } from './MiscHeart.jsx'
+import { MiscShoppingIcon } from './MiscShopping.jsx'
+
+// Media Query
 import { MediaMobile } from '../../../style/media.js'
 
 export const PlatformLinkIcon = {
@@ -30,9 +41,12 @@ export const PlatformLinkIcon = {
   OPTUNEBOOKINGS: GigsIcon,
   OPTUNEREQUESTFORM: RequestFormIcon,
   // Platform Links
+  AMAZON: AmazonIcon,
+  APPLEMUSIC: AppleMusicIcon,
   BANDCAMP: BandcampIcon,
   FACEBOOK: FacebookIcon,
   INSTAGRAM: InstagramIcon,
+  ITUNES: ITunesIcon,
   LASTFM: LastFMIcon,
   MIXCLOUD: MixcloudIcon,
   SOUNDCLOUD: SoundcloudIcon,
@@ -40,6 +54,12 @@ export const PlatformLinkIcon = {
   TUMBLR: TumblrIcon,
   TWITTER: TwitterIcon,
   YOUTUBE: YoutubeIcon,
+  VIMEO: VimeoIcon,
+  // Miscellaneous Icons
+  HEART: MiscHeartIcon,
+  STAR: MiscStarIcon,
+  SHOPPING: MiscShoppingIcon,
+
   // Content (URL) Links
   ABOUT: AboutIcon,
   BIOGRAPHY: BiographyIcon,
@@ -74,14 +94,17 @@ const IconSize = {
   },
 }
 
+const LinkWrapper = styled.a`
+  text-decoration: none;
+`
+
 const Link = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0px;
   background-color: ${({ colorBackground }) => colorBackground};
-  border-radius: ${({ circle, square }) =>
-    (circle && '50%') || (square && 'none') || '0.4rem'};
+  border-radius: ${({ circle, square }) => (circle && '50%') || (square && 'none') || '0.4rem'};
   border-color: ${({ color }) => color || 'transparent'};
   border-width: ${({ border }) => border / 10}rem;
   border-style: solid;
@@ -90,7 +113,8 @@ const Link = styled.div`
     noShadow
       ? 'none'
       : '0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 0 0 rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.05)'};
-  transition: border-color 0.25s ease-out, background-color 0.25s ease-out;
+  color: ${({ color }) => color};
+  transition: border-color 0.25s ease-out, background-color 0.25s ease-out, color 0.25s ease-out;
 
   width: ${({ size }) => ShapeSize.Desktop[size]};
   height: ${({ size }) => ShapeSize.Desktop[size]};
@@ -105,6 +129,7 @@ const Link = styled.div`
   &:hover:not(:focus) {
     background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
     border-color: ${({ colorAccent }) => colorAccent};
+    color: ${({ colorAccent }) => colorAccent};
 
     & .icon g {
       & path,
@@ -128,9 +153,7 @@ const Link = styled.div`
     }
   }
 `
-const LinkIconMapper = ({ platform, size = 'M' }) => styled(
-  PlatformLinkIcon[platform]
-)`
+const LinkIconMapper = ({ platform, size = 'M' }) => styled(PlatformLinkIcon[platform])`
   width: ${IconSize.Desktop[size]};
   height: ${IconSize.Desktop[size]};
 
@@ -179,9 +202,9 @@ export const PlatformLink = ({
 }) => {
   const Icon = LinkIconMapper({ platform, size })
   return (
-    <a
+    <LinkWrapper
       href={url}
-      alt={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
+      title={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -197,9 +220,9 @@ export const PlatformLink = ({
         size={size || 'M'}
         square={square}
       >
-        <Icon color={color} />
+        <Icon color={color} size={size} />
       </Link>
-    </a>
+    </LinkWrapper>
   )
 }
 
@@ -213,7 +236,7 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
     colorBackgroundAccent,
     onClick,
   }) => (
-    <a onClick={onClick} target="_blank" rel="noopener noreferrer">
+    <LinkWrapper onClick={onClick} target="_blank" rel="noopener noreferrer">
       <Link
         border={border}
         color={color}
@@ -224,7 +247,7 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
       >
         <Icon color={color} />
       </Link>
-    </a>
+    </LinkWrapper>
   )
 
   return {

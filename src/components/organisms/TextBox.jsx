@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import styled, { css, keyframes } from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
-import { MediaSmall } from '../../style/media.js'
 import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
 
 const FadeIn = keyframes`
@@ -92,11 +91,7 @@ export const TextBox = ({
 }) => (
   <TextBackground>
     <Text colorPrimary={color} colorAccent={colorAccent} wordWrap={wordWrap}>
-      <AutoTextFit
-        colorBackground={colorBackground}
-        includeWidth={!wordWrap}
-        {...otherOptions}
-      >
+      <AutoTextFit colorBackground={colorBackground} includeWidth={!wordWrap} {...otherOptions}>
         {children}
       </AutoTextFit>
     </Text>

@@ -1,12 +1,15 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { useMediaQuery } from 'react-responsive'
 
 import { TextBox } from './TextBox.jsx'
 
 import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
 
 import { getGigs, Type } from '../../api/gigs/index.js'
+
+import { MediaSmall } from '../../style/media.js'
 
 const TextAlign = {
   CENTER_LEFT: 'left',
@@ -18,17 +21,13 @@ const InfoContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  padding: 1rem 2rem;
   overflow: hidden;
   opacity: ${({ active }) => (active ? 1 : 0)};
   transition: opacity 0.3s ease-out;
 
-  & h2,
-  p,
-  span {
+  & h2, p, span {
     font-size: 1em;
     color: ${({ color }) => color};
-    white-space: nowrap;
     text-align: ${({ alignHorizontal }) => TextAlign[alignHorizontal]};
     line-height: 1.4;
     margin: 0 0 0.1em;
@@ -96,28 +95,6 @@ const ShowMoreContainer = styled.div`
   }
 `
 
-// const ShowMoreButton = styled.button`
-//   font-size: 1em;
-//   line-height: 1em;
-//   width: auto;
-//   margin: 0.5em auto;
-//   padding: 0.5em 1.8em 0.5em 2.2em;
-//   border-color: ${({ color }) => color || 'transparent'};
-//   border-width: ${({ border }) => border / 10}rem;
-//   border-style: solid;
-//   border-radius: ${({ square, circle }) =>
-//     (circle && '1em') || (square && 0) || '0.4rem'};
-//   color: ${({ color }) => color};
-//   background-color: transparent;
-//   transition: color 0.3s, background-color 0.3s, border 0.3s;
-
-//   :hover {
-//     color: ${({ colorAccent }) => colorAccent};
-//     border-color: ${({ colorAccent }) => colorAccent};
-//     background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
-//   }
-// `
-
 const GigsTitle = ({ title, alignHorizontal, withLine }) => (
   <Fragment>
     <GigHead alignHorizontal={alignHorizontal}>{title}</GigHead>
@@ -179,6 +156,13 @@ export const GigsBox = ({
   gigsList,
   square,
 }) => {
+  // SSR State
+  const [ssrDone, setSsrDone] = useState(false)
+  useEffect(() => {
+    if (!ssrDone) setSsrDone(true)
+  }, [ssrDone])
+
+  // Gigs State
   const [gigs, setGigs] = useState(
     Array.isArray(gigsList) ? { loading: false, data: gigsList } : { loading: true, data: [] }
   )
@@ -189,9 +173,12 @@ export const GigsBox = ({
         setGigs({ loading: false, data })
       })
     }
-  })
+  }, [gigs.loading])
 
   const showGigs = !gigs.loading && gigs.data.length > 0
+
+  // Media Query
+  const isSmall = useMediaQuery({ query: MediaSmall })
 
   return (
     <Fragment>
@@ -226,7 +213,7 @@ export const GigsBox = ({
           colorAccent={colorAccent}
           colorBackground={colorBackground}
           colorBackgroundAccent={colorBackgroundAccent}
-          wordWrap={false}
+          wordWrap={ssrDone && isSmall}
         >
           {/*
            * Gigs List
