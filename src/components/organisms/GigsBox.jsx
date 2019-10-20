@@ -191,6 +191,7 @@ export const GigsBox = ({
           alignHorizontal={alignHorizontal}
           colorBackground={colorBackground}
           includeWidth
+          adjustWidth
         >
           <GigsTitle
             alignHorizontal={alignHorizontal}
@@ -214,6 +215,7 @@ export const GigsBox = ({
           colorBackground={colorBackground}
           colorBackgroundAccent={colorBackgroundAccent}
           wordWrap={ssrDone && isSmall}
+          adjustWidth
         >
           {/*
            * Gigs List

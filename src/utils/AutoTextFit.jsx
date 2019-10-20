@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { MediaMobile } from '../style/media.js'
 
 const HorizontalAlignment = {
   CENTER_LEFT: 'flex-start',
@@ -20,9 +21,21 @@ const TextContainer = styled.div`
 `
 
 const TextContent = styled.div`
-  max-width: 100%;
   padding: 1em 2em;
   background-color: ${({ colorBackground }) => colorBackground || 'transparent'};
+
+  ${({ adjustWidth }) =>
+    adjustWidth
+      ? css`
+          max-width: 100%;
+        `
+      : css`
+          width: 100%;
+        `}
+
+  @media ${MediaMobile} {
+    padding: 1em 1em;
+  }
 `
 
 const DEFAULTS = {
@@ -138,12 +151,12 @@ export class AutoTextFit extends Component {
   }
 
   render() {
-    const { alignHorizontal, children, colorBackground, padding } = this.props
+    const { alignHorizontal, adjustWidth, children, colorBackground, padding } = this.props
     const { ssrDone, resized } = this.state
 
     return (
       <TextContainer show={ssrDone && resized} alignHorizontal={alignHorizontal}>
-        <TextContent ref={this.TextRef} colorBackground={colorBackground}>
+        <TextContent ref={this.TextRef} colorBackground={colorBackground} adjustWidth={adjustWidth}>
           {children}
           {/* Give some space at the end */}
           <p>
@@ -157,6 +170,7 @@ export class AutoTextFit extends Component {
 
 AutoTextFit.propTypes = {
   alignHorizontal: PropTypes.oneOf(Object.keys(HorizontalAlignment)),
+  adjustWidth: PropTypes.bool,
   children: PropTypes.node,
   colorBackground: PropTypes.string,
   includeWidth: PropTypes.bool,
