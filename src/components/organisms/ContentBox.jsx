@@ -6,13 +6,22 @@ import { TextBox } from '../organisms/TextBox.jsx'
 import { GigsBox } from '../organisms/GigsBox.jsx'
 import { MediaBox } from '../organisms/MediaBox.jsx'
 
-import { MediaSmall, MediaMobile } from '../../style/media.js'
+import { MediaSmall, MediaMobile, NotMediaMobile } from '../../style/media.js'
 
 import { renderHtml } from '../../utils/renderHtml.js'
 
-const GridSize = 6
-const GridUnit = 16.666 // = 100 : 6
-const MaxSpanMobile = 4 * GridUnit
+const DesktopGrid = {
+  RowSize: 6,
+  ColumnSize: 6,
+  Unit: 16.666, // = 100 : 6
+}
+
+const MobileGrid = {
+  RowSize: 3,
+  ColumnSize: 2,
+  RowUnit: 33.333,
+  ColumnUnit: 50,
+}
 
 const LinkMargin = {
   L: 9,
@@ -27,21 +36,22 @@ const getGridArea = (
   linksPosition,
   linksSize = 'M'
 ) => {
+  const { ColumnSize, RowSize, Unit } = DesktopGrid
   // Decide if margin is calculated from top or bottom and left or right
-  const isLeft = GridSize - endColumn >= startColumn - 1
+  const isLeft = ColumnSize - endColumn >= startColumn - 1
   const positionH = isLeft ? 'left' : 'right'
 
   const isBottom =
-    GridSize - endRow < startRow - 1 ||
-    (endRow === 6 && ['BOTTOM_CENTER', 'BOTTOM_LEFT', 'BOTTOM_RIGHT'].includes(linksPosition))
+    RowSize - endRow < startRow - 1 ||
+    (endRow === RowSize && ['BOTTOM_CENTER', 'BOTTOM_LEFT', 'BOTTOM_RIGHT'].includes(linksPosition))
   const positionV = isBottom ? 'bottom' : 'top'
 
   // Calculate vertical and horizontal margins and width
-  const marginHUnit = isLeft ? startColumn - 1 : 6 - endColumn
-  const marginH = (marginHUnit * GridUnit).toFixed(3)
+  const marginHUnit = isLeft ? startColumn - 1 : ColumnSize - endColumn
+  const marginH = (marginHUnit * Unit).toFixed(3)
 
-  const marginVUnit = isBottom ? 6 - endRow : startRow - 1
-  const marginV = (marginVUnit * GridUnit).toFixed(3)
+  const marginVUnit = isBottom ? RowSize - endRow : startRow - 1
+  const marginV = (marginVUnit * Unit).toFixed(3)
 
   let marginVLinks = 0
   let marginHLinks = 0
@@ -53,10 +63,10 @@ const getGridArea = (
     case 'BOTTOM_CENTER':
     case 'BOTTOM_LEFT':
     case 'BOTTOM_RIGHT':
-      if (isBottom && endRow === 6) marginVLinks += linkMargin
+      if (isBottom && endRow === RowSize) marginVLinks += linkMargin
       break
     case 'CENTER_RIGHT':
-      if (!isLeft && endColumn === 6) marginHLinks += linkMargin
+      if (!isLeft && endColumn === ColumnSize) marginHLinks += linkMargin
       break
     case 'CENTER_LEFT':
       if (isLeft && startColumn === 1) marginHLinks += linkMargin
@@ -65,24 +75,65 @@ const getGridArea = (
     // Do nothing
   }
 
-  const width = round(columnSpan * GridUnit)
-  const widthCorrection = round((columnSpan * (marginHLinks + 2)) / GridSize)
+  const width = round(columnSpan * Unit)
+  const widthCorrection = round((columnSpan * (marginHLinks + 2)) / ColumnSize)
 
-  const height = round(rowSpan * GridUnit)
-  const heightCorrection = round((rowSpan * (marginVLinks + 2)) / GridSize)
+  const height = round(rowSpan * Unit)
+  const heightCorrection = round((rowSpan * (marginVLinks + 2)) / RowSize)
 
   const area = `
     ${positionH}: calc(${marginH}vw + ${marginHLinks + 1}rem);
     ${positionV}: calc(${marginV}vh + ${marginVLinks + 1}rem);
     width: calc(${width}vw - ${widthCorrection}rem);
     height: calc(${height}vh - ${heightCorrection}rem);
+  `
 
-    @media ${MediaMobile} {
-      ${positionH}: calc(${marginH}vw + 1rem);
-      ${positionV}: calc(${marginV}vh + ${isBottom ? linkMargin + 1 : 1}rem);
-      width: calc(${width}vw - ${(columnSpan * 2) / GridSize}rem);
-      height: calc(${height}vh - ${(rowSpan * (linkMargin + 2)) / GridSize}rem);
-    }
+  return css`
+    ${area}
+  `
+}
+
+const getGridAreaMobile = (
+  { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan },
+  linksSize = 'M'
+) => {
+  const { ColumnSize, ColumnUnit, RowSize, RowUnit } = MobileGrid
+
+  // Decide if margin is calculated from top or bottom and left or right
+  const isLeft = ColumnSize - endColumn >= startColumn - 1
+  const positionH = isLeft ? 'left' : 'right'
+
+  const positionV = 'bottom'
+
+  // Calculate vertical and horizontal margins and width
+  const marginHUnit = isLeft ? startColumn - 1 : ColumnSize - endColumn
+  const marginH = (marginHUnit * ColumnUnit).toFixed(3)
+
+  const marginVUnit = RowSize - endRow
+  const marginV = (marginVUnit * RowUnit).toFixed(3)
+
+  let marginVLinks = 0
+  let marginHLinks = 0
+
+  const linkMargin = LinkMargin[linksSize]
+
+  // Give extra margin if links are at same side as content
+  if (endRow === RowSize) marginVLinks += linkMargin
+
+  const width = round(columnSpan * ColumnUnit)
+  const widthCorrection = round((columnSpan * (marginHLinks + 2)) / ColumnSize)
+
+  const height = round(rowSpan * RowUnit)
+  const heightCorrection = round((rowSpan * (marginVLinks + 2)) / RowSize)
+
+  console.log('WIDTH', width, columnSpan, widthCorrection)
+  console.log('HEIGHT', marginV, height, rowSpan, heightCorrection, linkMargin)
+
+  const area = `
+    ${positionH}: calc(${marginH}vw + 1rem);
+    ${positionV}: calc(${marginV}vh + ${linkMargin + 1}rem);
+    width: calc(${width}vw - ${(columnSpan * 2) / ColumnSize}rem);
+    height: calc(${height}vh - ${(rowSpan * (linkMargin + 2)) / RowSize}rem);
   `
 
   return css`
@@ -101,23 +152,24 @@ const FullscreenContainer = styled.div`
 const ResponsiveContainer = styled.div`
   position: absolute;
   z-index: 3;
+    
+  @media ${NotMediaMobile} {
+    ${({ area, linksPosition, linksSize }) => getGridArea(area, linksPosition, linksSize)}  
+  }
+ 
+  @media ${MediaMobile} {
+    ${({ areaMobile, linksPosition, linksSize }) => getGridAreaMobile(areaMobile, linksSize)}
+  }
   
-  ${({ area, linksPosition, linksSize }) => getGridArea(area, linksPosition, linksSize)}
-
   @media ${MediaSmall} {
     min-width: 33.333vw;
     min-height: 33.333vw;
   }
-
-  @media ${MediaMobile} {
-    min-width: 66.666vw;
-    min-height: 66.666vw;
-  }
 `
 
 const getArea = ({ position, span }) => {
-  const [startRowField, startColumnField] = (position || '4/2').split('/')
-  const [rowSpanField, columnSpanField] = (span || '2/4').split('/')
+  const [startRowField, startColumnField] = position.split('/')
+  const [rowSpanField, columnSpanField] = span.split('/')
 
   const startRow = parseInt(startRowField)
   const startColumn = parseInt(startColumnField)
@@ -142,14 +194,17 @@ export const ContentBox = ({ content, links }) => {
     gigsAPI,
     gigsList,
     media,
-    position,
-    span,
+    position = '4/2',
+    positionMobile = '2/1',
+    span = '2/4',
+    spanMobile = '2/2',
     text,
     type,
     wordWrap,
   } = content
   const colors = { color, colorAccent, colorBackground, colorBackgroundAccent }
   const area = getArea({ position, span })
+  const areaMobile = getArea({ position: positionMobile, span: spanMobile })
   const { border, circle, square } = links
 
   /*
@@ -194,6 +249,7 @@ export const ContentBox = ({ content, links }) => {
   ) : (
     <ResponsiveContainer
       area={area}
+      areaMobile={areaMobile}
       linksPosition={links.list.length > 0 ? links.position : 'NONE'}
       linksSize={links.size}
     >
