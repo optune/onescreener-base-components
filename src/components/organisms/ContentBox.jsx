@@ -126,9 +126,6 @@ const getGridAreaMobile = (
   const height = round(rowSpan * RowUnit)
   const heightCorrection = round((rowSpan * (marginVLinks + 2)) / RowSize)
 
-  console.log('WIDTH', width, columnSpan, widthCorrection)
-  console.log('HEIGHT', marginV, height, rowSpan, heightCorrection, linkMargin)
-
   const area = `
     ${positionH}: calc(${marginH}vw + 1rem);
     ${positionV}: calc(${marginV}vh + ${linkMargin + 1}rem);
