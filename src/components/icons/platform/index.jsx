@@ -201,7 +201,8 @@ export const PlatformLink = ({
   url,
 }) => {
   const Icon = LinkIconMapper({ platform, size })
-  return (
+
+  return url > '' ? (
     <LinkWrapper
       href={url}
       title={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
@@ -223,6 +224,21 @@ export const PlatformLink = ({
         <Icon color={color} size={size} />
       </Link>
     </LinkWrapper>
+  ) : (
+    <Link
+      border={border}
+      circle={circle}
+      color={color}
+      colorAccent={colorAccent}
+      colorBackground={colorBackground}
+      colorBackgroundAccent={colorBackgroundAccent}
+      margin={margin}
+      noShadow
+      size={size || 'M'}
+      square={square}
+    >
+      <Icon color={color} size={size} />
+    </Link>
   )
 }
 
@@ -258,7 +274,7 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
 
 export const Links = (links, content) =>
   links.list
-    .filter(({ platform, url }) => !!PlatformLinkIcon[platform] && url > '')
+    .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
     .map(link => (
       <PlatformLink
         key={link.platform}
