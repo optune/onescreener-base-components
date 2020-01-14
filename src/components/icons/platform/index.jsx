@@ -18,6 +18,7 @@ import { ITunesIcon } from './ITunes.jsx'
 import { LastFMIcon } from './LastFM.jsx'
 import { MailIcon } from './Mail.jsx'
 import { MixcloudIcon } from './Mixcloud.jsx'
+import { NewsletterIcon } from './Newsletter.jsx'
 import { OptuneIcon } from './Optune.jsx'
 import { SoundcloudIcon } from './Soundcloud.jsx'
 import { SpotifyIcon } from './Spotify.jsx'
@@ -57,6 +58,7 @@ export const PlatformLinkIcon = {
   VIMEO: VimeoIcon,
   // Miscellaneous Icons
   HEART: MiscHeartIcon,
+  NEWSLETTER: NewsletterIcon,
   STAR: MiscStarIcon,
   SHOPPING: MiscShoppingIcon,
 

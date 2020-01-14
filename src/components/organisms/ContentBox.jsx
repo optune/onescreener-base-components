@@ -2,9 +2,9 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 
-import { TextBox } from '../organisms/TextBox.jsx'
-import { GigsBox } from '../organisms/GigsBox.jsx'
-import { MediaBox } from '../organisms/MediaBox.jsx'
+import { TextBox } from './TextBox.jsx'
+import { GigsBox } from './GigsBox.jsx'
+import { MediaBox } from './MediaBox.jsx'
 
 import { MediaSmall, MediaMobile, NotMediaMobile } from '../../style/media.js'
 

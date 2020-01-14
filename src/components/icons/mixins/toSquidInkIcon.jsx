@@ -15,13 +15,13 @@ export const defaultStrokeFill = {
   strokeMiterlimit: '10',
 }
 
-export const toSquidInkIcon = Icon => {
+export const toSquidInkIcon = (Icon, viewBox = '0 0 48 48') => {
   const SquidInkIcon = ({ className }) => (
     <svg
       className={classNames('icon squid-ink', className)}
-      enableBackground="new 0 0 48 48"
+      enableBackground={`new ${viewBox}`}
       version="1.1"
-      viewBox="0 0 48 48"
+      viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
     >
       {Icon()}
