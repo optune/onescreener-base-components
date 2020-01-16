@@ -226,7 +226,7 @@ export const ContentBox = ({ content, links }) => {
       break
     case 'MEDIA':
       Content = <MediaBox media={media} />
-      fullscreen = media.fullscreen
+      fullscreen = media ? media.fullscreen : false
       break
 
     case 'TEXT':
