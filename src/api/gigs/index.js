@@ -67,7 +67,7 @@ export const getGigs = async ({
   includePast,
   ...other
 }) => {
-  const api = ApiProviders[provider]
+  const api = ApiProviders.OPTUNE
 
   const data = await fetchGigs(api.url(slug, limit, includePast)).catch(() => {
     return []
