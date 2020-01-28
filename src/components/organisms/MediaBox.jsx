@@ -12,7 +12,7 @@ const Fullscreen = styled.div`
 `
 
 export const MediaBox = ({ media }) =>
-  !!media && media.url > ''
+  !!media?.url > ''
     ? (media.fullscreen && (
         <Fullscreen>
           <ReactPlayer url={media.url} playing={false} width="100%" height="100%" />

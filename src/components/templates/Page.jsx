@@ -62,7 +62,7 @@ export const Page = ({ page, noBacklink }) => {
       <Fragment>
         <GlobalStyle />
         <PageContainer
-          image={background.image && background.image.secure_url}
+          image={background.image?.secure_url}
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
           color={background.color}
@@ -79,7 +79,7 @@ export const Page = ({ page, noBacklink }) => {
           )}
 
           {/* Logo */}
-          {logo && logo.image && (
+          {logo?.image && (
             <LogoBox position={logo.position} zIndex={2}>
               <Logo logo={logo} />
             </LogoBox>
