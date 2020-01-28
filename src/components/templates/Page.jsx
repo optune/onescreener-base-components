@@ -3,6 +3,7 @@ import React, { Fragment } from 'react'
 import styled from 'styled-components'
 
 import { Logo } from '../atoms/Logo.jsx'
+import { LogoText } from '../atoms/LogoText.jsx'
 
 import { LogoBox } from '../organisms/LogoBox.jsx'
 import { ContentBox } from '../organisms/ContentBox.jsx'
@@ -51,9 +52,14 @@ const BackLink = styled.a`
   }
 `
 
+const LogoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 export const Page = ({ page, noBacklink }) => {
   let PageComponent = null
-  
+
   if (page) {
     const { background, logo, content, gigAPI } = page
     const { links } = page || { links: { list: [] } }
@@ -79,9 +85,11 @@ export const Page = ({ page, noBacklink }) => {
           )}
 
           {/* Logo */}
-          {logo && logo.image && (
+          {logo && (
             <LogoBox position={logo.position} zIndex={2}>
-              <Logo logo={logo} />
+              <LogoContainer className="logo-container">
+                {logo.image.url !== '' ? <Logo logo={logo} /> : <LogoText text={logo.text} />}
+              </LogoContainer>
             </LogoBox>
           )}
 

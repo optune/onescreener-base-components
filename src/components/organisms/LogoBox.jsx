@@ -21,16 +21,31 @@ const LogoContainer = styled.div`
   &.top-center {
     align-items: flex-start;
     justify-content: center;
+
+    .logo-container {
+      align-items: center;
+      justify-content: flex-start;
+    }
   }
 
   &.top-right {
     align-items: flex-start;
     justify-content: flex-end;
+
+    .logo-container {
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
   }
 
   &.center-left {
     align-items: center;
     justify-content: flex-start;
+
+    .logo-container {
+      align-items: flex-start;
+      justify-content: center;
+    }
   }
 
   &.center-center {
@@ -41,16 +56,31 @@ const LogoContainer = styled.div`
   &.center-right {
     align-items: center;
     justify-content: flex-end;
+
+    .logo-container {
+      align-items: flex-end;
+      justify-content: center;
+    }
   }
 
   &.bottom-left {
     align-items: flex-end;
     justify-content: flex-start;
+
+    .logo-container {
+      align-items: flex-start;
+      justify-content: flex-end;
+    }
   }
 
   &.bottom-center {
     align-items: flex-end;
     justify-content: center;
+
+    .logo-container {
+      align-items: center;
+      justify-content: flex-end;
+    }
   }
 
   &.bottom-right {
@@ -61,9 +91,7 @@ const LogoContainer = styled.div`
 
 export const LogoBox = ({ position, children, ...other }) => (
   <LogoContainer
-    className={
-      position > '' ? position.toLowerCase().replace('_', '-') : 'top-center'
-    }
+    className={position > '' ? position.toLowerCase().replace('_', '-') : 'top-center'}
     {...other}
   >
     {children}
