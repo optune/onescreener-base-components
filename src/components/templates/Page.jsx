@@ -53,7 +53,7 @@ const BackLink = styled.a`
 
 export const Page = ({ page, noBacklink }) => {
   let PageComponent = null
-  
+
   if (page) {
     const { background, logo, content, gigAPI } = page
     const { links } = page || { links: { list: [] } }
@@ -62,7 +62,7 @@ export const Page = ({ page, noBacklink }) => {
       <Fragment>
         <GlobalStyle />
         <PageContainer
-          image={background.image && background.image.url}
+          image={background.image && background.image.secure_url}
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
           color={background.color}

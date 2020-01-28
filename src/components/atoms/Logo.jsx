@@ -50,6 +50,6 @@ const LogoImage = styled.img`
 `
 
 export const Logo = ({ logo }) =>
-  logo && logo.image ? (
-    <LogoImage src={logo.image.url} size={logo.size} orientation={logo.image.orientation} />
+  logo.image ? (
+    <LogoImage src={logo.image.secure_url} size={logo.size} orientation={logo.image.orientation} />
   ) : null
