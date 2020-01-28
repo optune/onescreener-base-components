@@ -70,8 +70,6 @@ export const Page = ({ page, noBacklink }) => {
     const { background, logo, content, gigAPI } = page
     const { links } = page || { links: { list: [] } }
 
-    console.log(background, getUrl(background))
-
     PageComponent = (
       <Fragment>
         <GlobalStyle />
