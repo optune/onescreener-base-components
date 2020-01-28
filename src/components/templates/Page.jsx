@@ -1,15 +1,21 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 
 import { Logo } from '../atoms/Logo.jsx'
 
+// Boxes
 import { LogoBox } from '../organisms/LogoBox.jsx'
 import { ContentBox } from '../organisms/ContentBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
 
+// Icons
 import { Links } from '../icons/platform/index.jsx'
 
+// Utils
+import { getImageUrl } from '../../utils/getImageUrl.js'
+
+// Global Styles
 import GlobalStyle from '../../style/global.js'
 
 const PageContainer = styled.div`
@@ -52,17 +58,25 @@ const BackLink = styled.a`
 `
 
 export const Page = ({ page, noBacklink }) => {
+  const [ssrDone, setSsrDone] = useState(false)
+  useEffect(() => {
+    setSsrDone(true)
+  }, [])
+  const getUrl = useCallback(getImageUrl(ssrDone), [ssrDone])
+
   let PageComponent = null
 
   if (page) {
     const { background, logo, content, gigAPI } = page
     const { links } = page || { links: { list: [] } }
 
+    console.log(background, getUrl(background))
+
     PageComponent = (
       <Fragment>
         <GlobalStyle />
         <PageContainer
-          image={background.image?.secure_url}
+          image={getUrl(background)}
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
           color={background.color}
@@ -79,9 +93,9 @@ export const Page = ({ page, noBacklink }) => {
           )}
 
           {/* Logo */}
-          {logo?.image && (
+          {logo && logo.image && (
             <LogoBox position={logo.position} zIndex={2}>
-              <Logo logo={logo} />
+              <Logo logo={logo} getImageUrl={getUrl} />
             </LogoBox>
           )}
 

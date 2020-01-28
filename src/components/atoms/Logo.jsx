@@ -49,7 +49,7 @@ const LogoImage = styled.img`
   }
 `
 
-export const Logo = ({ logo }) =>
+export const Logo = ({ logo, getImageUrl }) =>
   logo.image ? (
-    <LogoImage src={logo.image.secure_url} size={logo.size} orientation={logo.image.orientation} />
+    <LogoImage src={getImageUrl(logo)} size={logo.size} orientation={logo.image.orientation} />
   ) : null

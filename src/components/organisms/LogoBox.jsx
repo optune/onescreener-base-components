@@ -59,10 +59,10 @@ const LogoContainer = styled.div`
   }
 `
 
-export const LogoBox = ({ position, children, ...other }) => (
+export const LogoBox = ({ position, children, zIndex }) => (
   <LogoContainer
     className={position > '' ? position.toLowerCase().replace('_', '-') : 'top-center'}
-    {...other}
+    zIndex={zIndex}
   >
     {children}
   </LogoContainer>
