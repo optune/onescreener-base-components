@@ -21,7 +21,7 @@ const TextContainer = styled.div`
 `
 
 const TextContent = styled.div`
-  padding: 1em 2em;
+  padding: ${({ padding }) => padding || '1em 2em'};
   background-color: ${({ colorBackground }) => colorBackground || 'transparent'};
 
   ${({ adjustWidth }) =>
@@ -156,7 +156,12 @@ export class AutoTextFit extends Component {
 
     return (
       <TextContainer show={ssrDone && resized} alignHorizontal={alignHorizontal}>
-        <TextContent ref={this.TextRef} colorBackground={colorBackground} adjustWidth={adjustWidth}>
+        <TextContent
+          adjustWidth={adjustWidth}
+          colorBackground={colorBackground}
+          padding={padding}
+          ref={this.TextRef}
+        >
           {children}
           {/* Give some space at the end */}
           <p>

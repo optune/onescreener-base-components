@@ -97,6 +97,6 @@ export const LogoBox = ({ logo, zIndex }) => (
     className={logo.position > '' ? logo.position.toLowerCase().replace('_', '-') : 'top-center'}
     zIndex={zIndex}
   >
-    {logo.image?.url > '' ? <Logo logo={logo} /> : <LogoText text={logo.text} />}
+    {logo.image?.url > '' ? <Logo logo={logo} /> : <LogoText logo={logo} />}
   </LogoContainer>
 )
