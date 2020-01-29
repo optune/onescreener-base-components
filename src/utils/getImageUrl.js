@@ -4,33 +4,31 @@ const CLOUDINARY_URL = 'https://res.cloudinary.com/optune-me/image/upload'
 
 const transformation = {
   ssr: ({ fullscreen = false }) =>
-    `q_auto:low,f_auto,${fullscreen ? `c_mfit,w_800,h_800` : 'c_fit'},e_blur:100`,
+    `q_auto:low,f_auto,${fullscreen ? `c_mfit` : 'c_fit'},w_800,h_800,e_blur:100`,
 
   client: ({ width = 1000, height = 1000, fullscreen = false }) =>
-    `q_auto:best,f_auto,${fullscreen ? `c_mfit,w_${width},h_${height}` : 'c_fit'}`,
+    `q_auto:best,f_auto,${fullscreen ? `c_mfit` : 'c_fit'},w_${width},h_${height}`,
 }
 
-export const getImageUrl = isClient => ({ image, fullscreen }) => {
+export const getImageUrl = isClient => ({ image, fullscreen, maxWidth = 100, maxHeight = 100 }) => {
   let imageUrl
 
   if (image && image.url > '') {
-    let imageTransformation = ''
+    const imageParts = image.url.split('/')
+    const imageSeparatorIndex = imageParts.findIndex(part => part === 'upload') + 1
+    const imagePath = imageParts.slice(imageSeparatorIndex)
 
+    let imageTransformation = ''
     if (isClient) {
-      const width = window.innerWidth
-      const height = window.innerHeight
+      const width = Math.round((window.innerWidth * maxWidth) / 100)
+      const height = Math.round((window.innerHeight * maxHeight) / 100)
 
       imageTransformation = transformation.client({ width, height, fullscreen })
     } else {
       imageTransformation = transformation.ssr({ fullscreen })
     }
 
-    let imageVersion = image.version
-    if (!imageVersion) {
-      imageVersion = image.url.split('/').slice(-5)[0]
-    }
-
-    imageUrl = `${CLOUDINARY_URL}/${imageTransformation}/${imageVersion}/${image.public_id}`
+    imageUrl = `${CLOUDINARY_URL}/${imageTransformation}/${imagePath.join('/')}`
   }
 
   return imageUrl

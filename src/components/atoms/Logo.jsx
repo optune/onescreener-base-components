@@ -19,6 +19,14 @@ const LogoSizePortrait = {
   XL: 'calc(100% - 2rem)',
 }
 
+const LogoSizeMax = {
+  XS: 17,
+  S: 34,
+  M: 50,
+  L: 67,
+  XL: 100,
+}
+
 const LogoImage = styled.img`
   display: flex;
   object-fit: contain;
@@ -49,7 +57,13 @@ const LogoImage = styled.img`
   }
 `
 
-export const Logo = ({ logo, getImageUrl }) =>
-  logo.image ? (
-    <LogoImage src={getImageUrl(logo)} size={logo.size} orientation={logo.image.orientation} />
-  ) : null
+export const Logo = ({ logo, getImageUrl }) => (
+  <LogoImage
+    src={getImageUrl({
+      image: logo.image,
+      maxWidth: LogoSizeMax[logo.size],
+    })}
+    size={logo.size}
+    orientation={logo.image.orientation}
+  />
+)
