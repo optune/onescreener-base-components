@@ -2,6 +2,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Logo } from '../atoms/Logo.jsx'
+import { LogoText } from '../atoms/LogoText.jsx'
+
 const LogoContainer = styled.div`
   position: absolute;
   top: 0;
@@ -89,11 +92,11 @@ const LogoContainer = styled.div`
   }
 `
 
-export const LogoBox = ({ position, children, ...other }) => (
+export const LogoBox = ({ logo, zIndex }) => (
   <LogoContainer
-    className={position > '' ? position.toLowerCase().replace('_', '-') : 'top-center'}
-    {...other}
+    className={logo.position > '' ? logo.position.toLowerCase().replace('_', '-') : 'top-center'}
+    zIndex={zIndex}
   >
-    {children}
+    {logo.image?.url > '' ? <Logo logo={logo} /> : <LogoText text={logo.text} />}
   </LogoContainer>
 )

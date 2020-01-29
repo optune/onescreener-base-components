@@ -3,7 +3,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 
-// import { Textfit } from 'react-textfit'
+import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
 
 const LogoSizeLandscape = {
   XS: '8.333%',
@@ -21,15 +21,18 @@ const LogoSizePortrait = {
   XL: 'calc(100% - 2rem)',
 }
 
-const StyledText = styled.div`
+const StyledText = styled.p`
   text-align: center;
   color: ${({ color }) => color};
   font-size: 32px;
+  margin: 1rem;
 `
 
 export const LogoText = ({ text }) =>
-  text.title ? (
-    <StyledText color={text.color} className="apply-font">
-      {text.title}
-    </StyledText>
+  text?.title ? (
+    <AutoTextFit includeWidth>
+      <StyledText color={text.color} className="apply-font">
+        {text.title}
+      </StyledText>
+    </AutoTextFit>
   ) : null
