@@ -2,8 +2,6 @@
 import React, { Fragment, useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 
-import { Logo } from '../atoms/Logo.jsx'
-
 // Boxes
 import { LogoBox } from '../organisms/LogoBox.jsx'
 import { ContentBox } from '../organisms/ContentBox.jsx'
@@ -57,6 +55,11 @@ const BackLink = styled.a`
   }
 `
 
+const LogoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 export const Page = ({ page, noBacklink }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
@@ -91,11 +94,7 @@ export const Page = ({ page, noBacklink }) => {
           )}
 
           {/* Logo */}
-          {logo && logo.image && (
-            <LogoBox position={logo.position} zIndex={2}>
-              <Logo logo={logo} getImageUrl={getUrl} />
-            </LogoBox>
-          )}
+          {logo && <LogoBox zIndex={2} logo={logo} getImageUrl={getUrl} />}
 
           {/* Logo */}
           <ContentBox content={content} links={links} />

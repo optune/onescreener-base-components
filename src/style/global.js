@@ -2,7 +2,6 @@ import { createGlobalStyle } from 'styled-components'
 
 import { MediaSmall, MediaMobile } from './media.js'
 
-// FIXME: make sure fonts load in browser
 export default createGlobalStyle`
   @font-face {
     font-family: 'CeraPRO-Regular', Helvetica, sans-serif;
@@ -14,10 +13,6 @@ export default createGlobalStyle`
 
     @media ${MediaSmall} {
       font-size: 12px;
-    }
-
-    @media ${MediaMobile} {
-      font-size: 10px;
     }
   }
 
