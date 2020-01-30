@@ -3,8 +3,7 @@
 const CLOUDINARY_URL = 'https://res.cloudinary.com/optune-me/image/upload'
 
 const transformation = {
-  ssr: ({ fullscreen = false }) =>
-    `q_auto:low,f_auto,${fullscreen ? `c_mfit` : 'c_fit'},w_800,h_800,e_blur:100`,
+  ssr: ({ fullscreen = false }) => `q_auto:eco,f_auto,c_fit,w_1000,h_1000,e_pixelate:3`,
 
   client: ({ width = 1000, height = 1000, fullscreen = false }) =>
     `q_auto:best,f_auto,${fullscreen ? `c_mfit` : 'c_fit'},w_${width},h_${height}`,
