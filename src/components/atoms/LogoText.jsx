@@ -3,9 +3,9 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 
-// import { Textfit } from 'react-textfit'
+import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
 
-const LogoSizeLandscape = {
+const LogoSize = {
   XS: '8.333%',
   S: '16.666%',
   M: '33.333%',
@@ -13,23 +13,27 @@ const LogoSizeLandscape = {
   XL: '66.666%',
 }
 
-const LogoSizePortrait = {
-  XS: '16.666%',
-  S: '33.333%',
-  M: '50%',
-  L: '66.666%',
-  XL: 'calc(100% - 2rem)',
-}
+const LogoTextContainer = styled.div`
+  position: relative;
+  width: ${({ size }) => LogoSize[size]};
+  height: ${({ size }) => LogoSize[size]};
+  margin: 1rem;
 
-const StyledText = styled.div`
-  text-align: center;
-  color: ${({ color }) => color};
-  font-size: 32px;
+  & p {
+    color: ${({ color }) => color};
+    display: inline-block;
+    font-size: 1em;
+    text-align: center;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
 `
 
-export const LogoText = ({ text }) =>
-  text.title ? (
-    <StyledText color={text.color} className="apply-font">
-      {text.title}
-    </StyledText>
+export const LogoText = ({ logo }) =>
+  logo.text?.title ? (
+    <LogoTextContainer size={logo.size} color={logo.text.color}>
+      <AutoTextFit adjustWidth includeWidth padding="0" maxFontSize={300}>
+        <p className="apply-font">{logo.text.title}</p>
+      </AutoTextFit>
+    </LogoTextContainer>
   ) : null
