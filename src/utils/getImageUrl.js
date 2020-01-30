@@ -6,7 +6,7 @@ const transformation = {
   ssr: ({ fullscreen = false }) => `q_auto:eco,f_auto,c_fit,w_1000,h_1000,e_pixelate:3`,
 
   client: ({ width = 1000, height = 1000, fullscreen = false }) =>
-    `q_auto:best,f_auto,${fullscreen ? `c_mfit` : 'c_fit'},w_${width},h_${height}`,
+    `q_auto:best,f_auto,c_fit,w_${width},h_${height}`,
 }
 
 export const getImageUrl = isClient => ({ image, fullscreen, maxWidth = 100, maxHeight = 100 }) => {
@@ -19,8 +19,12 @@ export const getImageUrl = isClient => ({ image, fullscreen, maxWidth = 100, max
 
     let imageTransformation = ''
     if (isClient) {
-      const width = Math.round((window.innerWidth * maxWidth) / 100)
-      const height = Math.round((window.innerHeight * maxHeight) / 100)
+      const windowWith = window?.innerWidth || 1000
+      const windowHeight = window?.innerHeight || 1000
+      const imageWidth = Math.round((windowWith * maxWidth) / 100)
+      const imageHeight = Math.round((windowHeight * maxHeight) / 100)
+      const width = imageWidth > imageHeight ? imageWidth : undefined
+      const height = imageWidth < imageHeight ? imageHeight : undefined
 
       imageTransformation = transformation.client({ width, height, fullscreen })
     } else {
