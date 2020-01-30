@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment, useState, useEffect, useCallback } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components'
+
+// Background
+import { Background } from '../atoms/Background.jsx'
 
 // Boxes
 import { LogoBox } from '../organisms/LogoBox.jsx'
@@ -23,15 +26,25 @@ const PageContainer = styled.div`
   bottom: 0;
   right: 0;
   background-color: ${({ color }) => color};
-  background-image: ${({ image }) => `url(${image})`};
+  background-image: ${({ preloadImage }) => `url(${preloadImage})`};
   background-repeat: no-repeat;
   background-position: ${({ focusPoint }) => focusPoint};
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
   display: flex;
 `
 
+const ForegroundContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  z-index: 2;
+`
+
 const BacklinkUrl =
-  'https://res.cloudinary.com/optune-me/image/upload/b_rgb:808080,bo_10px_solid_rgb:808080,e_blackwhite,q_auto:good/v1558014130/onescreener-v2/app/logo-onescreener.png'
+  'https://res.cloudinary.com/optune-me/image/upload/b_rgb:808080,bo_10px_solid_rgb:808080,e_blackwhite,q_auto:good,c_fit,w_70,f_auto/v1558014130/onescreener-v2/app/logo-onescreener.png'
 
 const BackLink = styled.a`
   position: fixed;
@@ -65,7 +78,6 @@ export const Page = ({ page, noBacklink }) => {
   useEffect(() => {
     setSsrDone(true)
   }, [])
-  const getUrl = useCallback(getImageUrl(ssrDone), [ssrDone])
 
   let PageComponent = null
 
@@ -77,34 +89,38 @@ export const Page = ({ page, noBacklink }) => {
       <Fragment>
         <GlobalStyle />
         <PageContainer
-          image={getUrl(background)}
+          preloadImage={getImageUrl(false)(background)}
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
           color={background.color}
         >
-          {/* Back Link to onescreener.com */}
-          {!noBacklink && (
-            <BackLink
-              href="https://www.onescreener.com"
-              target="_blank"
-              title="created with onescreener.com"
-            >
-              <h1>created by onescreener.com</h1>
-            </BackLink>
-          )}
+          {ssrDone && <Background background={background} />}
 
-          {/* Logo */}
-          {logo && <LogoBox zIndex={2} logo={logo} getImageUrl={getUrl} />}
+          <ForegroundContainer>
+            {/* Back Link to onescreener.com */}
+            {!noBacklink && (
+              <BackLink
+                href="https://www.onescreener.com"
+                target="_blank"
+                title="created with onescreener.com"
+              >
+                <h1>created by onescreener.com</h1>
+              </BackLink>
+            )}
 
-          {/* Logo */}
-          <ContentBox content={content} links={links} />
+            {/* Logo */}
+            {logo && <LogoBox zIndex={2} logo={logo} getImageUrl={getImageUrl(true)} />}
 
-          {/* Links */}
-          {links.list.length > 0 && (
-            <LinksBox position={links.position} zIndex={4}>
-              {Links(links, content)}
-            </LinksBox>
-          )}
+            {/* Logo */}
+            <ContentBox content={content} links={links} />
+
+            {/* Links */}
+            {links.list.length > 0 && (
+              <LinksBox position={links.position} zIndex={4}>
+                {Links(links, content)}
+              </LinksBox>
+            )}
+          </ForegroundContainer>
         </PageContainer>
       </Fragment>
     )
