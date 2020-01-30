@@ -14,6 +14,10 @@ export default createGlobalStyle`
     @media ${MediaSmall} {
       font-size: 12px;
     }
+
+    @media ${MediaMobile} {
+      font-size: 10px;
+    }
   }
 
   body {
