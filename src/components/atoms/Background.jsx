@@ -2,9 +2,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-// Utils
-import { getImageUrl } from '../../utils/getImageUrl.js'
-
 const BackgroundContainer = styled.div`
   position: absolute;
   top: 0;
@@ -19,9 +16,9 @@ const BackgroundContainer = styled.div`
   z-index: 1;
 `
 
-export const Background = ({ background }) => (
+export const Background = ({ background, getImageUrl }) => (
   <BackgroundContainer
-    image={getImageUrl(true)(background)}
+    image={getImageUrl(background)}
     focusPoint={background.focusPoint}
     fullscreen={background.fullscreen}
   />

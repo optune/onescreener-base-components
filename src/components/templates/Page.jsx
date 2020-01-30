@@ -78,6 +78,7 @@ export const Page = ({ page, noBacklink }) => {
   useEffect(() => {
     setSsrDone(true)
   }, [])
+  const getUrl = getImageUrl(ssrDone)
 
   let PageComponent = null
 
@@ -94,7 +95,7 @@ export const Page = ({ page, noBacklink }) => {
           fullscreen={background.fullscreen}
           color={background.color}
         >
-          {ssrDone && <Background background={background} />}
+          {ssrDone && <Background background={background} getImageUrl={getUrl} />}
 
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
@@ -109,7 +110,7 @@ export const Page = ({ page, noBacklink }) => {
             )}
 
             {/* Logo */}
-            {logo && <LogoBox zIndex={2} logo={logo} getImageUrl={getImageUrl(true)} />}
+            {logo && <LogoBox zIndex={2} logo={logo} getImageUrl={getUrl} />}
 
             {/* Logo */}
             <ContentBox content={content} links={links} />
