@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled, { css } from 'styled-components'
 
 import { TextBox } from './TextBox.jsx'
@@ -149,15 +149,15 @@ const FullscreenContainer = styled.div`
 const ResponsiveContainer = styled.div`
   position: absolute;
   z-index: 3;
-    
+
   @media ${NotMediaMobile} {
-    ${({ area, linksPosition, linksSize }) => getGridArea(area, linksPosition, linksSize)}  
+    ${({ area, linksPosition, linksSize }) => getGridArea(area, linksPosition, linksSize)}
   }
- 
+
   @media ${MediaMobile} {
     ${({ areaMobile, linksPosition, linksSize }) => getGridAreaMobile(areaMobile, linksSize)}
   }
-  
+
   @media ${MediaSmall} {
     min-width: 33.333vw;
     min-height: 33.333vw;
@@ -204,6 +204,8 @@ export const ContentBox = ({ content, links }) => {
   const areaMobile = getArea({ position: positionMobile, span: spanMobile })
   const { border, circle, square } = links
 
+  const customHTML = content.customHTML || '<h1> Custom HTML </h1>'
+  const showHTML = content.showCustomHTML || false
   /*
    * Set content component
    */
@@ -230,7 +232,9 @@ export const ContentBox = ({ content, links }) => {
       break
 
     case 'TEXT':
-      Content = (
+      Content = showHTML ? (
+        <Fragment>{renderHtml(customHTML)}</Fragment>
+      ) : (
         <TextBox {...colors} wordWrap={wordWrap} alignHorizontal={alignHorizontal}>
           {renderHtml(text)}
         </TextBox>
