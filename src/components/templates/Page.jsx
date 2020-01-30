@@ -25,7 +25,7 @@ const PageContainer = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: ${({ color }) => color};
+  background-color: ${({ color = '#000000' }) => color};
   background-image: ${({ preloadImage }) => `url(${preloadImage})`};
   background-repeat: no-repeat;
   background-position: ${({ focusPoint }) => focusPoint};
