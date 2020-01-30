@@ -5,14 +5,14 @@ const CLOUDINARY_URL = 'https://res.cloudinary.com/optune-me/image/upload'
 const transformation = {
   ssr: ({ fullscreen = false }) => `q_auto:eco,f_auto,c_fit,w_1000,h_1000,e_pixelate:3`,
 
-  client: ({ width = 1000, height = 1000, fullscreen = false }) =>
-    `q_auto:best,f_auto,c_fit,w_${width},h_${height}`,
+  client: ({ width, height, fullscreen = false }) =>
+    `q_auto:best,f_auto,c_fit${width ? `,w_${width}` : ''},${height ? `,h_${height},` : ''}`,
 }
 
 export const getImageUrl = isClient => ({ image, fullscreen, maxWidth = 100, maxHeight = 100 }) => {
   let imageUrl
 
-  if (image && image.url > '') {
+  if (image?.url > '') {
     const imageParts = image.url.split('/')
     const imageSeparatorIndex = imageParts.findIndex(part => part === 'upload') + 1
     const imagePath = imageParts.slice(imageSeparatorIndex)
@@ -28,7 +28,7 @@ export const getImageUrl = isClient => ({ image, fullscreen, maxWidth = 100, max
 
       imageTransformation = transformation.client({ width, height, fullscreen })
     } else {
-      imageTransformation = transformation.ssr({ fullscreen })
+      imageTransformation = transformation.ssr({ fullscreen, width: 800, height: 800 })
     }
 
     imageUrl = `${CLOUDINARY_URL}/${imageTransformation}/${imagePath.join('/')}`
