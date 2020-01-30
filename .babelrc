@@ -12,5 +12,9 @@
         "displayName": true
       }
     ]
+  ],
+  "ignore": [
+    "lib",
+    "node_modules"
   ]
 }
