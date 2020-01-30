@@ -2,9 +2,6 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 
-import { Logo } from '../atoms/Logo.jsx'
-import { LogoText } from '../atoms/LogoText.jsx'
-
 import { LogoBox } from '../organisms/LogoBox.jsx'
 import { ContentBox } from '../organisms/ContentBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
@@ -85,13 +82,7 @@ export const Page = ({ page, noBacklink }) => {
           )}
 
           {/* Logo */}
-          {logo && (
-            <LogoBox position={logo.position} zIndex={2}>
-              <LogoContainer className="logo-container">
-                {logo.image.url !== '' ? <Logo logo={logo} /> : <LogoText text={logo.text} />}
-              </LogoContainer>
-            </LogoBox>
-          )}
+          {logo && <LogoBox zIndex={2} logo={logo} />}
 
           {/* Logo */}
           <ContentBox content={content} links={links} />
