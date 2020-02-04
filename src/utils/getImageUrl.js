@@ -6,7 +6,7 @@ const transformation = {
   ssr: ({ fullscreen = false }) => `q_auto:eco,f_auto,c_fit,w_1000,h_1000,e_pixelate:3`,
 
   client: ({ width, height, fullscreen = false }) =>
-    `q_auto:best,f_auto,c_fit${width ? `,w_${width}` : ''},${height ? `,h_${height},` : ''}`,
+    `q_auto:best,f_auto,c_fit${width ? `,w_${width}` : ''}${height ? `,h_${height}` : ''}`,
 }
 
 export const getImageUrl = isClient => ({ image, fullscreen, maxWidth = 100, maxHeight = 100 }) => {
