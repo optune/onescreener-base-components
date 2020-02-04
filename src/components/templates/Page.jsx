@@ -20,19 +20,6 @@ const PageContainer = styled.div`
   bottom: 0;
   right: 0;
 
-  ${({ previewMode }) =>
-    previewMode === 'MOBILE' &&
-    css`
-      width: 365px;
-      height: 640px;
-      left: calc(50% - 365px / 2);
-
-      border-radius: 0.2rem;
-      border: 1px solid #9b9b9b;
-      box-shadow: 0 1px 3px 0 rgba(15, 10, 44, 0.1), 0 1px 0 0 rgba(15, 10, 44, 0.1),
-        0 0 0 1px rgba(15, 10, 44, 0.05);
-    `}
-
   background-color: ${({ color }) => color};
   background-image: ${({ image }) => `url(${image})`};
   background-repeat: no-repeat;
@@ -110,7 +97,6 @@ export const Page = ({ page, noBacklink }) => {
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
           color={background.color}
-          previewMode={page.previewMode.mode}
         >
           {/* Back Link to onescreener.com */}
           {!noBacklink && (
