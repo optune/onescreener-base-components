@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 // Social Icons
 import { AboutIcon } from './About.jsx'
@@ -98,6 +98,7 @@ const IconSize = {
 
 const LinkWrapper = styled.a`
   text-decoration: none;
+  cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
 `
 
 const Link = styled.div`
@@ -129,31 +130,34 @@ const Link = styled.div`
   }
 
   &:hover:not(:focus) {
-    background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
-    border-color: ${({ colorAccent }) => colorAccent};
-    color: ${({ colorAccent }) => colorAccent};
+    ${({ notInteractive }) =>
+      !notInteractive &&
+      css`
+        background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
+        border-color: ${({ colorAccent }) => colorAccent};
+        color: ${({ colorAccent }) => colorAccent};
 
-    & .icon g {
-      & path,
-      line,
-      circle,
-      polygon,
-      polyline,
-      rect,
-      ellipse {
-        fill: ${({ colorAccent }) => colorAccent};
-        stroke: ${({ colorAccent }) => colorAccent};
+        & .icon g {
+          & path,
+          line,
+          circle,
+          polygon,
+          polyline,
+          rect,
+          ellipse {
+            fill: ${({ colorAccent }) => colorAccent};
+            stroke: ${({ colorAccent }) => colorAccent};
 
-        &[fill='none'] {
-          fill: none;
+            &[fill='none'] {
+              fill: none;
+            }
+
+            &[stroke='none'] {
+              stroke: none;
+            }
+          }
         }
-
-        &[stroke='none'] {
-          stroke: none;
-        }
-      }
-    }
-  }
+      `}
 `
 const LinkIconMapper = ({ platform, size = 'M' }) => styled(PlatformLinkIcon[platform])`
   width: ${IconSize.Desktop[size]};
@@ -252,15 +256,22 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
     colorAccent,
     colorBackground,
     colorBackgroundAccent,
+    notInteractive,
     onClick,
   }) => (
-    <LinkWrapper onClick={onClick} target="_blank" rel="noopener noreferrer">
+    <LinkWrapper
+      onClick={onClick}
+      notInteractive={notInteractive}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <Link
         border={border}
         color={color}
         colorAccent={colorAccent}
         colorBackground={colorBackground}
         colorBackgroundAccent={colorBackgroundAccent}
+        notInteractive={notInteractive}
         size="M"
       >
         <Icon color={color} />

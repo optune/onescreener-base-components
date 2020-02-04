@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Onescreener Base Components",
   "main": "lib/index.js",
+  "module": "lib/index.js",
   "scripts": {
     "clean": "rm -rf lib",
     "remove-react": "rm -rf node_modules/react node_modules/react-dom  node_modules/styled-components",
@@ -13,11 +14,7 @@
     "build:windows": "meteor npm run remove-react:windows && rollup -c config/dev.js",
     "build:prod": "meteor npm run remove-react && rollup -c config/prod.js",
     "watch": "meteor npm run remove-react && rollup -c config/dev.js -w",
-    "watch:windows": "meteor npm run remove-react:windows && rollup -c config/dev.js -w",
-    "svg": "styled-svg src/components/icons/*.svg",
-    "test": "echo \"t'Saul Goodman\" && exit 0",
-    "storybook": "start-storybook --ci -p 6006",
-    "build-storybook": "build-storybook"
+    "watch:windows": "meteor npm run remove-react:windows && rollup -c config/dev.js -w"
   },
   "prettier": {
     "semi": false,
@@ -69,26 +66,12 @@
     }
   },
   "eslintIgnore": [
-    "lib/**/*.js"
+    "lib/**"
   ],
   "browserslist": "last 2 chrome versions or last 2 firefox versions",
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ],
-    "plugins": [
-      [
-        "babel-plugin-styled-components",
-        {
-          "ssr": true,
-          "displayName": true
-        }
-      ]
-    ]
-  },
   "devDependencies": {
     "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
     "@babel/preset-react": "^7.8.3",
     "@rollup/plugin-url": "^4.0.1",
@@ -107,6 +90,7 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.2",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-uglify": "^6.0.4"

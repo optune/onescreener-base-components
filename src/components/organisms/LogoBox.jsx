@@ -86,11 +86,15 @@ const LogoContainer = styled.div`
   }
 `
 
-export const LogoBox = ({ logo, zIndex }) => (
+export const LogoBox = ({ logo, zIndex, getImageUrl }) => (
   <LogoContainer
     className={logo.position > '' ? logo.position.toLowerCase().replace('_', '-') : 'top-center'}
     zIndex={zIndex}
   >
-    {logo.image?.url > '' ? <Logo logo={logo} /> : <LogoText logo={logo} />}
+    {logo.image?.url > '' ? (
+      <Logo logo={logo} getImageUrl={getImageUrl} />
+    ) : (
+      <LogoText logo={logo} />
+    )}
   </LogoContainer>
 )

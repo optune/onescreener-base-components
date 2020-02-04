@@ -2,21 +2,36 @@
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
 import globals from 'rollup-plugin-node-globals'
+import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import replace from 'rollup-plugin-replace'
 import resolve from 'rollup-plugin-node-resolve'
 import url from '@rollup/plugin-url'
+
+import pkg from '../package.json'
 
 // shared modules for different envs
 import { externals } from './externalModules.js'
 
 export default {
   input: 'src/index.js',
-  output: {
-    file: 'lib/index.js',
-    format: 'cjs',
-  },
-  external: id => externals.has(id),
+  output: [
+    // {
+    //   file: pkg.main,
+    //   format: 'cjs',
+    //   exports: 'named',
+    // },
+    {
+      file: pkg.module,
+      format: 'es',
+      exports: 'named',
+    },
+  ],
+  // external: id => externals.has(id),
   plugins: [
+    peerDepsExternal({
+      includeDependencies: true,
+    }),
+
     replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
 
     url({
@@ -25,25 +40,14 @@ export default {
       emitFiles: true, // defaults to true
     }),
 
-    commonjs(),
-
-    babel({
-      exclude: 'node_modules/**', // only transpile our source code
-      plugins: [
-        [
-          'babel-plugin-styled-components',
-          {
-            displayName: true,
-            ssr: true,
-          },
-        ],
-      ],
-    }),
+    babel(),
 
     resolve({
       mainFields: ['browser', 'main'],
       extensions: ['.js', '.jsx', '.json'],
     }),
+
+    commonjs(),
 
     globals(),
   ],

@@ -1,15 +1,24 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment } from 'react'
-import styled, { css } from 'styled-components'
+import React, { Fragment, useState, useEffect } from 'react'
+import styled from 'styled-components'
 
 import { Sponsors } from '../molecules/sponsors/Sponsors'
 
+// Background
+import { Background } from '../atoms/Background.jsx'
+
+// Boxes
 import { LogoBox } from '../organisms/LogoBox.jsx'
 import { ContentBox } from '../organisms/ContentBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
 
+// Icons
 import { Links } from '../icons/platform/index.jsx'
 
+// Utils
+import { getImageUrl } from '../../utils/getImageUrl.js'
+
+// Global Styles
 import GlobalStyle from '../../style/global.js'
 
 const PageContainer = styled.div`
@@ -19,17 +28,26 @@ const PageContainer = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-
-  background-color: ${({ color }) => color};
-  background-image: ${({ image }) => `url(${image})`};
+  background-color: ${({ color = '#000000' }) => color};
+  background-image: ${({ preloadImage }) => `url(${preloadImage})`};
   background-repeat: no-repeat;
   background-position: ${({ focusPoint }) => focusPoint};
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
   display: flex;
 `
 
+const ForegroundContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  z-index: 2;
+`
+
 const BacklinkUrl =
-  'https://res.cloudinary.com/optune-me/image/upload/b_rgb:808080,bo_10px_solid_rgb:808080,e_blackwhite,q_auto:good/v1558014130/onescreener-v2/app/logo-onescreener.png'
+  'https://res.cloudinary.com/optune-me/image/upload/b_rgb:808080,bo_10px_solid_rgb:808080,e_blackwhite,q_auto:good,c_fit,w_70,f_auto/v1558014130/onescreener-v2/app/logo-onescreener.png'
 
 const BackLink = styled.a`
   position: fixed;
@@ -59,6 +77,12 @@ const LogoContainer = styled.div`
 `
 
 export const Page = ({ page, noBacklink }) => {
+  const [ssrDone, setSsrDone] = useState(false)
+  useEffect(() => {
+    setSsrDone(true)
+  }, [])
+  const getUrl = getImageUrl(ssrDone)
+
   let PageComponent = null
 
   if (page) {
@@ -93,36 +117,40 @@ export const Page = ({ page, noBacklink }) => {
       <Fragment>
         <GlobalStyle />
         <PageContainer
-          image={background.image && background.image.url}
+          preloadImage={getImageUrl(false)(background)}
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
           color={background.color}
         >
-          {/* Back Link to onescreener.com */}
-          {!noBacklink && (
-            <BackLink
-              href="https://www.onescreener.com"
-              target="_blank"
-              title="created with onescreener.com"
-            >
-              <h1>created by onescreener.com</h1>
-            </BackLink>
-          )}
+          {ssrDone && <Background background={background} getImageUrl={getUrl} />}
 
-          {/* Logo */}
-          {logo && <LogoBox zIndex={2} logo={logo} />}
+          <ForegroundContainer>
+            {/* Back Link to onescreener.com */}
+            {!noBacklink && (
+              <BackLink
+                href="https://www.onescreener.com"
+                target="_blank"
+                title="created with onescreener.com"
+              >
+                <h1>created by onescreener.com</h1>
+              </BackLink>
+            )}
 
-          {/* Logo */}
-          <ContentBox content={content} links={links} />
+            {/* Logo */}
+            {logo && <LogoBox zIndex={2} logo={logo} getImageUrl={getUrl} />}
 
-          {/* Links */}
-          {links.list.length > 0 && (
-            <LinksBox position={links.position} zIndex={4}>
-              {Links(links, content)}
-            </LinksBox>
-          )}
+            {/* Logo */}
+            <ContentBox content={content} links={links} />
+
+            {/* Links */}
+            {links.list.length > 0 && (
+              <LinksBox position={links.position} zIndex={4}>
+                {Links(links, content)}
+              </LinksBox>
+            )}
+          </ForegroundContainer>
         </PageContainer>
-        <Sponsors />
+        {content?.showCustomHTML && <Sponsors />}
       </Fragment>
     )
   }

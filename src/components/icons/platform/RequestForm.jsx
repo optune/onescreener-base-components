@@ -16,7 +16,7 @@ const Margin = {
 
 const Text = styled.p`
   font-size: ${({ size }) => Size[size]}rem;
-  line-height: 0.8
+  line-height: 0.8;
   margin-top: ${({ size }) => Margin[size]}rem;
   text-align: center;
 `
