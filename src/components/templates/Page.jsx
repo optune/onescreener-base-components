@@ -2,6 +2,8 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components'
 
+import { Sponsors } from '../molecules/sponsors/Sponsors'
+
 // Background
 import { Background } from '../atoms/Background.jsx'
 
@@ -21,6 +23,7 @@ import GlobalStyle from '../../style/global.js'
 
 const PageContainer = styled.div`
   position: absolute;
+
   top: 0;
   left: 0;
   bottom: 0;
@@ -86,6 +89,30 @@ export const Page = ({ page, noBacklink }) => {
     const { background, logo, content, gigAPI } = page
     const { links } = page || { links: { list: [] } }
 
+    const { font, fontURL } = page.logo.text
+
+    // Importing font to page
+    let styles = document.head.getElementsByTagName('style')
+    let style
+
+    for (let i = 0; i < styles.length; i++) {
+      if (styles[i].dataset.font !== undefined) {
+        style = styles[i]
+      }
+    }
+
+    if (!style) {
+      style = document.createElement('style')
+      style.setAttribute('data-font', font)
+      style.innerHTML = fontURL + ` .apply-font {font-family: '${font}';}` // Applying font to the logo
+      document.getElementsByTagName('head')[0].appendChild(style)
+    }
+
+    if (style) {
+      style.setAttribute('data-font', font)
+      style.innerHTML = fontURL + ` .apply-font {font-family: '${font}';}` // Applying font to the logo
+    }
+
     PageComponent = (
       <Fragment>
         <GlobalStyle />
@@ -123,6 +150,7 @@ export const Page = ({ page, noBacklink }) => {
             )}
           </ForegroundContainer>
         </PageContainer>
+        {content?.showCustomHTML && <Sponsors />}
       </Fragment>
     )
   }
