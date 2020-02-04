@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+
+import { Sponsors } from '../molecules/sponsors/Sponsors'
 
 import { LogoBox } from '../organisms/LogoBox.jsx'
 import { ContentBox } from '../organisms/ContentBox.jsx'
@@ -12,10 +14,12 @@ import GlobalStyle from '../../style/global.js'
 
 const PageContainer = styled.div`
   position: absolute;
+
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
+
   background-color: ${({ color }) => color};
   background-image: ${({ image }) => `url(${image})`};
   background-repeat: no-repeat;
@@ -61,6 +65,30 @@ export const Page = ({ page, noBacklink }) => {
     const { background, logo, content, gigAPI } = page
     const { links } = page || { links: { list: [] } }
 
+    const { font, fontURL } = page.logo.text
+
+    // Importing font to page
+    let styles = document.head.getElementsByTagName('style')
+    let style
+
+    for (let i = 0; i < styles.length; i++) {
+      if (styles[i].dataset.font !== undefined) {
+        style = styles[i]
+      }
+    }
+
+    if (!style) {
+      style = document.createElement('style')
+      style.setAttribute('data-font', font)
+      style.innerHTML = fontURL + ` .apply-font {font-family: '${font}';}` // Applying font to the logo
+      document.getElementsByTagName('head')[0].appendChild(style)
+    }
+
+    if (style) {
+      style.setAttribute('data-font', font)
+      style.innerHTML = fontURL + ` .apply-font {font-family: '${font}';}` // Applying font to the logo
+    }
+
     PageComponent = (
       <Fragment>
         <GlobalStyle />
@@ -94,6 +122,7 @@ export const Page = ({ page, noBacklink }) => {
             </LinksBox>
           )}
         </PageContainer>
+        <Sponsors />
       </Fragment>
     )
   }
