@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+
+import { Sponsors } from '../molecules/sponsors/Sponsors'
 
 import { LogoBox } from '../organisms/LogoBox.jsx'
 import { ContentBox } from '../organisms/ContentBox.jsx'
@@ -12,10 +14,25 @@ import GlobalStyle from '../../style/global.js'
 
 const PageContainer = styled.div`
   position: absolute;
+
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
+
+  ${({ previewMode }) =>
+    previewMode === 'MOBILE' &&
+    css`
+      width: 365px;
+      height: 640px;
+      left: calc(50% - 365px / 2);
+
+      border-radius: 0.2rem;
+      border: 1px solid #9b9b9b;
+      box-shadow: 0 1px 3px 0 rgba(15, 10, 44, 0.1), 0 1px 0 0 rgba(15, 10, 44, 0.1),
+        0 0 0 1px rgba(15, 10, 44, 0.05);
+    `}
+
   background-color: ${({ color }) => color};
   background-image: ${({ image }) => `url(${image})`};
   background-repeat: no-repeat;
@@ -61,6 +78,30 @@ export const Page = ({ page, noBacklink }) => {
     const { background, logo, content, gigAPI } = page
     const { links } = page || { links: { list: [] } }
 
+    const { font, fontURL } = page.logo.text
+
+    // Importing font to page
+    let styles = document.head.getElementsByTagName('style')
+    let style
+
+    for (let i = 0; i < styles.length; i++) {
+      if (styles[i].dataset.font !== undefined) {
+        style = styles[i]
+      }
+    }
+
+    if (!style) {
+      style = document.createElement('style')
+      style.setAttribute('data-font', font)
+      style.innerHTML = fontURL + ` .apply-font {font-family: '${font}';}` // Applying font to the logo
+      document.getElementsByTagName('head')[0].appendChild(style)
+    }
+
+    if (style) {
+      style.setAttribute('data-font', font)
+      style.innerHTML = fontURL + ` .apply-font {font-family: '${font}';}` // Applying font to the logo
+    }
+
     PageComponent = (
       <Fragment>
         <GlobalStyle />
@@ -69,6 +110,7 @@ export const Page = ({ page, noBacklink }) => {
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
           color={background.color}
+          previewMode={page.previewMode.mode}
         >
           {/* Back Link to onescreener.com */}
           {!noBacklink && (
@@ -94,6 +136,7 @@ export const Page = ({ page, noBacklink }) => {
             </LinksBox>
           )}
         </PageContainer>
+        <Sponsors />
       </Fragment>
     )
   }
