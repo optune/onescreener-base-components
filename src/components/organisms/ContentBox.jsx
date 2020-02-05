@@ -204,8 +204,6 @@ export const ContentBox = ({ content, links }) => {
   const areaMobile = getArea({ position: positionMobile, span: spanMobile })
   const { border, circle, square } = links
 
-  const customHTML = content.customHTML || '<h1> Custom HTML </h1>'
-  const showHTML = content.showCustomHTML || false
   /*
    * Set content component
    */
@@ -232,9 +230,7 @@ export const ContentBox = ({ content, links }) => {
       break
 
     case 'TEXT':
-      Content = showHTML ? (
-        <Fragment>{renderHtml(customHTML)}</Fragment>
-      ) : (
+      Content = (
         <TextBox {...colors} wordWrap={wordWrap} alignHorizontal={alignHorizontal}>
           {renderHtml(text)}
         </TextBox>
