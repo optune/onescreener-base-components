@@ -6,7 +6,6 @@ import globals from 'rollup-plugin-node-globals'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import replace from 'rollup-plugin-replace'
 import resolve from 'rollup-plugin-node-resolve'
-import url from '@rollup/plugin-url'
 
 import pkg from '../package.json'
 
@@ -22,7 +21,7 @@ const config = ({ sourcemap }) => ({
       sourcemap,
     },
   ],
-  preserveModules: true,
+  preserveModules: false, // true,
   plugins: [
     peerDepsExternal({
       includeDependencies: true,
@@ -30,16 +29,9 @@ const config = ({ sourcemap }) => ({
 
     replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
 
-    url({
-      limit: false,
-      include: ['**/*.woff2'],
-      emitFiles: true, // defaults to true
-    }),
-
     babel(),
 
     resolve({
-      mainFields: ['browser', 'main'],
       extensions: ['.js', '.jsx', '.json'],
     }),
 
