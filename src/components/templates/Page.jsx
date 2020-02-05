@@ -2,7 +2,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { Sponsors } from '../molecules/sponsors/Sponsors'
+import { customHtml } from '../molecules/customHtml/index.jsx'
 
 // Background
 import { Background } from '../atoms/Background.jsx'
@@ -34,6 +34,7 @@ const PageContainer = styled.div`
   background-position: ${({ focusPoint }) => focusPoint};
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
   display: flex;
+  overflow: hidden;
 `
 
 const ForegroundContainer = styled.div`
@@ -89,6 +90,8 @@ export const Page = ({ page, noBacklink }) => {
     const { background, logo, content, gigAPI } = page
     const { links } = page || { links: { list: [] } }
 
+    const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
+
     PageComponent = (
       <Fragment>
         <GlobalStyle />
@@ -125,8 +128,9 @@ export const Page = ({ page, noBacklink }) => {
               </LinksBox>
             )}
           </ForegroundContainer>
+
+          {CustomHtml && <CustomHtml />}
         </PageContainer>
-        {content?.showCustomHTML && <Sponsors />}
       </Fragment>
     )
   }
