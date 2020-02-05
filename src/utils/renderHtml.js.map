@@ -1,0 +1,1 @@
+{"version":3,"file":"renderHtml.js","sources":["renderHtml.js"],"sourcesContent":["import ReactHtmlParser from 'react-html-parser'\n\nexport const renderHtml = text => (typeof text == 'string' ? ReactHtmlParser(text) : '')\n"],"names":["renderHtml","text","ReactHtmlParser"],"mappings":";;MAEaA,UAAU,GAAGC,IAAI,IAAK,OAAOA,IAAP,IAAe,QAAf,GAA0BC,eAAe,CAACD,IAAD,CAAzC,GAAkD;;;;"}

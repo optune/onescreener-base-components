@@ -1,0 +1,1 @@
+{"version":3,"file":"media.js","sources":["media.js"],"sourcesContent":["export const MediaSmall = '(max-width: 736px)'\nexport const MediaMobile = '(max-width: 480px)'\nexport const NotMediaMobile = '(min-width: 481px)'\n"],"names":["MediaSmall","MediaMobile","NotMediaMobile"],"mappings":"MAAaA,UAAU,GAAG;MACbC,WAAW,GAAG;MACdC,cAAc,GAAG;;;;"}
