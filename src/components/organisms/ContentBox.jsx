@@ -28,6 +28,11 @@ const LinkMargin = {
   M: 7,
   S: 5,
 }
+const LinkMarginMobile = {
+  S: 4.2,
+  M: 4.6,
+  L: 5,
+}
 
 const round = a => a.toFixed(2)
 
@@ -103,8 +108,6 @@ const getGridAreaMobile = (
   const isLeft = ColumnSize - endColumn >= startColumn - 1
   const positionH = isLeft ? 'left' : 'right'
 
-  const positionV = 'bottom'
-
   // Calculate vertical and horizontal margins and width
   const marginHUnit = isLeft ? startColumn - 1 : ColumnSize - endColumn
   const marginH = (marginHUnit * ColumnUnit).toFixed(3)
@@ -115,7 +118,7 @@ const getGridAreaMobile = (
   let marginVLinks = 0
   let marginHLinks = 0
 
-  const linkMargin = LinkMargin[linksSize]
+  const linkMargin = endRow === RowSize ? LinkMarginMobile[linksSize] : 0
 
   // Give extra margin if links are at same side as content
   if (endRow === RowSize) marginVLinks += linkMargin
@@ -128,7 +131,7 @@ const getGridAreaMobile = (
 
   const area = `
     ${positionH}: calc(${marginH}vw + 1rem);
-    ${positionV}: calc(${marginV}vh + ${linkMargin + 1}rem);
+    bottom: calc(${marginV}vh + ${linkMargin + 1}rem);
     width: calc(${width}vw - ${(columnSpan * 2) / ColumnSize}rem);
     height: calc(${height}vh - ${(rowSpan * (linkMargin + 2)) / RowSize}rem);
   `
