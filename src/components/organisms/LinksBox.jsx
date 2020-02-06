@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { MediaMobile, NotMediaMobile } from '../../style/media.js'
 
@@ -60,6 +60,14 @@ const LinksList = styled.div`
     }
   }
 
+  ${({ previewMode }) =>
+    previewMode === 'MOBILE' &&
+    css`
+      bottom: 0 !important;
+      justify-content: center !important;
+      white-space: nowrap !important;
+    `}
+
   @media ${MediaMobile} {
     bottom: 0;
     justify-content: center;
@@ -67,10 +75,11 @@ const LinksList = styled.div`
   }
 `
 
-export const LinksBox = ({ children, position, zIndex }) => (
+export const LinksBox = ({ children, position, zIndex, previewMode }) => (
   <LinksContainer zIndex={zIndex}>
     <LinksList
       className={position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'}
+      previewMode={previewMode}
     >
       {children}
     </LinksList>

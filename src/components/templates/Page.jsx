@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment, useState, useEffect } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { customHtml } from '../molecules/customHtml/index.jsx'
 
@@ -52,6 +52,15 @@ const BacklinkUrl =
 
 const BackLink = styled.a`
   position: fixed;
+
+  /* Mobile mode */
+
+  ${({ previewMode }) =>
+    previewMode === 'MOBILE' &&
+    css`
+      position: absolute;
+    `}
+
   background-image: url(${BacklinkUrl});
   background-size: contain;
   background-color: #808080;
@@ -89,6 +98,7 @@ export const Page = ({ page, noBacklink }) => {
   if (page) {
     const { background, logo, content, gigAPI } = page
     const { links } = page || { links: { list: [] } }
+    const { mode } = page.previewMode || 'DESKTOP'
 
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
@@ -110,6 +120,7 @@ export const Page = ({ page, noBacklink }) => {
                 href="https://www.onescreener.com"
                 target="_blank"
                 title="created with onescreener.com"
+                previewMode={mode}
               >
                 <h1>created by onescreener.com</h1>
               </BackLink>
@@ -119,12 +130,12 @@ export const Page = ({ page, noBacklink }) => {
             {logo && <LogoBox zIndex={2} logo={logo} getImageUrl={getUrl} />}
 
             {/* Logo */}
-            <ContentBox content={content} links={links} />
+            <ContentBox content={content} links={links} previewMode={mode} />
 
             {/* Links */}
             {links.list.length > 0 && (
-              <LinksBox position={links.position} zIndex={4}>
-                {Links(links, content)}
+              <LinksBox position={links.position} zIndex={4} previewMode={mode}>
+                {Links(links, content, mode)}
               </LinksBox>
             )}
           </ForegroundContainer>
