@@ -2,7 +2,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { Sponsors } from '../molecules/sponsors/Sponsors'
+import { customHtml } from '../molecules/customHtml/index.jsx'
 
 // Background
 import { Background } from '../atoms/Background.jsx'
@@ -34,6 +34,7 @@ const PageContainer = styled.div`
   background-position: ${({ focusPoint }) => focusPoint};
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
   display: flex;
+  overflow: hidden;
 `
 
 const ForegroundContainer = styled.div`
@@ -89,29 +90,7 @@ export const Page = ({ page, noBacklink }) => {
     const { background, logo, content, gigAPI } = page
     const { links } = page || { links: { list: [] } }
 
-    const { font, fontURL } = page.logo.text
-
-    // Importing font to page
-    let styles = document.head.getElementsByTagName('style')
-    let style
-
-    for (let i = 0; i < styles.length; i++) {
-      if (styles[i].dataset.font !== undefined) {
-        style = styles[i]
-      }
-    }
-
-    if (!style) {
-      style = document.createElement('style')
-      style.setAttribute('data-font', font)
-      style.innerHTML = fontURL + ` .apply-font {font-family: '${font}';}` // Applying font to the logo
-      document.getElementsByTagName('head')[0].appendChild(style)
-    }
-
-    if (style) {
-      style.setAttribute('data-font', font)
-      style.innerHTML = fontURL + ` .apply-font {font-family: '${font}';}` // Applying font to the logo
-    }
+    const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
     PageComponent = (
       <Fragment>
@@ -149,8 +128,9 @@ export const Page = ({ page, noBacklink }) => {
               </LinksBox>
             )}
           </ForegroundContainer>
+
+          {CustomHtml && <CustomHtml />}
         </PageContainer>
-        {content?.showCustomHTML && <Sponsors />}
       </Fragment>
     )
   }
