@@ -141,6 +141,51 @@ const getGridAreaMobile = (
   `
 }
 
+const getGridAreaMobileImportant = (
+  { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan },
+  linksSize = 'M'
+) => {
+  const { ColumnSize, ColumnUnit, RowSize, RowUnit } = MobileGrid
+
+  // Decide if margin is calculated from top or bottom and left or right
+  const isLeft = ColumnSize - endColumn >= startColumn - 1
+  const positionH = isLeft ? 'left' : 'right'
+
+  const positionV = 'bottom'
+
+  // Calculate vertical and horizontal margins and width
+  const marginHUnit = isLeft ? startColumn - 1 : ColumnSize - endColumn
+  const marginH = (marginHUnit * ColumnUnit).toFixed(3)
+
+  const marginVUnit = RowSize - endRow
+  const marginV = (marginVUnit * RowUnit).toFixed(3)
+
+  let marginVLinks = 0
+  let marginHLinks = 0
+
+  const linkMargin = LinkMargin[linksSize]
+
+  // Give extra margin if links are at same side as content
+  if (endRow === RowSize) marginVLinks += linkMargin
+
+  const width = round(columnSpan * ColumnUnit)
+  const widthCorrection = round((columnSpan * (marginHLinks + 2)) / ColumnSize)
+
+  const height = round(rowSpan * RowUnit)
+  const heightCorrection = round((rowSpan * (marginVLinks + 2)) / RowSize)
+
+  const area = `
+    ${positionH}: calc(${marginH}vw + 1rem) !important;
+    ${positionV}: calc(${marginV}vh + ${linkMargin + 1}rem) !important;
+    width: calc(${width}% - ${(columnSpan * 2) / ColumnSize}rem) !important;
+    height: calc(${height}% - ${(rowSpan * (linkMargin + 2)) / RowSize}rem) !important;
+  `
+
+  return css`
+    ${area}
+  `
+}
+
 const FullscreenContainer = styled.div`
   position: absolute;
   top: 0;
@@ -152,6 +197,13 @@ const FullscreenContainer = styled.div`
 const ResponsiveContainer = styled.div`
   position: absolute;
   z-index: 3;
+
+  ${({ previewMode }) =>
+    previewMode === 'MOBILE' &&
+    css`
+      ${({ areaMobile, linksPosition, linksSize }) =>
+        getGridAreaMobileImportant(areaMobile, linksSize)}
+    `}
 
   @media ${NotMediaMobile} {
     ${({ area, linksPosition, linksSize }) => getGridArea(area, linksPosition, linksSize)}
@@ -165,6 +217,8 @@ const ResponsiveContainer = styled.div`
     min-width: 33.333vw;
     min-height: 33.333vw;
   }
+
+  
 `
 
 const getArea = ({ position, span }) => {
@@ -181,7 +235,7 @@ const getArea = ({ position, span }) => {
   return { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan }
 }
 
-export const ContentBox = ({ content, links }) => {
+export const ContentBox = ({ content, links, previewMode }) => {
   /*
    * Get content values
    */
@@ -252,6 +306,7 @@ export const ContentBox = ({ content, links }) => {
       areaMobile={areaMobile}
       linksPosition={links.list.length > 0 ? links.position : 'NONE'}
       linksSize={links.size}
+      previewMode={previewMode}
     >
       {Content}
     </ResponsiveContainer>

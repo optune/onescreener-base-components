@@ -123,6 +123,14 @@ const Link = styled.div`
   height: ${({ size }) => ShapeSize.Desktop[size]};
   margin: ${({ margin }) => margin || '1rem'};
 
+  ${({ previewMode }) =>
+    previewMode === 'MOBILE' &&
+    css`
+      width: ${() => ShapeSize.Mobile.M} !important;
+      height: ${() => ShapeSize.Mobile.M} !important;
+      margin: 0.5rem !important;
+    `}
+
   @media ${MediaMobile} {
     width: ${({ size }) => ShapeSize.Mobile[size]};
     height: ${({ size }) => ShapeSize.Mobile[size]};
@@ -163,6 +171,13 @@ const LinkIconMapper = ({ platform, size = 'M' }) => styled(PlatformLinkIcon[pla
   width: ${IconSize.Desktop[size]};
   height: ${IconSize.Desktop[size]};
 
+  ${({ previewMode }) =>
+    previewMode === 'MOBILE' &&
+    css`
+      width: ${() => IconSize.Mobile.M} !important;
+      height: ${() => IconSize.Mobile.M} !important;
+    `}
+
   @media ${MediaMobile} {
     width: ${IconSize.Mobile[size]};
     height: ${IconSize.Mobile[size]};
@@ -202,6 +217,7 @@ export const PlatformLink = ({
   margin,
   noShadow,
   platform,
+  previewMode,
   size,
   square,
   url,
@@ -224,10 +240,11 @@ export const PlatformLink = ({
         colorBackgroundAccent={colorBackgroundAccent}
         margin={margin}
         noShadow
+        previewMode={previewMode}
         size={size || 'M'}
         square={square}
       >
-        <Icon color={color} size={size} />
+        <Icon color={color} size={size} previewMode={previewMode} />
       </Link>
     </LinkWrapper>
   ) : (
@@ -240,10 +257,11 @@ export const PlatformLink = ({
       colorBackgroundAccent={colorBackgroundAccent}
       margin={margin}
       noShadow
+      previewMode={previewMode}
       size={size || 'M'}
       square={square}
     >
-      <Icon color={color} size={size} />
+      <Icon color={color} size={size} previewMode={previewMode} />
     </Link>
   )
 }
@@ -285,7 +303,7 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
   }
 })
 
-export const Links = (links, content) =>
+export const Links = (links, content, mode) =>
   links.list
     .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
     .map(link => (
@@ -299,6 +317,7 @@ export const Links = (links, content) =>
         colorAccent={content.colorAccent}
         colorBackground={content.colorBackground}
         colorBackgroundAccent={content.colorBackgroundAccent}
+        previewMode={mode}
         {...link}
       />
     ))
