@@ -119,17 +119,11 @@ const Link = styled.div`
   color: ${({ color }) => color};
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out, color 0.25s ease-out;
 
-  width: ${({ size }) => ShapeSize.Desktop[size]};
-  height: ${({ size }) => ShapeSize.Desktop[size]};
-  margin: ${({ margin }) => margin || '1rem'};
-
-  ${({ previewMode }) =>
-    previewMode === 'MOBILE' &&
-    css`
-      width: ${() => ShapeSize.Mobile.M} !important;
-      height: ${() => ShapeSize.Mobile.M} !important;
-      margin: 0.5rem !important;
-    `}
+  width: ${({ isPreviewMode, size }) =>
+    isPreviewMobile ? ShapeSize.Mobile[size] : ShapeSize.Desktop[size]};
+  height: ${({ isPreviewMode, size }) =>
+    isPreviewMobile ? ShapeSize.Mobile[size] : ShapeSize.Desktop[size]};
+  margin: ${({ isPreviewMode, margin }) => (isPreviewMobile && '0.5rem') || margin || '1rem'};
 
   @media ${MediaMobile} {
     width: ${({ size }) => ShapeSize.Mobile[size]};
@@ -168,15 +162,10 @@ const Link = styled.div`
       `}
 `
 const LinkIconMapper = ({ platform, size = 'M' }) => styled(PlatformLinkIcon[platform])`
-  width: ${IconSize.Desktop[size]};
-  height: ${IconSize.Desktop[size]};
-
-  ${({ previewMode }) =>
-    previewMode === 'MOBILE' &&
-    css`
-      width: ${() => IconSize.Mobile.M} !important;
-      height: ${() => IconSize.Mobile.M} !important;
-    `}
+  width: ${({ isPreviewMobile }) =>
+    isPreviewMobile ? IconSize.Mobile[size] : IconSize.Desktop[size]};
+  height: ${({ isPreviewMobile }) =>
+    isPreviewMobile ? IconSize.Mobile[size] : IconSize.Desktop[size]};
 
   @media ${MediaMobile} {
     width: ${IconSize.Mobile[size]};
@@ -217,7 +206,7 @@ export const PlatformLink = ({
   margin,
   noShadow,
   platform,
-  previewMode,
+  isPreviewMobile,
   size,
   square,
   url,
@@ -240,11 +229,11 @@ export const PlatformLink = ({
         colorBackgroundAccent={colorBackgroundAccent}
         margin={margin}
         noShadow
-        previewMode={previewMode}
+        isPreviewMobile={isPreviewMobile}
         size={size || 'M'}
         square={square}
       >
-        <Icon color={color} size={size} previewMode={previewMode} />
+        <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} />
       </Link>
     </LinkWrapper>
   ) : (
@@ -257,11 +246,11 @@ export const PlatformLink = ({
       colorBackgroundAccent={colorBackgroundAccent}
       margin={margin}
       noShadow
-      previewMode={previewMode}
+      isPreviewMobile={isPreviewMobile}
       size={size || 'M'}
       square={square}
     >
-      <Icon color={color} size={size} previewMode={previewMode} />
+      <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} />
     </Link>
   )
 }
@@ -303,7 +292,7 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
   }
 })
 
-export const Links = (links, content, mode) =>
+export const Links = (links, content, isPreviewMode) =>
   links.list
     .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
     .map(link => (
@@ -317,7 +306,7 @@ export const Links = (links, content, mode) =>
         colorAccent={content.colorAccent}
         colorBackground={content.colorBackground}
         colorBackgroundAccent={content.colorBackgroundAccent}
-        previewMode={mode}
+        isPreviewMobile={isPreviewMode}
         {...link}
       />
     ))
