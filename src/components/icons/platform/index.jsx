@@ -119,11 +119,11 @@ const Link = styled.div`
   color: ${({ color }) => color};
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out, color 0.25s ease-out;
 
-  width: ${({ isPreviewMode, size }) =>
+  width: ${({ isPreviewMobile, size }) =>
     isPreviewMobile ? ShapeSize.Mobile[size] : ShapeSize.Desktop[size]};
-  height: ${({ isPreviewMode, size }) =>
+  height: ${({ isPreviewMobile, size }) =>
     isPreviewMobile ? ShapeSize.Mobile[size] : ShapeSize.Desktop[size]};
-  margin: ${({ isPreviewMode, margin }) => (isPreviewMobile && '0.5rem') || margin || '1rem'};
+  margin: ${({ isPreviewMobile, margin }) => (isPreviewMobile && '0.5rem') || margin || '1rem'};
 
   @media ${MediaMobile} {
     width: ${({ size }) => ShapeSize.Mobile[size]};
@@ -292,7 +292,7 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
   }
 })
 
-export const Links = (links, content, isPreviewMode) =>
+export const Links = (links, content, isPreviewMobile) =>
   links.list
     .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
     .map(link => (
@@ -306,7 +306,7 @@ export const Links = (links, content, isPreviewMode) =>
         colorAccent={content.colorAccent}
         colorBackground={content.colorBackground}
         colorBackgroundAccent={content.colorBackgroundAccent}
-        isPreviewMobile={isPreviewMode}
+        isPreviewMobile={isPreviewMobile}
         {...link}
       />
     ))

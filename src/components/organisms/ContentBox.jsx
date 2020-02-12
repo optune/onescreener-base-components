@@ -34,6 +34,11 @@ const LinkMarginMobile = {
   L: 5,
 }
 
+const PreviewMobile = {
+  width: 365,
+  height: 640,
+}
+
 const round = a => a.toFixed(2)
 
 const getGridArea = (
@@ -99,7 +104,7 @@ const getGridArea = (
 
 const getGridAreaMobile = (
   { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan },
-  { linksSize = 'M', setImportant = false }
+  { linksSize = 'M', isPreviewMobile = false }
 ) => {
   const { ColumnSize, ColumnUnit, RowSize, RowUnit } = MobileGrid
 
@@ -122,18 +127,27 @@ const getGridAreaMobile = (
   // Give extra margin if links are at same side as content
   if (endRow === RowSize) marginVLinks += linkMargin
 
-  const width = round(columnSpan * ColumnUnit)
-  const widthCorrection = round((columnSpan * (marginHLinks + 2)) / ColumnSize)
+  const height = `${round(rowSpan * RowUnit)}${isPreviewMobile ? '%' : 'vh'}`
+  const heightCorrection = (rowSpan * (linkMargin + 2)) / RowSize
+  const width = `${round(columnSpan * ColumnUnit)}${isPreviewMobile ? '%' : 'vw'}`
+  const widthCorrection = (columnSpan * 2) / ColumnSize
 
-  const height = round(rowSpan * RowUnit)
-  const heightCorrection = round((rowSpan * (marginVLinks + 2)) / RowSize)
+  const important = isPreviewMobile ? ' !important' : ''
 
-  const important = setImportant ? ' !important' : ''
+  console.log(marginH, marginV)
+
+  marginH = isPreviewMobile
+    ? `${Math.round(PreviewMobile.width * marginH) / 100}px`
+    : `${marginH}vw`
+  marginV = isPreviewMobile
+    ? `${Math.round(PreviewMobile.height * marginV) / 100}px`
+    : `${marginV}vh`
+
   const area = `
-    ${positionH}: calc(${marginH}vw + 1rem)${important};
-    bottom: calc(${marginV}vh + ${linkMargin + 1}rem)${important};
-    width: calc(${width}vw - ${(columnSpan * 2) / ColumnSize}rem)${important};
-    height: calc(${height}vh - ${(rowSpan * (linkMargin + 2)) / RowSize}rem)${important};
+    ${positionH}: calc(${marginH} + 1rem)${important};
+    bottom: calc(${marginV} + ${linkMargin + 1}rem)${important};
+    width: calc(${width} - ${widthCorrection}rem)${important};
+    height: calc(${height} - ${heightCorrection}rem)${important};
   `
 
   return css`
@@ -154,9 +168,9 @@ const ResponsiveContainer = styled.div`
   z-index: 3;
 
   @media ${NotMediaMobile} {
-    ${({ area, linksPosition, linksSize, isPreviewMobile }) =>
+    ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile }) =>
       isPreviewMobile
-        ? getGridAreaMobile(areaMobile, { linksSize, setImportant: true })
+        ? getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
         : getGridArea(area, { linksPosition, linksSize })}
   }
 

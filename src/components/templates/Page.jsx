@@ -117,7 +117,14 @@ export const Page = ({ page, noBacklink, isPreviewMobile }) => {
             )}
 
             {/* Logo */}
-            {logo && <LogoBox zIndex={2} logo={logo} getImageUrl={getUrl} />}
+            {logo && (
+              <LogoBox
+                zIndex={2}
+                logo={logo}
+                getImageUrl={getUrl}
+                isPreviewMobile={isPreviewMobile}
+              />
+            )}
 
             {/* Logo */}
             <ContentBox content={content} links={links} isPreviewMobile={isPreviewMobile} />
@@ -125,7 +132,7 @@ export const Page = ({ page, noBacklink, isPreviewMobile }) => {
             {/* Links */}
             {links.list.length > 0 && (
               <LinksBox position={links.position} zIndex={4} isPreviewMobile={isPreviewMobile}>
-                {Links(links, content, mode)}
+                {Links(links, content, isPreviewMobile)}
               </LinksBox>
             )}
           </ForegroundContainer>
