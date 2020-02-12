@@ -94,7 +94,7 @@ export const LogoBox = ({ logo, zIndex, getImageUrl, isPreviewMobile }) => (
     {logo.image?.url > '' ? (
       <Logo logo={logo} getImageUrl={getImageUrl} isPreviewMobile={isPreviewMobile} />
     ) : (
-      <LogoText logo={logo} />
+      <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
     )}
   </LogoContainer>
 )

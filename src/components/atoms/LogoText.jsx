@@ -29,10 +29,16 @@ const LogoTextContainer = styled.div`
   }
 `
 
-export const LogoText = ({ logo }) =>
+export const LogoText = ({ logo, isPreviewMobile }) =>
   logo.text?.title ? (
     <LogoTextContainer size={logo.size} color={logo.text.color}>
-      <AutoTextFit adjustWidth includeWidth padding="0" maxFontSize={300}>
+      <AutoTextFit
+        adjustWidth
+        includeWidth
+        padding="0"
+        maxFontSize={300}
+        isMobileView={isPreviewMobile}
+      >
         <p className="apply-font">{logo.text.title}</p>
       </AutoTextFit>
     </LogoTextContainer>

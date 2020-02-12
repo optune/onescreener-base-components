@@ -134,8 +134,6 @@ const getGridAreaMobile = (
 
   const important = isPreviewMobile ? ' !important' : ''
 
-  console.log(marginH, marginV)
-
   marginH = isPreviewMobile
     ? `${Math.round(PreviewMobile.width * marginH) / 100}px`
     : `${marginH}vw`
@@ -239,6 +237,7 @@ export const ContentBox = ({ content, links, isPreviewMobile }) => {
           circle={circle}
           gigsAPI={gigsAPI}
           gigsList={gigsList}
+          isPreviewMobile={isPreviewMobile}
           square={square}
           {...colors}
         />
@@ -251,7 +250,12 @@ export const ContentBox = ({ content, links, isPreviewMobile }) => {
 
     case 'TEXT':
       Content = (
-        <TextBox {...colors} wordWrap={wordWrap} alignHorizontal={alignHorizontal}>
+        <TextBox
+          {...colors}
+          alignHorizontal={alignHorizontal}
+          isPreviewMobile={isPreviewMobile}
+          wordWrap={wordWrap}
+        >
           {renderHtml(text)}
         </TextBox>
       )
