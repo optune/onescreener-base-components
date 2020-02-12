@@ -35,8 +35,8 @@ const LinkMarginMobile = {
 }
 
 const PreviewMobile = {
-  width: 365,
-  height: 640,
+  width: 333,
+  height: 520,
 }
 
 const round = a => a.toFixed(2)
@@ -114,10 +114,10 @@ const getGridAreaMobile = (
 
   // Calculate vertical and horizontal margins and width
   const marginHUnit = isLeft ? startColumn - 1 : ColumnSize - endColumn
-  const marginH = (marginHUnit * ColumnUnit).toFixed(3)
+  let marginH = (marginHUnit * ColumnUnit).toFixed(3)
 
   const marginVUnit = RowSize - endRow
-  const marginV = (marginVUnit * RowUnit).toFixed(3)
+  let marginV = (marginVUnit * RowUnit).toFixed(3)
 
   let marginVLinks = 0
   let marginHLinks = 0
