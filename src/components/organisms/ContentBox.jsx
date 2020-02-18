@@ -34,12 +34,16 @@ const LinkMarginMobile = {
   L: 5,
 }
 
+const PreviewMobile = {
+  width: 333,
+  height: 520,
+}
+
 const round = a => a.toFixed(2)
 
 const getGridArea = (
   { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan },
-  linksPosition,
-  linksSize = 'M'
+  { linksPosition, linksSize = 'M' }
 ) => {
   const { ColumnSize, RowSize, Unit } = DesktopGrid
   // Decide if margin is calculated from top or bottom and left or right
@@ -100,7 +104,7 @@ const getGridArea = (
 
 const getGridAreaMobile = (
   { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan },
-  linksSize = 'M'
+  { linksSize = 'M', isPreviewMobile = false }
 ) => {
   const { ColumnSize, ColumnUnit, RowSize, RowUnit } = MobileGrid
 
@@ -110,10 +114,10 @@ const getGridAreaMobile = (
 
   // Calculate vertical and horizontal margins and width
   const marginHUnit = isLeft ? startColumn - 1 : ColumnSize - endColumn
-  const marginH = (marginHUnit * ColumnUnit).toFixed(3)
+  let marginH = (marginHUnit * ColumnUnit).toFixed(3)
 
   const marginVUnit = RowSize - endRow
-  const marginV = (marginVUnit * RowUnit).toFixed(3)
+  let marginV = (marginVUnit * RowUnit).toFixed(3)
 
   let marginVLinks = 0
   let marginHLinks = 0
@@ -123,62 +127,25 @@ const getGridAreaMobile = (
   // Give extra margin if links are at same side as content
   if (endRow === RowSize) marginVLinks += linkMargin
 
-  const width = round(columnSpan * ColumnUnit)
-  const widthCorrection = round((columnSpan * (marginHLinks + 2)) / ColumnSize)
+  const height = `${round(rowSpan * RowUnit)}${isPreviewMobile ? '%' : 'vh'}`
+  const heightCorrection = (rowSpan * (linkMargin + 2)) / RowSize
+  const width = `${round(columnSpan * ColumnUnit)}${isPreviewMobile ? '%' : 'vw'}`
+  const widthCorrection = (columnSpan * 2) / ColumnSize
 
-  const height = round(rowSpan * RowUnit)
-  const heightCorrection = round((rowSpan * (marginVLinks + 2)) / RowSize)
+  const important = isPreviewMobile ? ' !important' : ''
 
-  const area = `
-    ${positionH}: calc(${marginH}vw + 1rem);
-    bottom: calc(${marginV}vh + ${linkMargin + 1}rem);
-    width: calc(${width}vw - ${(columnSpan * 2) / ColumnSize}rem);
-    height: calc(${height}vh - ${(rowSpan * (linkMargin + 2)) / RowSize}rem);
-  `
-
-  return css`
-    ${area}
-  `
-}
-
-const getGridAreaMobileImportant = (
-  { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan },
-  linksSize = 'M'
-) => {
-  const { ColumnSize, ColumnUnit, RowSize, RowUnit } = MobileGrid
-
-  // Decide if margin is calculated from top or bottom and left or right
-  const isLeft = ColumnSize - endColumn >= startColumn - 1
-  const positionH = isLeft ? 'left' : 'right'
-
-  const positionV = 'bottom'
-
-  // Calculate vertical and horizontal margins and width
-  const marginHUnit = isLeft ? startColumn - 1 : ColumnSize - endColumn
-  const marginH = (marginHUnit * ColumnUnit).toFixed(3)
-
-  const marginVUnit = RowSize - endRow
-  const marginV = (marginVUnit * RowUnit).toFixed(3)
-
-  let marginVLinks = 0
-  let marginHLinks = 0
-
-  const linkMargin = LinkMargin[linksSize]
-
-  // Give extra margin if links are at same side as content
-  if (endRow === RowSize) marginVLinks += linkMargin
-
-  const width = round(columnSpan * ColumnUnit)
-  const widthCorrection = round((columnSpan * (marginHLinks + 2)) / ColumnSize)
-
-  const height = round(rowSpan * RowUnit)
-  const heightCorrection = round((rowSpan * (marginVLinks + 2)) / RowSize)
+  marginH = isPreviewMobile
+    ? `${Math.round(PreviewMobile.width * marginH) / 100}px`
+    : `${marginH}vw`
+  marginV = isPreviewMobile
+    ? `${Math.round(PreviewMobile.height * marginV) / 100}px`
+    : `${marginV}vh`
 
   const area = `
-    ${positionH}: calc(${marginH}vw + 1rem) !important;
-    ${positionV}: calc(${marginV}vh + ${linkMargin + 1}rem) !important;
-    width: calc(${width}% - ${(columnSpan * 2) / ColumnSize}rem) !important;
-    height: calc(${height}% - ${(rowSpan * (linkMargin + 2)) / RowSize}rem) !important;
+    ${positionH}: calc(${marginH} + 1rem)${important};
+    bottom: calc(${marginV} + ${linkMargin + 1}rem)${important};
+    width: calc(${width} - ${widthCorrection}rem)${important};
+    height: calc(${height} - ${heightCorrection}rem)${important};
   `
 
   return css`
@@ -198,27 +165,21 @@ const ResponsiveContainer = styled.div`
   position: absolute;
   z-index: 3;
 
-  ${({ previewMode }) =>
-    previewMode === 'MOBILE' &&
-    css`
-      ${({ areaMobile, linksPosition, linksSize }) =>
-        getGridAreaMobileImportant(areaMobile, linksSize)}
-    `}
-
   @media ${NotMediaMobile} {
-    ${({ area, linksPosition, linksSize }) => getGridArea(area, linksPosition, linksSize)}
+    ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile }) =>
+      isPreviewMobile
+        ? getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
+        : getGridArea(area, { linksPosition, linksSize })}
   }
 
   @media ${MediaMobile} {
-    ${({ areaMobile, linksPosition, linksSize }) => getGridAreaMobile(areaMobile, linksSize)}
+    ${({ areaMobile, linksPosition, linksSize }) => getGridAreaMobile(areaMobile, { linksSize })}
   }
 
   @media ${MediaSmall} {
     min-width: 33.333vw;
     min-height: 33.333vw;
   }
-
-  
 `
 
 const getArea = ({ position, span }) => {
@@ -235,7 +196,7 @@ const getArea = ({ position, span }) => {
   return { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan }
 }
 
-export const ContentBox = ({ content, links, previewMode }) => {
+export const ContentBox = ({ content, links, isPreviewMobile }) => {
   /*
    * Get content values
    */
@@ -276,6 +237,7 @@ export const ContentBox = ({ content, links, previewMode }) => {
           circle={circle}
           gigsAPI={gigsAPI}
           gigsList={gigsList}
+          isPreviewMobile={isPreviewMobile}
           square={square}
           {...colors}
         />
@@ -288,7 +250,12 @@ export const ContentBox = ({ content, links, previewMode }) => {
 
     case 'TEXT':
       Content = (
-        <TextBox {...colors} wordWrap={wordWrap} alignHorizontal={alignHorizontal}>
+        <TextBox
+          {...colors}
+          alignHorizontal={alignHorizontal}
+          isPreviewMobile={isPreviewMobile}
+          wordWrap={wordWrap}
+        >
           {renderHtml(text)}
         </TextBox>
       )
@@ -306,7 +273,7 @@ export const ContentBox = ({ content, links, previewMode }) => {
       areaMobile={areaMobile}
       linksPosition={links.list.length > 0 ? links.position : 'NONE'}
       linksSize={links.size}
-      previewMode={previewMode}
+      isPreviewMobile={isPreviewMobile}
     >
       {Content}
     </ResponsiveContainer>

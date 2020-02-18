@@ -51,16 +51,7 @@ const BacklinkUrl =
   'https://res.cloudinary.com/optune-me/image/upload/b_rgb:808080,bo_10px_solid_rgb:808080,e_blackwhite,q_auto:good,c_fit,w_70,f_auto/v1558014130/onescreener-v2/app/logo-onescreener.png'
 
 const BackLink = styled.a`
-  position: fixed;
-
-  /* Mobile mode */
-
-  ${({ previewMode }) =>
-    previewMode === 'MOBILE' &&
-    css`
-      position: absolute;
-    `}
-
+  position: ${({ isPreviewMobile }) => (isPreviewMobile ? 'absolute' : 'fixed')};
   background-image: url(${BacklinkUrl});
   background-size: contain;
   background-color: #808080;
@@ -86,7 +77,7 @@ const LogoContainer = styled.div`
   flex-direction: column;
 `
 
-export const Page = ({ page, noBacklink }) => {
+export const Page = ({ page, noBacklink, isPreviewMobile }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
     setSsrDone(true)
@@ -98,7 +89,6 @@ export const Page = ({ page, noBacklink }) => {
   if (page) {
     const { background, logo, content, gigAPI } = page
     const { links } = page || { links: { list: [] } }
-    const { mode } = page.previewMode || 'DESKTOP'
 
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
@@ -120,22 +110,29 @@ export const Page = ({ page, noBacklink }) => {
                 href="https://www.onescreener.com"
                 target="_blank"
                 title="created with onescreener.com"
-                previewMode={mode}
+                isPreviewMobile={isPreviewMobile}
               >
                 <h1>created by onescreener.com</h1>
               </BackLink>
             )}
 
             {/* Logo */}
-            {logo && <LogoBox zIndex={2} logo={logo} getImageUrl={getUrl} />}
+            {logo && (
+              <LogoBox
+                zIndex={2}
+                logo={logo}
+                getImageUrl={getUrl}
+                isPreviewMobile={isPreviewMobile}
+              />
+            )}
 
             {/* Logo */}
-            <ContentBox content={content} links={links} previewMode={mode} />
+            <ContentBox content={content} links={links} isPreviewMobile={isPreviewMobile} />
 
             {/* Links */}
             {links.list.length > 0 && (
-              <LinksBox position={links.position} zIndex={4} previewMode={mode}>
-                {Links(links, content, mode)}
+              <LinksBox position={links.position} zIndex={4} isPreviewMobile={isPreviewMobile}>
+                {Links(links, content, isPreviewMobile)}
               </LinksBox>
             )}
           </ForegroundContainer>

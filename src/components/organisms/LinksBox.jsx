@@ -60,8 +60,8 @@ const LinksList = styled.div`
     }
   }
 
-  ${({ previewMode }) =>
-    previewMode === 'MOBILE' &&
+  ${({ isPreviewMobile }) =>
+    isPreviewMobile &&
     css`
       bottom: 0 !important;
       justify-content: center !important;
@@ -75,11 +75,11 @@ const LinksList = styled.div`
   }
 `
 
-export const LinksBox = ({ children, position, zIndex, previewMode }) => (
+export const LinksBox = ({ children, position, zIndex, isPreviewMobile }) => (
   <LinksContainer zIndex={zIndex}>
     <LinksList
       className={position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'}
-      previewMode={previewMode}
+      isPreviewMobile={isPreviewMobile}
     >
       {children}
     </LinksList>
