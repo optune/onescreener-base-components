@@ -91,10 +91,14 @@ export const LogoBox = ({ logo, zIndex, getImageUrl, isPreviewMobile }) => (
     className={logo.position > '' ? logo.position.toLowerCase().replace('_', '-') : 'top-center'}
     zIndex={zIndex}
   >
-    {logo.image?.url > '' ? (
-      <Logo logo={logo} getImageUrl={getImageUrl} isPreviewMobile={isPreviewMobile} />
+    {logo.type === 'IMAGE' ? (
+      logo.image?.url > '' ? (
+        <Logo logo={logo} getImageUrl={getImageUrl} isPreviewMobile={isPreviewMobile} />
+      ) : (
+        <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
+      )
     ) : (
-      <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
+      logo.type === 'TEXT' && <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
     )}
   </LogoContainer>
 )
