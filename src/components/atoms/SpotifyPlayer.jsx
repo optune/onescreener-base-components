@@ -29,7 +29,7 @@ export const SpotifyPlayer = ({ url }) => {
         src={trueUrl}
         width="100%"
         height="100%"
-        frameborder="0"
+        frameBorder="0"
         allowtransparency="true"
         allow="encrypted-media"
       ></iframe>
