@@ -135,8 +135,13 @@ export class AutoTextFit extends Component {
     this.setState({ ssrDone: true, resized: false })
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { ssrDone, resized } = this.state
+    const shouldResize = this.props.isMobileView !== prevProps.isMobileView
+
+    if (resized && shouldResize) {
+      this.setState({ resized: false })
+    }
 
     if (ssrDone && !resized) {
       // Resize text if window size is set or changes
@@ -179,6 +184,7 @@ AutoTextFit.propTypes = {
   children: PropTypes.node,
   colorBackground: PropTypes.string,
   includeWidth: PropTypes.bool,
+  isMobileView: PropTypes.bool,
   maxFontSize: PropTypes.number,
   minFontSize: PropTypes.number,
   onResize: PropTypes.bool,

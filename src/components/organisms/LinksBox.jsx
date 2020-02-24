@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { MediaMobile, NotMediaMobile } from '../../style/media.js'
 
@@ -24,41 +24,50 @@ const LinksList = styled.div`
   height: auto;
   pointer-events: all;
 
-  @media ${NotMediaMobile} {
-    &.bottom-center {
-      bottom: 0;
-      justify-content: center;
-      white-space: nowrap;
-    }
+  ${({ isPreviewMobile }) =>
+    isPreviewMobile
+      ? css`
+          bottom: 0 !important;
+          justify-content: center !important;
+          white-space: nowrap !important;
+        `
+      : css`
+          @media ${NotMediaMobile} {
+            &.bottom-center {
+              bottom: 0;
+              justify-content: center;
+              white-space: nowrap;
+            }
 
-    &.bottom-left {
-      bottom: 0;
-      justify-content: flex-start;
-      white-space: nowrap;
-    }
+            &.bottom-left {
+              bottom: 0;
+              justify-content: flex-start;
+              white-space: nowrap;
+            }
 
-    &.bottom-right {
-      bottom: 0;
-      justify-content: flex-end;
-      white-space: nowrap;
-    }
+            &.bottom-right {
+              bottom: 0;
+              justify-content: flex-end;
+              white-space: nowrap;
+            }
 
-    &.center-right {
-      right: 0;
-      width: auto;
-      height: 100%;
-      flex-flow: column;
-      justify-content: center;
-    }
+            &.center-right {
+              right: 0;
+              width: auto;
+              height: 100%;
+              flex-flow: column;
+              justify-content: center;
+            }
 
-    &.center-left {
-      left: 0;
-      width: auto;
-      height: 100%;
-      flex-flow: column;
-      justify-content: center;
-    }
-  }
+            &.center-left {
+              left: 0;
+              width: auto;
+              height: 100%;
+              flex-flow: column;
+              justify-content: center;
+            }
+          }
+        `}
 
   @media ${MediaMobile} {
     bottom: 0;
@@ -67,10 +76,11 @@ const LinksList = styled.div`
   }
 `
 
-export const LinksBox = ({ children, position, zIndex }) => (
+export const LinksBox = ({ children, position, zIndex, isPreviewMobile }) => (
   <LinksContainer zIndex={zIndex}>
     <LinksList
       className={position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'}
+      isPreviewMobile={isPreviewMobile}
     >
       {children}
     </LinksList>

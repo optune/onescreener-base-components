@@ -86,12 +86,18 @@ export const TextBox = ({
   color,
   colorBackground,
   colorAccent,
+  isPreviewMobile,
   wordWrap,
   ...otherOptions
 }) => (
   <TextBackground>
     <Text colorPrimary={color} colorAccent={colorAccent} wordWrap={wordWrap}>
-      <AutoTextFit colorBackground={colorBackground} includeWidth={!wordWrap} {...otherOptions}>
+      <AutoTextFit
+        colorBackground={colorBackground}
+        includeWidth={!wordWrap}
+        isMobileView={isPreviewMobile}
+        {...otherOptions}
+      >
         {children}
       </AutoTextFit>
     </Text>

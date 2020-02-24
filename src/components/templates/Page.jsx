@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment, useState, useEffect } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import { Sponsors } from '../molecules/sponsors/Sponsors'
+import { customHtml } from '../molecules/customHtml/index.jsx'
 
 // Background
 import { Background } from '../atoms/Background.jsx'
@@ -34,6 +34,7 @@ const PageContainer = styled.div`
   background-position: ${({ focusPoint }) => focusPoint};
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
   display: flex;
+  overflow: hidden;
 `
 
 const ForegroundContainer = styled.div`
@@ -47,22 +48,27 @@ const ForegroundContainer = styled.div`
 `
 
 const BacklinkUrl =
-  'https://res.cloudinary.com/optune-me/image/upload/b_rgb:808080,bo_10px_solid_rgb:808080,e_blackwhite,q_auto:good,c_fit,w_70,f_auto/v1558014130/onescreener-v2/app/logo-onescreener.png'
+  'https://res.cloudinary.com/optune-me/image/upload/e_blackwhite,q_auto:good,c_fit,w_64,f_auto/v1558014130/onescreener-v2/app/logo-onescreener.png'
 
 const BackLink = styled.a`
-  position: fixed;
+  position: ${({ isPreviewMobile }) => (isPreviewMobile ? 'absolute' : 'fixed')};
   background-image: url(${BacklinkUrl});
-  background-size: contain;
-  background-color: #808080;
+  background-size: initial;
+  background-color: #606060;
   background-position: center;
   background-repeat: no-repeat;
   width: 70px;
   height: 15px;
-  opacity: 0.3;
+  opacity: 0.4;
   transform: rotate(-90deg);
   transform-origin: 100% 100%;
   right: 0;
   color: #ffffff;
+  transition: opacity 0.3s ease-out;
+
+  &:hover {
+    opacity: 0.6;
+  }
 
   & h1 {
     color: #808080;
@@ -76,7 +82,7 @@ const LogoContainer = styled.div`
   flex-direction: column;
 `
 
-export const Page = ({ page, noBacklink }) => {
+export const Page = ({ page, noBacklink, isPreviewMobile }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
     setSsrDone(true)
@@ -89,29 +95,7 @@ export const Page = ({ page, noBacklink }) => {
     const { background, logo, content, gigAPI } = page
     const { links } = page || { links: { list: [] } }
 
-    const { font, fontURL } = page.logo.text
-
-    // Importing font to page
-    let styles = document.head.getElementsByTagName('style')
-    let style
-
-    for (let i = 0; i < styles.length; i++) {
-      if (styles[i].dataset.font !== undefined) {
-        style = styles[i]
-      }
-    }
-
-    if (!style) {
-      style = document.createElement('style')
-      style.setAttribute('data-font', font)
-      style.innerHTML = fontURL + ` .apply-font {font-family: '${font}';}` // Applying font to the logo
-      document.getElementsByTagName('head')[0].appendChild(style)
-    }
-
-    if (style) {
-      style.setAttribute('data-font', font)
-      style.innerHTML = fontURL + ` .apply-font {font-family: '${font}';}` // Applying font to the logo
-    }
+    const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
     PageComponent = (
       <Fragment>
@@ -131,26 +115,35 @@ export const Page = ({ page, noBacklink }) => {
                 href="https://www.onescreener.com"
                 target="_blank"
                 title="created with onescreener.com"
+                isPreviewMobile={isPreviewMobile}
               >
                 <h1>created by onescreener.com</h1>
               </BackLink>
             )}
 
             {/* Logo */}
-            {logo && <LogoBox zIndex={2} logo={logo} getImageUrl={getUrl} />}
+            {logo && (
+              <LogoBox
+                zIndex={2}
+                logo={logo}
+                getImageUrl={getUrl}
+                isPreviewMobile={isPreviewMobile}
+              />
+            )}
 
             {/* Logo */}
-            <ContentBox content={content} links={links} />
+            <ContentBox content={content} links={links} isPreviewMobile={isPreviewMobile} />
 
             {/* Links */}
             {links.list.length > 0 && (
-              <LinksBox position={links.position} zIndex={4}>
-                {Links(links, content)}
+              <LinksBox position={links.position} zIndex={4} isPreviewMobile={isPreviewMobile}>
+                {Links(links, content, isPreviewMobile)}
               </LinksBox>
             )}
           </ForegroundContainer>
+
+          {CustomHtml && <CustomHtml />}
         </PageContainer>
-        {content?.showCustomHTML && <Sponsors />}
       </Fragment>
     )
   }

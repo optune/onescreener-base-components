@@ -154,6 +154,7 @@ export const GigsBox = ({
   colorBackgroundAccent,
   gigsAPI,
   gigsList,
+  isPreviewMobile,
   square,
 }) => {
   // SSR State
@@ -188,10 +189,11 @@ export const GigsBox = ({
 
       <InfoContainer color={color} alignHorizontal={alignHorizontal} active={!showGigs}>
         <AutoTextFit
+          adjustWidth
           alignHorizontal={alignHorizontal}
           colorBackground={colorBackground}
           includeWidth
-          adjustWidth
+          isMobileView={isPreviewMobile}
         >
           <GigsTitle
             alignHorizontal={alignHorizontal}
@@ -216,6 +218,7 @@ export const GigsBox = ({
           colorBackgroundAccent={colorBackgroundAccent}
           wordWrap={ssrDone && isSmall}
           adjustWidth
+          isPreviewMobile={isPreviewMobile}
         >
           {/*
            * Gigs List

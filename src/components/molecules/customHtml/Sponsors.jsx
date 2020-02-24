@@ -1,44 +1,41 @@
-import React, { Fragment, useRef } from 'react'
+import React, { Fragment, useState } from 'react'
 import styled from 'styled-components'
 
 // Styles
 const SponsorsHolder = styled.div`
   position: absolute;
-  transition: all 0.3s;
-  opacity: 0.3;
+  display: block;
+  opacity: ${({ open }) => open ? 1 : 0.3};
   bottom: 2em;
-  right: -100px;
+  right: ${({ open }) => open ? 0 : '-100px'};
   width: 80px;
   cursor: pointer;
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.4);
   text-align: center;
   z-index: 5;
+  transition: right 0.25s, opacity 0.3s;
 
   &.open {
     opacity: 1;
     right: 0px;
-    display: block;
   }
 `
 
 const SponsorsHolderOpener = styled.div`
-  border: none;
   font-size: 0.7em;
   position: absolute;
   bottom: 15em;
   right: -2px;
-  -webkit-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-  -webkit-transform-origin: 100% 100%;
-  transform-origin: 100% 100%;
   background-color: #808080;
-  color: white;
-  padding: 0.1em 0.5em 5px 0.5em;
-  transition: all 0.3s;
-  z-index: 3;
-  background-color: #808080;
+  color: #FFFFFF;
+  border: none;
   opacity: 0.6;
+  padding: 0.1em 0.5em 5px 0.5em;
+  transform: rotate(-90deg);
+  transform-origin: 100% 100%;
+  transition: opacity 0.3s;
+  z-index: 3;
 
   &:hover {
     opacity: 1;
@@ -46,38 +43,19 @@ const SponsorsHolderOpener = styled.div`
 `
 
 export const Sponsors = () => {
-  const refHolder = useRef(null)
-  const refHolderOpener = useRef(null)
-
-  function showSponsors() {
-    window.setTimeout(function() {
-      refHolder.current.classList.add('open')
-      refHolderOpener.current.style.display = 'none'
-    }, 10)
-  }
-
-  function hideSponsors(e) {
-    window.setTimeout(function() {
-      if (e.type === 'click') if (e.target === refHolderOpener.current) return
-      refHolder.current.classList.remove('open')
-      refHolderOpener.current.style.display = 'block'
-    }, 300)
-  }
+  const [open, setOpen] = useState(false)
 
   return (
     <Fragment>
       <SponsorsHolderOpener
-        ref={refHolderOpener}
-        className="sponsors-holder-opener"
-        onMouseEnter={e => showSponsors()}
-        onClick={e => showSponsors()}
+        onMouseEnter={() => setOpen(true)}
+        onClick={() => setOpen(true)}
       >
         supported by
       </SponsorsHolderOpener>
       <SponsorsHolder
-        ref={refHolder}
-        className="sponsors-holder"
-        onMouseLeave={e => hideSponsors(e)}
+        open={open}
+        onMouseLeave={() => setOpen(false)}
       >
         <div className="sponsors-inner">
           <a
