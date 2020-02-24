@@ -24,49 +24,50 @@ const LinksList = styled.div`
   height: auto;
   pointer-events: all;
 
-  @media ${NotMediaMobile} {
-    &.bottom-center {
-      bottom: 0;
-      justify-content: center;
-      white-space: nowrap;
-    }
-
-    &.bottom-left {
-      bottom: 0;
-      justify-content: flex-start;
-      white-space: nowrap;
-    }
-
-    &.bottom-right {
-      bottom: 0;
-      justify-content: flex-end;
-      white-space: nowrap;
-    }
-
-    &.center-right {
-      right: 0;
-      width: auto;
-      height: 100%;
-      flex-flow: column;
-      justify-content: center;
-    }
-
-    &.center-left {
-      left: 0;
-      width: auto;
-      height: 100%;
-      flex-flow: column;
-      justify-content: center;
-    }
-  }
-
   ${({ isPreviewMobile }) =>
-    isPreviewMobile &&
-    css`
-      bottom: 0 !important;
-      justify-content: center !important;
-      white-space: nowrap !important;
-    `}
+    isPreviewMobile
+      ? css`
+          bottom: 0 !important;
+          justify-content: center !important;
+          white-space: nowrap !important;
+        `
+      : css`
+          @media ${NotMediaMobile} {
+            &.bottom-center {
+              bottom: 0;
+              justify-content: center;
+              white-space: nowrap;
+            }
+
+            &.bottom-left {
+              bottom: 0;
+              justify-content: flex-start;
+              white-space: nowrap;
+            }
+
+            &.bottom-right {
+              bottom: 0;
+              justify-content: flex-end;
+              white-space: nowrap;
+            }
+
+            &.center-right {
+              right: 0;
+              width: auto;
+              height: 100%;
+              flex-flow: column;
+              justify-content: center;
+            }
+
+            &.center-left {
+              left: 0;
+              width: auto;
+              height: 100%;
+              flex-flow: column;
+              justify-content: center;
+            }
+          }
+        `}
 
   @media ${MediaMobile} {
     bottom: 0;
