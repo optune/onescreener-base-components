@@ -28,7 +28,7 @@ const LinksList = styled.div`
     isPreviewMobile
       ? css`
           bottom: 0 !important;
-          justify-content: center !important;
+          justify-content: space-between !important;
           white-space: nowrap !important;
         `
       : css`
@@ -71,7 +71,7 @@ const LinksList = styled.div`
 
   @media ${MediaMobile} {
     bottom: 0;
-    justify-content: center;
+    justify-content: space-between;
     white-space: nowrap;
   }
 `
