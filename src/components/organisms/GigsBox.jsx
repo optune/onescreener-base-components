@@ -218,6 +218,7 @@ export const GigsBox = ({
           colorBackgroundAccent={colorBackgroundAccent}
           wordWrap={ssrDone && isSmall}
           adjustWidth
+          isPreviewMobile={isPreviewMobile}
         >
           {/*
            * Gigs List

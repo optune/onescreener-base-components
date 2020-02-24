@@ -48,22 +48,27 @@ const ForegroundContainer = styled.div`
 `
 
 const BacklinkUrl =
-  'https://res.cloudinary.com/optune-me/image/upload/b_rgb:808080,bo_10px_solid_rgb:808080,e_blackwhite,q_auto:good,c_fit,w_70,f_auto/v1558014130/onescreener-v2/app/logo-onescreener.png'
+  'https://res.cloudinary.com/optune-me/image/upload/e_blackwhite,q_auto:good,c_fit,w_64,f_auto/v1558014130/onescreener-v2/app/logo-onescreener.png'
 
 const BackLink = styled.a`
   position: ${({ isPreviewMobile }) => (isPreviewMobile ? 'absolute' : 'fixed')};
   background-image: url(${BacklinkUrl});
-  background-size: contain;
-  background-color: #808080;
+  background-size: initial;
+  background-color: #606060;
   background-position: center;
   background-repeat: no-repeat;
   width: 70px;
   height: 15px;
-  opacity: 0.3;
+  opacity: 0.4;
   transform: rotate(-90deg);
   transform-origin: 100% 100%;
   right: 0;
   color: #ffffff;
+  transition: opacity 0.3s ease-out;
+
+  &:hover {
+    opacity: 0.6;
+  }
 
   & h1 {
     color: #808080;
