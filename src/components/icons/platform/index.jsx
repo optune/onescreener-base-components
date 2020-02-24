@@ -72,27 +72,27 @@ export const PlatformLinkIcon = {
 
 const ShapeSize = {
   Desktop: {
-    S: '3.6rem',
-    M: '4.4rem',
-    L: '5.2rem',
+    S: '51px',
+    M: '62px',
+    L: '73px',
   },
   Mobile: {
-    S: '3.2rem',
-    M: '3.6rem',
-    L: '4rem',
+    S: '36px',
+    M: '36px',
+    L: '40px',
   },
 }
 
 const IconSize = {
   Desktop: {
-    S: '1.8rem',
-    M: '2.4rem',
-    L: '3.0rem',
+    S: '26px',
+    M: '32px',
+    L: '42px',
   },
   Mobile: {
-    S: '1.8rem',
-    M: '2.2rem',
-    L: '2.6rem',
+    S: '20px',
+    M: '22px',
+    L: '26px',
   },
 }
 
@@ -123,12 +123,13 @@ const Link = styled.div`
     isPreviewMobile ? ShapeSize.Mobile[size] : ShapeSize.Desktop[size]};
   height: ${({ isPreviewMobile, size }) =>
     isPreviewMobile ? ShapeSize.Mobile[size] : ShapeSize.Desktop[size]};
-  margin: ${({ isPreviewMobile, margin }) => (isPreviewMobile && '0.5rem') || margin || '1rem'};
+  margin: ${({ isPreviewMobile, size, margin }) =>
+    (isPreviewMobile && ((size === 'L' && '2px') || '5px')) || margin || '1rem'};
 
   @media ${MediaMobile} {
     width: ${({ size }) => ShapeSize.Mobile[size]};
     height: ${({ size }) => ShapeSize.Mobile[size]};
-    margin: ${({ margin }) => margin || '0.5rem'};
+    margin: ${({ size, margin }) => margin || (size === 'L' && '2px') || '5px'};
   }
 
   &:hover:not(:focus) {

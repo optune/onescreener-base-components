@@ -5,19 +5,37 @@ import styled, { css } from 'styled-components'
 
 import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
 
+import { MediaSmall } from '../../style/media'
+
 const LogoSize = {
-  XS: '8.333%',
-  S: '16.666%',
-  M: '33.333%',
-  L: '50%',
-  XL: '66.666%',
+  Desktop: {
+    XS: '8.333%',
+    S: '16.666%',
+    M: '33.333%',
+    L: '50%',
+    XL: '66.666%',
+  },
+  Mobile: {
+    XS: '33.333%',
+    S: '33.333%',
+    M: '50%',
+    L: '50%',
+    XL: '75%',
+  },
 }
 
 const LogoTextContainer = styled.div`
   position: relative;
-  width: ${({ size }) => LogoSize[size]};
-  height: ${({ size }) => LogoSize[size]};
+  width: ${({ size, isPreviewMobile }) =>
+    isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
+  height: ${({ size, isPreviewMobile }) =>
+    isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
   margin: 1rem;
+
+  @media ${MediaSmall} {
+    width: ${({ size }) => LogoSize.Mobile[size]};
+    height: ${({ size }) => LogoSize.Mobile[size]};
+  }
 
   & p {
     color: ${({ color }) => color};
@@ -31,7 +49,7 @@ const LogoTextContainer = styled.div`
 
 export const LogoText = ({ logo, isPreviewMobile }) =>
   logo.text?.title ? (
-    <LogoTextContainer size={logo.size} color={logo.text.color}>
+    <LogoTextContainer size={logo.size} color={logo.text.color} isPreviewMobile={isPreviewMobile}>
       <AutoTextFit
         adjustWidth
         includeWidth

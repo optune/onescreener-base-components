@@ -3,26 +3,49 @@ import React from 'react'
 import styled from 'styled-components'
 import { toSquidInkIcon } from '../mixins/toSquidInkIcon.jsx'
 
+import { MediaSmall } from '../../../style/media'
+
 const Size = {
-  S: 1,
-  M: 1.2,
-  L: 1.3,
+  Desktop: {
+    S: 14,
+    M: 16,
+    L: 18,
+  },
+  Mobile: {
+    S: 10,
+    M: 10,
+    L: 12,
+  },
 }
 const Margin = {
-  S: 0.2,
-  M: 0.2,
-  L: 0.3,
+  Desktop: {
+    S: 3,
+    M: 3,
+    L: 4,
+  },
+  Mobile: {
+    S: 2,
+    M: 1,
+    L: 1,
+  },
 }
 
 const Text = styled.p`
-  font-size: ${({ size }) => Size[size]}rem;
+  font-size: ${({ size, isPreviewMobile }) =>
+    isPreviewMobile ? Size.Mobile[size] : Size.Desktop[size]}px;
+  margin-top: ${({ size, isPreviewMobile }) =>
+    isPreviewMobile ? Margin.Mobile[size] : Margin.Desktop[size]}px;
   line-height: 0.8;
-  margin-top: ${({ size }) => Margin[size]}rem;
   text-align: center;
+
+  @media ${MediaSmall} {
+    font-size: ${({ size }) => Size.Mobile[size]}px;
+    margin-top: ${({ size }) => Margin.Mobile[size]}px;
+  }
 `
 
-export const RequestFormIcon = ({ size }) => (
-  <Text size={size}>
+export const RequestFormIcon = ({ size, isPreviewMobile }) => (
+  <Text size={size} isPreviewMobile={isPreviewMobile}>
     book
     <br />
     me
