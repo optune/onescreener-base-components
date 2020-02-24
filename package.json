@@ -12,7 +12,7 @@
     "prepublishOnly": "npm run build:prod",
     "build": "meteor npm run remove-react && rollup -c config/dev.js",
     "build:windows": "meteor npm run remove-react:windows && rollup -c config/dev.js",
-    "build:prod": "meteor npm run remove-react && rollup -c config/prod.js",
+    "build:prod": "meteor npm run remove-react && meteor npm run clean && rollup -c config/prod.js",
     "watch": "meteor npm run remove-react && rollup -c config/dev.js -w",
     "watch:windows": "meteor npm run remove-react:windows && rollup -c config/dev.js -w"
   },
