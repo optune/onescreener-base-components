@@ -3,6 +3,7 @@ export { default as GlobalStyle } from './style/global.js' // global styles
 
 // Atoms
 export { Logo } from './components/atoms/Logo.jsx'
+export { SpotifyPlayer } from './components/atoms/SpotifyPlayer.jsx'
 
 // Templates
 export { Page } from './components/templates/Page.jsx'

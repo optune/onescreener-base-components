@@ -3,6 +3,8 @@ import React from 'react'
 import styled from 'styled-components'
 import ReactPlayer from 'react-player'
 
+import { SpotifyPlayer } from '../atoms/SpotifyPlayer'
+
 const Fullscreen = styled.div`
   position: absolute;
   top: 0;
@@ -11,11 +13,22 @@ const Fullscreen = styled.div`
   width: 100vw;
 `
 
-export const MediaBox = ({ media }) =>
-  !!media?.url > ''
-    ? (media.fullscreen && (
+export const MediaBox = ({ media }) => {
+  return !!media?.url > '' ? (
+    media.url.indexOf('spotify') !== -1 ? (
+      media.fullscreen ? (
         <Fullscreen>
-          <ReactPlayer url={media.url} playing={false} width="100%" height="100%" />
+          <SpotifyPlayer url={media.url} />
         </Fullscreen>
-      )) || <ReactPlayer url={media.url} playing={false} width="100%" height="100%" />
-    : null
+      ) : (
+        <SpotifyPlayer url={media.url} />
+      )
+    ) : media.fullscreen ? (
+      <Fullscreen>
+        <ReactPlayer url={media.url} playing={false} width="100%" height="100%" />
+      </Fullscreen>
+    ) : (
+      <ReactPlayer url={media.url} playing={false} width="100%" height="100%" />
+    )
+  ) : null
+}
