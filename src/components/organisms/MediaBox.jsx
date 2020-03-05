@@ -14,7 +14,7 @@ const Fullscreen = styled.div`
 `
 
 export const MediaBox = ({ media }) => {
-  const Player = media.url.indexOf('spotify') !== -1 ? SpotifyPlayer : ReactPlayer
+  const Player = media.url > '' && media.url.indexOf('spotify') !== -1 ? SpotifyPlayer : ReactPlayer
 
   return media.fullscreen ? (
     <Fullscreen>

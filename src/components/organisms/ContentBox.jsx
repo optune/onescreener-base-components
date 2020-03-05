@@ -244,7 +244,7 @@ export const ContentBox = ({ content, links, isPreviewMobile }) => {
       )
       break
     case 'MEDIA':
-      Content = <MediaBox media={media} />
+      Content = media ? <MediaBox media={media} /> : null
       fullscreen = media ? media.fullscreen : false
       break
 
