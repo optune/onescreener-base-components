@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useState, Fragment } from 'react'
 import styled, { css } from 'styled-components'
 
 // Social Icons
@@ -35,6 +35,7 @@ import { MiscShoppingIcon } from './MiscShopping.jsx'
 
 // Media Query
 import { MediaMobile } from '../../../style/media.js'
+import { NotMediaSmall } from '../../../style/media.js'
 
 export const PlatformLinkIcon = {
   // Optune Links
@@ -98,6 +99,10 @@ const IconSize = {
 
 const LinkWrapper = styled.a`
   text-decoration: none;
+  cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
+`
+
+const LinkWrapperText = styled.div`
   cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
 `
 
@@ -205,22 +210,67 @@ export const PlatformLink = ({
   colorBackgroundAccent,
   label,
   margin,
+  modalData,
+  setModalData,
   noShadow,
   platform,
   isPreviewMobile,
   size,
   square,
+  text,
   url,
 }) => {
   const Icon = LinkIconMapper({ platform, size })
 
-  return url > '' ? (
-    <LinkWrapper
-      href={url}
-      title={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+  if (url > '') {
+    return (
+      <LinkWrapper
+        href={url}
+        title={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Link
+          border={border}
+          circle={circle}
+          color={color}
+          colorAccent={colorAccent}
+          colorBackground={colorBackground}
+          colorBackgroundAccent={colorBackgroundAccent}
+          margin={margin}
+          noShadow
+          isPreviewMobile={isPreviewMobile}
+          size={size || 'M'}
+          square={square}
+        >
+          <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} />
+        </Link>
+      </LinkWrapper>
+    )
+  } else if (text > '') {
+    return (
+      <LinkWrapperText
+        onClick={() => setModalData({ ...modalData, show: true, content: text, label })}
+      >
+        <Link
+          border={border}
+          circle={circle}
+          color={color}
+          colorAccent={colorAccent}
+          colorBackground={colorBackground}
+          colorBackgroundAccent={colorBackgroundAccent}
+          margin={margin}
+          noShadow
+          isPreviewMobile={isPreviewMobile}
+          size={size || 'M'}
+          square={square}
+        >
+          <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} />
+        </Link>
+      </LinkWrapperText>
+    )
+  } else {
+    return (
       <Link
         border={border}
         circle={circle}
@@ -236,24 +286,8 @@ export const PlatformLink = ({
       >
         <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} />
       </Link>
-    </LinkWrapper>
-  ) : (
-    <Link
-      border={border}
-      circle={circle}
-      color={color}
-      colorAccent={colorAccent}
-      colorBackground={colorBackground}
-      colorBackgroundAccent={colorBackgroundAccent}
-      margin={margin}
-      noShadow
-      isPreviewMobile={isPreviewMobile}
-      size={size || 'M'}
-      square={square}
-    >
-      <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} />
-    </Link>
-  )
+    )
+  }
 }
 
 export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
@@ -293,21 +327,48 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
   }
 })
 
-export const Links = (links, content, isPreviewMobile) =>
-  links.list
-    .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
-    .map(link => (
-      <PlatformLink
-        key={link.platform}
-        border={links.border}
-        circle={links.circle}
-        square={links.square}
-        size={links.size}
-        color={content.color}
-        colorAccent={content.colorAccent}
-        colorBackground={content.colorBackground}
-        colorBackgroundAccent={content.colorBackgroundAccent}
-        isPreviewMobile={isPreviewMobile}
-        {...link}
-      />
-    ))
+export const Links = (links, content, isPreviewMobile, Modal) => {
+  const [modalData, setModalData] = useState({
+    show: false,
+    label: 'text',
+    content: '',
+  })
+
+  return (
+    <Fragment>
+      {Modal && (
+        <Modal
+          show={modalData.show}
+          label={modalData.label}
+          content={modalData.content}
+          backgroundColor={content.colorBackground}
+          color={content.color}
+          onClose={() => setModalData({ ...modalData, show: false })}
+          settings={'default'}
+          isPreviewMobile={isPreviewMobile}
+        />
+      )}
+
+      {links.list
+        .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
+        .map(link => (
+          <PlatformLink
+            key={link.platform}
+            border={links.border}
+            circle={links.circle}
+            square={links.square}
+            size={links.size}
+            color={content.color}
+            colorAccent={content.colorAccent}
+            colorBackground={content.colorBackground}
+            colorBackgroundAccent={content.colorBackgroundAccent}
+            isPreviewMobile={isPreviewMobile}
+            text={link.text}
+            modalData={modalData}
+            setModalData={setModalData}
+            {...link}
+          />
+        ))}
+    </Fragment>
+  )
+}

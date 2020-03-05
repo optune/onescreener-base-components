@@ -82,7 +82,7 @@ const LogoContainer = styled.div`
   flex-direction: column;
 `
 
-export const Page = ({ page, noBacklink, isPreviewMobile }) => {
+export const Page = ({ page, noBacklink, isPreviewMobile, Modal }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
     setSsrDone(true)
@@ -137,7 +137,7 @@ export const Page = ({ page, noBacklink, isPreviewMobile }) => {
             {/* Links */}
             {links.list.length > 0 && (
               <LinksBox position={links.position} zIndex={4} isPreviewMobile={isPreviewMobile}>
-                {Links(links, content, isPreviewMobile)}
+                {Links(links, content, isPreviewMobile, Modal)}
               </LinksBox>
             )}
           </ForegroundContainer>
