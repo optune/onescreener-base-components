@@ -126,7 +126,7 @@ export const Page = ({ page, noBacklink, isPreviewMobile, Modal }) => {
               />
             )}
 
-            {/* Logo */}
+            {/* Content */}
             <ContentBox content={content} links={links} isPreviewMobile={isPreviewMobile} />
 
             {/* Links */}
