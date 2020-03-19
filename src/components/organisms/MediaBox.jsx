@@ -17,7 +17,14 @@ const Fullscreen = styled.div`
 
 export const MediaBox = ({ media }) => {
   let Player = media?.url && ReactPlayer
-  const { format, autoplay, theme } = media.deezer
+  let url = media?.url || ''
+
+  let format, autoplay, theme
+  if (media?.deezer) {
+    format = media.deezer.format
+    autoplay = media.deezer.autoplay
+    theme = media.deezer.theme
+  }
 
   if (media?.url.indexOf('spotify') !== -1) {
     Player = SpotifyPlayer
@@ -27,10 +34,10 @@ export const MediaBox = ({ media }) => {
     Player = DeezerPlayer
   }
 
-  return media.fullscreen ? (
+  return media && media.fullscreen ? (
     <Fullscreen>
       <Player
-        url={media.url}
+        url={url}
         playing={false}
         width="100%"
         height="100%"
@@ -41,7 +48,7 @@ export const MediaBox = ({ media }) => {
     </Fullscreen>
   ) : (
     <Player
-      url={media.url}
+      url={url}
       playing={false}
       width="100%"
       height="100%"

@@ -20,7 +20,7 @@ export const SpotifyPlayer = ({ url }) => {
     temp[1] = 'embed/' + temp[1] + '/'
     trueUrl = 'https://open.spotify.com/' + temp[1] + temp[2]
   } else {
-    return <div>Not Found</div>
+    return <></>
   }
 
   return (

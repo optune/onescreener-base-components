@@ -21,7 +21,7 @@ export const ApplePlayer = ({ url }) => {
     }
     trueUrl = temp.join('/')
   } else {
-    return <div>Not Found</div>
+    return <></>
   }
 
   return (
