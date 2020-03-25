@@ -4,8 +4,10 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Player = styled.div`
-  width: 100%;
+  max-width: ${({ isSquare }) => (isSquare ? '602px' : '100%')};
   height: 100%;
+  margin-left: auto;
+  margin-right: auto;
 `
 
 const isValidUrl = url => {
@@ -27,9 +29,9 @@ const isValidUrl = url => {
 
 export const DeezerPlayer = ({
   url,
-  format = 'classic',
-  autoplay = 'false',
-  theme = 'dark',
+  format = 'CLASSIC',
+  autoplay = false,
+  theme = 'DARK',
   color = 'ff0000',
 }) => {
   let trueUrl, temp, type, id
@@ -123,7 +125,7 @@ export const DeezerPlayer = ({
   }
 
   return (
-    <Player>
+    <Player isSquare={format === 'SQUARE'}>
       <iframe
         src={trueUrl}
         width="100%"
@@ -131,7 +133,7 @@ export const DeezerPlayer = ({
         frameBorder="0"
         allowtransparency="true"
         scrolling="no"
-      ></iframe>
+      />
     </Player>
   )
 }
