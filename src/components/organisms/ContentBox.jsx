@@ -157,8 +157,8 @@ const FullscreenContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vh;
   z-index: 1;
 `
 const ResponsiveContainer = styled.div`
@@ -226,6 +226,7 @@ export const ContentBox = ({ content, links, isPreviewMobile }) => {
    * Set content component
    */
 
+  console.log(content)
   let fullscreen = false
   let Content
   switch (type) {
