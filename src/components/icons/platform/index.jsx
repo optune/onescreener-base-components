@@ -33,9 +33,11 @@ import { MiscStarIcon } from './MiscStar.jsx'
 import { MiscHeartIcon } from './MiscHeart.jsx'
 import { MiscShoppingIcon } from './MiscShopping.jsx'
 
+// Molecules
+import { TextOverlay } from '../../molecules/TextOverlay'
+
 // Media Query
-import { MediaMobile } from '../../../style/media.js'
-import { NotMediaSmall } from '../../../style/media.js'
+import { MediaMobile, NotMediaSmall } from '../../../style/media.js'
 
 export const PlatformLinkIcon = {
   // Optune Links
@@ -250,7 +252,7 @@ export const PlatformLink = ({
   } else if (text > '') {
     return (
       <LinkWrapperText
-        onClick={() => setModalData({ ...modalData, show: true, content: text, label })}
+        onClick={() => setModalData({ show: true, content: text, label })}
       >
         <Link
           border={border}
@@ -327,27 +329,29 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
   }
 })
 
-export const Links = (links, content, isPreviewMobile, Modal) => {
+export const Links = (links, content, isPreviewMobile) => {
   const [modalData, setModalData] = useState({
     show: false,
-    label: 'text',
     content: '',
+    label: '',
   })
 
   return (
     <Fragment>
-      {Modal && (
-        <Modal
-          show={modalData.show}
-          label={modalData.label}
-          content={modalData.content}
-          backgroundColor={content.colorBackground}
-          color={content.color}
-          onClose={() => setModalData({ ...modalData, show: false })}
-          settings={'default'}
-          isPreviewMobile={isPreviewMobile}
-        />
-      )}
+      <TextOverlay
+        border={links.border}
+        circle={links.circle}
+        color={links.color}
+        colorAccent={links.colorAccent}
+        colorBackground={links.colorBackground}
+        colorBackgroundAccent={links.colorBackgroundAccent}
+        content={modalData.content}
+        isPreviewMobile={isPreviewMobile}
+        label={modalData.label}
+        onClose={() => setModalData({ ...modalData, show: false })}
+        show={modalData.show}
+        square={links.square}
+      />
 
       {links.list
         .filter(({ platform, url }) => !!PlatformLinkIcon[platform])

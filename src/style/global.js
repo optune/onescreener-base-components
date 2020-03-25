@@ -45,4 +45,34 @@ export default createGlobalStyle`
   ol, ul {
     list-style: none;
   }
+
+  .modal {
+  &.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999999;
+    overflow: auto;
+    background-color: rgba(10, 15, 44, 0.95);
+  }
+
+  &.content {
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+    border: none;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+
+    @media ${MediaSmall} {
+      top: 0;
+    }
+  }
+}
 `
