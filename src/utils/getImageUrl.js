@@ -3,13 +3,18 @@
 const CLOUDINARY_URL = 'https://res.cloudinary.com/optune-me/image/upload'
 
 const transformation = {
-  ssr: ({ fullscreen = false }) => `q_auto:eco,f_auto,c_fit,w_1000,h_1000,e_pixelate:3`,
-
   client: ({ width, height, fullscreen = false }) =>
     `q_auto:best,f_auto,c_fit${width ? `,w_${width}` : ''}${height ? `,h_${height}` : ''}`,
+  ssr: ({ fullscreen = false }) => `q_auto:eco,f_auto,c_fit,w_1000,h_1000,e_pixelate:3`,
+  ssrSocial: () => `q_auto:best,f_auto,c_fit,w_300,h_300`,
 }
 
-export const getImageUrl = isClient => ({ image, fullscreen, maxWidth = 100, maxHeight = 100 }) => {
+export const getImageUrl = (isClient, isSocial) => ({
+  fullscreen,
+  image,
+  maxHeight = 100,
+  maxWidth = 100,
+}) => {
   let imageUrl
 
   if (image?.url > '') {
@@ -27,6 +32,8 @@ export const getImageUrl = isClient => ({ image, fullscreen, maxWidth = 100, max
       const height = imageWidth < imageHeight ? imageHeight : undefined
 
       imageTransformation = transformation.client({ width, height, fullscreen })
+    } else if (isSocial) {
+      imageTransformation = transformation.ssrSocial()
     } else {
       imageTransformation = transformation.ssr({ fullscreen, width: 800, height: 800 })
     }
