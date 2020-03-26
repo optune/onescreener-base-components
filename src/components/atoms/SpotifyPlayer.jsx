@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 const Player = styled.div`
   width: 100%;
@@ -20,7 +20,7 @@ export const SpotifyPlayer = ({ url }) => {
     temp[1] = 'embed/' + temp[1] + '/'
     trueUrl = 'https://open.spotify.com/' + temp[1] + temp[2]
   } else {
-    return <div>Not Found</div>
+    return <></>
   }
 
   return (
