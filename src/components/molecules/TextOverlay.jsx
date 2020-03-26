@@ -39,7 +39,7 @@ const StyledModalContent = styled.div`
   background: ${({ isPreviewMobile }) =>
     isPreviewMobile ? 'rgba(10, 15, 44, 0.95)' : 'transparent'};
   pointer-events: ${({ show }) => (show ? 'all' : 'none')};
-  overflow: scroll;
+  overflow-y: scroll;
 
   @media ${MediaSmall} {
     margin: 0;
@@ -71,15 +71,13 @@ const ContentContainer = styled.div`
 
 const TextContainer = styled.div`
   position: relative;
-  width: 100%;
-  height: 100%;
   margin: 0;
   padding: 3rem 3rem;
 
   color: ${({ color }) => color || '#000000'};
 
   @media ${MediaSmall} {
-    padding: 1rem 1.5rem;
+    padding: 2rem 1.5rem;
   }
 
   & h2,
