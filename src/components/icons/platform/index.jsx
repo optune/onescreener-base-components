@@ -341,10 +341,10 @@ export const Links = (links, content, isPreviewMobile) => {
       <TextOverlay
         border={links.border}
         circle={links.circle}
-        color={links.color}
-        colorAccent={links.colorAccent}
-        colorBackground={links.colorBackground}
-        colorBackgroundAccent={links.colorBackgroundAccent}
+        color={content.color}
+        colorAccent={content.colorAccent}
+        colorBackground={content.colorBackground}
+        colorBackgroundAccent={content.colorBackgroundAccent}
         content={modalData.content}
         isPreviewMobile={isPreviewMobile}
         label={modalData.label}

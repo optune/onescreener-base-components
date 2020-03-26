@@ -1,24 +1,60 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import ReactModal from 'react-modal'
-import styled from 'styled-components'
+import styled, { keyframes, css } from 'styled-components'
 
 // Media
 import { MediaSmall } from '../../style/media.js'
 
-const Modal = ({ children, show, isPreviewMobile, style }) => {
-  const contentStyle = style || isPreviewMobile ? { content: { backgroundColor: '#4F4F4F' } } : {}
+const modalFadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
 
+  to {
+    opacity: 1;
+  }
+`
+const StyledModal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  z-index: 999999;
+  overflow: auto;
+  background-color: ${({ isPreviewMobile }) =>
+    isPreviewMobile ? 'transparent' : 'rgba(10, 15, 44, 0.95)'};
+  pointer-events: none;
+  animation-name: ${({ show }) => (show ? modalFadeIn : '')};
+  animation-fill-mode: both;
+  animation-timing-function: ease-out;
+  animation-duration: 0.5s;
+`
+const StyledModalContent = styled.div`
+  position: relative;
+  width: ${({ isPreviewMobile }) => (isPreviewMobile ? '334px' : '50%')};
+  height: ${({ isPreviewMobile }) => (isPreviewMobile ? '520px' : '80%')};
+  margin: ${({ isPreviewMobile }) => (isPreviewMobile ? '75px' : 'calc(100vh / 10)')} auto;
+  background: ${({ isPreviewMobile }) =>
+    isPreviewMobile ? 'rgba(10, 15, 44, 0.95)' : 'transparent'};
+  pointer-events: ${({ show }) => (show ? 'all' : 'none')};
+  overflow: scroll;
+
+  @media ${MediaSmall} {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+`
+
+const Modal = ({ children, show, isPreviewMobile }) => {
   return (
-    <ReactModal
-      isOpen={show}
-      className="modal content"
-      overlayClassName="modal overlay"
-      contentLabel="About info"
-      style={contentStyle}
-    >
-      <div className="animated fadeIn">{children}</div>
-    </ReactModal>
+    <StyledModal show={show} isPreviewMobile={isPreviewMobile}>
+      <StyledModalContent show={show} isPreviewMobile={isPreviewMobile}>
+        {children}
+      </StyledModalContent>
+    </StyledModal>
   )
 }
 
@@ -29,23 +65,21 @@ Modal.propTypes = {
   style: PropTypes.object,
 }
 
-const ModalContainers = styled.div`
+const ContentContainer = styled.div`
+  background: ${({ colorBackground }) => colorBackground || '#FFFFFF'};
+`
+
+const TextContainer = styled.div`
   position: relative;
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  height: 100%;
+  margin: 0;
   padding: 3rem 3rem;
-  background: ${({ backgroundColor }) => backgroundColor || '#FFFFFF'};
+
   color: ${({ color }) => color || '#000000'};
 
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-
   @media ${MediaSmall} {
-    width: 100%;
-    top: 0;
-    max-width: 100%;
+    padding: 1rem 1.5rem;
   }
 
   & h2,
@@ -64,12 +98,6 @@ const ModalContainers = styled.div`
   }
 `
 
-const ButtonContainer = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-around;
-`
-
 const StyledTitle = styled.h2`
   font-weight: bold;
   font-size: 1.5rem;
@@ -82,16 +110,29 @@ const StyledTextContainer = styled.div`
   margin-bottom: 2rem;
   width: 100%;
 `
+const StyledButtonContainer = styled.div`
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+`
 
 const StyledButton = styled.button`
+  justify-self: flex-end;
   background-color: ${({ colorBackground }) => colorBackground};
-  border-radius: ${({ circle, square }) => (circle && '50%') || (square && 'none') || '0.4rem'};
+  border-radius: ${({ circle, square }) => (circle && '50%') || (square && '0px') || '0.4rem'};
   border-color: ${({ color }) => color || 'transparent'};
   border-width: ${({ border }) => border / 10}rem;
   border-style: solid;
   box-sizing: border-box;
   color: ${({ color }) => color};
+  width: auto;
+  font-size: 1.2rem;
+  padding: 0.5rem 2.5rem;
+  margin: 2rem auto 3rem;
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out, color 0.25s ease-out;
+  cursor: pointer;
 
   &:hover:not(:focus) {
     background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
@@ -101,12 +142,12 @@ const StyledButton = styled.button`
 `
 
 export const TextOverlay = ({
-  backgroundColor,
-  backgroundColorAccent,
   border,
   circle,
   color,
   colorAccent,
+  colorBackground,
+  colorBackgroundAccent,
   content,
   isPreviewMobile,
   label,
@@ -114,58 +155,45 @@ export const TextOverlay = ({
   show,
   square,
 }) => {
-  let style = {
-    content: {
-      top: 'calc(80vh / 2)',
-      background: 'none',
-    },
-  }
-
-  if (isPreviewMobile) {
-    style = {
-      content: {
-        top: 'calc(80vh / 2)',
-        maxWidth: '666px',
-        background: 'none',
-      },
-    }
-  }
+  const [ssrDone, setSsrDone] = useState(false)
+  useEffect(() => {
+    setSsrDone(true)
+  }, [])
 
   return (
-    <Modal isPreviewMobile={isPreviewMobile} show={show} style={style}>
-      <ModalContainers
-        color={color}
-        backgroundColor={backgroundColor}
-        isPreviewMobile={isPreviewMobile}
-      >
-        <StyledTitle>{label.charAt(0).toUpperCase() + label.slice(1)}</StyledTitle>
-        <StyledTextContainer>
-          {content.split('\n').map((word, i) => (
-            <p key={i}>{word}</p>
-          ))}
-        </StyledTextContainer>
+    <Modal isPreviewMobile={isPreviewMobile} show={ssrDone && show}>
+      <ContentContainer color={color} colorBackground={colorBackground}>
+        <TextContainer color={color} colorBackground={colorBackground}>
+          <StyledTitle>{label.charAt(0).toUpperCase() + label.slice(1)}</StyledTitle>
+          <StyledTextContainer>
+            {content.split('\n').map((word, i) => (
+              <p key={i}>{word}</p>
+            ))}
+          </StyledTextContainer>
+        </TextContainer>
 
-        <ButtonContainer>
+        <StyledButtonContainer>
           <StyledButton
+            border={border}
+            circle={circle}
             color={color}
             colorAccent={colorAccent}
-            backgroundColor={backgroundColor}
-            backgroundColorAccent={backgroundColorAccent}
-            circle={circle}
-            square={square}
+            colorBackground={colorBackground}
+            colorBackgroundAccent={colorBackgroundAccent}
             onClick={onClose}
+            square={square}
           >
             Close
           </StyledButton>
-        </ButtonContainer>
-      </ModalContainers>
+        </StyledButtonContainer>
+      </ContentContainer>
     </Modal>
   )
 }
 
 TextOverlay.propTypes = {
-  backgroundColor: PropTypes.string,
-  backgroundColorAccent: PropTypes.string,
+  colorBackground: PropTypes.string,
+  colorBackgroundAccent: PropTypes.string,
   border: PropTypes.number,
   circle: PropTypes.bool,
   color: PropTypes.string,
