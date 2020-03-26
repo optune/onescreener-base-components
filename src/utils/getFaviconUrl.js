@@ -3,7 +3,7 @@
 const CLOUDINARY_URL = 'https://res.cloudinary.com/optune-me/image/upload'
 
 const transformation = {
-  web: (size = 32) => `g_auto:eco,f_auto,c_fit,w_${size},h_${size}/`,
+  web: (size = 32) => `q_auto:eco,f_auto,c_fit,w_${size},h_${size}/`,
 }
 
 export const getFavionUrl = ({ image }) => {
