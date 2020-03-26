@@ -19,3 +19,4 @@ export { getGigs } from './api/gigs/index.js'
 
 export { renderHtml } from './utils/renderHtml.js'
 export { getImageUrl } from './utils/getImageUrl.js'
+export { getFavionUrl } from './utils/getFaviconUrl.js'
