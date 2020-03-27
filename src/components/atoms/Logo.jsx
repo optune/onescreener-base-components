@@ -19,6 +19,14 @@ const LogoSizePortrait = {
   XL: 'calc(100% - 2rem)',
 }
 
+const LogoSizeMax = {
+  XS: 17,
+  S: 34,
+  M: 50,
+  L: 67,
+  XL: 100,
+}
+
 const LogoImage = styled.img`
   display: flex;
   object-fit: contain;
@@ -38,18 +46,29 @@ const LogoImage = styled.img`
   }
 
   @media screen and (orientation: landscape) {
-    ${({ orientation, size }) =>
-      orientation === 'LANDSCAPE'
-        ? css`
-            width: ${LogoSizeLandscape[size]};
-          `
-        : css`
-            height: ${LogoSizeLandscape[size]};
-          `}
+    ${({ isPreviewMobile, orientation, size }) =>
+      (isPreviewMobile &&
+        css`
+          width: ${LogoSizePortrait[size]};
+        `) ||
+      (orientation === 'LANDSCAPE' &&
+        css`
+          width: ${LogoSizeLandscape[size]};
+        `) ||
+      css`
+        height: ${LogoSizeLandscape[size]};
+      `}
   }
 `
 
-export const Logo = ({ logo }) =>
-  logo && logo.image ? (
-    <LogoImage src={logo.image.url} size={logo.size} orientation={logo.image.orientation} />
-  ) : null
+export const Logo = ({ logo, getImageUrl, isPreviewMobile }) => (
+  <LogoImage
+    isPreviewMobile={isPreviewMobile}
+    orientation={logo.image.orientation}
+    src={getImageUrl({
+      image: logo.image,
+      maxWidth: LogoSizeMax[logo.size],
+    })}
+    size={logo.size}
+  />
+)

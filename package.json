@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Onescreener Base Components",
   "main": "lib/index.js",
+  "module": "lib/index.js",
   "scripts": {
     "clean": "rm -rf lib",
     "remove-react": "rm -rf node_modules/react node_modules/react-dom  node_modules/styled-components",
@@ -11,13 +12,9 @@
     "prepublishOnly": "npm run build:prod",
     "build": "meteor npm run remove-react && rollup -c config/dev.js",
     "build:windows": "meteor npm run remove-react:windows && rollup -c config/dev.js",
-    "build:prod": "meteor npm run remove-react && rollup -c config/prod.js",
+    "build:prod": "meteor npm run remove-react && meteor npm run clean && rollup -c config/prod.js",
     "watch": "meteor npm run remove-react && rollup -c config/dev.js -w",
-    "watch:windows": "meteor npm run remove-react:windows && rollup -c config/dev.js -w",
-    "svg": "styled-svg src/components/icons/*.svg",
-    "test": "echo \"t'Saul Goodman\" && exit 0",
-    "storybook": "start-storybook --ci -p 6006",
-    "build-storybook": "build-storybook"
+    "watch:windows": "meteor npm run remove-react:windows && rollup -c config/dev.js -w"
   },
   "prettier": {
     "semi": false,
@@ -30,10 +27,6 @@
       "react": {
         "version": "^16.4.2"
       }
-    },
-    "env": {
-      "browser": true,
-      "node": true
     },
     "parser": "babel-eslint",
     "parserOptions": {
@@ -55,58 +48,35 @@
     "rules": {
       "max-lines": "error",
       "import/no-unresolved": "off",
-      "import/extensions": [
-        "error",
-        "always",
-        {
-          "ignorePackages": true
-        }
-      ],
       "prettier/prettier": "error",
       "react/require-default-props": "off",
       "react/no-array-index-key": "off",
       "react/forbid-prop-types": "off"
     }
   },
-  "eslintIgnore": [
-    "lib/**/*.js"
-  ],
   "browserslist": "last 2 chrome versions or last 2 firefox versions",
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ],
-    "plugins": [
-      [
-        "babel-plugin-styled-components",
-        {
-          "ssr": true,
-          "displayName": true
-        }
-      ]
-    ]
-  },
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
-    "@rollup/plugin-url": "^4.0.1",
+    "@rollup/plugin-url": "^4.0.2",
     "babel-eslint": "^10.0.3",
-    "babel-plugin-styled-components": "^1.10.6",
+    "babel-plugin-styled-components": "^1.10.7",
     "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.9.0",
-    "eslint-plugin-import": "^2.20.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react": "^7.18.0",
-    "husky": "^4.0.10",
+    "eslint-plugin-react": "^7.18.3",
+    "husky": "^4.2.1",
     "prettier": "^1.19.1",
-    "rollup": "^1.29.0",
+    "rollup": "^1.31.0",
     "rollup-plugin-analyzer": "^3.2.2",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.2",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-uglify": "^6.0.4"
@@ -116,13 +86,14 @@
     "dateformat": "^3.0.3",
     "isomorphic-fetch": "^2.2.1",
     "react-html-parser": "^2.0.2",
-    "react-player": "^1.14.2",
-    "react-responsive": "^8.0.1"
+    "react-player": "^1.15.2",
+    "react-responsive": "^8.0.3"
   },
   "peerDependencies": {
+    "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "styled-components": "^5.0.0"
+    "styled-components": "^5.0.1"
   },
   "repository": {
     "type": "git",

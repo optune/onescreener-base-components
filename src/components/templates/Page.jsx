@@ -1,48 +1,74 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment } from 'react'
-import styled from 'styled-components'
+import React, { Fragment, useState, useEffect } from 'react'
+import styled, { css } from 'styled-components'
 
-import { Sponsors } from '../molecules/sponsors/Sponsors'
+import { customHtml } from '../molecules/customHtml/index.jsx'
 
+// Background
+import { Background } from '../atoms/Background.jsx'
+
+// Boxes
 import { LogoBox } from '../organisms/LogoBox.jsx'
 import { ContentBox } from '../organisms/ContentBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
 
+// Icons
 import { Links } from '../icons/platform/index.jsx'
 
+// Utils
+import { getImageUrl } from '../../utils/getImageUrl.js'
+
+// Global Styles
 import GlobalStyle from '../../style/global.js'
 
 const PageContainer = styled.div`
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: ${({ color = '#000000' }) => color};
+  background-image: ${({ preloadImage }) => `url(${preloadImage})`};
+  background-repeat: no-repeat;
+  background-position: ${({ focusPoint }) => focusPoint};
+  background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
+  display: flex;
+  overflow: hidden;
+`
+
+const ForegroundContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: ${({ color }) => color};
-  background-image: ${({ image }) => `url(${image})`};
-  background-repeat: no-repeat;
-  background-position: ${({ focusPoint }) => focusPoint};
-  background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
   display: flex;
+  z-index: 2;
 `
 
 const BacklinkUrl =
-  'https://res.cloudinary.com/optune-me/image/upload/b_rgb:808080,bo_10px_solid_rgb:808080,e_blackwhite,q_auto:good/v1558014130/onescreener-v2/app/logo-onescreener.png'
+  'https://res.cloudinary.com/optune-me/image/upload/e_blackwhite,q_auto:good,c_fit,w_64,f_auto/v1558014130/onescreener-v2/app/logo-onescreener.png'
 
 const BackLink = styled.a`
-  position: fixed;
+  position: ${({ isPreviewMobile }) => (isPreviewMobile ? 'absolute' : 'fixed')};
   background-image: url(${BacklinkUrl});
-  background-size: contain;
-  background-color: #808080;
+  background-size: initial;
+  background-color: #606060;
   background-position: center;
   background-repeat: no-repeat;
   width: 70px;
   height: 15px;
-  opacity: 0.3;
+  opacity: 0.4;
   transform: rotate(-90deg);
   transform-origin: 100% 100%;
   right: 0;
   color: #ffffff;
+  transition: opacity 0.3s ease-out;
+
+  &:hover {
+    opacity: 0.6;
+  }
 
   & h1 {
     color: #808080;
@@ -56,71 +82,67 @@ const LogoContainer = styled.div`
   flex-direction: column;
 `
 
-export const Page = ({ page, noBacklink }) => {
+export const Page = ({ page, noBacklink, isPreviewMobile, Modal }) => {
+  const [ssrDone, setSsrDone] = useState(false)
+  useEffect(() => {
+    setSsrDone(true)
+  }, [])
+  const getUrl = getImageUrl(ssrDone)
+
   let PageComponent = null
 
   if (page) {
     const { background, logo, content, gigAPI } = page
     const { links } = page || { links: { list: [] } }
 
-    const { font, fontURL } = page.logo.text
-
-    console.log(content)
-
-    // Importing font to page
-    let styles = document.head.getElementsByTagName('style')
-    let style
-
-    for (let i = 0; i < styles.length; i++) {
-      if (styles[i].dataset.font !== undefined) {
-        style = styles[i]
-      }
-    }
-
-    if (!style) {
-      style = document.createElement('style')
-      style.setAttribute('data-font', font)
-      style.innerHTML = fontURL + ` .apply-font {font-family: '${font}';}` // Applying font to the logo
-      document.getElementsByTagName('head')[0].appendChild(style)
-    }
-
-    if (style) {
-      style.setAttribute('data-font', font)
-      style.innerHTML = fontURL + ` .apply-font {font-family: '${font}';}` // Applying font to the logo
-    }
+    const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
     PageComponent = (
       <Fragment>
         <GlobalStyle />
         <PageContainer
-          image={background.image && background.image.url}
+          preloadImage={getImageUrl(false)(background)}
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
           color={background.color}
         >
-          {/* Back Link to onescreener.com */}
-          {!noBacklink && (
-            <BackLink
-              href="https://www.onescreener.com"
-              target="_blank"
-              title="created with onescreener.com"
-            >
-              <h1>created by onescreener.com</h1>
-            </BackLink>
-          )}
+          {ssrDone && <Background background={background} getImageUrl={getUrl} />}
 
-          {/* Logo */}
-          {logo && <LogoBox zIndex={2} logo={logo} />}
+          <ForegroundContainer>
+            {/* Back Link to onescreener.com */}
+            {!noBacklink && (
+              <BackLink
+                href="https://www.onescreener.com"
+                target="_blank"
+                title="created with onescreener.com"
+                isPreviewMobile={isPreviewMobile}
+              >
+                <h1>created by onescreener.com</h1>
+              </BackLink>
+            )}
 
-          {/* Logo */}
-          <ContentBox content={content} links={links} />
+            {/* Logo */}
+            {logo && (
+              <LogoBox
+                zIndex={2}
+                logo={logo}
+                getImageUrl={getUrl}
+                isPreviewMobile={isPreviewMobile}
+              />
+            )}
 
-          {/* Links */}
-          {links.list.length > 0 && (
-            <LinksBox position={links.position} zIndex={4}>
-              {Links(links, content)}
-            </LinksBox>
-          )}
+            {/* Content */}
+            <ContentBox content={content} links={links} isPreviewMobile={isPreviewMobile} />
+
+            {/* Links */}
+            {links.list.length > 0 && (
+              <LinksBox position={links.position} zIndex={4} isPreviewMobile={isPreviewMobile}>
+                {Links(links, content, isPreviewMobile, Modal)}
+              </LinksBox>
+            )}
+          </ForegroundContainer>
+
+          {CustomHtml && <CustomHtml />}
         </PageContainer>
         <Sponsors />
       </Fragment>

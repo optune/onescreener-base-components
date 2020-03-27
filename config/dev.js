@@ -1,9 +1,7 @@
 import config from './shared.js'
 
+const devConfig = config({ sourcemap: true })
+
 export default {
-  ...config,
-  output: {
-    ...config.output,
-    sourcemap: true,
-  },
+  ...devConfig,
 }

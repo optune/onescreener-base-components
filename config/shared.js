@@ -1,50 +1,44 @@
 // Rollup plugins.
+import path from 'path'
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
 import globals from 'rollup-plugin-node-globals'
+import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import replace from 'rollup-plugin-replace'
 import resolve from 'rollup-plugin-node-resolve'
-import url from '@rollup/plugin-url'
+
+import pkg from '../package.json'
 
 // shared modules for different envs
 import { externals } from './externalModules.js'
 
-export default {
-  input: 'src/index.js',
-  output: {
-    file: 'lib/index.js',
-    format: 'cjs',
-  },
-  external: id => externals.has(id),
+const config = ({ sourcemap }) => ({
+  input: [path.resolve(__dirname, '../src/index.js')],
+  output: [
+    {
+      dir: path.resolve(__dirname, '../lib/'),
+      format: 'esm',
+      sourcemap,
+    },
+  ],
+  preserveModules: false, // true,
   plugins: [
+    peerDepsExternal({
+      includeDependencies: true,
+    }),
+
     replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
 
-    url({
-      limit: false,
-      include: ['**/*.woff2'],
-      emitFiles: true, // defaults to true
+    babel(),
+
+    resolve({
+      extensions: ['.js', '.jsx', '.json'],
     }),
 
     commonjs(),
 
-    babel({
-      exclude: 'node_modules/**', // only transpile our source code
-      plugins: [
-        [
-          'babel-plugin-styled-components',
-          {
-            displayName: true,
-            ssr: true,
-          },
-        ],
-      ],
-    }),
-
-    resolve({
-      mainFields: ['browser', 'main'],
-      extensions: ['.js', '.jsx', '.json'],
-    }),
-
     globals(),
   ],
-}
+})
+
+export default config

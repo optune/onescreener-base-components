@@ -7,9 +7,11 @@ import config from './shared.js'
 // remove source map of previous dev builds if there is one
 fs.unlink('lib/index.js.map', () => {})
 
+const prodConfig = config({ sourcemap: false })
+
 const prod = {
-  ...config,
-  plugins: [...config.plugins, terser(), analyze({ limit: 5, filter: [], root: __dirname })],
+  ...prodConfig,
+  plugins: [...prodConfig.plugins, terser(), analyze({ limit: 5, filter: [], root: __dirname })],
 }
 
 export default prod

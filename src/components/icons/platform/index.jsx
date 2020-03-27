@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
-import styled from 'styled-components'
+import React, { useState, Fragment } from 'react'
+import styled, { css } from 'styled-components'
 
 // Social Icons
 import { AboutIcon } from './About.jsx'
@@ -33,8 +33,11 @@ import { MiscStarIcon } from './MiscStar.jsx'
 import { MiscHeartIcon } from './MiscHeart.jsx'
 import { MiscShoppingIcon } from './MiscShopping.jsx'
 
+// Molecules
+import { TextOverlay } from '../../molecules/TextOverlay'
+
 // Media Query
-import { MediaMobile } from '../../../style/media.js'
+import { MediaMobile, NotMediaSmall } from '../../../style/media.js'
 
 export const PlatformLinkIcon = {
   // Optune Links
@@ -72,32 +75,37 @@ export const PlatformLinkIcon = {
 
 const ShapeSize = {
   Desktop: {
-    S: '3.6rem',
-    M: '4.4rem',
-    L: '5.2rem',
+    S: '51px',
+    M: '62px',
+    L: '73px',
   },
   Mobile: {
-    S: '3.2rem',
-    M: '3.6rem',
-    L: '4rem',
+    S: '36px',
+    M: '36px',
+    L: '40px',
   },
 }
 
 const IconSize = {
   Desktop: {
-    S: '1.8rem',
-    M: '2.4rem',
-    L: '3.0rem',
+    S: '26px',
+    M: '32px',
+    L: '42px',
   },
   Mobile: {
-    S: '1.8rem',
-    M: '2.2rem',
-    L: '2.6rem',
+    S: '20px',
+    M: '22px',
+    L: '26px',
   },
 }
 
 const LinkWrapper = styled.a`
   text-decoration: none;
+  cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
+`
+
+const LinkWrapperText = styled.div`
+  cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
 `
 
 const Link = styled.div`
@@ -118,46 +126,54 @@ const Link = styled.div`
   color: ${({ color }) => color};
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out, color 0.25s ease-out;
 
-  width: ${({ size }) => ShapeSize.Desktop[size]};
-  height: ${({ size }) => ShapeSize.Desktop[size]};
-  margin: ${({ margin }) => margin || '1rem'};
+  width: ${({ isPreviewMobile, size }) =>
+    isPreviewMobile ? ShapeSize.Mobile[size] : ShapeSize.Desktop[size]};
+  height: ${({ isPreviewMobile, size }) =>
+    isPreviewMobile ? ShapeSize.Mobile[size] : ShapeSize.Desktop[size]};
+  margin: ${({ isPreviewMobile, size, margin }) =>
+    (isPreviewMobile && ((size === 'L' && '2px') || '5px')) || margin || '1rem'};
 
   @media ${MediaMobile} {
     width: ${({ size }) => ShapeSize.Mobile[size]};
     height: ${({ size }) => ShapeSize.Mobile[size]};
-    margin: ${({ margin }) => margin || '0.5rem'};
+    margin: ${({ size, margin }) => margin || (size === 'L' && '2px') || '5px'};
   }
 
   &:hover:not(:focus) {
-    background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
-    border-color: ${({ colorAccent }) => colorAccent};
-    color: ${({ colorAccent }) => colorAccent};
+    ${({ notInteractive }) =>
+      !notInteractive &&
+      css`
+        background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
+        border-color: ${({ colorAccent }) => colorAccent};
+        color: ${({ colorAccent }) => colorAccent};
 
-    & .icon g {
-      & path,
-      line,
-      circle,
-      polygon,
-      polyline,
-      rect,
-      ellipse {
-        fill: ${({ colorAccent }) => colorAccent};
-        stroke: ${({ colorAccent }) => colorAccent};
+        & .icon g {
+          & path,
+          line,
+          circle,
+          polygon,
+          polyline,
+          rect,
+          ellipse {
+            fill: ${({ colorAccent }) => colorAccent};
+            stroke: ${({ colorAccent }) => colorAccent};
 
-        &[fill='none'] {
-          fill: none;
+            &[fill='none'] {
+              fill: none;
+            }
+
+            &[stroke='none'] {
+              stroke: none;
+            }
+          }
         }
-
-        &[stroke='none'] {
-          stroke: none;
-        }
-      }
-    }
-  }
+      `}
 `
 const LinkIconMapper = ({ platform, size = 'M' }) => styled(PlatformLinkIcon[platform])`
-  width: ${IconSize.Desktop[size]};
-  height: ${IconSize.Desktop[size]};
+  width: ${({ isPreviewMobile }) =>
+    isPreviewMobile ? IconSize.Mobile[size] : IconSize.Desktop[size]};
+  height: ${({ isPreviewMobile }) =>
+    isPreviewMobile ? IconSize.Mobile[size] : IconSize.Desktop[size]};
 
   @media ${MediaMobile} {
     width: ${IconSize.Mobile[size]};
@@ -196,21 +212,67 @@ export const PlatformLink = ({
   colorBackgroundAccent,
   label,
   margin,
+  modalData,
+  setModalData,
   noShadow,
   platform,
+  isPreviewMobile,
   size,
   square,
+  text,
   url,
 }) => {
   const Icon = LinkIconMapper({ platform, size })
 
-  return url > '' ? (
-    <LinkWrapper
-      href={url}
-      title={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+  if (url > '') {
+    return (
+      <LinkWrapper
+        href={url}
+        title={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Link
+          border={border}
+          circle={circle}
+          color={color}
+          colorAccent={colorAccent}
+          colorBackground={colorBackground}
+          colorBackgroundAccent={colorBackgroundAccent}
+          margin={margin}
+          noShadow
+          isPreviewMobile={isPreviewMobile}
+          size={size || 'M'}
+          square={square}
+        >
+          <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} />
+        </Link>
+      </LinkWrapper>
+    )
+  } else if (text > '') {
+    return (
+      <LinkWrapperText
+        onClick={() => setModalData({ show: true, content: text, label })}
+      >
+        <Link
+          border={border}
+          circle={circle}
+          color={color}
+          colorAccent={colorAccent}
+          colorBackground={colorBackground}
+          colorBackgroundAccent={colorBackgroundAccent}
+          margin={margin}
+          noShadow
+          isPreviewMobile={isPreviewMobile}
+          size={size || 'M'}
+          square={square}
+        >
+          <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} />
+        </Link>
+      </LinkWrapperText>
+    )
+  } else {
+    return (
       <Link
         border={border}
         circle={circle}
@@ -220,28 +282,14 @@ export const PlatformLink = ({
         colorBackgroundAccent={colorBackgroundAccent}
         margin={margin}
         noShadow
+        isPreviewMobile={isPreviewMobile}
         size={size || 'M'}
         square={square}
       >
-        <Icon color={color} size={size} />
+        <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} />
       </Link>
-    </LinkWrapper>
-  ) : (
-    <Link
-      border={border}
-      circle={circle}
-      color={color}
-      colorAccent={colorAccent}
-      colorBackground={colorBackground}
-      colorBackgroundAccent={colorBackgroundAccent}
-      margin={margin}
-      noShadow
-      size={size || 'M'}
-      square={square}
-    >
-      <Icon color={color} size={size} />
-    </Link>
-  )
+    )
+  }
 }
 
 export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
@@ -252,15 +300,22 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
     colorAccent,
     colorBackground,
     colorBackgroundAccent,
+    notInteractive,
     onClick,
   }) => (
-    <LinkWrapper onClick={onClick} target="_blank" rel="noopener noreferrer">
+    <LinkWrapper
+      onClick={onClick}
+      notInteractive={notInteractive}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <Link
         border={border}
         color={color}
         colorAccent={colorAccent}
         colorBackground={colorBackground}
         colorBackgroundAccent={colorBackgroundAccent}
+        notInteractive={notInteractive}
         size="M"
       >
         <Icon color={color} />
@@ -274,20 +329,50 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
   }
 })
 
-export const Links = (links, content) =>
-  links.list
-    .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
-    .map(link => (
-      <PlatformLink
-        key={link.platform}
+export const Links = (links, content, isPreviewMobile) => {
+  const [modalData, setModalData] = useState({
+    show: false,
+    content: '',
+    label: '',
+  })
+
+  return (
+    <Fragment>
+      <TextOverlay
         border={links.border}
         circle={links.circle}
-        square={links.square}
-        size={links.size}
         color={content.color}
         colorAccent={content.colorAccent}
         colorBackground={content.colorBackground}
         colorBackgroundAccent={content.colorBackgroundAccent}
-        {...link}
+        content={modalData.content}
+        isPreviewMobile={isPreviewMobile}
+        label={modalData.label}
+        onClose={() => setModalData({ ...modalData, show: false })}
+        show={modalData.show}
+        square={links.square}
       />
-    ))
+
+      {links.list
+        .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
+        .map(link => (
+          <PlatformLink
+            key={link.platform}
+            border={links.border}
+            circle={links.circle}
+            square={links.square}
+            size={links.size}
+            color={content.color}
+            colorAccent={content.colorAccent}
+            colorBackground={content.colorBackground}
+            colorBackgroundAccent={content.colorBackgroundAccent}
+            isPreviewMobile={isPreviewMobile}
+            text={link.text}
+            modalData={modalData}
+            setModalData={setModalData}
+            {...link}
+          />
+        ))}
+    </Fragment>
+  )
+}

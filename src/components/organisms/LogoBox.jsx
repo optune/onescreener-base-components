@@ -25,9 +25,8 @@ const LogoContainer = styled.div`
     align-items: flex-start;
     justify-content: center;
 
-    .logo-container {
-      align-items: center;
-      justify-content: flex-start;
+    & > div > div {
+      justify-content: center;
     }
   }
 
@@ -35,68 +34,69 @@ const LogoContainer = styled.div`
     align-items: flex-start;
     justify-content: flex-end;
 
-    .logo-container {
-      align-items: flex-end;
-      justify-content: flex-start;
+    & > div > div {
+      justify-content: flex-end;
     }
   }
 
   &.center-left {
     align-items: center;
     justify-content: flex-start;
-
-    .logo-container {
-      align-items: flex-start;
-      justify-content: center;
-    }
   }
 
   &.center-center {
     align-items: center;
     justify-content: center;
+
+    & > div > div {
+      justify-content: center;
+    }
   }
 
   &.center-right {
     align-items: center;
     justify-content: flex-end;
 
-    .logo-container {
-      align-items: flex-end;
-      justify-content: center;
+    & > div > div {
+      justify-content: flex-end;
     }
   }
 
   &.bottom-left {
     align-items: flex-end;
     justify-content: flex-start;
-
-    .logo-container {
-      align-items: flex-start;
-      justify-content: flex-end;
-    }
   }
 
   &.bottom-center {
     align-items: flex-end;
     justify-content: center;
 
-    .logo-container {
-      align-items: center;
-      justify-content: flex-end;
+    & > div > div {
+      justify-content: center;
     }
   }
 
   &.bottom-right {
     align-items: flex-end;
     justify-content: flex-end;
+
+    & > div > div {
+      justify-content: flex-end;
+    }
   }
 `
 
-export const LogoBox = ({ logo, zIndex }) => (
+export const LogoBox = ({ logo, zIndex, getImageUrl, isPreviewMobile }) => (
   <LogoContainer
     className={logo.position > '' ? logo.position.toLowerCase().replace('_', '-') : 'top-center'}
     zIndex={zIndex}
   >
-    {logo.image?.url > '' ? <Logo logo={logo} /> : <LogoText logo={logo} />}
+    {logo.type === 'TEXT' ? (
+      <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
+    ) : (
+      (logo.image?.url > '' && (
+        <Logo logo={logo} getImageUrl={getImageUrl} isPreviewMobile={isPreviewMobile} />
+      )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
+    )}
   </LogoContainer>
 )
