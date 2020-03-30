@@ -144,7 +144,6 @@ export const Page = ({ page, noBacklink, isPreviewMobile, Modal }) => {
 
           {CustomHtml && <CustomHtml />}
         </PageContainer>
-        <Sponsors />
       </Fragment>
     )
   }

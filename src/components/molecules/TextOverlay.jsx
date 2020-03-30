@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled, { keyframes, css } from 'styled-components'
 
+import SimpleBar from 'simplebar-react'
+
+import { Button } from '../atoms/buttons/Button'
+
 // Media
 import { MediaSmall } from '../../style/media.js'
 
@@ -14,6 +18,16 @@ const modalFadeIn = keyframes`
     opacity: 1;
   }
 `
+const modalFadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+`
+
 const StyledModal = styled.div`
   position: fixed;
   top: 0;
@@ -26,11 +40,12 @@ const StyledModal = styled.div`
   background-color: ${({ isPreviewMobile }) =>
     isPreviewMobile ? 'transparent' : 'rgba(10, 15, 44, 0.95)'};
   pointer-events: none;
-  animation-name: ${({ show }) => (show ? modalFadeIn : '')};
+  animation-name: ${({ show }) => (show ? modalFadeIn : modalFadeOut)};
   animation-fill-mode: both;
   animation-timing-function: ease-out;
-  animation-duration: 0.5s;
+  animation-duration: ${({ show }) => (!show ? '0.1s' : '0.5s')};
 `
+
 const StyledModalContent = styled.div`
   position: relative;
   width: ${({ isPreviewMobile }) => (isPreviewMobile ? '334px' : '50%')};
@@ -39,7 +54,7 @@ const StyledModalContent = styled.div`
   background: ${({ isPreviewMobile }) =>
     isPreviewMobile ? 'rgba(10, 15, 44, 0.95)' : 'transparent'};
   pointer-events: ${({ show }) => (show ? 'all' : 'none')};
-  overflow-y: scroll;
+  overflow: hidden;
 
   @media ${MediaSmall} {
     margin: 0;
@@ -66,18 +81,18 @@ Modal.propTypes = {
 }
 
 const ContentContainer = styled.div`
-  background: ${({ colorBackground }) => colorBackground || '#FFFFFF'};
+  background: ${({ colorBackground }) => colorBackground || 'rgba(255,255,255, 0.9)'};
 `
 
 const TextContainer = styled.div`
   position: relative;
   margin: 0;
-  padding: 3rem 3rem;
+  padding: 1rem 3rem 0 3rem;
 
   color: ${({ color }) => color || '#000000'};
 
   @media ${MediaSmall} {
-    padding: 2rem 1.5rem;
+    padding: 2rem 1.5rem 0 1.5rem;
   }
 
   & h2,
@@ -85,6 +100,8 @@ const TextContainer = styled.div`
     color: ${({ color }) => color || '#000000'};
     margin-top: 0.5rem;
     margin-bottom: 1.5rem;
+    word-break: break-word;
+    white-space: pre-wrap;
   }
 
   & b {
@@ -103,11 +120,12 @@ const StyledTitle = styled.h2`
   width: 100%;
 `
 
-const StyledTextContainer = styled.div`
+const StyledTextContainer = styled(SimpleBar)`
   margin-top: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
   width: 100%;
 `
+
 const StyledButtonContainer = styled.div`
   position: sticky;
   bottom: 0;
@@ -116,27 +134,9 @@ const StyledButtonContainer = styled.div`
   display: flex;
 `
 
-const StyledButton = styled.button`
+const StyledButton = styled(Button)`
   justify-self: flex-end;
-  background-color: ${({ colorBackground }) => colorBackground};
-  border-radius: ${({ circle, square }) => (circle && '50%') || (square && '0px') || '0.4rem'};
-  border-color: ${({ color }) => color || 'transparent'};
-  border-width: ${({ border }) => border / 10}rem;
-  border-style: solid;
-  box-sizing: border-box;
-  color: ${({ color }) => color};
-  width: auto;
-  font-size: 1.2rem;
-  padding: 0.5rem 2.5rem;
-  margin: 2rem auto 3rem;
-  transition: border-color 0.25s ease-out, background-color 0.25s ease-out, color 0.25s ease-out;
-  cursor: pointer;
-
-  &:hover:not(:focus) {
-    background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
-    border-color: ${({ colorAccent }) => colorAccent};
-    color: ${({ colorAccent }) => colorAccent};
-  }
+  margin: 1rem auto 1rem;
 `
 
 export const TextOverlay = ({
@@ -160,10 +160,10 @@ export const TextOverlay = ({
 
   return (
     <Modal isPreviewMobile={isPreviewMobile} show={ssrDone && show}>
-      <ContentContainer color={color} colorBackground={colorBackground}>
-        <TextContainer color={color} colorBackground={colorBackground}>
+      <ContentContainer>
+        <TextContainer>
           <StyledTitle>{label.charAt(0).toUpperCase() + label.slice(1)}</StyledTitle>
-          <StyledTextContainer>
+          <StyledTextContainer style={{ maxHeight: 300 }}>
             {content.split('\n').map((word, i) => (
               <p key={i}>{word}</p>
             ))}
@@ -171,18 +171,7 @@ export const TextOverlay = ({
         </TextContainer>
 
         <StyledButtonContainer>
-          <StyledButton
-            border={border}
-            circle={circle}
-            color={color}
-            colorAccent={colorAccent}
-            colorBackground={colorBackground}
-            colorBackgroundAccent={colorBackgroundAccent}
-            onClick={onClose}
-            square={square}
-          >
-            Close
-          </StyledButton>
+          <StyledButton onClick={onClose}>Close</StyledButton>
         </StyledButtonContainer>
       </ContentContainer>
     </Modal>

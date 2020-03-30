@@ -251,9 +251,7 @@ export const PlatformLink = ({
     )
   } else if (text > '') {
     return (
-      <LinkWrapperText
-        onClick={() => setModalData({ show: true, content: text, label })}
-      >
+      <LinkWrapperText onClick={() => setModalData({ show: true, content: text, label })}>
         <Link
           border={border}
           circle={circle}
