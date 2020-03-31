@@ -89,17 +89,19 @@ export const TextBox = ({
   isPreviewMobile,
   wordWrap,
   ...otherOptions
-}) => (
-  <TextBackground>
-    <Text colorPrimary={color} colorAccent={colorAccent} wordWrap={wordWrap}>
-      <AutoTextFit
-        colorBackground={colorBackground}
-        includeWidth={!wordWrap}
-        isMobileView={isPreviewMobile}
-        {...otherOptions}
-      >
-        {children}
-      </AutoTextFit>
-    </Text>
-  </TextBackground>
-)
+}) => {
+  return (
+    <TextBackground>
+      <Text colorPrimary={color} colorAccent={colorAccent} wordWrap={wordWrap}>
+        <AutoTextFit
+          colorBackground={colorBackground}
+          includeWidth={!wordWrap}
+          isMobileView={isPreviewMobile}
+          {...otherOptions}
+        >
+          {children}
+        </AutoTextFit>
+      </Text>
+    </TextBackground>
+  )
+}
