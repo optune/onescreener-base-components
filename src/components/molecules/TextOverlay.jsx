@@ -124,6 +124,8 @@ const StyledTextContainer = styled(SimpleBar)`
   margin-top: 0.5rem;
   margin-bottom: 0;
   width: 100%;
+  padding-right: 10px;
+  max-height: 300px;
 `
 
 const StyledButtonContainer = styled.div`
@@ -163,7 +165,7 @@ export const TextOverlay = ({
       <ContentContainer>
         <TextContainer>
           <StyledTitle>{label.charAt(0).toUpperCase() + label.slice(1)}</StyledTitle>
-          <StyledTextContainer style={{ maxHeight: 300 }}>
+          <StyledTextContainer>
             {content.split('\n').map((word, i) => (
               <p key={i}>{word}</p>
             ))}
