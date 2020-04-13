@@ -124,7 +124,7 @@ const StyledTextContainer = styled(SimpleBar)`
   margin-top: 0.5rem;
   margin-bottom: 0;
   width: 100%;
-  padding-right: 10px;
+  padding-right: 15px;
   max-height: 300px;
 `
 
