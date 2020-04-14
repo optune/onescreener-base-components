@@ -24,10 +24,6 @@ const TextContent = styled.div`
   padding: ${({ padding }) => padding || '1em 2em'};
   background-color: ${({ colorBackground }) => colorBackground || 'transparent'};
 
-  * {
-    word-break: break-all;
-  }
-
   ${({ adjustWidth }) =>
     adjustWidth
       ? css`
@@ -56,9 +52,6 @@ const DEFAULTS = {
   includeWidth: false,
 }
 
-const hasChildren = element => element.childElementCount > 0
-const isWiderThanParent = (element, parentWidth) => element.offsetWidth > parentWidth
-
 const childrenElementsWider = (childrenElements, parentWidth) => {
   return childrenElements.some(element => {
     if (hasChildren(element)) {
@@ -70,6 +63,9 @@ const childrenElementsWider = (childrenElements, parentWidth) => {
     return false
   })
 }
+
+const hasChildren = element => element.childElementCount > 0
+const isWiderThanParent = (element, parentWidth) => element.offsetWidth > parentWidth
 
 const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth }) => {
   const style = window.getComputedStyle(element)
@@ -88,13 +84,6 @@ const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth 
       !childrenElementsWider([...element.children], widthForChildren)
     )
   }
-
-  //Original
-  // const inBounds = () => {
-  //   return (
-  //     parentHeight >= element.scrollHeight && (!includeWidth || parentWidth > element.scrollWidth)
-  //   )
-  // }
 
   const grow = () => {
     fontSize += step
