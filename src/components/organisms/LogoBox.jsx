@@ -172,7 +172,6 @@ const LogoContainer = styled.div`
       }
 
       ${({ isPreviewMobile }) =>
-        isDifferentPositions &&
         isPreviewMobile &&
         css`
           ${stylesLogoMobile}
