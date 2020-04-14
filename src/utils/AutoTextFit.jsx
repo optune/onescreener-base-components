@@ -52,6 +52,9 @@ const DEFAULTS = {
   includeWidth: false,
 }
 
+const hasChildren = element => element.childElementCount > 0
+const isWiderThanParent = (element, parentWidth) => element.offsetWidth > parentWidth
+
 const childrenElementsWider = (childrenElements, parentWidth) => {
   return childrenElements.some(element => {
     if (hasChildren(element)) {
@@ -63,9 +66,6 @@ const childrenElementsWider = (childrenElements, parentWidth) => {
     return false
   })
 }
-
-const hasChildren = element => element.childElementCount > 0
-const isWiderThanParent = (element, parentWidth) => element.offsetWidth > parentWidth
 
 const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth }) => {
   const style = window.getComputedStyle(element)
