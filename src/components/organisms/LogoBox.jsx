@@ -182,9 +182,11 @@ const LogoContainer = styled.div`
 export const LogoBox = ({ logo, zIndex, getImageUrl, isPreviewMobile }) => {
   const classnameDesktop =
     (logo.positionDesktop > '' && logo.positionDesktop.toLowerCase().replace('_', '-')) ||
+    (logo.position > '' && logo.position.toLowerCase().replace('_', '-')) ||
     'top-center'
   const classnameMobile =
     (logo.positionMobile > '' && logo.positionMobile.toLowerCase().replace('_', '-')) ||
+    (logo.position > '' && logo.position.toLowerCase().replace('_', '-')) ||
     'top-center'
 
   return (
