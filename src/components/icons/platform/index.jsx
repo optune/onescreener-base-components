@@ -339,10 +339,10 @@ export const Links = (links, content, isPreviewMobile) => {
       <TextOverlay
         border={links.border}
         circle={links.circle}
-        color={links.colorLinks}
-        colorAccent={links.colorLinksAccent}
-        colorBackground={links.colorLinksBackground}
-        colorBackgroundAccent={links.colorLinksBackgroundAccent}
+        color={links.colorLinks || content.color}
+        colorAccent={links.colorLinksAccent || content.colorAccent}
+        colorBackground={links.colorLinksBackground || content.colorBackground}
+        colorBackgroundAccent={links.colorLinksBackgroundAccent || content.colorBackgroundAccent}
         content={modalData.content}
         isPreviewMobile={isPreviewMobile}
         label={modalData.label}
@@ -360,10 +360,12 @@ export const Links = (links, content, isPreviewMobile) => {
             circle={links.circle}
             square={links.square}
             size={links.size}
-            color={links.colorLinks}
-            colorAccent={links.colorLinksAccent}
-            colorBackground={links.colorLinksBackground}
-            colorBackgroundAccent={links.colorLinksBackgroundAccent}
+            color={links.colorLinks || content.color}
+            colorAccent={links.colorLinksAccent || content.colorAccent}
+            colorBackground={links.colorLinksBackground || content.colorBackground}
+            colorBackgroundAccent={
+              links.colorLinksBackgroundAccent || content.colorBackgroundAccent
+            }
             isPreviewMobile={isPreviewMobile}
             text={link.text}
             modalData={modalData}
