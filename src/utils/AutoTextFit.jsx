@@ -52,6 +52,21 @@ const DEFAULTS = {
   includeWidth: false,
 }
 
+const hasChildren = element => element.childElementCount > 0
+const isWiderThanParent = (element, parentWidth) => element.offsetWidth > parentWidth
+
+const childrenElementsWider = (childrenElements, parentWidth) => {
+  return childrenElements.some(element => {
+    if (hasChildren(element)) {
+      return childrenElementsWider([...element.children], parentWidth)
+    }
+    if (isWiderThanParent(element, parentWidth)) {
+      return true
+    }
+    return false
+  })
+}
+
 const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth }) => {
   const style = window.getComputedStyle(element)
   let fontSize = parseInt(style.fontSize)
@@ -59,10 +74,14 @@ const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth 
 
   const parentWidth = element.parentElement.clientWidth
   const parentHeight = element.parentElement.clientHeight
+  const widthForChildren =
+    element.parentElement.clientWidth - parseInt(style.paddingLeft.replace('px', '')) * 2
 
   const inBounds = () => {
     return (
-      parentHeight >= element.scrollHeight && (!includeWidth || parentWidth > element.scrollWidth)
+      parentHeight >= element.scrollHeight &&
+      (!includeWidth || parentWidth > element.scrollWidth) &&
+      !childrenElementsWider([...element.children], widthForChildren)
     )
   }
 

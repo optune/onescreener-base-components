@@ -251,9 +251,7 @@ export const PlatformLink = ({
     )
   } else if (text > '') {
     return (
-      <LinkWrapperText
-        onClick={() => setModalData({ show: true, content: text, label })}
-      >
+      <LinkWrapperText onClick={() => setModalData({ show: true, content: text, label })}>
         <Link
           border={border}
           circle={circle}
@@ -341,10 +339,10 @@ export const Links = (links, content, isPreviewMobile) => {
       <TextOverlay
         border={links.border}
         circle={links.circle}
-        color={content.color}
-        colorAccent={content.colorAccent}
-        colorBackground={content.colorBackground}
-        colorBackgroundAccent={content.colorBackgroundAccent}
+        color={links.colorLinks || content.color}
+        colorAccent={links.colorLinksAccent || content.colorAccent}
+        colorBackground={links.colorLinksBackground || content.colorBackground}
+        colorBackgroundAccent={links.colorLinksBackgroundAccent || content.colorBackgroundAccent}
         content={modalData.content}
         isPreviewMobile={isPreviewMobile}
         label={modalData.label}
@@ -362,10 +360,12 @@ export const Links = (links, content, isPreviewMobile) => {
             circle={links.circle}
             square={links.square}
             size={links.size}
-            color={content.color}
-            colorAccent={content.colorAccent}
-            colorBackground={content.colorBackground}
-            colorBackgroundAccent={content.colorBackgroundAccent}
+            color={links.colorLinks || content.color}
+            colorAccent={links.colorLinksAccent || content.colorAccent}
+            colorBackground={links.colorLinksBackground || content.colorBackground}
+            colorBackgroundAccent={
+              links.colorLinksBackgroundAccent || content.colorBackgroundAccent
+            }
             isPreviewMobile={isPreviewMobile}
             text={link.text}
             modalData={modalData}
