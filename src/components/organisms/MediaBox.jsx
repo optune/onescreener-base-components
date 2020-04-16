@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import ReactPlayer from 'react-player'
 
@@ -16,7 +16,13 @@ const Fullscreen = styled.div`
 `
 
 export const MediaBox = ({ media }) => {
-  let Player = media?.url && ReactPlayer
+  const [ssrDone, setSsrDone] = useState(false)
+
+  useEffect(() => {
+    setSsrDone(true)
+  }, [])
+
+  let Player = ssrDone && media?.url && ReactPlayer
   let url = media?.url || ''
 
   let format, autoplay, theme
@@ -34,27 +40,29 @@ export const MediaBox = ({ media }) => {
     Player = DeezerPlayer
   }
 
-  return media && media.fullscreen ? (
-    <Fullscreen>
-      <Player
-        url={url}
-        playing={false}
-        width="100%"
-        height="100%"
-        format={format}
-        autoplay={autoplay}
-        theme={theme}
-      />
-    </Fullscreen>
-  ) : (
-    <Player
-      url={url}
-      playing={false}
-      width="100%"
-      height="100%"
-      format={format}
-      autoplay={autoplay}
-      theme={theme}
-    />
-  )
+  return media?.fullscreen
+    ? Player && (
+        <Fullscreen>
+          <Player
+            url={url}
+            playing={false}
+            width="100%"
+            height="100%"
+            format={format}
+            autoplay={autoplay}
+            theme={theme}
+          />
+        </Fullscreen>
+      )
+    : Player && (
+        <Player
+          url={url}
+          playing={false}
+          width="100%"
+          height="100%"
+          format={format}
+          autoplay={autoplay}
+          theme={theme}
+        />
+      )
 }
