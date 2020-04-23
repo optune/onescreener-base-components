@@ -65,6 +65,7 @@ const BackLink = styled.a`
   right: 0;
   color: #ffffff;
   transition: opacity 0.3s ease-out;
+  z-index: 9999;
 
   &:hover {
     opacity: 0.6;

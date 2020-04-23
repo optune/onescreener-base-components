@@ -223,12 +223,13 @@ export const PlatformLink = ({
   url,
 }) => {
   const Icon = LinkIconMapper({ platform, size })
+  const labelText = (label || platform).replace(/\b\w/g, l => l.toUpperCase())
 
   if (url > '') {
     return (
       <LinkWrapper
         href={url}
-        title={(label || platform).replace(/\b\w/g, l => l.toUpperCase())}
+        title={labelText}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -251,7 +252,7 @@ export const PlatformLink = ({
     )
   } else if (text > '') {
     return (
-      <LinkWrapperText onClick={() => setModalData({ show: true, content: text, label })}>
+      <LinkWrapperText onClick={() => setModalData({ show: true, content: text, label: labelText })}>
         <Link
           border={border}
           circle={circle}
