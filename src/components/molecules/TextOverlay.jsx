@@ -34,17 +34,21 @@ const StyledModal = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0;
+  opacity: ${({ show }) => (show ? 1 : 0)};
   z-index: 999999;
   overflow: auto;
   background-color: ${({ isPreviewMobile }) =>
     isPreviewMobile ? 'transparent' : 'rgba(10, 15, 44, 0.95)'};
   pointer-events: none;
+  transition: opacity 0.5s ease-out;  
+`
+
+/* REMOVED: Tricky for first time without having a fade-out effect
   animation-name: ${({ show }) => (show ? modalFadeIn : modalFadeOut)};
   animation-fill-mode: both;
   animation-timing-function: ease-out;
   animation-duration: ${({ show }) => (!show ? '0.1s' : '0.5s')};
-`
+ */
 
 const StyledModalContent = styled.div`
   position: relative;
@@ -88,8 +92,8 @@ const TextContainer = styled.div`
   position: relative;
   margin: 0;
   padding: 1rem 3rem 0 3rem;
-
   color: ${({ color }) => color || '#000000'};
+  overflow: scroll;
 
   @media ${MediaSmall} {
     padding: 2rem 1.5rem 0 1.5rem;
@@ -164,10 +168,10 @@ export const TextOverlay = ({
     <Modal isPreviewMobile={isPreviewMobile} show={ssrDone && show}>
       <ContentContainer>
         <TextContainer>
-          <StyledTitle>{label.charAt(0).toUpperCase() + label.slice(1)}</StyledTitle>
+          <StyledTitle>{label}</StyledTitle>
           <StyledTextContainer>
-            {content.split('\n').map((word, i) => (
-              <p key={i}>{word}</p>
+            {content.split('\n').map((line, lineIndex) => (
+              <p key={lineIndex}>{line}</p>
             ))}
           </StyledTextContainer>
         </TextContainer>
