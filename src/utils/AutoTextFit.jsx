@@ -59,11 +59,10 @@ const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth 
 
   const parentWidth = element.parentElement.clientWidth
   const parentHeight = element.parentElement.clientHeight
-  
+
   const inBounds = () => {
     return (
-      parentHeight >= element.scrollHeight &&
-      (!includeWidth || parentWidth >= element.scrollWidth)
+      parentHeight >= element.scrollHeight && (!includeWidth || parentWidth >= element.scrollWidth)
     )
   }
 
@@ -138,6 +137,8 @@ export class AutoTextFit extends Component {
 
   componentDidUpdate(prevProps) {
     const { ssrDone, resized } = this.state
+    // const style = window.getComputedStyle(element)
+
     const shouldResize = this.props.isMobileView !== prevProps.isMobileView
 
     if (resized && shouldResize) {

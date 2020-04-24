@@ -24,6 +24,7 @@ import { SoundcloudIcon } from './Soundcloud.jsx'
 import { SpotifyIcon } from './Spotify.jsx'
 import { TechRiderIcon } from './TechRider.jsx'
 import { TumblrIcon } from './Tumblr.jsx'
+import { TwitchIcon } from './Twitch.jsx'
 import { TwitterIcon } from './Twitter.jsx'
 import { YoutubeIcon } from './Youtube.jsx'
 import { VimeoIcon } from './Vimeo.jsx'
@@ -56,6 +57,7 @@ export const PlatformLinkIcon = {
   SOUNDCLOUD: SoundcloudIcon,
   SPOTIFY: SpotifyIcon,
   TUMBLR: TumblrIcon,
+  TWITCH: TwitchIcon,
   TWITTER: TwitterIcon,
   YOUTUBE: YoutubeIcon,
   VIMEO: VimeoIcon,
