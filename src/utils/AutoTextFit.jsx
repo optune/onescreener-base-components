@@ -137,8 +137,6 @@ export class AutoTextFit extends Component {
 
   componentDidUpdate(prevProps) {
     const { ssrDone, resized } = this.state
-    // const style = window.getComputedStyle(element)
-
     const shouldResize = this.props.isMobileView !== prevProps.isMobileView
 
     if (resized && shouldResize) {
