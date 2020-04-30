@@ -143,7 +143,7 @@ export const Page = ({ page, noBacklink, isPreviewMobile, Modal }) => {
             )}
           </ForegroundContainer>
 
-          {CustomHtml && <CustomHtml />}
+          {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
         </PageContainer>
       </Fragment>
     )
