@@ -138,12 +138,12 @@ export const Page = ({ page, noBacklink, isPreviewMobile, Modal }) => {
             {/* Links */}
             {links.list.length > 0 && (
               <LinksBox position={links.position} zIndex={4} isPreviewMobile={isPreviewMobile}>
-                {Links(links, content, isPreviewMobile, Modal)}
+                {Links({ links, content, isPreviewMobile, Modal })}
               </LinksBox>
             )}
           </ForegroundContainer>
 
-          {CustomHtml && <CustomHtml />}
+          {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
         </PageContainer>
       </Fragment>
     )
