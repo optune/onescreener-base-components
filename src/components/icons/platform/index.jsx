@@ -327,18 +327,22 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
   }
 })
 
-export const Links = (links, linksColorState, isPreviewMobile) => {
+export const Links = ({ links, linksColorState, content, isPreviewMobile }) => {
   const [modalData, setModalData] = useState({
     show: false,
     content: '',
     label: '',
   })
 
-  const color = linksColorState?.colorLinks || links.colorLinks
-  const colorAccent = linksColorState?.colorLinksAccent || links.colorLinksAccent
-  const colorBackground = linksColorState?.colorLinksBackground || links.colorLinksBackground
+  const color = linksColorState?.colorLinks || links.colorLinks || content.color
+  const colorAccent =
+    linksColorState?.colorLinksAccent || links.colorLinksAccent || content.colorAccent
+  const colorBackground =
+    linksColorState?.colorLinksBackground || links.colorLinksBackground || content.colorBackground
   const colorBackgroundAccent =
-    linksColorState?.colorLinksBackgroundAccent || links.colorLinksBackgroundAccent
+    linksColorState?.colorLinksBackgroundAccent ||
+    links.colorLinksBackgroundAccent ||
+    content.colorBackgroundAccent
 
   return (
     <Fragment>
