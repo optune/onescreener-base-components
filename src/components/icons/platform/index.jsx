@@ -24,6 +24,7 @@ import { SoundcloudIcon } from './Soundcloud.jsx'
 import { SpotifyIcon } from './Spotify.jsx'
 import { TechRiderIcon } from './TechRider.jsx'
 import { TumblrIcon } from './Tumblr.jsx'
+import { TwitchIcon } from './Twitch.jsx'
 import { TwitterIcon } from './Twitter.jsx'
 import { YoutubeIcon } from './Youtube.jsx'
 import { VimeoIcon } from './Vimeo.jsx'
@@ -56,6 +57,7 @@ export const PlatformLinkIcon = {
   SOUNDCLOUD: SoundcloudIcon,
   SPOTIFY: SpotifyIcon,
   TUMBLR: TumblrIcon,
+  TWITCH: TwitchIcon,
   TWITTER: TwitterIcon,
   YOUTUBE: YoutubeIcon,
   VIMEO: VimeoIcon,
@@ -227,12 +229,7 @@ export const PlatformLink = ({
 
   if (url > '') {
     return (
-      <LinkWrapper
-        href={url}
-        title={labelText}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <LinkWrapper href={url} title={labelText} target="_blank" rel="noopener noreferrer">
         <Link
           border={border}
           circle={circle}
@@ -252,7 +249,9 @@ export const PlatformLink = ({
     )
   } else if (text > '') {
     return (
-      <LinkWrapperText onClick={() => setModalData({ show: true, content: text, label: labelText })}>
+      <LinkWrapperText
+        onClick={() => setModalData({ show: true, content: text, label: labelText })}
+      >
         <Link
           border={border}
           circle={circle}
@@ -328,22 +327,28 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
   }
 })
 
-export const Links = (links, content, isPreviewMobile) => {
+export const Links = (links, linksColorState, isPreviewMobile) => {
   const [modalData, setModalData] = useState({
     show: false,
     content: '',
     label: '',
   })
 
+  const color = linksColorState?.colorLinks || links.colorLinks
+  const colorAccent = linksColorState?.colorLinksAccent || links.colorLinksAccent
+  const colorBackground = linksColorState?.colorLinksBackground || links.colorLinksBackground
+  const colorBackgroundAccent =
+    linksColorState?.colorLinksBackgroundAccent || links.colorLinksBackgroundAccent
+
   return (
     <Fragment>
       <TextOverlay
         border={links.border}
         circle={links.circle}
-        color={links.colorLinks || content.color}
-        colorAccent={links.colorLinksAccent || content.colorAccent}
-        colorBackground={links.colorLinksBackground || content.colorBackground}
-        colorBackgroundAccent={links.colorLinksBackgroundAccent || content.colorBackgroundAccent}
+        color={color}
+        colorAccent={colorAccent}
+        colorBackground={colorBackground}
+        colorBackgroundAccent={colorBackgroundAccent}
         content={modalData.content}
         isPreviewMobile={isPreviewMobile}
         label={modalData.label}
@@ -361,12 +366,10 @@ export const Links = (links, content, isPreviewMobile) => {
             circle={links.circle}
             square={links.square}
             size={links.size}
-            color={links.colorLinks || content.color}
-            colorAccent={links.colorLinksAccent || content.colorAccent}
-            colorBackground={links.colorLinksBackground || content.colorBackground}
-            colorBackgroundAccent={
-              links.colorLinksBackgroundAccent || content.colorBackgroundAccent
-            }
+            color={color}
+            colorAccent={colorAccent}
+            colorBackground={colorBackground}
+            colorBackgroundAccent={colorBackgroundAccent}
             isPreviewMobile={isPreviewMobile}
             text={link.text}
             modalData={modalData}
