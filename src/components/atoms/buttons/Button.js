@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 
 // Styles
@@ -103,3 +104,6 @@ export const Button = ({ children, ...other }) => (
     {children}
   </StyledButton>
 )
+Button.propTypes = {
+  children: propTypes.node,
+}
