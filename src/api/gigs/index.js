@@ -9,20 +9,19 @@ export const Type = {
 
 const fetchGigs = url =>
   new Promise((resolve, reject) => {
-    let res = { ok: false }
-    try {
-      fetch(url).then(res => {
+    fetch(url)
+      .then(res => {
         try {
           resolve(res.json())
-        } catch (e) {
-          console.error('Parse error', e)
+        } catch (error) {
+          console.error('Parse error', error)
           reject('Parsing failed')
         }
       })
-    } catch (e) {
-      console.error('fetching failed', e)
-      reject('Fetch failed')
-    }
+      .catch(error => {
+        console.error('fetching failed', error)
+        reject('Fetch failed')
+      })
   })
 
 const transformGigs = api => includeMonthTitle => events => {
@@ -59,17 +58,11 @@ const transformGigs = api => includeMonthTitle => events => {
   return gigs
 }
 
-export const getGigs = async ({
-  provider,
-  slug,
-  limit,
-  includeMonthTitle,
-  includePast,
-  ...other
-}) => {
+export const getGigs = async ({ gigsAPI, gigsAPIDomain }) => {
+  const { slug, limit, includeMonthTitle, includePast } = gigsAPI
   const api = ApiProviders.OPTUNE
 
-  const data = await fetchGigs(api.url(slug, limit, includePast)).catch(() => {
+  const data = await fetchGigs(api.url(gigsAPIDomain)({ slug, limit, includePast })).catch(() => {
     return []
   })
 
