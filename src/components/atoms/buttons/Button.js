@@ -105,5 +105,5 @@ export const Button = ({ children, ...other }) => (
   </StyledButton>
 )
 Button.propTypes = {
-  children: propTypes.node,
+  children: PropTypes.node,
 }
