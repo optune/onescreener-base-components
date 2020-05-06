@@ -13,13 +13,19 @@ export const SpotifyPlayer = ({ url }) => {
 
   if (url.indexOf('open.spotify.com') !== -1) {
     temp = url.split('/')
-    temp[3] = temp[3].replace(temp[3], 'embed/' + temp[3])
-    trueUrl = temp.join('/')
+    if (temp.length > 3) {
+      temp[3] = temp[3].replace(temp[3], `embed/${temp[3]}`)
+      trueUrl = temp.join('/')
+    }
   } else if (url.indexOf('spotify:') !== -1) {
     temp = url.split(':')
-    temp[1] = 'embed/' + temp[1] + '/'
-    trueUrl = 'https://open.spotify.com/' + temp[1] + temp[2]
-  } else {
+    if (temp.length > 2) {
+      temp[1] = `embed/${temp[1]}/`
+      trueUrl = `https://open.spotify.com/${temp[1]}${temp[2]}`
+    }
+  }
+
+  if (!trueUrl) {
     return <></>
   }
 
