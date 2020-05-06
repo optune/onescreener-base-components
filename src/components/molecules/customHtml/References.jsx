@@ -8,6 +8,10 @@ const ReferenceWrapper = styled.div`
   position: absolute;
   top: 25%;
   right: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   text-align: center;
   max-width: 90px;
   z-index: 9999;
@@ -68,8 +72,7 @@ const ReferenceTitle = styled.h2`
 
 const ReferenceLink = styled.a`
   display: block;
-  text-align: right;
-  width: 100%;
+  width: ${({ bigger }) => (bigger ? '120%' : '100%')};
 
   &.transparent {
     transition: opacity 0.3s, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -87,7 +90,7 @@ const ReferenceImage = styled.img`
 
 const residenciesLogos = [
   {
-    href: 'https://www.facebook.com/exilzuerich',
+    href: 'https://exil.cl',
     src:
       'https://res.cloudinary.com/optune-me/image/upload/v1588226253/onescreener-v2/prod/ray-douglas/custom/exil_logo.jpg',
     alt: 'Exil, Zürich',
@@ -99,7 +102,7 @@ const residenciesLogos = [
     alt: 'Mascotte, Zürich',
   },
   {
-    href: 'http://www.nachtseminar.ch/',
+    href: 'https://www.nachtseminar.ch/',
     src:
       'https://res.cloudinary.com/optune-me/image/upload/v1588226155/onescreener-v2/prod/ray-douglas/custom/NachtSeminarLogo.svg',
     alt: 'Nachtseminar',
@@ -109,9 +112,10 @@ const residenciesLogos = [
     src:
       'https://res.cloudinary.com/optune-me/image/upload/v1588226253/onescreener-v2/prod/ray-douglas/custom/Plaza_Schwarz_ZH.png',
     alt: 'Plaza Club, Zürich',
+    bigger: true,
   },
   {
-    href: 'http://www.trischli.ch/',
+    href: 'https://www.trischli.ch/',
     src:
       'https://res.cloudinary.com/optune-me/image/upload/c_scale,f_auto,q_auto:best,w_100/v1588226166/onescreener-v2/prod/ray-douglas/custom/trischli_white.png',
     alt: 'Trischli Club, St. Gallen',
@@ -131,11 +135,12 @@ export const References = ({ isPreviewMobile }) => {
         Residencies
       </ReferenceTitle>
 
-      {residenciesLogos.map(({ href, src, alt }) => (
+      {residenciesLogos.map(({ href, src, alt, bigger }) => (
         <ReferenceLink
           className="transparent"
           href={href || '#'}
           target={href && href !== '#' ? '__blank' : ''}
+          bigger={bigger}
         >
           <ReferenceImage src={src} title={alt} />
         </ReferenceLink>
