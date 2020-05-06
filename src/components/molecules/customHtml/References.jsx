@@ -6,10 +6,10 @@ import { MediaMobile } from '../../../style/media'
 // Styles
 const ReferenceWrapper = styled.div`
   position: absolute;
-  top: 1rem;
+  top: 25%;
   right: 1.2rem;
-  text-align: right;
-  max-width: 6rem;
+  text-align: center;
+  max-width: 90px;
   z-index: 9999;
 
   h2,
@@ -33,16 +33,14 @@ const ReferenceWrapper = styled.div`
       `}
   }
 
-  media ${MediaMobile} {
-    max-width: 5rem;
-    top: 1rem;
+  @media ${MediaMobile} {
+    max-width: 50px;
   }
 
   ${({ isPreviewMobile }) =>
     isPreviewMobile &&
     css`
-      max-width: 5rem;
-      top: 1rem;
+      max-width: 50px;
     `}
 `
 
@@ -51,7 +49,7 @@ const ReferenceTitle = styled.h2`
   margin-bottom: 1rem;
   border-bottom: 1px solid #fff;
   display: block;
-  text-align: right;
+  text-align: center;
   border-bottom: 1px solid #fff;
   font-weight: 300;
   font-size: 1rem;
@@ -89,40 +87,40 @@ const ReferenceImage = styled.img`
 
 const residenciesLogos = [
   {
-    href: '',
+    href: 'https://www.facebook.com/exilzuerich',
     src:
       'https://res.cloudinary.com/optune-me/image/upload/v1588226253/onescreener-v2/prod/ray-douglas/custom/exil_logo.jpg',
-    alt: '',
+    alt: 'Exil, Zürich',
   },
   {
     href: 'https://www.mascotte.ch/',
     src:
       'https://res.cloudinary.com/optune-me/image/upload/c_scale,f_auto,h_53,q_auto:best/v1588226156/onescreener-v2/prod/ray-douglas/custom/Mascotte.png',
-    alt: '',
+    alt: 'Mascotte, Zürich',
   },
   {
     href: 'http://www.nachtseminar.ch/',
     src:
       'https://res.cloudinary.com/optune-me/image/upload/v1588226155/onescreener-v2/prod/ray-douglas/custom/NachtSeminarLogo.svg',
-    alt: '',
+    alt: 'Nachtseminar',
   },
   {
-    href: '',
+    href: 'https://www.plaza-zurich.ch/',
     src:
       'https://res.cloudinary.com/optune-me/image/upload/v1588226253/onescreener-v2/prod/ray-douglas/custom/Plaza_Schwarz_ZH.png',
-    alt: '',
+    alt: 'Plaza Club, Zürich',
   },
   {
     href: 'http://www.trischli.ch/',
     src:
       'https://res.cloudinary.com/optune-me/image/upload/c_scale,f_auto,q_auto:best,w_100/v1588226166/onescreener-v2/prod/ray-douglas/custom/trischli_white.png',
-    alt: '',
+    alt: 'Trischli Club, St. Gallen',
   },
   {
     href: 'http://www.useit-party.ch/',
     src:
       'https://res.cloudinary.com/optune-me/image/upload/c_scale,f_auto,q_auto:best,w_100/v1588226157/onescreener-v2/prod/ray-douglas/custom/use_it.png',
-    alt: '',
+    alt: 'useit - Kaufleuten, Zürich',
   },
 ]
 
@@ -139,7 +137,7 @@ export const References = ({ isPreviewMobile }) => {
           href={href || '#'}
           target={href && href !== '#' ? '__blank' : ''}
         >
-          <ReferenceImage src={src} alt={alt} />
+          <ReferenceImage src={src} title={alt} />
         </ReferenceLink>
       ))}
     </ReferenceWrapper>

@@ -93,7 +93,7 @@ export const Page = ({ page, noBacklink, isPreviewMobile, Modal }) => {
   let PageComponent = null
 
   if (page) {
-    const { background, logo, content, gigAPI } = page
+    const { background, logo, content } = page
     const { links } = page || { links: { list: [] } }
 
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null

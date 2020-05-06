@@ -207,6 +207,7 @@ export const ContentBox = ({ content, links, isPreviewMobile }) => {
     colorBackground,
     colorBackgroundAccent,
     gigsAPI,
+    gigsAPIDomain,
     gigsList,
     media,
     position = '4/2',
@@ -238,6 +239,7 @@ export const ContentBox = ({ content, links, isPreviewMobile }) => {
           border={border}
           circle={circle}
           gigsAPI={gigsAPI}
+          gigsAPIDomain={gigsAPIDomain}
           gigsList={gigsList}
           isPreviewMobile={isPreviewMobile}
           square={square}

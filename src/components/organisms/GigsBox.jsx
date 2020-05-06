@@ -153,6 +153,7 @@ export const GigsBox = ({
   colorBackground,
   colorBackgroundAccent,
   gigsAPI,
+  gigsAPIDomain,
   gigsList,
   isPreviewMobile,
   square,
@@ -170,7 +171,7 @@ export const GigsBox = ({
 
   useEffect(() => {
     if (gigs.loading) {
-      getGigs(gigsAPI).then(data => {
+      getGigs({ gigsAPI, gigsAPIDomain }).then(data => {
         setGigs({ loading: false, data })
       })
     }
