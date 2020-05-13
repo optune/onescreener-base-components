@@ -125,10 +125,11 @@ export const Page = ({ page, noBacklink, isPreviewMobile, Modal }) => {
             {/* Logo */}
             {logo && (
               <LogoBox
-                zIndex={2}
                 logo={logo}
+                links={links}
                 getImageUrl={getUrl}
                 isPreviewMobile={isPreviewMobile}
+                zIndex={2}
               />
             )}
 

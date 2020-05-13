@@ -34,6 +34,20 @@ const LogoImage = styled.img`
   max-width: unset;
   max-height: unset;
 
+  ${({ isBottomLinks, isPreviewMobile }) =>
+    (isBottomLinks &&
+      ((isPreviewMobile &&
+        css`
+          margin-bottom: 4.5rem;
+        `) ||
+        css`
+          margin-bottom: 8rem;
+        `)) ||
+    (isPreviewMobile &&
+      css`
+        margin-bottom: 4.5rem;
+      `)}
+
   @media screen and (orientation: portrait) {
     ${({ orientation, size }) =>
       orientation === 'LANDSCAPE'
@@ -61,9 +75,10 @@ const LogoImage = styled.img`
   }
 `
 
-export const Logo = ({ logo, getImageUrl, isPreviewMobile }) => (
+export const Logo = ({ logo, getImageUrl, isBottomLinks, isPreviewMobile }) => (
   <LogoImage
     isPreviewMobile={isPreviewMobile}
+    isBottomLinks={isBottomLinks}
     orientation={logo.image.orientation}
     src={getImageUrl({
       image: logo.image,
