@@ -135,8 +135,9 @@ export const References = ({ isPreviewMobile }) => {
         Residencies
       </ReferenceTitle>
 
-      {residenciesLogos.map(({ href, src, alt, bigger }) => (
+      {residenciesLogos.map(({ href, src, alt, bigger }, refIndex) => (
         <ReferenceLink
+          key={`ref-${refIndex}`}
           className="transparent"
           href={href || '#'}
           target={href && href !== '#' ? '__blank' : ''}

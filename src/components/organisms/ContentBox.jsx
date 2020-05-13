@@ -223,8 +223,6 @@ export const ContentBox = ({ content, links, isPreviewMobile }) => {
   const areaMobile = getArea({ position: positionMobile, span: spanMobile })
   const { border, circle, square } = links
 
-  const customHTML = content.customHTML || '<h1> Custom HTML </h1>'
-  const showHTML = content.showCustomHTML || false
   /*
    * Set content component
    */
