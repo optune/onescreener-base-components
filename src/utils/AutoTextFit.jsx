@@ -21,7 +21,8 @@ const TextContainer = styled.div`
 `
 
 const TextContent = styled.div`
-  padding: ${({ padding, isMobileView }) => padding || (isMobileView && '1em 1em') || '1em 2em'};
+  // padding: ${({ padding, isMobileView }) => padding || (isMobileView && '1em 1em') || '1em 2em'};
+  padding: ${({ padding }) => padding || '1em 2em'};
   background-color: ${({ colorBackground }) => colorBackground || 'transparent'};
 
   ${({ adjustWidth }) =>
