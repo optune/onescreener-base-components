@@ -174,7 +174,7 @@ export class AutoTextFit extends Component {
           colorBackground={colorBackground}
           padding={padding}
           ref={this.TextRef}
-          isMobileView={isMobileView}
+          // isMobileView={isMobileView}
         >
           {children}
           {/* Give some space at the end */}
