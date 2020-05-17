@@ -23,11 +23,10 @@ const CoverImage = styled.img`
 
 export const CoverBox = ({ cover }) => {
   const { url, fullscreen, image } = cover
-
   return (
     <Cover>
-      <CoverLink href={url} target="__blank">
-        <CoverImage src={image.url} alt="image" fullscreen={fullscreen} />
+      <CoverLink href={url || ''} target="__blank">
+        <CoverImage src={image?.url || ''} alt="image" fullscreen={fullscreen || false} />
       </CoverLink>
     </Cover>
   )
