@@ -179,7 +179,7 @@ const LogoContainer = styled.div`
     `}
 `
 
-export const LogoBox = ({ logo, zIndex, getImageUrl, isPreviewMobile }) => {
+export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, zIndex }) => {
   const classnameDesktop =
     (logo.positionDesktop > '' && logo.positionDesktop.toLowerCase().replace('_', '-')) ||
     (logo.position > '' && logo.position.toLowerCase().replace('_', '-')) ||
@@ -188,6 +188,8 @@ export const LogoBox = ({ logo, zIndex, getImageUrl, isPreviewMobile }) => {
     (logo.positionMobile > '' && logo.positionMobile.toLowerCase().replace('_', '-')) ||
     (logo.position > '' && logo.position.toLowerCase().replace('_', '-')) ||
     'top-center'
+
+  const isBottomLinks = links.position.includes('BOTTOM')
 
   return (
     <LogoContainer
@@ -200,7 +202,12 @@ export const LogoBox = ({ logo, zIndex, getImageUrl, isPreviewMobile }) => {
         <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
       ) : (
         (logo.image?.url > '' && (
-          <Logo logo={logo} getImageUrl={getImageUrl} isPreviewMobile={isPreviewMobile} />
+          <Logo
+            logo={logo}
+            getImageUrl={getImageUrl}
+            isBottomLinks={isBottomLinks}
+            isPreviewMobile={isPreviewMobile}
+          />
         )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
       )}
     </LogoContainer>
