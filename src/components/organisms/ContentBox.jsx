@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components'
 import { TextBox } from './TextBox.jsx'
 import { GigsBox } from './GigsBox.jsx'
 import { MediaBox } from './MediaBox.jsx'
+import { CoverBox } from './CoverBox.jsx'
 
 import { MediaSmall, MediaMobile, NotMediaMobile } from '../../style/media.js'
 
@@ -206,6 +207,7 @@ export const ContentBox = ({ content, links, isPreviewMobile }) => {
     colorAccent,
     colorBackground,
     colorBackgroundAccent,
+    cover,
     gigsAPI,
     gigsAPIDomain,
     gigsList,
@@ -230,6 +232,9 @@ export const ContentBox = ({ content, links, isPreviewMobile }) => {
   let fullscreen = false
   let Content
   switch (type) {
+    case 'COVER':
+      Content = <CoverBox cover={cover} />
+      break
     case 'GIGS':
       Content = (
         <GigsBox
