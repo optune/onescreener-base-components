@@ -208,8 +208,6 @@ const getLogoPadding = ({ logo, links, isPreviewMobile, isMobile }) => {
     (PositionBottom.includes(logoPosition) && 'bottom') ||
     'none'
 
-  console.log(paddingIndex, logoPosition, links.position)
-
   return defineLogoPadding(isPreviewMobile)[paddingIndex]
 }
 
