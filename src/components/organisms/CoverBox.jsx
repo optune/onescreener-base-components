@@ -12,7 +12,8 @@ const Cover = styled.div`
 const CoverLink = styled.a`
   display: block;
   height: 100%;
-  width: auto;
+  width: 100%;
+  text-align: center;
 `
 
 const CoverImage = styled.img`
