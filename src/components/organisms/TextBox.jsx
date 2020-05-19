@@ -42,6 +42,9 @@ const Text = styled.div`
     line-height: 1.4;
     margin: 0 0 0.1em;
     padding: 0;
+  }
+
+  & a {
     word-break: ${({ wordWrap }) => wordWrap ? 'break-word' : 'normal'};
   }
 
