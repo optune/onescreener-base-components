@@ -37,27 +37,67 @@ const LogoTextContainer = styled.div`
     height: ${({ size }) => LogoSize.Mobile[size]};
   }
 
+  & #auto-text-fit-container {
+    display: flex;
+    align-items: ${({ logoPosition }) => logoPosition};
+  }
   & p {
     color: ${({ color }) => color};
     display: inline-block;
     font-size: 1em;
     text-align: center;
-    line-height: 1.4;
+    line-height: 1;
     white-space: nowrap;
   }
 `
 
-export const LogoText = ({ logo, isPreviewMobile }) =>
-  logo.text?.title ? (
-    <LogoTextContainer size={logo.size} color={logo.text.color} isPreviewMobile={isPreviewMobile}>
+/*
+ * Set vertical alignment of text logo
+ */
+
+const PositionTop = ['TOP_LEFT', 'TOP_CENTER', 'TOP_RIGHT']
+const PositionBottom = ['BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT']
+
+const PositionAlignment = {
+  top: 'flex-start',
+  bottom: 'flex-end',
+  center: 'center',
+}
+
+const getLogoPosition = ({ logo, isMobile }) => {
+  const position =
+    (isMobile && logo.isDifferentPositions && logo.positionMobile) ||
+    logo.positionDesktop ||
+    logo.position
+
+  const positionAlignment =
+    (PositionTop.includes(position) && 'top') ||
+    (PositionBottom.includes(position) && 'bottom') ||
+    'center'
+
+  return PositionAlignment[positionAlignment]
+}
+
+export const LogoText = ({ logo, isPreviewMobile, isMobile }) => {
+  const logoPosition = getLogoPosition({ logo, isMobile: isMobile || isPreviewMobile })
+
+  return logo.text?.title ? (
+    <LogoTextContainer
+      size={logo.size}
+      color={logo.text.color}
+      isPreviewMobile={isPreviewMobile}
+      logoPosition={logoPosition}
+    >
       <AutoTextFit
         adjustWidth
         includeWidth
         padding="0"
         maxFontSize={300}
         isMobileView={isPreviewMobile}
+        isLogo
       >
         <p className="apply-font">{logo.text.title}</p>
       </AutoTextFit>
     </LogoTextContainer>
   ) : null
+}

@@ -201,7 +201,10 @@ const defineLogoPadding = isPreviewMobile => ({
 })
 
 const getLogoPadding = ({ logo, links, isPreviewMobile, isMobile }) => {
-  const logoPosition = isMobile && logo.positionMobile || logo.positionDesktop || logo.position
+  const logoPosition =
+    (isMobile && logo.isDifferentPositions && logo.positionMobile) ||
+    logo.positionDesktop ||
+    logo.position
   const paddingIndex =
     (links.position === 'CENTER_LEFT' && PositionLeft.includes(logoPosition) && 'left') ||
     (links.position === 'CENTER_RIGHT' && PositionRight.includes(logoPosition) && 'right') ||
@@ -211,22 +214,39 @@ const getLogoPadding = ({ logo, links, isPreviewMobile, isMobile }) => {
   return defineLogoPadding(isPreviewMobile)[paddingIndex]
 }
 
-export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, zIndex }) => {
-  const classnameDesktop =
-    (logo.positionDesktop > '' && logo.positionDesktop.toLowerCase().replace('_', '-')) ||
-    (logo.position > '' && logo.position.toLowerCase().replace('_', '-')) ||
-    'top-center'
-  const classnameMobile =
-    (logo.positionMobile > '' && logo.positionMobile.toLowerCase().replace('_', '-')) ||
-    (logo.position > '' && logo.position.toLowerCase().replace('_', '-')) ||
-    'top-center'
+/*
+ * Get classnames for logo position
+ */
 
+const getLogoPosition = ({ logo, isMobile }) => {
+  const positionDesktop = (logo.positionDesktop > '' && logo.positionDesktop) || logo.position
+
+  const classnameDesktop =
+    (positionDesktop > '' && positionDesktop.toLowerCase().replace('_', '-')) || 'top-center'
+
+  const logoPosition =
+    (isMobile && logo.isDifferentPositions && logo.positionMobile) ||
+    logo.positionDesktop ||
+    logo.position
+
+  const classnameMobile =
+    (logoPosition > '' && logoPosition.toLowerCase().replace('_', '-')) || 'top-center'
+
+  return {
+    classnameMobile,
+    classnameDesktop,
+  }
+}
+
+export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, zIndex }) => {
   // Media Query
   const isMobile = useMediaQuery({ query: MediaMobile })
 
+  const position = getLogoPosition({ logo, isMobile: isMobile || isPreviewMobile })
+
   return (
     <LogoContainer
-      className={`desktop-${classnameDesktop} mobile-${classnameMobile}`}
+      className={`desktop-${position.classnameDesktop} mobile-${position.classnameMobile}`}
       zIndex={zIndex}
       isPreviewMobile={isPreviewMobile}
       isDifferentPositions={logo?.isDifferentPositions || false}
@@ -237,7 +257,7 @@ export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, zIndex }) =
       ) : (
         (logo.image?.url > '' && (
           <Logo logo={logo} getImageUrl={getImageUrl} isPreviewMobile={isPreviewMobile} />
-        )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
+        )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobile} isMobile={isMobile} />
       )}
     </LogoContainer>
   )
