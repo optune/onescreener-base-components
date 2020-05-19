@@ -163,11 +163,16 @@ export class AutoTextFit extends Component {
       colorBackground,
       padding,
       isMobileView,
+      isLogo,
     } = this.props
     const { ssrDone, resized } = this.state
 
     return (
-      <TextContainer show={ssrDone && resized} alignHorizontal={alignHorizontal}>
+      <TextContainer
+        id="auto-text-fit-container"
+        show={ssrDone && resized}
+        alignHorizontal={alignHorizontal}
+      >
         <TextContent
           adjustWidth={adjustWidth}
           colorBackground={colorBackground}
@@ -176,10 +181,12 @@ export class AutoTextFit extends Component {
           // isMobileView={isMobileView}
         >
           {children}
-          {/* Give some space at the end */}
-          <p>
-            <br />
-          </p>
+          {/* Give some space at the end */
+          !isLogo && (
+            <p>
+              <br />
+            </p>
+          )}
         </TextContent>
       </TextContainer>
     )
@@ -193,6 +200,7 @@ AutoTextFit.propTypes = {
   colorBackground: PropTypes.string,
   includeWidth: PropTypes.bool,
   isMobileView: PropTypes.bool,
+  isLogo: PropTypes.bool,
   maxFontSize: PropTypes.number,
   minFontSize: PropTypes.number,
   onResize: PropTypes.bool,
