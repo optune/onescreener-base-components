@@ -44,6 +44,10 @@ const Text = styled.div`
     padding: 0;
   }
 
+  & a {
+    word-break: ${({ wordWrap }) => wordWrap ? 'break-word' : 'normal'};
+  }
+
   & .separator-line {
     background: ${({ colorPrimary }) => colorPrimary};
     height: 0.1em;
