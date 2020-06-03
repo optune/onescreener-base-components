@@ -4,6 +4,9 @@ import styled, { css } from 'styled-components'
 
 import { customHtml } from '../molecules/customHtml/index.jsx'
 
+// Molecules
+import { TextOverlay } from '../molecules/TextOverlay'
+
 // Background
 import { Background } from '../atoms/Background.jsx'
 
@@ -20,6 +23,7 @@ import { getImageUrl } from '../../utils/getImageUrl.js'
 
 // Global Styles
 import GlobalStyle from '../../style/global.js'
+import { NotMediaSmall } from '../../style/media'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -35,6 +39,21 @@ const PageContainer = styled.div`
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
   display: flex;
   overflow: hidden;
+
+  ${({ isSidePreview }) =>
+    (isSidePreview &&
+      css`
+        box-shadow: -16px 3px 25px -22px rgba(255, 255, 255, 0.7),
+          16px 3px 25px -22px rgba(255, 255, 255, 0.7), 0 5px 8px 7px rgba(0, 0, 0, 0.68),
+          0 0 0 10px black;
+        border-radius: ${({ isPreviewMobile }) => (isPreviewMobile ? '16px' : '6px')};
+        transition: border-radius 0.3s ease-out;
+      `) ||
+    css`
+      @media ${NotMediaSmall} {
+        display: none;
+      }
+    `}
 `
 
 const ForegroundContainer = styled.div`
@@ -51,7 +70,8 @@ const BacklinkUrl =
   'https://res.cloudinary.com/optune-me/image/upload/e_blackwhite,q_auto:good,c_fit,w_64,f_auto/v1558014130/onescreener-v2/app/logo-onescreener.png'
 
 const BackLink = styled.a`
-  position: ${({ isPreviewMobile }) => (isPreviewMobile ? 'absolute' : 'fixed')};
+  position: ${({ isSidePreview, isPreviewMobile }) =>
+    isPreviewMobile || isSidePreview ? 'absolute' : 'fixed'};
   background-image: url(${BacklinkUrl});
   background-size: initial;
   background-color: #606060;
@@ -83,12 +103,18 @@ const LogoContainer = styled.div`
   flex-direction: column;
 `
 
-export const Page = ({ page, noBacklink, isPreviewMobile, Modal }) => {
+export const Page = ({ page, noBacklink, isPreviewMobile, Modal, isSidePreview }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
     setSsrDone(true)
   }, [])
   const getUrl = getImageUrl(ssrDone)
+
+  const [modalData, setModalData] = useState({
+    show: false,
+    content: '',
+    label: '',
+  })
 
   let PageComponent = null
 
@@ -106,6 +132,8 @@ export const Page = ({ page, noBacklink, isPreviewMobile, Modal }) => {
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
           color={background.color}
+          isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
         >
           {ssrDone && <Background background={background} getImageUrl={getUrl} />}
 
@@ -134,13 +162,44 @@ export const Page = ({ page, noBacklink, isPreviewMobile, Modal }) => {
             )}
 
             {/* Content */}
-            <ContentBox content={content} links={links} isPreviewMobile={isPreviewMobile} />
+            <ContentBox
+              content={content}
+              links={links}
+              isPreviewMobile={isPreviewMobile}
+              isSidePreview={isSidePreview}
+            />
 
             {/* Links */}
             {links.list.length > 0 && (
-              <LinksBox position={links.position} zIndex={4} isPreviewMobile={isPreviewMobile}>
-                {Links({ links, content, isPreviewMobile, Modal })}
-              </LinksBox>
+              <Fragment>
+                <TextOverlay
+                  border={links.border}
+                  circle={links.circle}
+                  color={links.colorLinks || content.color}
+                  colorAccent={links.colorLinksAccent || content.colorAccent}
+                  colorBackground={links.colorLinksBackground || content.colorBackground}
+                  colorBackgroundAccent={
+                    links.colorLinksBackgroundAccent || content.colorBackgroundAccent
+                  }
+                  content={modalData.content}
+                  isPreviewMobile={isPreviewMobile}
+                  isSidePreview={isSidePreview}
+                  label={modalData.label}
+                  onClose={() => setModalData({ ...modalData, show: false })}
+                  show={modalData.show}
+                  square={links.square}
+                />
+                <LinksBox position={links.position} zIndex={4} isPreviewMobile={isPreviewMobile}>
+                  {Links({
+                    links,
+                    content,
+                    isPreviewMobile: isSidePreview ? true : isPreviewMobile,
+                    Modal,
+                    modalData,
+                    setModalData,
+                  })}
+                </LinksBox>
+              </Fragment>
             )}
           </ForegroundContainer>
 

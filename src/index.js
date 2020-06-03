@@ -9,6 +9,7 @@ export { DeezerPlayer } from './components/atoms/DeezerPlayer.jsx'
 
 // Templates
 export { Page } from './components/templates/Page.jsx'
+// export { PageSidePreview } from './components/templates/PageSidePreview'
 
 // Platform Icons
 export { PlatformLink, PlatformLinks, Links } from './components/icons/platform/index.jsx'
