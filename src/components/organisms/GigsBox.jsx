@@ -156,6 +156,7 @@ export const GigsBox = ({
   gigsAPIDomain,
   gigsList,
   isPreviewMobile,
+  isSidePreview,
   square,
 }) => {
   // SSR State
@@ -195,6 +196,7 @@ export const GigsBox = ({
           colorBackground={colorBackground}
           includeWidth
           isMobileView={isPreviewMobile}
+          shouldAlwaysResize={isSidePreview}
         >
           <GigsTitle
             alignHorizontal={alignHorizontal}
@@ -220,6 +222,7 @@ export const GigsBox = ({
           wordWrap={ssrDone && isSmall}
           adjustWidth
           isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
         >
           {/*
            * Gigs List
