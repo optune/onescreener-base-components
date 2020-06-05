@@ -91,7 +91,6 @@ export const TextBox = ({
   colorBackground,
   colorAccent,
   isPreviewMobile,
-  isSidePreview,
   wordWrap,
   ...otherOptions
 }) => {
@@ -102,7 +101,6 @@ export const TextBox = ({
           colorBackground={colorBackground}
           includeWidth={!wordWrap}
           isMobileView={isPreviewMobile}
-          shouldAlwaysResize={isSidePreview}
           {...otherOptions}
         >
           {children}

@@ -78,7 +78,7 @@ const getLogoPosition = ({ logo, isMobile }) => {
   return PositionAlignment[positionAlignment]
 }
 
-export const LogoText = ({ logo, isPreviewMobile, isMobile, isSidePreview }) => {
+export const LogoText = ({ logo, isPreviewMobile, isMobile }) => {
   const logoPosition = getLogoPosition({ logo, isMobile: isMobile || isPreviewMobile })
 
   return logo.text?.title ? (
@@ -95,7 +95,7 @@ export const LogoText = ({ logo, isPreviewMobile, isMobile, isSidePreview }) => 
         maxFontSize={300}
         isMobileView={isPreviewMobile}
         isLogo
-        shouldAlwaysResize={isSidePreview}
+        value={logo.text.title}
       >
         <p className="apply-font">{logo.text.title}</p>
       </AutoTextFit>

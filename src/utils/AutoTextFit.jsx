@@ -137,7 +137,7 @@ export class AutoTextFit extends Component {
 
   componentDidUpdate(prevProps) {
     const { ssrDone, resized } = this.state
-    const shouldResize = this.props.isMobileView !== prevProps.isMobileView || this.props.shouldAlwaysResize
+    const shouldResize = this.props.isMobileView !== prevProps.isMobileView || this.props.value !== prevProps.value
 
     if (resized && shouldResize) {
       this.setState({ resized: false })
@@ -207,6 +207,7 @@ AutoTextFit.propTypes = {
   padding: PropTypes.string,
   shouldAlwaysResize: PropTypes.bool,
   step: PropTypes.number,
+  value: PropTypes.string, // Raw value string to trigger rendering
 }
 
 AutoTextFit.defaultProps = DEFAULTS

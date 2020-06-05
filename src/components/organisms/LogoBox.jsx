@@ -238,7 +238,7 @@ const getLogoPosition = ({ logo, isMobile }) => {
   }
 }
 
-export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, isSidePreview, zIndex }) => {
+export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, zIndex }) => {
   // Media Query
   const isMobile = useMediaQuery({ query: MediaMobile })
 
@@ -253,11 +253,11 @@ export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, isSidePrevi
       padding={getLogoPadding({ logo, links, isPreviewMobile, isMobile })}
     >
       {logo.type === 'TEXT' ? (
-        <LogoText logo={logo} isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview} />
+        <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
       ) : (
         (logo.image?.url > '' && (
           <Logo logo={logo} getImageUrl={getImageUrl} isPreviewMobile={isPreviewMobile} />
-        )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview} isMobile={isMobile} />
+        )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobile} isMobile={isMobile} />
       )}
     </LogoContainer>
   )

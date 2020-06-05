@@ -245,7 +245,6 @@ export const ContentBox = ({ content, links, isPreviewMobile, isSidePreview }) =
           gigsAPIDomain={gigsAPIDomain}
           gigsList={gigsList}
           isPreviewMobile={isPreviewMobile}
-          isSidePreview={isSidePreview}
           square={square}
           {...colors}
         />
@@ -262,8 +261,8 @@ export const ContentBox = ({ content, links, isPreviewMobile, isSidePreview }) =
           {...colors}
           alignHorizontal={alignHorizontal}
           isPreviewMobile={isPreviewMobile}
-          isSidePreview={isSidePreview}
           wordWrap={wordWrap}
+          value={text}
         >
           {renderHtml(text)}
         </TextBox>
