@@ -205,7 +205,6 @@ AutoTextFit.propTypes = {
   minFontSize: PropTypes.number,
   onResize: PropTypes.bool,
   padding: PropTypes.string,
-  shouldAlwaysResize: PropTypes.bool,
   step: PropTypes.number,
   value: PropTypes.string, // Raw value string to trigger rendering
 }
