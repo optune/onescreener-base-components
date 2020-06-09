@@ -20,7 +20,7 @@ const areEqual = (prevProps, nextProps) => {
   return (
     prevProps.background.focusPoint === nextProps.background.focusPoint &&
     prevProps.background.fullscreen === nextProps.background.fullscreen &&
-    prevProps.background.image.url === nextProps.background.image.url
+    prevProps.background.image?.url === nextProps.background.image?.url
   )
 }
 
