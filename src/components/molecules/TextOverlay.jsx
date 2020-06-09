@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled, { keyframes, css } from 'styled-components'
@@ -29,18 +30,18 @@ const modalFadeOut = keyframes`
 `
 
 const StyledModal = styled.div`
-  position: fixed;
+  position: ${({ isSidePreview }) => (isSidePreview ? 'absolute' : 'fixed')};
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   opacity: ${({ show }) => (show ? 1 : 0)};
   z-index: 999999;
-  overflow: auto;
+  overflow: hidden;
   background-color: ${({ isPreviewMobile }) =>
     isPreviewMobile ? 'transparent' : 'rgba(10, 15, 44, 0.95)'};
   pointer-events: none;
-  transition: opacity 0.5s ease-out;  
+  transition: opacity 0.5s ease-out;
 `
 
 /* REMOVED: Tricky for first time without having a fade-out effect
@@ -52,9 +53,15 @@ const StyledModal = styled.div`
 
 const StyledModalContent = styled.div`
   position: relative;
-  width: ${({ isPreviewMobile }) => (isPreviewMobile ? '334px' : '50%')};
-  height: ${({ isPreviewMobile }) => (isPreviewMobile ? '520px' : '80%')};
-  margin: ${({ isPreviewMobile }) => (isPreviewMobile ? '75px' : 'calc(100vh / 10)')} auto;
+  width: ${({ isSidePreview, isPreviewMobile }) =>
+    isSidePreview && isPreviewMobile ? '100%' : isPreviewMobile ? '334px' : '50%'};
+  height: ${({ isSidePreview, isPreviewMobile }) =>
+    isSidePreview && isPreviewMobile ? '100%' : isPreviewMobile ? '520px' : '80%'};
+  margin: ${({ isSidePreview, isPreviewMobile }) =>
+      isSidePreview && isPreviewMobile ? '0' : isPreviewMobile ? '75px' : 'calc(100vh / 10)'}
+    auto;
+  padding: ${({ isSidePreview, isPreviewMobile }) =>
+    isSidePreview && isPreviewMobile ? '50px 0 0' : '0'};
   background: ${({ isPreviewMobile }) =>
     isPreviewMobile ? 'rgba(10, 15, 44, 0.95)' : 'transparent'};
   pointer-events: ${({ show }) => (show ? 'all' : 'none')};
@@ -67,10 +74,14 @@ const StyledModalContent = styled.div`
   }
 `
 
-const Modal = ({ children, show, isPreviewMobile }) => {
+const Modal = ({ children, show, isPreviewMobile, isSidePreview }) => {
   return (
-    <StyledModal show={show} isPreviewMobile={isPreviewMobile}>
-      <StyledModalContent show={show} isPreviewMobile={isPreviewMobile}>
+    <StyledModal show={show} isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview}>
+      <StyledModalContent
+        show={show}
+        isPreviewMobile={isPreviewMobile}
+        isSidePreview={isSidePreview}
+      >
         {children}
       </StyledModalContent>
     </StyledModal>
@@ -93,7 +104,7 @@ const TextContainer = styled.div`
   margin: 0;
   padding: 1rem 3rem 0 3rem;
   color: ${({ color }) => color || '#000000'};
-  overflow: scroll;
+  overflow: hidden;
 
   @media ${MediaSmall} {
     padding: 2rem 1.5rem 0 1.5rem;
@@ -129,7 +140,7 @@ const StyledTextContainer = styled(SimpleBar)`
   margin-bottom: 0;
   width: 100%;
   padding-right: 15px;
-  max-height: 300px;
+  max-height: ${({ isSidePreview }) => (isSidePreview ? '150px' : '300px')};
 `
 
 const StyledButtonContainer = styled.div`
@@ -146,6 +157,7 @@ const StyledButton = styled(Button)`
 `
 
 export const TextOverlay = ({
+  isSidePreview,
   border,
   circle,
   color,
@@ -165,11 +177,15 @@ export const TextOverlay = ({
   }, [])
 
   return (
-    <Modal isPreviewMobile={isPreviewMobile} show={ssrDone && show}>
+    <Modal
+      isPreviewMobile={isPreviewMobile}
+      show={ssrDone && show}
+      isSidePreview={isSidePreview ? 1 : undefined}
+    >
       <ContentContainer>
         <TextContainer>
           <StyledTitle>{label}</StyledTitle>
-          <StyledTextContainer>
+          <StyledTextContainer isSidePreview={isSidePreview ? 1 : undefined}>
             {content.split('\n').map((line, lineIndex) => (
               <p key={lineIndex}>{line}</p>
             ))}

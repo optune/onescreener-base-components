@@ -327,13 +327,14 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
   }
 })
 
-export const Links = ({ links, linksColorState, content, isPreviewMobile }) => {
-  const [modalData, setModalData] = useState({
-    show: false,
-    content: '',
-    label: '',
-  })
-
+export const Links = ({
+  links,
+  linksColorState,
+  content,
+  isPreviewMobile,
+  modalData,
+  setModalData,
+}) => {
   const color = linksColorState?.colorLinks || links.colorLinks || content.color
   const colorAccent =
     linksColorState?.colorLinksAccent || links.colorLinksAccent || content.colorAccent
@@ -346,7 +347,7 @@ export const Links = ({ links, linksColorState, content, isPreviewMobile }) => {
 
   return (
     <Fragment>
-      <TextOverlay
+      {/* <TextOverlay
         border={links.border}
         circle={links.circle}
         color={color}
@@ -359,7 +360,7 @@ export const Links = ({ links, linksColorState, content, isPreviewMobile }) => {
         onClose={() => setModalData({ ...modalData, show: false })}
         show={modalData.show}
         square={links.square}
-      />
+      /> */}
 
       {links.list
         .filter(({ platform, url }) => !!PlatformLinkIcon[platform])

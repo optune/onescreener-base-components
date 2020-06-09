@@ -44,7 +44,7 @@ const round = a => a.toFixed(2)
 
 const getGridArea = (
   { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan },
-  { linksPosition, linksSize = 'M' }
+  { linksPosition, linksSize = 'M', isSidePreview = false }
 ) => {
   const { ColumnSize, RowSize, Unit } = DesktopGrid
   // Decide if margin is calculated from top or bottom and left or right
@@ -92,10 +92,10 @@ const getGridArea = (
   const heightCorrection = round((rowSpan * (marginVLinks + 2)) / RowSize)
 
   const area = `
-    ${positionH}: calc(${marginH}vw + ${marginHLinks + 1}rem);
-    ${positionV}: calc(${marginV}vh + ${marginVLinks + 1}rem);
-    width: calc(${width}vw - ${widthCorrection}rem);
-    height: calc(${height}vh - ${heightCorrection}rem);
+    ${positionH}: calc(${marginH}${isSidePreview ? '%' : 'vw'} + ${marginHLinks + 1}rem);
+    ${positionV}: calc(${marginV}${isSidePreview ? '%' : 'vh'} + ${marginVLinks + 1}rem);
+    width: calc(${width}${isSidePreview ? '%' : 'vw'} - ${widthCorrection}rem);
+    height: calc(${height}${isSidePreview ? '%' : 'vh'} - ${heightCorrection}rem);
   `
 
   return css`
@@ -167,10 +167,10 @@ const ResponsiveContainer = styled.div`
   z-index: 3;
 
   @media ${NotMediaMobile} {
-    ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile }) =>
+    ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
       isPreviewMobile
         ? getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
-        : getGridArea(area, { linksPosition, linksSize })}
+        : getGridArea(area, { linksPosition, linksSize, isSidePreview })}
   }
 
   @media ${MediaMobile} {
@@ -197,7 +197,7 @@ const getArea = ({ position, span }) => {
   return { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan }
 }
 
-export const ContentBox = ({ content, links, isPreviewMobile }) => {
+export const ContentBox = ({ content, links, isPreviewMobile, isSidePreview }) => {
   /*
    * Get content values
    */
@@ -281,6 +281,7 @@ export const ContentBox = ({ content, links, isPreviewMobile }) => {
       linksPosition={links.list.length > 0 ? links.position : 'NONE'}
       linksSize={links.size}
       isPreviewMobile={isPreviewMobile}
+      isSidePreview={isSidePreview}
     >
       {Content}
     </ResponsiveContainer>
