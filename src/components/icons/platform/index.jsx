@@ -129,11 +129,21 @@ const Link = styled.div`
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out, color 0.25s ease-out;
 
   width: ${({ isPreviewMobile, size }) =>
-    isPreviewMobile ? ShapeSize.Mobile[size] : ShapeSize.Desktop[size]};
+    isPreviewMobile ? ShapeSize.Mobile[size] : `calc(${ShapeSize.Desktop[size]} - 15px)`};
   height: ${({ isPreviewMobile, size }) =>
-    isPreviewMobile ? ShapeSize.Mobile[size] : ShapeSize.Desktop[size]};
+    isPreviewMobile ? ShapeSize.Mobile[size] : `calc(${ShapeSize.Desktop[size]} - 15px)`};
   margin: ${({ isPreviewMobile, size, margin }) =>
-    (isPreviewMobile && ((size === 'L' && '2px') || '5px')) || margin || '1rem'};
+    (isPreviewMobile && ((size === 'L' && '2px') || '5px')) || margin || '0.5rem 0.35rem'};
+
+${({ isPreview }) =>
+  isPreview &&
+  css`
+    @media (min-width: 737px) and (max-width: 991px) {
+      max-width: ${({ size }) => `calc(${ShapeSize.Mobile[size]} + 8px)`};
+      max-height: ${({ size }) => `calc(${ShapeSize.Mobile[size]} + 8px)`};
+      margin: ${({ size }) => (size === 'L' && '0.5rem 0.2rem') || '0.5rem'};
+    }
+  `}
 
   @media ${MediaMobile} {
     width: ${({ size }) => ShapeSize.Mobile[size]};
@@ -176,6 +186,16 @@ const LinkIconMapper = ({ platform, size = 'M' }) => styled(PlatformLinkIcon[pla
     isPreviewMobile ? IconSize.Mobile[size] : IconSize.Desktop[size]};
   height: ${({ isPreviewMobile }) =>
     isPreviewMobile ? IconSize.Mobile[size] : IconSize.Desktop[size]};
+
+  ${({ isPreview }) =>
+    isPreview &&
+    css`
+      @media (min-width: 737px) and (max-width: 991px) {
+        max-width: ${({ size }) => IconSize.Mobile[size]};
+        max-height: ${({ size }) => IconSize.Mobile[size]};
+      }
+    `}
+
 
   @media ${MediaMobile} {
     width: ${IconSize.Mobile[size]};
@@ -225,7 +245,7 @@ export const PlatformLink = ({
   url,
 }) => {
   const Icon = LinkIconMapper({ platform, size })
-  const labelText = (label || platform).replace(/\b\w/g, l => l.toUpperCase())
+  const labelText = (label || platform).replace(/\b\w/g, (l) => l.toUpperCase())
 
   if (url > '') {
     return (
@@ -247,7 +267,7 @@ export const PlatformLink = ({
         </Link>
       </LinkWrapper>
     )
-  } else if (text > '') {
+  } else if (text > '' && setModalData) {
     return (
       <LinkWrapperText
         onClick={() => setModalData({ show: true, content: text, label: labelText })}
@@ -278,19 +298,19 @@ export const PlatformLink = ({
         colorAccent={colorAccent}
         colorBackground={colorBackground}
         colorBackgroundAccent={colorBackgroundAccent}
-        margin={margin}
         noShadow
         isPreviewMobile={isPreviewMobile}
+        isPreview
         size={size || 'M'}
         square={square}
       >
-        <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} />
+        <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} isPreview />
       </Link>
     )
   }
 }
 
-export const PlatformLinks = Object.keys(PlatformLinkIcon).map(platform => {
+export const PlatformLinks = Object.keys(PlatformLinkIcon).map((platform) => {
   const Icon = LinkIconMapper({ platform })
   const LinkIcon = ({
     border,
@@ -347,24 +367,9 @@ export const Links = ({
 
   return (
     <Fragment>
-      {/* <TextOverlay
-        border={links.border}
-        circle={links.circle}
-        color={color}
-        colorAccent={colorAccent}
-        colorBackground={colorBackground}
-        colorBackgroundAccent={colorBackgroundAccent}
-        content={modalData.content}
-        isPreviewMobile={isPreviewMobile}
-        label={modalData.label}
-        onClose={() => setModalData({ ...modalData, show: false })}
-        show={modalData.show}
-        square={links.square}
-      /> */}
-
       {links.list
         .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
-        .map(link => (
+        .map((link) => (
           <PlatformLink
             key={link.platform}
             border={links.border}
