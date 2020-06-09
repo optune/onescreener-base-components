@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
@@ -21,7 +22,8 @@ const TextContainer = styled.div`
 `
 
 const TextContent = styled.div`
-  padding: ${({ padding, isMobileView }) => padding || (isMobileView && '1em 1em') || '1em 2em'};
+  padding: ${({ padding, isMobileView, isSidePreview }) =>
+    padding || ((isMobileView || isSidePreview) && '1em 1em') || '1em 2em'};
   background-color: ${({ colorBackground }) => colorBackground || 'transparent'};
 
   ${({ adjustWidth }) =>
@@ -122,6 +124,7 @@ export class AutoTextFit extends Component {
 
     this.setNewWindowSize = this.setNewWindowSize.bind(this)
     this.TextRef = createRef()
+    this.resizeObserver = null
   }
 
   setNewWindowSize() {
@@ -131,6 +134,19 @@ export class AutoTextFit extends Component {
   componentDidMount() {
     // Add window resize listener
     window.addEventListener('resize', this.setNewWindowSize)
+
+    // Listen to parent element dimensions' change
+    if (this.props.isLogo) {
+      const { maxFontSize, minFontSize, step, includeWidth } = this.props
+      const options = { maxFontSize, minFontSize, step, includeWidth }
+      const element = this.TextRef.current
+
+      this.resizeObserver = new ResizeObserver(() => {
+        updateFontSize(element, options)
+      })
+
+      this.resizeObserver.observe(element.parentElement)
+    }
 
     this.setState({ ssrDone: true, resized: false })
   }
@@ -155,6 +171,12 @@ export class AutoTextFit extends Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect()
+    }
+  }
+
   render() {
     const {
       alignHorizontal,
@@ -163,6 +185,7 @@ export class AutoTextFit extends Component {
       colorBackground,
       padding,
       isMobileView,
+      isSidePreview,
       isLogo,
     } = this.props
     const { ssrDone, resized } = this.state
@@ -178,15 +201,18 @@ export class AutoTextFit extends Component {
           colorBackground={colorBackground}
           padding={padding}
           ref={this.TextRef}
-          // isMobileView={isMobileView}
+          isMobileView={isMobileView}
+          isSidePreview={isSidePreview}
         >
           {children}
-          {/* Give some space at the end */
-          !isLogo && (
-            <p>
-              <br />
-            </p>
-          )}
+          {
+            /* Give some space at the end */
+            !isLogo && (
+              <p>
+                <br />
+              </p>
+            )
+          }
         </TextContent>
       </TextContainer>
     )
@@ -201,6 +227,7 @@ AutoTextFit.propTypes = {
   includeWidth: PropTypes.bool,
   isMobileView: PropTypes.bool,
   isLogo: PropTypes.bool,
+  isSidePreview: PropTypes.bool,
   maxFontSize: PropTypes.number,
   minFontSize: PropTypes.number,
   onResize: PropTypes.bool,

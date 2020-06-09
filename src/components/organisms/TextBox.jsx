@@ -45,7 +45,7 @@ const Text = styled.div`
   }
 
   & a {
-    word-break: ${({ wordWrap }) => wordWrap ? 'break-word' : 'normal'};
+    word-break: ${({ wordWrap }) => (wordWrap ? 'break-word' : 'normal')};
   }
 
   & .separator-line {
@@ -91,6 +91,7 @@ export const TextBox = ({
   colorBackground,
   colorAccent,
   isPreviewMobile,
+  isSidePreview,
   wordWrap,
   ...otherOptions
 }) => {
@@ -101,6 +102,7 @@ export const TextBox = ({
           colorBackground={colorBackground}
           includeWidth={!wordWrap}
           isMobileView={isPreviewMobile}
+          isSidePreview={isSidePreview}
           {...otherOptions}
         >
           {children}

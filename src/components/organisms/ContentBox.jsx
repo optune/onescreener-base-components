@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment } from 'react'
+import React from 'react'
 import styled, { css } from 'styled-components'
 
 import { TextBox } from './TextBox.jsx'
@@ -40,7 +40,7 @@ const PreviewMobile = {
   height: 520,
 }
 
-const round = a => a.toFixed(2)
+const round = (a) => a.toFixed(2)
 
 const getGridArea = (
   { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan },
@@ -261,6 +261,7 @@ export const ContentBox = ({ content, links, isPreviewMobile, isSidePreview }) =
           {...colors}
           alignHorizontal={alignHorizontal}
           isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
           wordWrap={wordWrap}
         >
           {renderHtml(text)}
