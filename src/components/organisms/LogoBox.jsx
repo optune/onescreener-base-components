@@ -193,7 +193,7 @@ const PositionLeft = ['BOTTOM_LEFT', 'CENTER_LEFT', 'TOP_LEFT']
 const PositionRight = ['BOTTOM_RIGHT', 'CENTER_RIGHT', 'TOP_RIGHT']
 const PositionBottom = ['BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT']
 
-const defineLogoPadding = isPreviewMobile => ({
+const defineLogoPadding = (isPreviewMobile) => ({
   left: `padding-left: ${isPreviewMobile ? 4.5 : 8}rem`,
   right: `padding-right: ${isPreviewMobile ? 4.5 : 8}rem`,
   bottom: `padding-bottom: ${isPreviewMobile ? 4.5 : 8}rem`,
