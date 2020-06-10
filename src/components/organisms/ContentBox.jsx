@@ -262,6 +262,7 @@ export const ContentBox = ({ content, links, isPreviewMobile, isSidePreview }) =
           alignHorizontal={alignHorizontal}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
+          textValue={text}
           wordWrap={wordWrap}
           value={text}
         >
