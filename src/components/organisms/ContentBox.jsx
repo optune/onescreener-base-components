@@ -264,6 +264,7 @@ export const ContentBox = ({ content, links, isPreviewMobile, isSidePreview }) =
           isSidePreview={isSidePreview}
           textValue={text}
           wordWrap={wordWrap}
+          value={text}
         >
           {renderHtml(text)}
         </TextBox>

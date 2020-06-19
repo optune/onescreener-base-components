@@ -5,8 +5,7 @@ import styled, { css } from 'styled-components'
 import { Logo } from '../atoms/Logo.jsx'
 import { LogoText } from '../atoms/LogoText.jsx'
 
-import { MediaMobile } from '../../style/media'
-import { useMediaQuery } from 'react-responsive'
+import { MediaSmall } from '../../style/media'
 
 const stylesLogoDesktop = `
 &.desktop- {
@@ -167,7 +166,7 @@ const LogoContainer = styled.div`
   ${({ isDifferentPositions }) =>
     isDifferentPositions &&
     css`
-      @media ${MediaMobile} {
+      @media ${MediaSmall} {
         ${stylesLogoMobile}
       }
 
@@ -181,7 +180,11 @@ const LogoContainer = styled.div`
 
   ${({ padding }) =>
     css`
-      ${padding}
+      ${padding.desktop}
+
+      @media ${MediaSmall} {
+        ${padding.mobile}
+      }
     `}
 `
 
@@ -200,32 +203,48 @@ const defineLogoPadding = (isPreviewMobile) => ({
   none: 'padding: 0',
 })
 
-const getLogoPadding = ({ logo, links, isPreviewMobile, isMobile }) => {
-  const logoPosition =
-    (isMobile && logo.isDifferentPositions && logo.positionMobile) ||
+const getLogoPadding = ({ logo, links, isPreviewMobile }) => {
+  const logoPositionDeskop =
     logo.positionDesktop ||
     logo.position
-  const paddingIndex =
-    (links.position === 'CENTER_LEFT' && PositionLeft.includes(logoPosition) && 'left') ||
-    (links.position === 'CENTER_RIGHT' && PositionRight.includes(logoPosition) && 'right') ||
-    (PositionBottom.includes(logoPosition) && 'bottom') ||
+  const logoPositionMobile =
+    (logo.isDifferentPositions && logo.positionMobile) ||
+    positionDesktop
+    
+  const logoPadding = defineLogoPadding(isPreviewMobile)
+
+  const linkPosition = links.list.length > 0 ? links.position : ''
+
+  const paddingIndexDesktop =
+    (linkPosition === 'CENTER_LEFT' && PositionLeft.includes(logoPositionDeskop) && 'left') ||
+    (linkPosition === 'CENTER_RIGHT' && PositionRight.includes(logoPositionDeskop) && 'right') ||
+    (PositionBottom.includes(linkPosition) && PositionBottom.includes(logoPositionDeskop) && 'bottom') ||
     'none'
 
-  return defineLogoPadding(isPreviewMobile)[paddingIndex]
+  const paddingIndexMobile =
+    (linkPosition === 'CENTER_LEFT' && PositionLeft.includes(logoPositionMobile) && 'left') ||
+    (linkPosition === 'CENTER_RIGHT' && PositionRight.includes(logoPositionMobile) && 'right') ||
+    (PositionBottom.includes(linkPosition) && PositionBottom.includes(logoPositionMobile) && 'bottom') ||
+    'none'
+
+  return {
+    desktop: logoPadding[paddingIndexDesktop],
+    mobile: logoPadding[paddingIndexMobile],
+  }
 }
 
 /*
  * Get classnames for logo position
  */
 
-const getLogoPosition = ({ logo, isMobile }) => {
+const getLogoPosition = ({ logo }) => {
   const positionDesktop = (logo.positionDesktop > '' && logo.positionDesktop) || logo.position
 
   const classnameDesktop =
     (positionDesktop > '' && positionDesktop.toLowerCase().replace('_', '-')) || 'top-center'
 
   const logoPosition =
-    (isMobile && logo.isDifferentPositions && logo.positionMobile) ||
+    (logo.isDifferentPositions && logo.positionMobile) ||
     logo.positionDesktop ||
     logo.position
 
@@ -239,10 +258,7 @@ const getLogoPosition = ({ logo, isMobile }) => {
 }
 
 export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, zIndex }) => {
-  // Media Query
-  const isMobile = useMediaQuery({ query: MediaMobile })
-
-  const position = getLogoPosition({ logo, isMobile: isMobile || isPreviewMobile })
+  const position = getLogoPosition({ logo })
 
   return (
     <LogoContainer
@@ -250,14 +266,14 @@ export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, zIndex }) =
       zIndex={zIndex}
       isPreviewMobile={isPreviewMobile}
       isDifferentPositions={logo?.isDifferentPositions || false}
-      padding={getLogoPadding({ logo, links, isPreviewMobile, isMobile })}
+      padding={getLogoPadding({ logo, links, isPreviewMobile })}
     >
       {logo.type === 'TEXT' ? (
         <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
       ) : (
         (logo.image?.url > '' && (
           <Logo logo={logo} getImageUrl={getImageUrl} isPreviewMobile={isPreviewMobile} />
-        )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobile} isMobile={isMobile} />
+        )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
       )}
     </LogoContainer>
   )

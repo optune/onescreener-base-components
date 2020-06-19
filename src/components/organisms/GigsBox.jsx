@@ -195,6 +195,7 @@ export const GigsBox = ({
           colorBackground={colorBackground}
           includeWidth
           isMobileView={isPreviewMobile}
+          value={gigs.loading ? 'Loading gigs ...' : 'No gigs found'}
         >
           <GigsTitle
             alignHorizontal={alignHorizontal}
