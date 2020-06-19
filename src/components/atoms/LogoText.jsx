@@ -95,6 +95,7 @@ export const LogoText = ({ logo, isPreviewMobile, isMobile }) => {
         maxFontSize={300}
         isMobileView={isPreviewMobile}
         isLogo
+        textValue={logo.text.title}
       >
         <p className="apply-font">{logo.text.title}</p>
       </AutoTextFit>
