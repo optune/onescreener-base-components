@@ -209,7 +209,7 @@ const getLogoPadding = ({ logo, links, isPreviewMobile }) => {
     logo.position
   const logoPositionMobile =
     (logo.isDifferentPositions && logo.positionMobile) ||
-    positionDesktop
+    logoPositionDeskop
     
   const logoPadding = defineLogoPadding(isPreviewMobile)
 
