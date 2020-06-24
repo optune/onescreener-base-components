@@ -196,12 +196,13 @@ const PositionLeft = ['BOTTOM_LEFT', 'CENTER_LEFT', 'TOP_LEFT']
 const PositionRight = ['BOTTOM_RIGHT', 'CENTER_RIGHT', 'TOP_RIGHT']
 const PositionBottom = ['BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT']
 
-const defineLogoPadding = (isPreviewMobile) => ({
-  left: `padding-left: ${isPreviewMobile ? 4.5 : 8}rem`,
-  right: `padding-right: ${isPreviewMobile ? 4.5 : 8}rem`,
-  bottom: `padding-bottom: ${isPreviewMobile ? 4.5 : 8}rem`,
+const defineLogoPadding = ({ isPreviewMobile, isSidePreview }) => ({
+  left: `padding-left:  ${isSidePreview ? 3.3 : isPreviewMobile ? 4.5 : 8}rem`,
+  right: `padding-right: ${isSidePreview ? 3.3 : isPreviewMobile ? 4.5 : 8}rem`,
+  bottom: `padding-bottom: ${isSidePreview ? 3.3 : isPreviewMobile ? 4.5 : 8}rem`,
   none: 'padding: 0',
 })
+
 
 const getLogoPadding = ({ logo, links, isPreviewMobile }) => {
   const logoPositionDeskop =
@@ -256,6 +257,7 @@ const getLogoPosition = ({ logo }) => {
     classnameDesktop,
   }
 }
+
 
 export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, zIndex }) => {
   const position = getLogoPosition({ logo })

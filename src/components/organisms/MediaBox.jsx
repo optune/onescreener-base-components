@@ -51,6 +51,7 @@ export const MediaBox = ({ media }) => {
             format={format}
             autoplay={autoplay}
             theme={theme}
+            controls={true}
           />
         </Fullscreen>
       )
@@ -63,6 +64,7 @@ export const MediaBox = ({ media }) => {
           format={format}
           autoplay={autoplay}
           theme={theme}
+          controls={true}
         />
       )
 }
