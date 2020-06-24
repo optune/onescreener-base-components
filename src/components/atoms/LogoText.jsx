@@ -39,7 +39,7 @@ const LogoTextContainer = styled.div`
 
   & #auto-text-fit-container {
     display: flex;
-    align-items: ${({ logoPosition }) => logoPosition};
+    align-items: ${({ logoPosition }) => logoPosition.desktop};
   }
   & p {
     color: ${({ color }) => color};
@@ -48,6 +48,13 @@ const LogoTextContainer = styled.div`
     text-align: center;
     line-height: 1;
     white-space: nowrap;
+  }
+
+  @media ${MediaSmall} {
+    & #auto-text-fit-container {
+      display: flex;
+      align-items: ${({ logoPosition }) => logoPosition.mobile};
+    }
   }
 `
 
@@ -64,22 +71,28 @@ const PositionAlignment = {
   center: 'center',
 }
 
-const getLogoPosition = ({ logo, isMobile }) => {
-  const position =
-    (isMobile && logo.isDifferentPositions && logo.positionMobile) ||
-    logo.positionDesktop ||
-    logo.position
+const getLogoPosition = ({ logo }) => {
+  const positionDesktop = logo.positionDesktop || logo.position
 
-  const positionAlignment =
-    (PositionTop.includes(position) && 'top') ||
-    (PositionBottom.includes(position) && 'bottom') ||
+  const positionMobile = (logo.isDifferentPositions && logo.positionMobile) || positionDesktop
+
+  const positionAlignmentDesktop =
+    (PositionTop.includes(positionDesktop) && 'top') ||
+    (PositionBottom.includes(positionDesktop) && 'bottom') ||
+    'center'
+  const positionAlignmentMobile =
+    (PositionTop.includes(positionMobile) && 'top') ||
+    (PositionBottom.includes(positionMobile) && 'bottom') ||
     'center'
 
-  return PositionAlignment[positionAlignment]
+  return {
+    desktop: PositionAlignment[positionAlignmentDesktop],
+    mobile: PositionAlignment[positionAlignmentMobile],
+  }
 }
 
-export const LogoText = ({ logo, isPreviewMobile, isMobile }) => {
-  const logoPosition = getLogoPosition({ logo, isMobile: isMobile || isPreviewMobile })
+export const LogoText = ({ logo, isPreviewMobile }) => {
+  const logoPosition = getLogoPosition({ logo })
 
   return logo.text?.title ? (
     <LogoTextContainer
