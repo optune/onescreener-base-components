@@ -195,6 +195,7 @@ export const GigsBox = ({
           colorBackground={colorBackground}
           includeWidth
           isMobileView={isPreviewMobile}
+          value={gigs.loading ? 'Loading events ...' : 'No events found'}
         >
           <GigsTitle
             alignHorizontal={alignHorizontal}
@@ -202,7 +203,7 @@ export const GigsBox = ({
             title={gigsAPI.title}
             withLine={gigsAPI.includeMonthTitle}
           />
-          <p>{gigs.loading ? 'Loading gigs ...' : 'No gigs found'}</p>
+          <p>{gigs.loading ? 'Loading events ...' : 'No events found'}</p>
         </AutoTextFit>
       </InfoContainer>
 

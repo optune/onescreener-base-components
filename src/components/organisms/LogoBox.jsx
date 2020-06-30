@@ -5,8 +5,7 @@ import styled, { css } from 'styled-components'
 import { Logo } from '../atoms/Logo.jsx'
 import { LogoText } from '../atoms/LogoText.jsx'
 
-import { MediaMobile } from '../../style/media'
-import { useMediaQuery } from 'react-responsive'
+import { MediaSmall } from '../../style/media'
 
 const stylesLogoDesktop = `
 &.desktop- {
@@ -167,7 +166,7 @@ const LogoContainer = styled.div`
   ${({ isDifferentPositions }) =>
     isDifferentPositions &&
     css`
-      @media ${MediaMobile} {
+      @media ${MediaSmall} {
         ${stylesLogoMobile}
       }
 
@@ -179,9 +178,13 @@ const LogoContainer = styled.div`
     `}
 
 
-  ${({ padding }) =>
+  ${({ isPreviewMobile, padding }) =>
     css`
-      ${padding}
+      ${isPreviewMobile ? padding.mobile : padding.desktop};
+
+      @media ${MediaSmall} {
+        ${padding.mobile};
+      }
     `}
 `
 
@@ -192,48 +195,62 @@ const LogoContainer = styled.div`
 const PositionLeft = ['BOTTOM_LEFT', 'CENTER_LEFT', 'TOP_LEFT']
 const PositionRight = ['BOTTOM_RIGHT', 'CENTER_RIGHT', 'TOP_RIGHT']
 const PositionBottom = ['BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT']
+const PositionBottomLeft = ['BOTTOM_LEFT', 'BOTTOM_CENTER']
+const PositionBottomRight = ['BOTTOM_RIGHT', 'BOTTOM_CENTER']
 
 const defineLogoPadding = ({ isPreviewMobile, isSidePreview }) => ({
-  left: `padding-left:  ${isSidePreview ? 3.3 : isPreviewMobile ? 4.5 : 8}rem`,
-  right: `padding-right: ${isSidePreview ? 3.3 : isPreviewMobile ? 4.5 : 8}rem`,
-  bottom: `padding-bottom: ${isSidePreview ? 3.3 : isPreviewMobile ? 4.5 : 8}rem`,
+  left: `padding-left:  ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
+  right: `padding-right: ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
+  bottom: `padding-bottom: ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
   none: 'padding: 0',
 })
 
-const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview, isMobile }) => {
-  const logoPosition =
-    (isMobile && logo.isDifferentPositions && logo.positionMobile) ||
-    logo.positionDesktop ||
-    logo.position
-  const paddingIndex =
-    (links.position === 'CENTER_LEFT' &&
-      PositionLeft.includes(logoPosition) &&
-      !isPreviewMobile &&
-      'left') ||
-    (links.position === 'CENTER_RIGHT' &&
-      PositionRight.includes(logoPosition) &&
-      !isPreviewMobile &&
-      'right') ||
-    (PositionBottom.includes(logoPosition) && 'bottom') ||
+const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
+  const logoPositionDesktop = logo.positionDesktop || logo.position
+  const logoPositionMobile =
+    (logo.isDifferentPositions && logo.positionMobile) || logoPositionDesktop
+
+  const logoPadding = defineLogoPadding({ isPreviewMobile, isSidePreview })
+
+  const linkPosition = links.list.length > 0 ? links.position : ''
+
+  const paddingIndexDesktop =
+    (linkPosition === 'CENTER_LEFT' && PositionLeft.includes(logoPositionDesktop) && 'left') ||
+    (linkPosition === 'CENTER_RIGHT' && PositionRight.includes(logoPositionDesktop) && 'right') ||
+    (PositionBottomLeft.includes(linkPosition) &&
+      PositionBottomLeft.includes(logoPositionDesktop) &&
+      'bottom') ||
+    (PositionBottomRight.includes(linkPosition) &&
+      PositionBottomRight.includes(logoPositionDesktop) &&
+      'bottom') ||
     'none'
 
-  return defineLogoPadding({ isPreviewMobile, isSidePreview })[paddingIndex]
+  const paddingIndexMobile =
+    (linkPosition === 'CENTER_LEFT' && PositionLeft.includes(logoPositionMobile) && 'left') ||
+    (linkPosition === 'CENTER_RIGHT' && PositionRight.includes(logoPositionMobile) && 'right') ||
+    (PositionBottom.includes(linkPosition) &&
+      PositionBottom.includes(logoPositionMobile) &&
+      'bottom') ||
+    'none'
+
+  return {
+    desktop: logoPadding[paddingIndexDesktop],
+    mobile: logoPadding[paddingIndexMobile],
+  }
 }
 
 /*
  * Get classnames for logo position
  */
 
-const getLogoPosition = ({ logo, isMobile }) => {
+const getLogoPosition = ({ logo }) => {
   const positionDesktop = (logo.positionDesktop > '' && logo.positionDesktop) || logo.position
 
   const classnameDesktop =
     (positionDesktop > '' && positionDesktop.toLowerCase().replace('_', '-')) || 'top-center'
 
   const logoPosition =
-    (isMobile && logo.isDifferentPositions && logo.positionMobile) ||
-    logo.positionDesktop ||
-    logo.position
+    (logo.isDifferentPositions && logo.positionMobile) || logo.positionDesktop || logo.position
 
   const classnameMobile =
     (logoPosition > '' && logoPosition.toLowerCase().replace('_', '-')) || 'top-center'
@@ -245,10 +262,8 @@ const getLogoPosition = ({ logo, isMobile }) => {
 }
 
 export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, isSidePreview, zIndex }) => {
-  // Media Query
-  const isMobile = useMediaQuery({ query: MediaMobile })
-
-  const position = getLogoPosition({ logo, isMobile: isMobile || isPreviewMobile })
+  const position = getLogoPosition({ logo })
+  const padding = getLogoPadding({ logo, links, isPreviewMobile, isSidePreview })
 
   return (
     <LogoContainer
@@ -256,14 +271,14 @@ export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, isSidePrevi
       zIndex={zIndex}
       isPreviewMobile={isPreviewMobile}
       isDifferentPositions={logo?.isDifferentPositions || false}
-      padding={getLogoPadding({ logo, links, isPreviewMobile, isSidePreview, isMobile })}
+      padding={padding}
     >
       {logo.type === 'TEXT' ? (
         <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
       ) : (
         (logo.image?.url > '' && (
           <Logo logo={logo} getImageUrl={getImageUrl} isPreviewMobile={isPreviewMobile} />
-        )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobile} isMobile={isMobile} />
+        )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
       )}
     </LogoContainer>
   )

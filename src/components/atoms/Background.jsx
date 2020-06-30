@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 const BackgroundContainer = styled.div`
@@ -16,10 +16,21 @@ const BackgroundContainer = styled.div`
   z-index: 1;
 `
 
-export const Background = ({ background, getImageUrl }) => (
-  <BackgroundContainer
-    image={getImageUrl(background)}
-    focusPoint={background.focusPoint}
-    fullscreen={background.fullscreen}
-  />
+const areEqual = (prevProps, nextProps) => {
+  return (
+    prevProps.background.focusPoint === nextProps.background.focusPoint &&
+    prevProps.background.fullscreen === nextProps.background.fullscreen &&
+    prevProps.background.image?.url === nextProps.background.image?.url
+  )
+}
+
+export const Background = React.memo(
+  ({ background, getImageUrl }) => (
+    <BackgroundContainer
+      image={getImageUrl(background)}
+      focusPoint={background.focusPoint}
+      fullscreen={background.fullscreen}
+    />
+  ),
+  areEqual
 )
