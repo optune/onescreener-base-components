@@ -26,6 +26,14 @@ const TextContent = styled.div`
     padding || ((isMobileView || isSidePreview) && '1em 1em') || '1em 2em'};
   background-color: ${({ colorBackground }) => colorBackground || 'transparent'};
 
+
+  ${({ includeWidth }) =>
+    includeWidth &&
+    css`
+      & > * {
+        display: table-row;
+      }
+    `}
   ${({ adjustWidth }) =>
     adjustWidth
       ? css`
@@ -54,6 +62,15 @@ const DEFAULTS = {
   includeWidth: false,
 }
 
+const childrenFit = ({ element }) =>
+  ![...element.children].some((ch) => {
+    let pPadding = parseInt(window.getComputedStyle(element).padding)
+    let pWidth = element.scrollWidth
+    let cWidth = parseInt(ch.scrollWidth)
+
+    return pWidth - pPadding * 2 < cWidth
+  })
+
 const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth }) => {
   const style = window.getComputedStyle(element)
   let fontSize = parseInt(style.fontSize)
@@ -64,7 +81,8 @@ const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth 
 
   const inBounds = () => {
     return (
-      parentHeight >= element.scrollHeight && (!includeWidth || parentWidth >= element.scrollWidth)
+      parentHeight >= element.scrollHeight &&
+      (!includeWidth || (parentWidth >= element.scrollWidth && childrenFit({ element })))
     )
   }
 
@@ -136,24 +154,25 @@ export class AutoTextFit extends Component {
     window.addEventListener('resize', this.setNewWindowSize)
 
     // Listen to parent element dimensions' change
-    if (this.props.isLogo) {
-      const { maxFontSize, minFontSize, step, includeWidth } = this.props
-      const options = { maxFontSize, minFontSize, step, includeWidth }
-      const element = this.TextRef.current
+    const { maxFontSize, minFontSize, step, includeWidth } = this.props
+    const options = { maxFontSize, minFontSize, step, includeWidth }
+    const element = this.TextRef.current
 
-      this.resizeObserver = new ResizeObserver(() => {
-        updateFontSize(element, options)
-      })
+    this.resizeObserver = new ResizeObserver(() => {
+      updateFontSize(element, options)
+    })
 
-      this.resizeObserver.observe(element.parentElement)
-    }
+    this.resizeObserver.observe(element.parentElement)
 
     this.setState({ ssrDone: true, resized: false })
   }
 
   componentDidUpdate(prevProps) {
     const { ssrDone, resized } = this.state
-    const shouldResize = this.props.isMobileView !== prevProps.isMobileView || this.props.textValue !== prevProps.textValue
+    const shouldResize =
+      this.props.isMobileView !== prevProps.isMobileView ||
+      this.props.textValue !== prevProps.textValue ||
+      this.props.includeWidth !== prevProps.includeWidth
 
     if (resized && shouldResize) {
       this.setState({ resized: false })
@@ -184,6 +203,7 @@ export class AutoTextFit extends Component {
       children,
       colorBackground,
       padding,
+      includeWidth,
       isMobileView,
       isSidePreview,
       isLogo,
@@ -201,6 +221,7 @@ export class AutoTextFit extends Component {
           colorBackground={colorBackground}
           padding={padding}
           ref={this.TextRef}
+          includeWidth={includeWidth}
           isMobileView={isMobileView}
           isSidePreview={isSidePreview}
         >

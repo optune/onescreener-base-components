@@ -152,6 +152,7 @@ export const Page = ({ page, noBacklink, isPreviewMobile, Modal, isSidePreview }
                 links={links}
                 getImageUrl={getUrl}
                 isPreviewMobile={isPreviewMobile}
+                isSidePreview={isSidePreview}
                 zIndex={2}
               />
             )}
