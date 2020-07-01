@@ -37,7 +37,7 @@ const Text = styled.div`
   span {
     font-size: 1em;
     color: ${({ colorPrimary }) => colorPrimary};
-    white-space: ${({ wordWrap }) => (wordWrap ? 'pre-line' : 'nowrap')};
+    white-space: ${({ wordWrap }) => (wordWrap ? 'pre-wrap' : 'nowrap')};
     transition: color 0.3s ease-out;
     line-height: 1.4;
     margin: 0 0 0.1em;
