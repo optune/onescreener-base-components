@@ -39,7 +39,8 @@ const LogoTextContainer = styled.div`
 
   & #auto-text-fit-container {
     display: flex;
-    align-items: ${({ logoPosition }) => logoPosition.desktop};
+    align-items: ${({ logoPosition, isPreviewMobile }) =>
+      isPreviewMobile ? logoPosition.mobile : logoPosition.desktop};
   }
   & p {
     color: ${({ color }) => color};
