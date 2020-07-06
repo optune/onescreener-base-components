@@ -261,7 +261,7 @@ const getLogoPosition = ({ logo }) => {
   }
 }
 
-export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, isSidePreview, zIndex }) => {
+export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, isPreviewMobileReady, isSidePreview, zIndex }) => {
   const position = getLogoPosition({ logo })
   const padding = getLogoPadding({ logo, links, isPreviewMobile, isSidePreview })
 
@@ -274,11 +274,11 @@ export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, isSidePrevi
       padding={padding}
     >
       {logo.type === 'TEXT' ? (
-        <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
+        <LogoText logo={logo} isPreviewMobile={isPreviewMobileReady} />
       ) : (
         (logo.image?.url > '' && (
           <Logo logo={logo} getImageUrl={getImageUrl} isPreviewMobile={isPreviewMobile} />
-        )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobile} />
+        )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobileReady} />
       )}
     </LogoContainer>
   )

@@ -197,7 +197,7 @@ const getArea = ({ position, span }) => {
   return { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan }
 }
 
-export const ContentBox = ({ content, links, isPreviewMobile, isSidePreview }) => {
+export const ContentBox = ({ content, links, isPreviewMobile, isPreviewMobileReady, isSidePreview }) => {
   /*
    * Get content values
    */
@@ -244,7 +244,7 @@ export const ContentBox = ({ content, links, isPreviewMobile, isSidePreview }) =
           gigsAPI={gigsAPI}
           gigsAPIDomain={gigsAPIDomain}
           gigsList={gigsList}
-          isPreviewMobile={isPreviewMobile}
+          isPreviewMobile={isPreviewMobileReady}
           square={square}
           {...colors}
         />
@@ -260,7 +260,7 @@ export const ContentBox = ({ content, links, isPreviewMobile, isSidePreview }) =
         <TextBox
           {...colors}
           alignHorizontal={alignHorizontal}
-          isPreviewMobile={isPreviewMobile}
+          isPreviewMobile={isPreviewMobileReady}
           isSidePreview={isSidePreview}
           textValue={text}
           wordWrap={wordWrap}
