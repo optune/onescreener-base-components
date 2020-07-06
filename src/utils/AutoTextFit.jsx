@@ -82,7 +82,8 @@ const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth 
   const inBounds = () => {
     return (
       parentHeight >= element.scrollHeight &&
-      (!includeWidth || (parentWidth >= element.scrollWidth && childrenFit({ element })))
+      (!includeWidth || (parentWidth >= element.scrollWidth))
+        // && childrenFit({ element })))
     )
   }
 
