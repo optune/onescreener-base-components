@@ -71,7 +71,7 @@ const childrenFit = ({ element }) =>
     return pWidth - pPadding * 2 < cWidth
   })
 
-const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth }) => {
+const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth, isLogo }) => {
   const style = window.getComputedStyle(element)
   let fontSize = parseInt(style.fontSize)
   let fontSizeCandidate = maxFontSize
@@ -82,7 +82,8 @@ const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth 
   const inBounds = () => {
     return (
       parentHeight >= element.scrollHeight &&
-      ((!includeWidth || parentWidth >= element.scrollWidth) && childrenFit({ element }))
+      (!includeWidth || parentWidth >= element.scrollWidth) &&
+      (isLogo || childrenFit({ element }))
     )
   }
 
@@ -154,8 +155,8 @@ export class AutoTextFit extends Component {
     window.addEventListener('resize', this.setNewWindowSize)
 
     // Listen to parent element dimensions' change
-    const { maxFontSize, minFontSize, step, includeWidth } = this.props
-    const options = { maxFontSize, minFontSize, step, includeWidth }
+    const { maxFontSize, minFontSize, step, includeWidth, isLogo } = this.props
+    const options = { maxFontSize, minFontSize, step, includeWidth, isLogo }
     const element = this.TextRef.current
 
     this.resizeObserver = new ResizeObserver(() => {
