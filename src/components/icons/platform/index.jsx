@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import styled, { css } from 'styled-components'
 
 // Social Icons
@@ -23,6 +23,7 @@ import { OptuneIcon } from './Optune.jsx'
 import { SoundcloudIcon } from './Soundcloud.jsx'
 import { SpotifyIcon } from './Spotify.jsx'
 import { TechRiderIcon } from './TechRider.jsx'
+import { TiktokIcon } from './Tiktok.jsx'
 import { TumblrIcon } from './Tumblr.jsx'
 import { TwitchIcon } from './Twitch.jsx'
 import { TwitterIcon } from './Twitter.jsx'
@@ -56,6 +57,7 @@ export const PlatformLinkIcon = {
   MIXCLOUD: MixcloudIcon,
   SOUNDCLOUD: SoundcloudIcon,
   SPOTIFY: SpotifyIcon,
+  TIKTOK: TiktokIcon,
   TUMBLR: TumblrIcon,
   TWITCH: TwitchIcon,
   TWITTER: TwitterIcon,
