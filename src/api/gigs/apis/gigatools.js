@@ -1,6 +1,6 @@
 export const gigatools = {
-  url: slug => `https://gigs.gigatools.com/user/${slug}.json`,
-  extractEvents: result => {
+  url: (slug) => `https://gigs.gigatools.com/user/${slug}.json`,
+  extractEvents: (result) => {
     const [
       {
         // user: { username, artistname }, // we will need it at some point
