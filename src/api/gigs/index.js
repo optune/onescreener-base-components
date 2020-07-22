@@ -7,10 +7,10 @@ export const Type = {
   GIG: 'gig',
 }
 
-const fetchGigs = url =>
+const fetchGigs = (url) =>
   new Promise((resolve, reject) => {
     fetch(url)
-      .then(res => {
+      .then((res) => {
         try {
           resolve(res.json())
         } catch (error) {
@@ -18,13 +18,13 @@ const fetchGigs = url =>
           reject('Parsing failed')
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('fetching failed', error)
         reject('Fetch failed')
       })
   })
 
-const transformGigs = api => includeMonthTitle => events => {
+const transformGigs = (api) => (includeMonthTitle) => (events) => {
   const gigs = []
 
   let previousYear = 0
@@ -34,7 +34,7 @@ const transformGigs = api => includeMonthTitle => events => {
     .map(api.transformEvent)
     .map(transformVenue)
     .sort((a, b) => a.startDate.date - b.startDate.date)
-    .forEach(event => {
+    .forEach((event) => {
       if (includeMonthTitle) {
         const { year, month } = event.startDate
 

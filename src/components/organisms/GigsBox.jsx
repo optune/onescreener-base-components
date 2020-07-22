@@ -155,6 +155,7 @@ export const GigsBox = ({
   gigsAPI,
   gigsAPIDomain,
   gigsList,
+  gigsLoading,
   isPreviewMobile,
   square,
 }) => {
@@ -166,18 +167,20 @@ export const GigsBox = ({
 
   // Gigs State
   const [gigs, setGigs] = useState(
-    Array.isArray(gigsList) ? { loading: false, data: gigsList } : { loading: true, data: [] }
+    Array.isArray(gigsList) && gigsList.length > 0
+      ? { loading: false, data: gigsList }
+      : { loading: true, data: [] }
   )
 
   useEffect(() => {
     if (gigs.loading) {
-      getGigs({ gigsAPI, gigsAPIDomain }).then(data => {
+      getGigs({ gigsAPI, gigsAPIDomain }).then((data) => {
         setGigs({ loading: false, data })
       })
     }
   }, [gigs.loading])
 
-  const showGigs = !gigs.loading && gigs.data.length > 0
+  const showGigs = !gigs.loading && !gigsLoading && gigs.data.length > 0
 
   // Media Query
   const isSmall = useMediaQuery({ query: MediaSmall })
@@ -195,7 +198,7 @@ export const GigsBox = ({
           colorBackground={colorBackground}
           includeWidth
           isMobileView={isPreviewMobile}
-          value={gigs.loading ? 'Loading events ...' : 'No events found'}
+          value={gigs.loading || gigsLoading ? 'Loading events ...' : 'No events found'}
         >
           <GigsTitle
             alignHorizontal={alignHorizontal}
@@ -203,7 +206,7 @@ export const GigsBox = ({
             title={gigsAPI.title}
             withLine={gigsAPI.includeMonthTitle}
           />
-          <p>{gigs.loading ? 'Loading events ...' : 'No events found'}</p>
+          <p>{gigs.loading || gigsLoading ? 'Loading events ...' : 'No events found'}</p>
         </AutoTextFit>
       </InfoContainer>
 
@@ -250,9 +253,7 @@ export const GigsBox = ({
             <ShowMoreContainer alignHorizontal={alignHorizontal}>
               <p>
                 <a
-                  href={`https://api.optune.me/v4/events/${
-                    gigsAPI.slug
-                  }?header=1&theme=black&ticketlinks=true`}
+                  href={`https://api.optune.me/v4/events/${gigsAPI.slug}?header=1&theme=black&ticketlinks=true`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
