@@ -84,7 +84,7 @@ const ShapeSize = {
     L: '73px',
   },
   Mobile: {
-    S: '36px',
+    S: '33px',
     M: '36px',
     L: '40px',
   },
@@ -130,12 +130,26 @@ const Link = styled.div`
   color: ${({ color }) => color};
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out, color 0.25s ease-out;
 
-  width: ${({ isPreviewMobile, size }) =>
-    isPreviewMobile ? ShapeSize.Mobile[size] : `calc(${ShapeSize.Desktop[size]} - 15px)`};
-  height: ${({ isPreviewMobile, size }) =>
-    isPreviewMobile ? ShapeSize.Mobile[size] : `calc(${ShapeSize.Desktop[size]} - 15px)`};
-  margin: ${({ isPreviewMobile, size, margin }) =>
-    (isPreviewMobile && ((size === 'L' && '2px') || '5px')) || margin || '0.5rem 0.35rem'};
+  width: ${({ isSidePreview, isPreviewMobile, size }) =>
+    isPreviewMobile
+      ? `calc(${ShapeSize.Mobile[size]} ${isSidePreview && '- 4px'});`
+      : `calc(${ShapeSize.Desktop[size]} ${
+          isSidePreview &&
+          ` - ${parseInt(ShapeSize.Desktop[size]) - parseInt(ShapeSize.Mobile[size])}px`
+        });`}
+  
+  height: ${({ isSidePreview, isPreviewMobile, size }) =>
+    isPreviewMobile
+      ? `calc(${ShapeSize.Mobile[size]} ${isSidePreview && '- 4px'});`
+      : `calc(${ShapeSize.Desktop[size]} ${
+          isSidePreview &&
+          ` - ${parseInt(ShapeSize.Desktop[size]) - parseInt(ShapeSize.Mobile[size])}px`
+        });`};
+
+  margin: ${({ isSidePreview, isPreviewMobile, size, margin }) =>
+    (isPreviewMobile && size === 'L' && (isSidePreview ? '0.5rem 0rem' : '2px')) ||
+    margin ||
+    '0.5rem 0.15rem'};
 
 ${({ isPreview }) =>
   isPreview &&
@@ -184,10 +198,10 @@ ${({ isPreview }) =>
       `}
 `
 const LinkIconMapper = ({ platform, size = 'M' }) => styled(PlatformLinkIcon[platform])`
-  width: ${({ isPreviewMobile }) =>
-    isPreviewMobile ? IconSize.Mobile[size] : IconSize.Desktop[size]};
-  height: ${({ isPreviewMobile }) =>
-    isPreviewMobile ? IconSize.Mobile[size] : IconSize.Desktop[size]};
+  width: ${({ isSidePreview, isPreviewMobile }) =>
+    isPreviewMobile || isSidePreview ? IconSize.Mobile[size] : IconSize.Desktop[size]};
+  height: ${({ isSidePreview, isPreviewMobile }) =>
+    isPreviewMobile || isSidePreview ? IconSize.Mobile[size] : IconSize.Desktop[size]};
 
   ${({ isPreview }) =>
     isPreview &&
@@ -241,6 +255,7 @@ export const PlatformLink = ({
   noShadow,
   platform,
   isPreviewMobile,
+  isSidePreview,
   size,
   square,
   text,
@@ -262,10 +277,16 @@ export const PlatformLink = ({
           margin={margin}
           noShadow
           isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
           size={size || 'M'}
           square={square}
         >
-          <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} />
+          <Icon
+            color={color}
+            size={size}
+            isPreviewMobile={isPreviewMobile}
+            isSidePreview={isSidePreview}
+          />
         </Link>
       </LinkWrapper>
     )
@@ -284,10 +305,16 @@ export const PlatformLink = ({
           margin={margin}
           noShadow
           isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
           size={size || 'M'}
           square={square}
         >
-          <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} />
+          <Icon
+            color={color}
+            size={size}
+            isPreviewMobile={isPreviewMobile}
+            isSidePreview={isSidePreview}
+          />
         </Link>
       </LinkWrapperText>
     )
@@ -302,11 +329,18 @@ export const PlatformLink = ({
         colorBackgroundAccent={colorBackgroundAccent}
         noShadow
         isPreviewMobile={isPreviewMobile}
+        isSidePreview={isSidePreview}
         isPreview
         size={size || 'M'}
         square={square}
       >
-        <Icon color={color} size={size} isPreviewMobile={isPreviewMobile} isPreview />
+        <Icon
+          color={color}
+          size={size}
+          isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
+          isPreview
+        />
       </Link>
     )
   }
@@ -354,6 +388,7 @@ export const Links = ({
   linksColorState,
   content,
   isPreviewMobile,
+  isSidePreview,
   modalData,
   setModalData,
 }) => {
@@ -383,6 +418,7 @@ export const Links = ({
             colorBackground={colorBackground}
             colorBackgroundAccent={colorBackgroundAccent}
             isPreviewMobile={isPreviewMobile}
+            isSidePreview={isSidePreview}
             text={link.text}
             modalData={modalData}
             setModalData={setModalData}

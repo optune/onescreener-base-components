@@ -31,10 +31,10 @@ const Margin = {
 }
 
 const Text = styled.p`
-  font-size: ${({ size, isPreviewMobile }) =>
-    isPreviewMobile ? Size.Mobile[size] : Size.Desktop[size]}px;
-  margin-top: ${({ size, isPreviewMobile }) =>
-    isPreviewMobile ? Margin.Mobile[size] : Margin.Desktop[size]}px;
+  font-size: ${({ size, isSidePreview, isPreviewMobile }) =>
+    isPreviewMobile || isSidePreview ? Size.Mobile[size] : Size.Desktop[size]}px;
+  margin-top: ${({ size, isSidePreview, isPreviewMobile }) =>
+    isPreviewMobile || isSidePreview ? Margin.Mobile[size] : Margin.Desktop[size]}px;
   line-height: 0.8;
   text-align: center;
 
@@ -44,8 +44,8 @@ const Text = styled.p`
   }
 `
 
-export const RequestFormIcon = ({ size, isPreviewMobile }) => (
-  <Text size={size} isPreviewMobile={isPreviewMobile}>
+export const RequestFormIcon = ({ size, isSidePreview, isPreviewMobile }) => (
+  <Text size={size} isSidePreview={isSidePreview} isPreviewMobile={isPreviewMobile}>
     book
     <br />
     me
