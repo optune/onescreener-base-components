@@ -197,7 +197,13 @@ const getArea = ({ position, span }) => {
   return { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan }
 }
 
-export const ContentBox = ({ content, links, isPreviewMobile, isPreviewMobileReady, isSidePreview }) => {
+export const ContentBox = ({
+  content,
+  links,
+  isPreviewMobile,
+  isPreviewMobileReady,
+  isSidePreview,
+}) => {
   /*
    * Get content values
    */
@@ -211,6 +217,7 @@ export const ContentBox = ({ content, links, isPreviewMobile, isPreviewMobileRea
     gigsAPI,
     gigsAPIDomain,
     gigsList,
+    gigsLoading,
     media,
     position = '4/2',
     positionMobile = '2/1',
@@ -244,6 +251,7 @@ export const ContentBox = ({ content, links, isPreviewMobile, isPreviewMobileRea
           gigsAPI={gigsAPI}
           gigsAPIDomain={gigsAPIDomain}
           gigsList={gigsList}
+          gigsLoading={gigsLoading}
           isPreviewMobile={isPreviewMobileReady}
           square={square}
           {...colors}
@@ -251,7 +259,7 @@ export const ContentBox = ({ content, links, isPreviewMobile, isPreviewMobileRea
       )
       break
     case 'MEDIA':
-      Content = media ? <MediaBox media={media} /> : null
+      Content = media ? <MediaBox media={media} isPreviewMobile={isPreviewMobile} /> : null
       fullscreen = media ? media.fullscreen : false
       break
 
