@@ -132,18 +132,20 @@ const Link = styled.div`
 
   width: ${({ isSidePreview, isPreviewMobile, size }) =>
     isPreviewMobile
-      ? `calc(${ShapeSize.Mobile[size]} ${isSidePreview && '- 4px'});`
+      ? `calc(${ShapeSize.Mobile[size]} ${(isSidePreview && '- 4px') || ' - 0px'});`
       : `calc(${ShapeSize.Desktop[size]} ${
-          isSidePreview &&
-          ` - ${parseInt(ShapeSize.Desktop[size]) - parseInt(ShapeSize.Mobile[size])}px`
+          (isSidePreview &&
+            ` - ${parseInt(ShapeSize.Desktop[size]) - parseInt(ShapeSize.Mobile[size])}px`) ||
+          ' - 0px'
         });`}
   
   height: ${({ isSidePreview, isPreviewMobile, size }) =>
     isPreviewMobile
-      ? `calc(${ShapeSize.Mobile[size]} ${isSidePreview && '- 4px'});`
+      ? `calc(${ShapeSize.Mobile[size]} ${(isSidePreview && '- 4px') || ' - 0px'});`
       : `calc(${ShapeSize.Desktop[size]} ${
-          isSidePreview &&
-          ` - ${parseInt(ShapeSize.Desktop[size]) - parseInt(ShapeSize.Mobile[size])}px`
+          (isSidePreview &&
+            ` - ${parseInt(ShapeSize.Desktop[size]) - parseInt(ShapeSize.Mobile[size])}px`) ||
+          ' - 0px'
         });`};
 
   margin: ${({ isSidePreview, isPreviewMobile, size, margin }) =>
