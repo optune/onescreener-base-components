@@ -90,6 +90,19 @@ const ShapeSize = {
   },
 }
 
+const ShapeSizeSidePreview = {
+  Desktop: {
+    S: '33px',
+    M: '36px',
+    L: '40px',
+  },
+  Mobile: {
+    S: '29px',
+    M: '32px',
+    L: '36px',
+  },
+}
+
 const IconSize = {
   Desktop: {
     S: '26px',
@@ -132,26 +145,19 @@ const Link = styled.div`
 
   width: ${({ isSidePreview, isPreviewMobile, size }) =>
     isPreviewMobile
-      ? `calc(${ShapeSize.Mobile[size]} ${(isSidePreview && '- 4px') || ' - 0px'});`
-      : `calc(${ShapeSize.Desktop[size]} ${
-          (isSidePreview &&
-            ` - ${parseInt(ShapeSize.Desktop[size]) - parseInt(ShapeSize.Mobile[size])}px`) ||
-          ' - 0px'
-        });`}
+      ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
+      : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]};
   
   height: ${({ isSidePreview, isPreviewMobile, size }) =>
     isPreviewMobile
-      ? `calc(${ShapeSize.Mobile[size]} ${(isSidePreview && '- 4px') || ' - 0px'});`
-      : `calc(${ShapeSize.Desktop[size]} ${
-          (isSidePreview &&
-            ` - ${parseInt(ShapeSize.Desktop[size]) - parseInt(ShapeSize.Mobile[size])}px`) ||
-          ' - 0px'
-        });`};
+      ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
+      : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]};
 
   margin: ${({ isSidePreview, isPreviewMobile, size, margin }) =>
-    (isPreviewMobile && size === 'L' && (isSidePreview ? '0.5rem 0rem' : '2px')) ||
+    (isPreviewMobile &&
+      ((size === 'L' && (isSidePreview ? '0.5rem 0rem' : '2px')) || '0.5rem 0.1rem')) ||
     margin ||
-    '0.5rem 0.15rem'};
+    '0.5rem 0.35rem'};
 
 ${({ isPreview }) =>
   isPreview &&

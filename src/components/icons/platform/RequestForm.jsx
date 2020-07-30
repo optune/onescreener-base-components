@@ -32,7 +32,7 @@ const Margin = {
 
 const Text = styled.p`
   font-size: ${({ size, isSidePreview, isPreviewMobile }) =>
-    isPreviewMobile || isSidePreview ? Size.Mobile[size] : Size.Desktop[size]}px;
+    isPreviewMobile || isSidePreview ? Size.Mobile[size] : Size.Desktop[size]}px !important;
   margin-top: ${({ size, isSidePreview, isPreviewMobile }) =>
     isPreviewMobile || isSidePreview ? Margin.Mobile[size] : Margin.Desktop[size]}px;
   line-height: 0.8;
