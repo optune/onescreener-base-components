@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 
 import { MediaSmall, MediaMobile } from './media.js'
+import { ColorWhite, ColorLightGreySecond } from './color.js'
 
 export default createGlobalStyle`
   @font-face {
@@ -44,5 +45,24 @@ export default createGlobalStyle`
 
   ol, ul {
     list-style: none;
+  }
+
+  #font-picker {
+    box-shadow: none;
+    
+    > button {
+      background-color: ${ColorWhite};
+      border: 2px solid ${ColorLightGreySecond};
+      border-radius: 2px;
+      min-height: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0.58rem;
+    }
+
+    > ul {
+      background-color: ${ColorWhite};
+    }
   }
 `

@@ -7,6 +7,8 @@ export const ColorLightGrey = '#D6D3CF'
 export const ColorStormGray = '#4F4F4F'
 export const ColorWhite = '#FFFFFF'
 
+export const ColorLightGreySecond = '#DADDE5'
+
 const DEFAULT_DEGREE = 20
 
 // Color Theme
