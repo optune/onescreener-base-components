@@ -141,7 +141,7 @@ export const Page = ({
 
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
-            {!noBacklink && (
+            {!noBacklink && !isSidePreview && (
               <BackLink
                 href="https://www.onescreener.com"
                 target="_blank"
