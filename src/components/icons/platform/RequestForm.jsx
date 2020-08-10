@@ -48,7 +48,7 @@ export const RequestFormIcon = ({ size, isSidePreview, isPreviewMobile }) => (
   <Text size={size} isSidePreview={isSidePreview} isPreviewMobile={isPreviewMobile}>
     book
     <br />
-    me
+    now
   </Text>
 )
 
