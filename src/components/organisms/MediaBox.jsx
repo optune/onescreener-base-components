@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import ReactPlayer from 'react-player'
+import RPlayer from 'react-player'
 
 import { SpotifyPlayer } from '../atoms/SpotifyPlayer'
 import { ApplePlayer } from '../atoms/ApplePlayer'
 import { DeezerPlayer } from '../atoms/DeezerPlayer'
+
+import { AutoPlayerFit } from '../../utils/AutoPlayerFit'
 
 const Fullscreen = styled.div`
   position: absolute;
@@ -15,7 +17,13 @@ const Fullscreen = styled.div`
   width: 100%;
 `
 
-export const MediaBox = ({ media }) => {
+const ReactPlayer = styled(RPlayer)`
+  position: absolute;
+  top: 0;
+  left: 0;
+`
+
+export const MediaBox = ({ media, isPreviewMobile }) => {
   const [ssrDone, setSsrDone] = useState(false)
 
   useEffect(() => {
@@ -56,15 +64,17 @@ export const MediaBox = ({ media }) => {
         </Fullscreen>
       )
     : Player && (
-        <Player
-          url={url}
-          playing={false}
-          width="100%"
-          height="100%"
-          format={format}
-          autoplay={autoplay}
-          theme={theme}
-          controls={true}
-        />
+        <AutoPlayerFit isPreviewMobile={isPreviewMobile}>
+          <Player
+            url={url}
+            playing={false}
+            width="100%"
+            height="100%"
+            format={format}
+            autoplay={autoplay}
+            theme={theme}
+            controls={true}
+          />
+        </AutoPlayerFit>
       )
 }
