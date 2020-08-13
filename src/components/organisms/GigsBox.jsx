@@ -173,6 +173,12 @@ export const GigsBox = ({
   )
 
   useEffect(() => {
+    if (Array.isArray(gigsList) && gigsList.length > 0) {
+      setGigs({ ...gigs, data: gigsList })
+    }
+  }, [gigsList])
+
+  useEffect(() => {
     if (gigs.loading) {
       getGigs({ gigsAPI, gigsAPIDomain }).then((data) => {
         setGigs({ loading: false, data })
