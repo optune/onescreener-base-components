@@ -239,6 +239,7 @@ ${({ isPreview }) =>
           }
         }
       `}
+  }
 `
 const LinkIconMapper = ({ platform, size = 'M' }) => styled(PlatformLinkIcon[platform])`
   width: ${({ isSidePreview, isPreviewMobile }) =>
