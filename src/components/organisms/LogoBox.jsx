@@ -231,6 +231,7 @@ const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
     (PositionBottom.includes(linkPosition) &&
       PositionBottom.includes(logoPositionMobile) &&
       'bottom') ||
+    (isPreviewMobile && 'bottom') ||
     'none'
 
   return {
@@ -261,7 +262,15 @@ const getLogoPosition = ({ logo }) => {
   }
 }
 
-export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, isPreviewMobileReady, isSidePreview, zIndex }) => {
+export const LogoBox = ({
+  logo,
+  links,
+  getImageUrl,
+  isPreviewMobile,
+  isPreviewMobileReady,
+  isSidePreview,
+  zIndex,
+}) => {
   const position = getLogoPosition({ logo })
   const padding = getLogoPadding({ logo, links, isPreviewMobile, isSidePreview })
 
