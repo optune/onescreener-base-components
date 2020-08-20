@@ -261,7 +261,15 @@ const getLogoPosition = ({ logo }) => {
   }
 }
 
-export const LogoBox = ({ logo, links, getImageUrl, isPreviewMobile, isPreviewMobileReady, isSidePreview, zIndex }) => {
+export const LogoBox = ({
+  logo,
+  links,
+  getImageUrl,
+  isPreviewMobile,
+  isPreviewMobileReady,
+  isSidePreview,
+  zIndex,
+}) => {
   const position = getLogoPosition({ logo })
   const padding = getLogoPadding({ logo, links, isPreviewMobile, isSidePreview })
 

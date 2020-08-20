@@ -303,10 +303,14 @@ export const PlatformLink = ({
   size,
   square,
   text,
+  name,
   url,
 }) => {
   const Icon = LinkIconMapper({ platform, size })
-  const labelText = (label || platform).replace(/\b\w/g, (l) => l.toUpperCase())
+  const labelText = (name || label || platform).replace(/\b\w/g, (l) => l.toUpperCase())
+  console.log('label', label)
+  console.log('name', name)
+  console.log('platform', platform)
 
   if (url > '') {
     return (
@@ -464,6 +468,7 @@ export const Links = ({
             isPreviewMobile={isPreviewMobile}
             isSidePreview={isSidePreview}
             text={link.text}
+            name={link.name}
             modalData={modalData}
             setModalData={setModalData}
             {...link}
