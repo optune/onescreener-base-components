@@ -308,9 +308,6 @@ export const PlatformLink = ({
 }) => {
   const Icon = LinkIconMapper({ platform, size })
   const labelText = (name || label || platform).replace(/\b\w/g, (l) => l.toUpperCase())
-  console.log('label', label)
-  console.log('name', name)
-  console.log('platform', platform)
 
   if (url > '') {
     return (
