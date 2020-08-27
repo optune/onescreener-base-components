@@ -19,7 +19,7 @@ export const getImageUrl = (isClient, isSocial) => ({
 
   if (image?.url > '') {
     const imageParts = image.url.split('/')
-    const imageSeparatorIndex = imageParts.findIndex(part => part === 'upload') + 1
+    const imageSeparatorIndex = imageParts.findIndex((part) => part === 'upload') + 1
     const imagePath = imageParts.slice(imageSeparatorIndex)
 
     let imageTransformation = ''

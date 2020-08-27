@@ -11,7 +11,7 @@ export const getFavionUrl = ({ image }) => {
 
   if (image?.url > '') {
     const imageParts = image.url.split('/')
-    const imageSeparatorIndex = imageParts.findIndex(part => part === 'upload') + 1
+    const imageSeparatorIndex = imageParts.findIndex((part) => part === 'upload') + 1
     const imagePath = imageParts.slice(imageSeparatorIndex)
 
     let imageTransformation = image.format === 'ico' ? '' : transformation.web()

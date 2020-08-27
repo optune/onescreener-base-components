@@ -4,22 +4,40 @@ import styled, { css } from 'styled-components'
 
 // Social Icons
 import { AboutIcon } from './About.jsx'
+import { ArtoIcon } from './Arto.jsx'
+import { AwsIcon } from './Aws.jsx'
 import { AmazonIcon } from './Amazon.jsx'
 import { AppleMusicIcon } from './AppleMusic.jsx'
 import { ArtistProfileIcon } from './ArtistProfile.jsx'
-import { RequestFormIcon } from './RequestForm.jsx'
-import { PressKitIcon } from './PressKit.jsx'
-import { GigsIcon } from './Gigs.jsx'
 import { BandcampIcon } from './Bandcamp.jsx'
+import { BaiduIcon } from './Baidu.jsx'
+import { BehanceIcon } from './Behance.jsx'
+import { BloggerIcon } from './Blogger.jsx'
 import { BiographyIcon } from './Biography.jsx'
+import { DiggIcon } from './Digg.jsx'
+import { DribbbleIcon } from './Dribbble.jsx'
+import { EtsyIcon } from './Etsy.jsx'
 import { FacebookIcon } from './Facebook.jsx'
+import { FlickrIcon } from './Flickr.jsx'
+import { GigsIcon } from './Gigs.jsx'
+import { GithubIcon } from './Github.jsx'
 import { InstagramIcon } from './Instagram.jsx'
 import { ITunesIcon } from './ITunes.jsx'
+import { KikIcon } from './Kik.jsx'
 import { LastFMIcon } from './LastFM.jsx'
+import { LinkedinIcon } from './Linkedin.jsx'
 import { MailIcon } from './Mail.jsx'
 import { MixcloudIcon } from './Mixcloud.jsx'
 import { NewsletterIcon } from './Newsletter.jsx'
 import { OptuneIcon } from './Optune.jsx'
+import { PressKitIcon } from './PressKit.jsx'
+import { PandoraIcon } from './Pandora.jsx'
+import { PicasaIcon } from './Picasa.jsx'
+import { PinterestIcon } from './Pinterest.jsx'
+import { PodcastIcon } from './Podcast.jsx'
+import { QuoraIcon } from './Quora.jsx'
+import { RedditIcon } from './Reddit.jsx'
+import { RequestFormIcon } from './RequestForm.jsx'
 import { SoundcloudIcon } from './Soundcloud.jsx'
 import { SpotifyIcon } from './Spotify.jsx'
 import { TechRiderIcon } from './TechRider.jsx'
@@ -47,14 +65,31 @@ export const PlatformLinkIcon = {
   OPTUNEBOOKINGS: GigsIcon,
   OPTUNEREQUESTFORM: RequestFormIcon,
   // Platform Links
+  ARTO: ArtoIcon,
   AMAZON: AmazonIcon,
+  AWS: AwsIcon,
   APPLEMUSIC: AppleMusicIcon,
   BANDCAMP: BandcampIcon,
+  BAIDU: BaiduIcon,
+  BEHANCE: BehanceIcon,
+  BLOGGER: BloggerIcon,
+  DIGG: DiggIcon,
+  DRIBBBLE: DribbbleIcon,
   FACEBOOK: FacebookIcon,
+  FLICKER: FlickrIcon,
+  GITHUB: GithubIcon,
   INSTAGRAM: InstagramIcon,
   ITUNES: ITunesIcon,
+  KIK: KikIcon,
   LASTFM: LastFMIcon,
+  LINKEDIN: LinkedinIcon,
   MIXCLOUD: MixcloudIcon,
+  PANDORA: PandoraIcon,
+  PICASA: PicasaIcon,
+  PINTEREST: PinterestIcon,
+  PODCAST: PodcastIcon,
+  QUORA: QuoraIcon,
+  REDDIT: RedditIcon,
   SOUNDCLOUD: SoundcloudIcon,
   SPOTIFY: SpotifyIcon,
   TIKTOK: TiktokIcon,
@@ -204,6 +239,7 @@ ${({ isPreview }) =>
           }
         }
       `}
+  }
 `
 const LinkIconMapper = ({ platform, size = 'M' }) => styled(PlatformLinkIcon[platform])`
   width: ${({ isSidePreview, isPreviewMobile }) =>
@@ -267,10 +303,11 @@ export const PlatformLink = ({
   size,
   square,
   text,
+  name,
   url,
 }) => {
   const Icon = LinkIconMapper({ platform, size })
-  const labelText = (label || platform).replace(/\b\w/g, (l) => l.toUpperCase())
+  const labelText = (name || label || platform).replace(/\b\w/g, (l) => l.toUpperCase())
 
   if (url > '') {
     return (
@@ -428,6 +465,7 @@ export const Links = ({
             isPreviewMobile={isPreviewMobile}
             isSidePreview={isSidePreview}
             text={link.text}
+            name={link.name}
             modalData={modalData}
             setModalData={setModalData}
             {...link}
