@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { toSquidInkIcon } from '../mixins/toSquidInkIcon.jsx'
 
-import { MediaSmall } from '../../../style/media'
+import { MediaMobile } from '../../../style/media'
 
 const Size = {
   Desktop: {
@@ -32,13 +32,13 @@ const Margin = {
 
 const Text = styled.p`
   font-size: ${({ size, isSidePreview, isPreviewMobile }) =>
-    isPreviewMobile || isSidePreview ? Size.Mobile[size] : Size.Desktop[size]}px !important;
+    isPreviewMobile || isSidePreview ? Size.Mobile[size] : Size.Desktop[size]}px;
   margin-top: ${({ size, isSidePreview, isPreviewMobile }) =>
     isPreviewMobile || isSidePreview ? Margin.Mobile[size] : Margin.Desktop[size]}px;
   line-height: 0.8;
   text-align: center;
 
-  @media ${MediaSmall} {
+  @media ${MediaMobile} {
     font-size: ${({ size }) => Size.Mobile[size]}px;
     margin-top: ${({ size }) => Margin.Mobile[size]}px;
   }
