@@ -3,6 +3,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 
 import { customHtml } from '../molecules/customHtml/index.jsx'
+import { BackLinkIcon } from '../icons/BackLink'
 
 // Molecules
 import { TextOverlay } from '../molecules/TextOverlay'
@@ -62,18 +63,18 @@ const ForegroundContainer = styled.div`
 `
 
 const BacklinkUrl =
-  'https://res.cloudinary.com/optune-me/image/upload/e_blackwhite,q_auto:good,c_fit,w_64,f_auto/v1558014130/onescreener-v2/app/logo-onescreener.png'
+  'https://res.cloudinary.com/optune-me/image/upload/v1598948675/onescreener-v2/app/back_link.png'
 
 const BackLink = styled.a`
   position: ${({ isSidePreview, isPreviewMobile }) =>
     isPreviewMobile || isSidePreview ? 'absolute' : 'fixed'};
   background-image: url(${BacklinkUrl});
-  background-size: initial;
+  background-size: contain;
   background-color: #606060;
   background-position: center;
   background-repeat: no-repeat;
-  width: 70px;
-  height: 15px;
+  width: 90px;
+  height: 26px;
   opacity: 0.4;
   transform: rotate(-90deg);
   transform-origin: 100% 100%;
