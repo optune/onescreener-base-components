@@ -29,10 +29,17 @@ const LinkMargin = {
   M: 7,
   S: 5,
 }
+
 const LinkMarginMobile = {
   S: 4.2,
   M: 4.6,
   L: 5,
+}
+
+const LinkMarginSidePreview = {
+  L: 3,
+  M: 2,
+  S: 1,
 }
 
 const PreviewMobile = {
@@ -66,7 +73,7 @@ const getGridArea = (
   let marginVLinks = 0
   let marginHLinks = 0
 
-  const linkMargin = LinkMargin[linksSize]
+  const linkMargin = isSidePreview ? LinkMarginSidePreview[linksSize] : LinkMargin[linksSize]
 
   // Give extra margin if links are at same side as content
   switch (linksPosition) {
