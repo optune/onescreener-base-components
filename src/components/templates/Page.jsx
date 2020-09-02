@@ -3,7 +3,6 @@ import React, { Fragment, useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 
 import { customHtml } from '../molecules/customHtml/index.jsx'
-import { BackLinkIcon } from '../icons/BackLink'
 
 // Molecules
 import { TextOverlay } from '../molecules/TextOverlay'
