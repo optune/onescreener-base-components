@@ -132,13 +132,13 @@ const BlockedOverlay = styled.p`
   font-size: 36px;
   color: red;
   background-color: rgba(255, 255, 255, 0.8);
+  transform: rotate(-22.2deg);
 `
 
 export const Page = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
-  isBlocked,
   Modal,
   noBacklink,
   page,
@@ -249,7 +249,7 @@ export const Page = ({
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
         </PageContainer>
 
-        {isBlocked && <BlockedCoverContainer><BlockedOverlay>Page temporarily unavailable</BlockedOverlay></BlockedCoverContainer>}
+        {page.isBlocked && <BlockedCoverContainer><BlockedOverlay>Page temporarily unavailable</BlockedOverlay></BlockedCoverContainer>}
       </Fragment>
     )
   }
