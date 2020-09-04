@@ -142,12 +142,10 @@ const getGridAreaMobile = (
 
   const important = isPreviewMobile ? ' !important' : ''
 
-  marginH = isPreviewMobile
-    ? `${Math.round(PreviewMobile.width * marginH) / 100}px`
-    : `${marginH}vw`
+  marginH = isPreviewMobile ? `${Math.round(PreviewMobile.width * marginH) / 100}px` : `${marginH}%`
   marginV = isPreviewMobile
     ? `${Math.round(PreviewMobile.height * marginV) / 100}px`
-    : `${marginV}vh`
+    : `${marginV}%`
 
   const area = `
     ${positionH}: calc(${marginH} + 1rem)${important};
