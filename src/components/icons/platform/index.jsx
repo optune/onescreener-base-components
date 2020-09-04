@@ -76,7 +76,7 @@ export const PlatformLinkIcon = {
   DIGG: DiggIcon,
   DRIBBBLE: DribbbleIcon,
   FACEBOOK: FacebookIcon,
-  FLICKER: FlickrIcon,
+  FLICKR: FlickrIcon,
   GITHUB: GithubIcon,
   INSTAGRAM: InstagramIcon,
   ITUNES: ITunesIcon,
