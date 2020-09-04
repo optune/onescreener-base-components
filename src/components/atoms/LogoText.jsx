@@ -50,13 +50,6 @@ const LogoTextContainer = styled.div`
     line-height: 1;
     white-space: nowrap;
   }
-
-  @media ${MediaSmall} {
-    & #auto-text-fit-container {
-      display: flex;
-      align-items: ${({ logoPosition }) => logoPosition.mobile};
-    }
-  }
 `
 
 /*

@@ -181,12 +181,10 @@ const ResponsiveContainer = styled.div`
   }
 
   @media ${MediaMobile} {
-    ${({ areaMobile, linksPosition, linksSize }) => getGridAreaMobile(areaMobile, { linksSize })}
-  }
-
-  @media ${MediaSmall} {
-    min-width: 33.333vw;
-    min-height: 33.333vw;
+    ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
+      (!isSidePreview && getGridAreaMobile(areaMobile, { linksSize })) || isPreviewMobile
+        ? getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
+        : getGridArea(area, { linksPosition, linksSize, isSidePreview })} }
   }
 `
 
