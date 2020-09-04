@@ -135,7 +135,7 @@ const StyledTitle = styled.h2`
   width: 100%;
 `
 
-const StyledTextContainer = styled(SimpleBar)`
+const StyledTextContainer = styled(({ isSidePreview, ...other }) => <SimpleBar {...other} />)`
   margin-top: 0.5rem;
   margin-bottom: 0;
   width: 100%;
