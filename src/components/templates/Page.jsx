@@ -32,6 +32,8 @@ const PageContainer = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
+  z-index: 1;
+
   background-color: ${({ color = '#000000' }) => color};
   background-image: ${({ preloadImage }) => `url(${preloadImage})`};
   background-repeat: no-repeat;
@@ -98,13 +100,48 @@ const LogoContainer = styled.div`
   flex-direction: column;
 `
 
+const BlockedCoverContainer = styled.div`
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  ${({ isSidePreview }) =>
+    isSidePreview &&
+    css`
+      box-shadow: -16px 3px 25px -22px rgba(255, 255, 255, 0.7),
+        16px 3px 25px -22px rgba(255, 255, 255, 0.7), 0 5px 8px 7px rgba(0, 0, 0, 0.68),
+        0 0 0 10px black;
+      border-radius: ${({ isPreviewMobile }) => (isPreviewMobile ? '16px' : '6px')};
+      transition: border-radius 0.3s ease-out;
+    `}
+`
+
+const BlockedOverlay = styled.p`
+  padding: 3rem 4rem;
+  font-size: 36px;
+  color: red;
+  background-color: rgba(255, 255, 255, 0.8);
+`
+
 export const Page = ({
-  page,
-  noBacklink,
   isPreviewMobile,
   isPreviewMobileReady,
-  Modal,
   isSidePreview,
+  isBlocked,
+  Modal,
+  noBacklink,
+  page,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
@@ -211,6 +248,8 @@ export const Page = ({
 
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
         </PageContainer>
+
+        {isBlocked && <BlockedCoverContainer><BlockedOverlay>Page temporarily unavailable</BlockedOverlay></BlockedCoverContainer>}
       </Fragment>
     )
   }
