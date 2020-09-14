@@ -22,16 +22,20 @@ const CoverImage = styled.img`
   object-fit: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
 `
 
-export const CoverBox = ({ cover }) =>
-  (cover && !!cover.image?.url && (
-    <Cover>
-      <CoverLink href={cover.url || ''} target="__blank">
-        <CoverImage
-          src={cover.image.url || ''}
-          alt="image"
-          fullscreen={cover.fullscreen || false}
-        />
-      </CoverLink>
-    </Cover>
-  )) ||
-  null
+export const CoverBox = ({ cover }) => {
+  console.log({ cover })
+  return (
+    (cover && cover.url > '' && !!cover.image?.url && (
+      <Cover>
+        <CoverLink href={cover.url || ''} target="__blank">
+          <CoverImage
+            src={cover.image.url || ''}
+            alt="image"
+            fullscreen={cover.fullscreen || false}
+          />
+        </CoverLink>
+      </Cover>
+    )) ||
+    null
+  )
+}
