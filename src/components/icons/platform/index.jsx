@@ -27,6 +27,7 @@ import { KikIcon } from './Kik.jsx'
 import { LastFMIcon } from './LastFM.jsx'
 import { LinkedinIcon } from './Linkedin.jsx'
 import { MailIcon } from './Mail.jsx'
+import { MediumIcon } from './Medium.jsx'
 import { MessengerIcon } from './Messenger.jsx'
 import { MixcloudIcon } from './Mixcloud.jsx'
 import { NewsletterIcon } from './Newsletter.jsx'
@@ -56,6 +57,8 @@ import { WechatIcon } from './Wechat.jsx'
 import { MiscStarIcon } from './MiscStar.jsx'
 import { MiscHeartIcon } from './MiscHeart.jsx'
 import { MiscShoppingIcon } from './MiscShopping.jsx'
+import { MiscCallIcon } from './MiscCall.jsx'
+import { MiscClockIcon } from './MiscClock.jsx'
 
 // Molecules
 import { TextOverlay } from '../../molecules/TextOverlay'
@@ -89,6 +92,7 @@ export const PlatformLinkIcon = {
   LINKEDIN: LinkedinIcon,
   MIXCLOUD: MixcloudIcon,
   MESSENGER: MessengerIcon,
+  MEDIUM: MediumIcon,
   PANDORA: PandoraIcon,
   PATREON: PatreonIcon,
   PICASA: PicasaIcon,
@@ -111,6 +115,8 @@ export const PlatformLinkIcon = {
   NEWSLETTER: NewsletterIcon,
   STAR: MiscStarIcon,
   SHOPPING: MiscShoppingIcon,
+  CALL: MiscCallIcon,
+  CLOCK: MiscClockIcon,
 
   // Content (URL) Links
   ABOUT: AboutIcon,
