@@ -27,6 +27,7 @@ import { KikIcon } from './Kik.jsx'
 import { LastFMIcon } from './LastFM.jsx'
 import { LinkedinIcon } from './Linkedin.jsx'
 import { MailIcon } from './Mail.jsx'
+import { MessengerIcon } from './Messenger.jsx'
 import { MixcloudIcon } from './Mixcloud.jsx'
 import { NewsletterIcon } from './Newsletter.jsx'
 import { OptuneIcon } from './Optune.jsx'
@@ -35,6 +36,7 @@ import { PandoraIcon } from './Pandora.jsx'
 import { PicasaIcon } from './Picasa.jsx'
 import { PinterestIcon } from './Pinterest.jsx'
 import { PodcastIcon } from './Podcast.jsx'
+import { PatreonIcon } from './Patreon.jsx'
 import { QuoraIcon } from './Quora.jsx'
 import { RedditIcon } from './Reddit.jsx'
 import { RequestFormIcon } from './RequestForm.jsx'
@@ -47,6 +49,8 @@ import { TwitchIcon } from './Twitch.jsx'
 import { TwitterIcon } from './Twitter.jsx'
 import { YoutubeIcon } from './Youtube.jsx'
 import { VimeoIcon } from './Vimeo.jsx'
+import { WhatsappIcon } from './Whatsapp.jsx'
+import { WechatIcon } from './Wechat.jsx'
 
 // Miscellaneous Icons
 import { MiscStarIcon } from './MiscStar.jsx'
@@ -84,7 +88,9 @@ export const PlatformLinkIcon = {
   LASTFM: LastFMIcon,
   LINKEDIN: LinkedinIcon,
   MIXCLOUD: MixcloudIcon,
+  MESSENGER: MessengerIcon,
   PANDORA: PandoraIcon,
+  PATREON: PatreonIcon,
   PICASA: PicasaIcon,
   PINTEREST: PinterestIcon,
   PODCAST: PodcastIcon,
@@ -98,6 +104,8 @@ export const PlatformLinkIcon = {
   TWITTER: TwitterIcon,
   YOUTUBE: YoutubeIcon,
   VIMEO: VimeoIcon,
+  WHATSAPP: WhatsappIcon,
+  WECHAT: WechatIcon,
   // Miscellaneous Icons
   HEART: MiscHeartIcon,
   NEWSLETTER: NewsletterIcon,
@@ -182,7 +190,7 @@ const Link = styled.div`
     isPreviewMobile
       ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
       : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]};
-  
+
   height: ${({ isSidePreview, isPreviewMobile, size }) =>
     isPreviewMobile
       ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
@@ -194,15 +202,15 @@ const Link = styled.div`
     margin ||
     '0.5rem 0.35rem'};
 
-${({ isPreview }) =>
-  isPreview &&
-  css`
-    @media (min-width: 737px) and (max-width: 991px) {
-      max-width: ${({ size }) => `calc(${ShapeSize.Mobile[size]} + 8px)`};
-      max-height: ${({ size }) => `calc(${ShapeSize.Mobile[size]} + 8px)`};
-      margin: ${({ size }) => (size === 'L' && '0.5rem 0.2rem') || '0.5rem'};
-    }
-  `}
+  ${({ isPreview }) =>
+    isPreview &&
+    css`
+      @media (min-width: 737px) and (max-width: 991px) {
+        max-width: ${({ size }) => `calc(${ShapeSize.Mobile[size]} + 8px)`};
+        max-height: ${({ size }) => `calc(${ShapeSize.Mobile[size]} + 8px)`};
+        margin: ${({ size }) => (size === 'L' && '0.5rem 0.2rem') || '0.5rem'};
+      }
+    `}
 
   @media ${MediaMobile} {
     width: ${({ size }) => ShapeSize.Mobile[size]};
@@ -255,7 +263,6 @@ const LinkIconMapper = ({ platform, size = 'M' }) => styled(PlatformLinkIcon[pla
         max-height: ${({ size }) => IconSize.Mobile[size]};
       }
     `}
-
 
   @media ${MediaMobile} {
     width: ${IconSize.Mobile[size]};
