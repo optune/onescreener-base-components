@@ -92,6 +92,7 @@ export const PlatformLinkIcon = {
   LINKEDIN: LinkedinIcon,
   MIXCLOUD: MixcloudIcon,
   MESSENGER: MessengerIcon,
+  FACEBOOKMESSENGER: MessengerIcon,
   MEDIUM: MediumIcon,
   PANDORA: PandoraIcon,
   PATREON: PatreonIcon,
