@@ -1,53 +1,66 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import styled from 'styled-components'
-import { toSquidInkIcon } from '../mixins/toSquidInkIcon.jsx'
+import { toSquidInkIcon, defaultStrokeFill } from '../mixins/toSquidInkIcon.jsx'
 
-import { MediaMobile } from '../../../style/media'
-
-const Size = {
-  Desktop: {
-    S: 14,
-    M: 16,
-    L: 18,
-  },
-  Mobile: {
-    S: 10,
-    M: 10,
-    L: 12,
-  },
-}
-const Margin = {
-  Desktop: {
-    S: 3,
-    M: 3,
-    L: 4,
-  },
-  Mobile: {
-    S: 2,
-    M: 1,
-    L: 1,
-  },
-}
-
-const Text = styled.p`
-  font-size: ${({ size, isSidePreview, isPreviewMobile }) =>
-    isPreviewMobile || isSidePreview ? Size.Mobile[size] : Size.Desktop[size]}px;
-  margin-top: ${({ size, isSidePreview, isPreviewMobile }) =>
-    isPreviewMobile || isSidePreview ? Margin.Mobile[size] : Margin.Desktop[size]}px;
-  line-height: 0.8;
-  text-align: center;
-
-  @media ${MediaMobile} {
-    font-size: ${({ size }) => Size.Mobile[size]}px;
-    margin-top: ${({ size }) => Margin.Mobile[size]}px;
-  }
-`
-
-export const RequestFormIcon = ({ size, isSidePreview, isPreviewMobile }) => (
-  <Text size={size} isSidePreview={isSidePreview} isPreviewMobile={isPreviewMobile}>
-    book
-    <br />
-    now
-  </Text>
+export const RequestFormIcon = toSquidInkIcon(
+  () => (
+    <g id="profile">
+      <path
+        {...defaultStrokeFill}
+        strokeWidth="0.68"
+        d="M5.2633 4.68C5.6833 4.32 5.9233 3.804 5.9233 3.192C5.9233 1.956 4.9873 1.08 3.5473 1.08H0.775297V9H4.1713C5.7313 9 6.7393 8.028 6.7393 6.696C6.7393 5.712 6.1873 4.98 5.2633 4.68ZM3.4273 2.196C4.2313 2.196 4.6513 2.616 4.6513 3.252C4.6513 3.888 4.2313 4.332 3.4273 4.332H2.0233V2.196H3.4273ZM4.0633 7.884H2.0233V5.424H4.0633C4.9633 5.424 5.4553 5.916 5.4553 6.66C5.4553 7.404 4.9633 7.884 4.0633 7.884ZM10.8453 9.132C12.5973 9.132 13.9773 7.764 13.9773 6.048C13.9773 4.332 12.5973 2.976 10.8453 2.976C9.10527 2.976 7.73727 4.32 7.73727 6.048C7.73727 7.764 9.10527 9.132 10.8453 9.132ZM10.8453 7.968C9.80127 7.968 9.02127 7.152 9.02127 6.06C9.02127 4.956 9.80127 4.128 10.8573 4.128C11.8893 4.128 12.6813 4.956 12.6813 6.06C12.6813 7.14 11.8893 7.968 10.8453 7.968ZM18.1578 9.132C19.9098 9.132 21.2898 7.764 21.2898 6.048C21.2898 4.332 19.9098 2.976 18.1578 2.976C16.4178 2.976 15.0498 4.32 15.0498 6.048C15.0498 7.764 16.4178 9.132 18.1578 9.132ZM18.1578 7.968C17.1138 7.968 16.3338 7.152 16.3338 6.06C16.3338 4.956 17.1138 4.128 18.1698 4.128C19.2018 4.128 19.9938 4.956 19.9938 6.06C19.9938 7.14 19.2018 7.968 18.1578 7.968ZM22.7343 9H23.9943V-7.15256e-07H22.7343V9ZM25.5183 5.7L27.8943 3.108H26.3343L24.0303 5.688L26.5863 9H28.0983L25.5183 5.7ZM7.35552 13.08V18.42L2.54352 12.948H2.09952V21H3.37152V15.636L8.19552 21.132H8.62752V13.08H7.35552ZM13.2242 21.132C14.9762 21.132 16.3562 19.764 16.3562 18.048C16.3562 16.332 14.9762 14.976 13.2242 14.976C11.4842 14.976 10.1162 16.32 10.1162 18.048C10.1162 19.764 11.4842 21.132 13.2242 21.132ZM13.2242 19.968C12.1802 19.968 11.4002 19.152 11.4002 18.06C11.4002 16.956 12.1802 16.128 13.2362 16.128C14.2682 16.128 15.0602 16.956 15.0602 18.06C15.0602 19.14 14.2682 19.968 13.2242 19.968ZM25.3303 15.108L23.8063 18.912L21.9943 14.976H21.5623L19.7743 18.96L18.2263 15.108H16.8823L19.4983 21.132H19.9303L21.7783 17.208L23.6263 21.132H24.0583L26.6743 15.108H25.3303Z"
+        fill="#3A4B69"
+      />
+    </g>
+  ),
+  '0 0 29 22'
 )
+
+// import { MediaMobile } from '../../../style/media'
+
+// const Size = {
+//   Desktop: {
+//     S: 12,
+//     M: 14,
+//     L: 16,
+//   },
+//   Mobile: {
+//     S: 10,
+//     M: 10,
+//     L: 12,
+//   },
+// }
+// const Margin = {
+//   Desktop: {
+//     S: 3,
+//     M: 3,
+//     L: 4,
+//   },
+//   Mobile: {
+//     S: 2,
+//     M: 1,
+//     L: 1,
+//   },
+// }
+
+// const Text = styled.p`
+//   font-size: ${({ size, isSidePreview, isPreviewMobile }) =>
+//     isPreviewMobile || isSidePreview ? Size.Mobile[size] : Size.Desktop[size]}px;
+//   margin-top: ${({ size, isSidePreview, isPreviewMobile }) =>
+//     isPreviewMobile || isSidePreview ? Margin.Mobile[size] : Margin.Desktop[size]}px;
+//   line-height: 0.8;
+//   text-align: center;
+
+//   @media ${MediaMobile} {
+//     font-size: ${({ size }) => Size.Mobile[size]}px;
+//     margin-top: ${({ size }) => Margin.Mobile[size]}px;
+//   }
+// `
+
+// export const RequestFormIcon = ({ size, isSidePreview, isPreviewMobile }) => (
+//   <Text size={size} isSidePreview={isSidePreview} isPreviewMobile={isPreviewMobile}>
+//     book
+//     <br />
+//     now
+//   </Text>
+// )
