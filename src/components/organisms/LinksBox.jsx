@@ -32,48 +32,40 @@ const LinksList = styled.div`
           white-space: nowrap !important;
         `
       : css`
-          @media ${NotMediaMobile} {
-            &.bottom-center {
-              bottom: 0;
-              justify-content: center;
-              white-space: nowrap;
-            }
+          &.bottom-center {
+            bottom: 0;
+            justify-content: center;
+            white-space: nowrap;
+          }
 
-            &.bottom-left {
-              bottom: 0;
-              justify-content: flex-start;
-              white-space: nowrap;
-            }
+          &.bottom-left {
+            bottom: 0;
+            justify-content: flex-start;
+            white-space: nowrap;
+          }
 
-            &.bottom-right {
-              bottom: 0;
-              justify-content: flex-end;
-              white-space: nowrap;
-            }
+          &.bottom-right {
+            bottom: 0;
+            justify-content: flex-end;
+            white-space: nowrap;
+          }
 
-            &.center-right {
-              right: 0;
-              width: auto;
-              height: 100%;
-              flex-flow: column;
-              justify-content: center;
-            }
+          &.center-right {
+            right: 0;
+            width: auto;
+            height: 100%;
+            flex-flow: column;
+            justify-content: center;
+          }
 
-            &.center-left {
-              left: 0;
-              width: auto;
-              height: 100%;
-              flex-flow: column;
-              justify-content: center;
-            }
+          &.center-left {
+            left: 0;
+            width: auto;
+            height: 100%;
+            flex-flow: column;
+            justify-content: center;
           }
         `}
-
-  @media ${MediaMobile} {
-    bottom: 0;
-    justify-content: space-evenly;
-    white-space: nowrap;
-  }
 `
 
 export const LinksBox = ({ children, position, zIndex, isPreviewMobile }) => (
