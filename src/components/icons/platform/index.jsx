@@ -4,22 +4,43 @@ import styled, { css } from 'styled-components'
 
 // Social Icons
 import { AboutIcon } from './About.jsx'
+import { ArtoIcon } from './Arto.jsx'
+import { AwsIcon } from './Aws.jsx'
 import { AmazonIcon } from './Amazon.jsx'
 import { AppleMusicIcon } from './AppleMusic.jsx'
 import { ArtistProfileIcon } from './ArtistProfile.jsx'
-import { RequestFormIcon } from './RequestForm.jsx'
-import { PressKitIcon } from './PressKit.jsx'
-import { GigsIcon } from './Gigs.jsx'
 import { BandcampIcon } from './Bandcamp.jsx'
+import { BaiduIcon } from './Baidu.jsx'
+import { BehanceIcon } from './Behance.jsx'
+import { BloggerIcon } from './Blogger.jsx'
 import { BiographyIcon } from './Biography.jsx'
+import { DiggIcon } from './Digg.jsx'
+import { DribbbleIcon } from './Dribbble.jsx'
+import { EtsyIcon } from './Etsy.jsx'
 import { FacebookIcon } from './Facebook.jsx'
+import { FlickrIcon } from './Flickr.jsx'
+import { GigsIcon } from './Gigs.jsx'
+import { GithubIcon } from './Github.jsx'
 import { InstagramIcon } from './Instagram.jsx'
 import { ITunesIcon } from './ITunes.jsx'
+import { KikIcon } from './Kik.jsx'
 import { LastFMIcon } from './LastFM.jsx'
+import { LinkedinIcon } from './Linkedin.jsx'
 import { MailIcon } from './Mail.jsx'
+import { MediumIcon } from './Medium.jsx'
+import { MessengerIcon } from './Messenger.jsx'
 import { MixcloudIcon } from './Mixcloud.jsx'
 import { NewsletterIcon } from './Newsletter.jsx'
 import { OptuneIcon } from './Optune.jsx'
+import { PressKitIcon } from './PressKit.jsx'
+import { PandoraIcon } from './Pandora.jsx'
+import { PicasaIcon } from './Picasa.jsx'
+import { PinterestIcon } from './Pinterest.jsx'
+import { PodcastIcon } from './Podcast.jsx'
+import { PatreonIcon } from './Patreon.jsx'
+import { QuoraIcon } from './Quora.jsx'
+import { RedditIcon } from './Reddit.jsx'
+import { RequestFormIcon } from './RequestForm.jsx'
 import { SoundcloudIcon } from './Soundcloud.jsx'
 import { SpotifyIcon } from './Spotify.jsx'
 import { TechRiderIcon } from './TechRider.jsx'
@@ -29,11 +50,15 @@ import { TwitchIcon } from './Twitch.jsx'
 import { TwitterIcon } from './Twitter.jsx'
 import { YoutubeIcon } from './Youtube.jsx'
 import { VimeoIcon } from './Vimeo.jsx'
+import { WhatsappIcon } from './Whatsapp.jsx'
+import { WechatIcon } from './Wechat.jsx'
 
 // Miscellaneous Icons
 import { MiscStarIcon } from './MiscStar.jsx'
 import { MiscHeartIcon } from './MiscHeart.jsx'
 import { MiscShoppingIcon } from './MiscShopping.jsx'
+import { MiscCallIcon } from './MiscCall.jsx'
+import { MiscClockIcon } from './MiscClock.jsx'
 
 // Molecules
 import { TextOverlay } from '../../molecules/TextOverlay'
@@ -47,14 +72,35 @@ export const PlatformLinkIcon = {
   OPTUNEBOOKINGS: GigsIcon,
   OPTUNEREQUESTFORM: RequestFormIcon,
   // Platform Links
+  ARTO: ArtoIcon,
   AMAZON: AmazonIcon,
+  AWS: AwsIcon,
   APPLEMUSIC: AppleMusicIcon,
   BANDCAMP: BandcampIcon,
+  BAIDU: BaiduIcon,
+  BEHANCE: BehanceIcon,
+  BLOGGER: BloggerIcon,
+  DIGG: DiggIcon,
+  DRIBBBLE: DribbbleIcon,
   FACEBOOK: FacebookIcon,
+  FLICKR: FlickrIcon,
+  GITHUB: GithubIcon,
   INSTAGRAM: InstagramIcon,
   ITUNES: ITunesIcon,
+  KIK: KikIcon,
   LASTFM: LastFMIcon,
+  LINKEDIN: LinkedinIcon,
   MIXCLOUD: MixcloudIcon,
+  MESSENGER: MessengerIcon,
+  FACEBOOKMESSENGER: MessengerIcon,
+  MEDIUM: MediumIcon,
+  PANDORA: PandoraIcon,
+  PATREON: PatreonIcon,
+  PICASA: PicasaIcon,
+  PINTEREST: PinterestIcon,
+  PODCAST: PodcastIcon,
+  QUORA: QuoraIcon,
+  REDDIT: RedditIcon,
   SOUNDCLOUD: SoundcloudIcon,
   SPOTIFY: SpotifyIcon,
   TIKTOK: TiktokIcon,
@@ -63,11 +109,15 @@ export const PlatformLinkIcon = {
   TWITTER: TwitterIcon,
   YOUTUBE: YoutubeIcon,
   VIMEO: VimeoIcon,
+  WHATSAPP: WhatsappIcon,
+  WECHAT: WechatIcon,
   // Miscellaneous Icons
   HEART: MiscHeartIcon,
   NEWSLETTER: NewsletterIcon,
   STAR: MiscStarIcon,
   SHOPPING: MiscShoppingIcon,
+  CALL: MiscCallIcon,
+  CLOCK: MiscClockIcon,
 
   // Content (URL) Links
   ABOUT: AboutIcon,
@@ -147,7 +197,7 @@ const Link = styled.div`
     isPreviewMobile
       ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
       : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]};
-  
+
   height: ${({ isSidePreview, isPreviewMobile, size }) =>
     isPreviewMobile
       ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
@@ -159,15 +209,15 @@ const Link = styled.div`
     margin ||
     '0.5rem 0.35rem'};
 
-${({ isPreview }) =>
-  isPreview &&
-  css`
-    @media (min-width: 737px) and (max-width: 991px) {
-      max-width: ${({ size }) => `calc(${ShapeSize.Mobile[size]} + 8px)`};
-      max-height: ${({ size }) => `calc(${ShapeSize.Mobile[size]} + 8px)`};
-      margin: ${({ size }) => (size === 'L' && '0.5rem 0.2rem') || '0.5rem'};
-    }
-  `}
+  ${({ isPreview }) =>
+    isPreview &&
+    css`
+      @media (min-width: 737px) and (max-width: 991px) {
+        max-width: ${({ size }) => `calc(${ShapeSize.Mobile[size]} + 8px)`};
+        max-height: ${({ size }) => `calc(${ShapeSize.Mobile[size]} + 8px)`};
+        margin: ${({ size }) => (size === 'L' && '0.5rem 0.2rem') || '0.5rem'};
+      }
+    `}
 
   @media ${MediaMobile} {
     width: ${({ size }) => ShapeSize.Mobile[size]};
@@ -204,6 +254,7 @@ ${({ isPreview }) =>
           }
         }
       `}
+  }
 `
 const LinkIconMapper = ({ platform, size = 'M' }) => styled(PlatformLinkIcon[platform])`
   width: ${({ isSidePreview, isPreviewMobile }) =>
@@ -219,7 +270,6 @@ const LinkIconMapper = ({ platform, size = 'M' }) => styled(PlatformLinkIcon[pla
         max-height: ${({ size }) => IconSize.Mobile[size]};
       }
     `}
-
 
   @media ${MediaMobile} {
     width: ${IconSize.Mobile[size]};
@@ -267,10 +317,11 @@ export const PlatformLink = ({
   size,
   square,
   text,
+  name,
   url,
 }) => {
   const Icon = LinkIconMapper({ platform, size })
-  const labelText = (label || platform).replace(/\b\w/g, (l) => l.toUpperCase())
+  const labelText = (name || label || platform).replace(/\b\w/g, (l) => l.toUpperCase())
 
   if (url > '') {
     return (
@@ -428,6 +479,7 @@ export const Links = ({
             isPreviewMobile={isPreviewMobile}
             isSidePreview={isSidePreview}
             text={link.text}
+            name={link.name}
             modalData={modalData}
             setModalData={setModalData}
             {...link}

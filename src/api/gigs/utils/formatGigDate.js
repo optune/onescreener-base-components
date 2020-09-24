@@ -1,6 +1,6 @@
 import dateFormat from 'dateformat'
 
-export const formatGigDate = date => {
+export const formatGigDate = (date) => {
   const d = new Date(date)
 
   const mappedDate = {
