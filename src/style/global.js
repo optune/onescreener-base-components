@@ -25,7 +25,7 @@ export default createGlobalStyle`
     min-height: 100%;
     padding: 0;
     margin: 0 auto;
-    background-color: #f7f7f7;
+    background-color: #FAFAFA;
     display: flex;
     justify-content: center;
     /* define grid layout desktop main mode */

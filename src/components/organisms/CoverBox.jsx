@@ -23,7 +23,7 @@ const CoverImage = styled.img`
 `
 
 export const CoverBox = ({ cover }) =>
-  (cover && cover.url > '' && !!cover.image?.url && (
+  (cover && !!cover.image?.url && (
     <Cover>
       <CoverLink href={cover.url || ''} target="__blank">
         <CoverImage
