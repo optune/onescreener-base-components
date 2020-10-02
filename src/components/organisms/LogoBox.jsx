@@ -166,10 +166,6 @@ const LogoContainer = styled.div`
   ${({ isDifferentPositions }) =>
     isDifferentPositions &&
     css`
-      @media ${MediaSmall} {
-        ${stylesLogoMobile}
-      }
-
       ${({ isPreviewMobile }) =>
         isPreviewMobile &&
         css`
@@ -181,10 +177,6 @@ const LogoContainer = styled.div`
   ${({ isPreviewMobile, padding }) =>
     css`
       ${isPreviewMobile ? padding.mobile : padding.desktop};
-
-      @media ${MediaSmall} {
-        ${padding.mobile};
-      }
     `}
 `
 

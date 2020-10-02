@@ -142,12 +142,10 @@ const getGridAreaMobile = (
 
   const important = isPreviewMobile ? ' !important' : ''
 
-  marginH = isPreviewMobile
-    ? `${Math.round(PreviewMobile.width * marginH) / 100}px`
-    : `${marginH}vw`
+  marginH = isPreviewMobile ? `${Math.round(PreviewMobile.width * marginH) / 100}px` : `${marginH}%`
   marginV = isPreviewMobile
     ? `${Math.round(PreviewMobile.height * marginV) / 100}px`
-    : `${marginV}vh`
+    : `${marginV}%`
 
   const area = `
     ${positionH}: calc(${marginH} + 1rem)${important};
@@ -181,12 +179,10 @@ const ResponsiveContainer = styled.div`
   }
 
   @media ${MediaMobile} {
-    ${({ areaMobile, linksPosition, linksSize }) => getGridAreaMobile(areaMobile, { linksSize })}
-  }
-
-  @media ${MediaSmall} {
-    min-width: 33.333vw;
-    min-height: 33.333vw;
+    ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
+      (!isSidePreview && getGridAreaMobile(areaMobile, { linksSize })) || isPreviewMobile
+        ? getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
+        : getGridArea(area, { linksPosition, linksSize, isSidePreview })} }
   }
 `
 
