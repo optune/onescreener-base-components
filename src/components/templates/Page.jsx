@@ -198,7 +198,7 @@ export const Page = ({
                 isPreviewMobile={isPreviewMobile}
                 isPreviewMobileReady={isPreviewMobileReady}
                 isSidePreview={isSidePreview}
-                zIndex={2}
+                zIndex={10}
               />
             )}
 
@@ -249,7 +249,11 @@ export const Page = ({
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
         </PageContainer>
 
-        {page.isBlocked && <BlockedCoverContainer><BlockedOverlay>Page temporarily unavailable</BlockedOverlay></BlockedCoverContainer>}
+        {page.isBlocked && (
+          <BlockedCoverContainer>
+            <BlockedOverlay>Page temporarily unavailable</BlockedOverlay>
+          </BlockedCoverContainer>
+        )}
       </Fragment>
     )
   }
