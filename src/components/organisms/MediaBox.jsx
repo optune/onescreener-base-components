@@ -15,15 +15,27 @@ const Fullscreen = styled.div`
   left: 0;
   height: 100%;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const ReactPlayer = styled(RPlayer)`
   position: absolute;
   top: 0;
   left: 0;
+  max-width: ${({ isDeezer }) => (isDeezer ? '700px' : 'unset')};
 `
 
-export const MediaBox = ({ media, isPreviewMobile }) => {
+const Wrapper = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+export const MediaBox = ({ media, isPreviewMobile, isSidePreview }) => {
   const [ssrDone, setSsrDone] = useState(false)
 
   useEffect(() => {
@@ -48,6 +60,15 @@ export const MediaBox = ({ media, isPreviewMobile }) => {
     Player = DeezerPlayer
   }
 
+  let PlayerWrapper =
+    (!!media?.fullscreen && Fullscreen) ||
+    (Player === ReactPlayer && AutoPlayerFit) ||
+    (Player !== ReactPlayer &&
+      media?.deezer?.format === 'SQUARE' &&
+      !isPreviewMobile &&
+      AutoPlayerFit) ||
+    Wrapper
+
   return media?.fullscreen
     ? Player && (
         <Fullscreen>
@@ -60,11 +81,12 @@ export const MediaBox = ({ media, isPreviewMobile }) => {
             autoplay={autoplay}
             theme={theme}
             controls={true}
+            isSidePreview={isSidePreview}
           />
         </Fullscreen>
       )
     : Player && (
-        <AutoPlayerFit isPreviewMobile={isPreviewMobile}>
+        <PlayerWrapper isPreviewMobile={isPreviewMobile}>
           <Player
             url={url}
             playing={false}
@@ -74,7 +96,8 @@ export const MediaBox = ({ media, isPreviewMobile }) => {
             autoplay={autoplay}
             theme={theme}
             controls={true}
+            isSidePreview={isSidePreview}
           />
-        </AutoPlayerFit>
+        </PlayerWrapper>
       )
 }
