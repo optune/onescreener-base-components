@@ -43,13 +43,11 @@ export const DeezerPlayer = ({
 }) => {
   let trueUrl, temp, type, id
 
-  console.log({ format, isSidePreview })
-
   const typeAllow = ['artist', 'playlist', 'track', 'album', 'podcast']
   const typeExist = (type) => typeAllow.some((el) => el === type)
 
   if (!isValidUrl(url)) {
-    return <> </>
+    return null
   }
 
   if (url.indexOf('deezer.com/') !== -1) {
@@ -59,7 +57,7 @@ export const DeezerPlayer = ({
       type = temp[typeIndex]
 
       if (!type) {
-        return <> </>
+        return null
       }
 
       if (url.indexOf('?utm_') !== -1) {
@@ -79,10 +77,10 @@ export const DeezerPlayer = ({
 
       trueUrl = `https://www.deezer.com/plugins/player?format=${format.toLowerCase()}&playlist=true&autoplay=${autoplay}&color=${color}&width=100%&height=100%&layout=${theme.toLowerCase()}&type=${type}&id=${id}&app_id=1`
     } catch (err) {
-      return <> </>
+      return null
     }
   } else {
-    return <> </>
+    return null
   }
 
   return (

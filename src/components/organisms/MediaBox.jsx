@@ -69,22 +69,6 @@ export const MediaBox = ({ media, isPreviewMobile, isSidePreview }) => {
       AutoPlayerFit) ||
     Wrapper
 
-  // return (
-  //   <PlayerWrapper>
-  //     <Player
-  //       url={url}
-  //       playing={false}
-  //       width="100%"
-  //       height="100%"
-  //       format={format}
-  //       autoplay={autoplay}
-  //       theme={theme}
-  //       controls={true}
-  //       isSidePreview={isSidePreview}
-  //     />
-  //   </PlayerWrapper>
-  // )
-
   return media?.fullscreen
     ? Player && (
         <Fullscreen>
