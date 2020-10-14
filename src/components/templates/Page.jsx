@@ -143,6 +143,7 @@ export const Page = ({
   Modal,
   noBacklink,
   page,
+  pageUrl,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
@@ -236,17 +237,18 @@ export const Page = ({
                   square={links.square}
                 />
                 <LinksBox
-                  position={isMobile ? 'bottom-center' : links.position}
+                  position={ssrDone && isMobile ? 'bottom-center' : links.position}
                   zIndex={4}
                   isPreviewMobile={isPreviewMobile}
                 >
                   {Links({
-                    links,
                     content,
                     isPreviewMobile,
                     isSidePreview,
+                    links,
                     Modal,
                     modalData,
+                    pageUrl,
                     setModalData,
                   })}
                 </LinksBox>

@@ -456,10 +456,12 @@ const SmartLinks = {
 const mapSmartLinks = domainUrl => link => {
   let mappedLink = link
 
-  if (Object.values(SmartLinks).includes(link.platform)) {
+  if (domainUrl > '' && Object.values(SmartLinks).includes(link.platform)) {
     mappedLink.url = `${domainUrl || ''}${SmartLinks[link.platform]}`
   }
 
+  // console.log('MAPPED LINK', domainUrl, mappedLink)
+  
   return mappedLink
 }
 
