@@ -31,6 +31,7 @@ import { MediumIcon } from './Medium.jsx'
 import { MessengerIcon } from './Messenger.jsx'
 import { MixcloudIcon } from './Mixcloud.jsx'
 import { NewsletterIcon } from './Newsletter.jsx'
+import { NewsletterFormIcon } from './NewsletterForm.jsx'
 import { OptuneIcon } from './Optune.jsx'
 import { PressKitIcon } from './PressKit.jsx'
 import { PandoraIcon } from './Pandora.jsx'
@@ -71,6 +72,7 @@ export const PlatformLinkIcon = {
   OPTUNEARTISTPROFILE: ArtistProfileIcon,
   OPTUNEBOOKINGS: GigsIcon,
   OPTUNEREQUESTFORM: RequestFormIcon,
+  OPTUNENEWSLETTER: NewsletterFormIcon,
   // Platform Links
   ARTO: ArtoIcon,
   AMAZON: AmazonIcon,
@@ -442,10 +444,27 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map((platform) => {
   }
 })
 
+const SmartLinks = {
+  OPTUNEARTISTPROFILE: '/profile',
+  OPTUNEBOOKINGS: '/events',
+  OPTUNEREQUESTFORM: '/request',
+  OPTUNENEWSLETTER: '/newsletter',
+}
+const mapSmartLinks = domainUrl => link => {
+  let mappedLink = link
+
+  if (Object.values(SmartLinks).includes(link.platform)) {
+    mappedLink.url = `${domainUrl || ''}${SmartLinks[link.platform]}`
+  }
+
+  return mappedLink
+}
+
 export const Links = ({
   links,
   linksColorState,
   content,
+  domainUrl,
   isPreviewMobile,
   isSidePreview,
   modalData,
@@ -465,6 +484,7 @@ export const Links = ({
     <Fragment>
       {links.list
         .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
+        .map(mapSmartLinks(domainUrl))
         .map((link) => (
           <PlatformLink
             key={link.platform}
