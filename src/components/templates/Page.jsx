@@ -236,7 +236,7 @@ export const Page = ({
                   square={links.square}
                 />
                 <LinksBox
-                  position={isMobile ? 'bottom-center' : links.position}
+                  position={ssrDone && isMobile ? 'bottom-center' : links.position}
                   zIndex={4}
                   isPreviewMobile={isPreviewMobile}
                 >
