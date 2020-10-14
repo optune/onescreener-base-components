@@ -311,18 +311,19 @@ export const PlatformLink = ({
   colorAccent,
   colorBackground,
   colorBackgroundAccent,
+  isPreviewMobile,
+  isSidePreview,
   label,
   margin,
   modalData,
-  setModalData,
+  name,
   noShadow,
   platform,
-  isPreviewMobile,
-  isSidePreview,
+  setModalData,
   size,
   square,
+  target,
   text,
-  name,
   url,
 }) => {
   const Icon = LinkIconMapper({ platform, size })
@@ -330,7 +331,7 @@ export const PlatformLink = ({
 
   if (url > '') {
     return (
-      <LinkWrapper href={url} title={labelText} target="_blank" rel="noopener noreferrer">
+      <LinkWrapper href={url} title={labelText} target={target || '_blank'} rel="noopener noreferrer">
         <Link
           border={border}
           circle={circle}
@@ -447,32 +448,43 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map((platform) => {
   }
 })
 
+/* 
+ * Map smart links
+ */
+
 const SmartLinks = {
   OPTUNEARTISTPROFILE: '/profile',
   OPTUNEBOOKINGS: '/events',
   OPTUNEREQUESTFORM: '/request',
   OPTUNENEWSLETTER: '/newsletter',
 }
-const mapSmartLinks = domainUrl => link => {
+
+const mapSmartLinks = pageUrl => link => {
   let mappedLink = link
 
-  if (domainUrl > '' && Object.values(SmartLinks).includes(link.platform)) {
-    mappedLink.url = `${domainUrl || ''}${SmartLinks[link.platform]}`
+  if (pageUrl > '' && Object.keys(SmartLinks).includes(link.platform)) {
+    const queryParams = link.url?.split('?') || []
+    const querySeparator = pageUrl.includes('?') ? '&' : '?'
+    const query = queryParams.length > 1 ? `${querySeparator}${queryParams[1]}` : ''
+    mappedLink.url = `${pageUrl || ''}${SmartLinks[link.platform]}${query}`
+    mappedLink.target = '_self'
   }
-
-  // console.log('MAPPED LINK', domainUrl, mappedLink)
   
   return mappedLink
 }
 
+/* 
+ * Render Link list
+ */
+
 export const Links = ({
-  links,
-  linksColorState,
   content,
-  domainUrl,
   isPreviewMobile,
   isSidePreview,
+  links,
+  linksColorState,
   modalData,
+  pageUrl,
   setModalData,
 }) => {
   const color = linksColorState?.colorLinks || links.colorLinks || content.color
@@ -489,7 +501,7 @@ export const Links = ({
     <Fragment>
       {links.list
         .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
-        .map(mapSmartLinks(domainUrl))
+        .map(mapSmartLinks(pageUrl))
         .map((link) => (
           <PlatformLink
             key={link.platform}
