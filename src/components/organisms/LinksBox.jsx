@@ -2,7 +2,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 
-import { MediaMobile, NotMediaMobile } from '../../style/media.js'
+import { MediaMobile, MediaSmall, NotMediaMobile } from '../../style/media.js'
 
 const LinksContainer = styled.div`
   position: absolute;
@@ -64,6 +64,33 @@ const LinksList = styled.div`
             height: 100%;
             flex-flow: column;
             justify-content: center;
+          }
+
+          @media ${MediaSmall} {
+            &.bottom-left {
+              justify-content: center;
+            }
+            &.bottom-right {
+              justify-content: center;
+            }
+            &.center-left {
+              flex-flow: row;
+              width: 100%;
+              height: auto;
+              bottom: 0;
+              right: none;
+              justify-content: center;
+              white-space: nowrap;
+            }
+            &.center-right {
+              flex-flow: row;
+              width: 100%;
+              height: auto;
+              bottom: 0;
+              left: none;
+              justify-content: center;
+              white-space: nowrap;
+            }
           }
         `}
 `

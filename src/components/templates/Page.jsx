@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment, useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
+import { useMediaQuery } from 'react-responsive'
 
 import { customHtml } from '../molecules/customHtml/index.jsx'
 
@@ -23,7 +24,7 @@ import { getImageUrl } from '../../utils/getImageUrl.js'
 
 // Global Styles
 import GlobalStyle from '../../style/global.js'
-import { NotMediaSmall } from '../../style/media'
+import { MediaSmall } from '../../style/media.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -142,12 +143,16 @@ export const Page = ({
   Modal,
   noBacklink,
   page,
+  pageUrl,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
     setSsrDone(true)
   }, [])
   const getUrl = getImageUrl(ssrDone)
+
+  // Media Query
+  // const isMobile = useMediaQuery({ query: MediaSmall })
 
   const [modalData, setModalData] = useState({
     show: false,
@@ -231,14 +236,19 @@ export const Page = ({
                   show={modalData.show}
                   square={links.square}
                 />
-                <LinksBox position={links.position} zIndex={4} isPreviewMobile={isPreviewMobile}>
+                <LinksBox
+                  position={links.position}
+                  zIndex={4}
+                  isPreviewMobile={isPreviewMobile}
+                >
                   {Links({
-                    links,
                     content,
                     isPreviewMobile,
                     isSidePreview,
+                    links,
                     Modal,
                     modalData,
+                    pageUrl,
                     setModalData,
                   })}
                 </LinksBox>
