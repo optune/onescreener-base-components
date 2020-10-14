@@ -262,7 +262,9 @@ export const ContentBox = ({
       )
       break
     case 'MEDIA':
-      Content = media ? <MediaBox media={media} isPreviewMobile={isPreviewMobile} /> : null
+      Content = media ? (
+        <MediaBox media={media} isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview} />
+      ) : null
       fullscreen = media ? media.fullscreen : false
       break
 

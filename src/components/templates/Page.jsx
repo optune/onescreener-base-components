@@ -20,10 +20,10 @@ import { Links } from '../icons/platform/index.jsx'
 
 // Utils
 import { getImageUrl } from '../../utils/getImageUrl.js'
+import { checkMobileBrowser } from '../../utils/checkIsMobile.js'
 
 // Global Styles
 import GlobalStyle from '../../style/global.js'
-import { NotMediaSmall } from '../../style/media'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -149,6 +149,8 @@ export const Page = ({
   }, [])
   const getUrl = getImageUrl(ssrDone)
 
+  const isMobile = checkMobileBrowser()
+
   const [modalData, setModalData] = useState({
     show: false,
     content: '',
@@ -198,7 +200,7 @@ export const Page = ({
                 isPreviewMobile={isPreviewMobile}
                 isPreviewMobileReady={isPreviewMobileReady}
                 isSidePreview={isSidePreview}
-                zIndex={2}
+                zIndex={10}
               />
             )}
 
@@ -231,7 +233,11 @@ export const Page = ({
                   show={modalData.show}
                   square={links.square}
                 />
-                <LinksBox position={links.position} zIndex={4} isPreviewMobile={isPreviewMobile}>
+                <LinksBox
+                  position={isMobile ? 'bottom-center' : links.position}
+                  zIndex={4}
+                  isPreviewMobile={isPreviewMobile}
+                >
                   {Links({
                     links,
                     content,
@@ -249,7 +255,11 @@ export const Page = ({
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
         </PageContainer>
 
-        {page.isBlocked && <BlockedCoverContainer><BlockedOverlay>Page temporarily unavailable</BlockedOverlay></BlockedCoverContainer>}
+        {page.isBlocked && (
+          <BlockedCoverContainer>
+            <BlockedOverlay>Page temporarily unavailable</BlockedOverlay>
+          </BlockedCoverContainer>
+        )}
       </Fragment>
     )
   }
