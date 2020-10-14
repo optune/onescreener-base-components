@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment, useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
+import { useMediaQuery } from 'react-responsive'
 
 import { customHtml } from '../molecules/customHtml/index.jsx'
 
@@ -20,10 +21,10 @@ import { Links } from '../icons/platform/index.jsx'
 
 // Utils
 import { getImageUrl } from '../../utils/getImageUrl.js'
-import { checkMobileBrowser } from '../../utils/checkIsMobile.js'
 
 // Global Styles
 import GlobalStyle from '../../style/global.js'
+import { MediaSmall } from '../../style/media.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -149,7 +150,8 @@ export const Page = ({
   }, [])
   const getUrl = getImageUrl(ssrDone)
 
-  const isMobile = checkMobileBrowser()
+  // Media Query
+  const isMobile = useMediaQuery({ query: MediaSmall })
 
   const [modalData, setModalData] = useState({
     show: false,
