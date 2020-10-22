@@ -143,6 +143,7 @@ export const Page = ({
   Modal,
   noBacklink,
   page,
+  pageUrl,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
@@ -151,7 +152,7 @@ export const Page = ({
   const getUrl = getImageUrl(ssrDone)
 
   // Media Query
-  const isMobile = useMediaQuery({ query: MediaSmall })
+  // const isMobile = useMediaQuery({ query: MediaSmall })
 
   const [modalData, setModalData] = useState({
     show: false,
@@ -241,12 +242,13 @@ export const Page = ({
                   isPreviewMobile={isPreviewMobile}
                 >
                   {Links({
-                    links,
                     content,
                     isPreviewMobile,
                     isSidePreview,
+                    links,
                     Modal,
                     modalData,
+                    pageUrl,
                     setModalData,
                   })}
                 </LinksBox>
