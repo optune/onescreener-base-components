@@ -31,6 +31,7 @@ import { MediumIcon } from './Medium.jsx'
 import { MessengerIcon } from './Messenger.jsx'
 import { MixcloudIcon } from './Mixcloud.jsx'
 import { NewsletterIcon } from './Newsletter.jsx'
+import { NewsletterFormIcon } from './NewsletterForm.jsx'
 import { OptuneIcon } from './Optune.jsx'
 import { PressKitIcon } from './PressKit.jsx'
 import { PandoraIcon } from './Pandora.jsx'
@@ -71,6 +72,7 @@ export const PlatformLinkIcon = {
   OPTUNEARTISTPROFILE: ArtistProfileIcon,
   OPTUNEBOOKINGS: GigsIcon,
   OPTUNEREQUESTFORM: RequestFormIcon,
+  OPTUNENEWSLETTER: NewsletterFormIcon,
   // Platform Links
   ARTO: ArtoIcon,
   AMAZON: AmazonIcon,
@@ -221,9 +223,11 @@ const Link = styled.div`
 
   @media ${MediaMobile} {
     pointer-events:none;
-    width: ${({ size }) => ShapeSize.Mobile[size]};
-    height: ${({ size }) => ShapeSize.Mobile[size]};
-    margin: ${({ size, margin }) => margin || (size === 'L' && '2px') || '5px'};
+    width: ${({ size, isSidePreview }) =>
+      isSidePreview ? ShapeSizeSidePreview.Mobile[size] : ShapeSize.Mobile[size]};
+    height: ${({ size, isSidePreview }) =>
+      isSidePreview ? ShapeSizeSidePreview.Mobile[size] : ShapeSize.Mobile[size]};
+    margin: ${({ size, margin }) => margin || (size === 'L' && '1px') || '5px'};
   }
 
   @media ${NotMediaSmall} {
@@ -309,18 +313,19 @@ export const PlatformLink = ({
   colorAccent,
   colorBackground,
   colorBackgroundAccent,
+  isPreviewMobile,
+  isSidePreview,
   label,
   margin,
   modalData,
-  setModalData,
+  name,
   noShadow,
   platform,
-  isPreviewMobile,
-  isSidePreview,
+  setModalData,
   size,
   square,
+  target,
   text,
-  name,
   url,
 }) => {
   const Icon = LinkIconMapper({ platform, size })
@@ -328,7 +333,7 @@ export const PlatformLink = ({
 
   if (url > '') {
     return (
-      <LinkWrapper href={url} title={labelText} target="_blank" rel="noopener noreferrer">
+      <LinkWrapper href={url} title={labelText} target={target || '_blank'} rel="noopener noreferrer">
         <Link
           border={border}
           circle={circle}
@@ -445,13 +450,43 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map((platform) => {
   }
 })
 
+/* 
+ * Map smart links
+ */
+
+const SmartLinks = {
+  OPTUNEARTISTPROFILE: '/profile',
+  OPTUNEBOOKINGS: '/events',
+  OPTUNEREQUESTFORM: '/request',
+  OPTUNENEWSLETTER: '/newsletter',
+}
+
+const mapSmartLinks = pageUrl => link => {
+  let mappedLink = link
+
+  if (pageUrl > '' && Object.keys(SmartLinks).includes(link.platform)) {
+    const queryParams = link.url?.split('?') || []
+    const querySeparator = pageUrl.includes('?') ? '&' : '?'
+    const query = queryParams.length > 1 ? `${querySeparator}${queryParams[1]}` : ''
+    mappedLink.url = `${pageUrl || ''}${SmartLinks[link.platform]}${query}`
+    mappedLink.target = '_self'
+  }
+  
+  return mappedLink
+}
+
+/* 
+ * Render Link list
+ */
+
 export const Links = ({
-  links,
-  linksColorState,
   content,
   isPreviewMobile,
   isSidePreview,
+  links,
+  linksColorState,
   modalData,
+  pageUrl,
   setModalData,
 }) => {
   const color = linksColorState?.colorLinks || links.colorLinks || content.color
@@ -468,6 +503,7 @@ export const Links = ({
     <Fragment>
       {links.list
         .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
+        .map(mapSmartLinks(pageUrl))
         .map((link) => (
           <PlatformLink
             key={link.platform}

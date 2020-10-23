@@ -20,10 +20,10 @@ import { Links } from '../icons/platform/index.jsx'
 
 // Utils
 import { getImageUrl } from '../../utils/getImageUrl.js'
-import { checkMobileBrowser } from '../../utils/checkIsMobile.js'
 
 // Global Styles
 import GlobalStyle from '../../style/global.js'
+import { MediaSmall } from '../../style/media.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -142,14 +142,13 @@ export const Page = ({
   Modal,
   noBacklink,
   page,
+  pageUrl,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
     setSsrDone(true)
   }, [])
   const getUrl = getImageUrl(ssrDone)
-
-  const isMobile = checkMobileBrowser()
 
   const [modalData, setModalData] = useState({
     show: false,
@@ -234,17 +233,18 @@ export const Page = ({
                   square={links.square}
                 />
                 <LinksBox
-                  position={isMobile ? 'bottom-center' : links.position}
+                  position={links.position}
                   zIndex={4}
                   isPreviewMobile={isPreviewMobile}
                 >
                   {Links({
-                    links,
                     content,
                     isPreviewMobile,
                     isSidePreview,
+                    links,
                     Modal,
                     modalData,
+                    pageUrl,
                     setModalData,
                   })}
                 </LinksBox>

@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components'
 import { Logo } from '../atoms/Logo.jsx'
 import { LogoText } from '../atoms/LogoText.jsx'
 
-import { MediaSmall } from '../../style/media'
+import { MediaMobile } from '../../style/media'
 
 const stylesLogoDesktop = `
 &.desktop- {
@@ -163,14 +163,14 @@ const LogoContainer = styled.div`
 
   ${stylesLogoDesktop}
 
-  ${({ isDifferentPositions }) =>
+  ${({ isDifferentPositions, isPreviewMobile, isSidePreview }) =>
     isDifferentPositions &&
     css`
-      ${({ isPreviewMobile }) =>
-        isPreviewMobile &&
-        css`
-          ${stylesLogoMobile}
-        `}
+      ${isPreviewMobile && stylesLogoMobile}
+
+      @media ${MediaMobile} {
+        ${!isSidePreview && stylesLogoMobile}
+      }
     `}
 
 
@@ -271,6 +271,7 @@ export const LogoBox = ({
       className={`desktop-${position.classnameDesktop} mobile-${position.classnameMobile}`}
       zIndex={zIndex}
       isPreviewMobile={isPreviewMobile}
+      isSidePreview={isSidePreview}
       isDifferentPositions={logo?.isDifferentPositions || false}
       padding={padding}
     >
