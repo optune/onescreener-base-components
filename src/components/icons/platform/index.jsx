@@ -231,7 +231,7 @@ const Link = styled.div`
   }
 
   @media ${NotMediaSmall} {
-  &:hover(:focus) {
+  &:hover {
     ${({ notInteractive }) =>
       !notInteractive &&
       css`
@@ -329,11 +329,21 @@ export const PlatformLink = ({
   url,
 }) => {
   const Icon = LinkIconMapper({ platform, size })
-  const labelText = (name || label || platform).replace(/\b\w/g, (l) => l.toUpperCase())
+
+  const labelText = (
+    name ||
+    label ||
+    platform
+  ).replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, (l) => l.toUpperCase())
 
   if (url > '') {
     return (
-      <LinkWrapper href={url} title={labelText} target={target || '_blank'} rel="noopener noreferrer">
+      <LinkWrapper
+        href={url}
+        title={labelText}
+        target={target || '_blank'}
+        rel="noopener noreferrer"
+      >
         <Link
           border={border}
           circle={circle}
@@ -450,7 +460,7 @@ export const PlatformLinks = Object.keys(PlatformLinkIcon).map((platform) => {
   }
 })
 
-/* 
+/*
  * Map smart links
  */
 
@@ -461,21 +471,21 @@ const SmartLinks = {
   OPTUNENEWSLETTER: '/newsletter',
 }
 
-const mapSmartLinks = pageUrl => link => {
+const mapSmartLinks = (pageUrl) => (link) => {
   let mappedLink = link
 
   if (pageUrl > '' && Object.keys(SmartLinks).includes(link.platform)) {
     const queryParams = link.url?.split('?') || []
     const querySeparator = pageUrl.includes('?') ? '&' : '?'
     const query = queryParams.length > 1 ? `${querySeparator}${queryParams[1]}` : ''
-    mappedLink.url = `${pageUrl || ''}${SmartLinks[link.platform]}${query}`
+    mappedLink.url = `${pageUrl || ''}${SmartLinks[link.platform]}${query}`
     mappedLink.target = '_self'
   }
-  
+
   return mappedLink
 }
 
-/* 
+/*
  * Render Link list
  */
 
