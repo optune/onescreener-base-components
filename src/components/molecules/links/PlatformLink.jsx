@@ -38,19 +38,11 @@ export const PlatformLink = ({
   url,
 }) => {
   const Icon = LinkIconMapper({ platform, size })
-  const labelText = (name || label || platform).replace(
-    /^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g,
-    l => l.toUpperCase()
-  )
+  const labelText = (name || label || platform).replace(/\b\w/g, (l) => l.toUpperCase())
 
   if (url > '') {
     return (
-      <LinkWrapper
-        href={url}
-        title={labelText}
-        target={target || '_blank'}
-        rel="noopener noreferrer"
-      >
+      <LinkWrapper href={url} title={labelText} target={target || '_blank'} rel="noopener noreferrer">
         <Link
           border={border}
           circle={circle}
