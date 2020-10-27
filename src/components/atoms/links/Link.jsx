@@ -123,9 +123,11 @@ export const Link = styled.div`
 
   @media ${MediaMobile} {
     pointer-events: none;
-    width: ${({ size }) => ShapeSize.Mobile[size]};
-    height: ${({ size }) => ShapeSize.Mobile[size]};
-    margin: ${({ size, margin }) => margin || (size === 'L' && '2px') || '5px'};
+    width: ${({ size, isSidePreview }) =>
+      isSidePreview ? ShapeSizeSidePreview.Mobile[size] : ShapeSize.Mobile[size]};
+    height: ${({ size, isSidePreview }) =>
+      isSidePreview ? ShapeSizeSidePreview.Mobile[size] : ShapeSize.Mobile[size]};
+    margin: ${({ size, margin }) => margin || (size === 'L' && '1px') || '5px'};
 
     & .icon {
       width: ${({ size }) => IconSize.Mobile[size]};

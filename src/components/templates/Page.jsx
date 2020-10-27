@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment, useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
-import { useMediaQuery } from 'react-responsive'
 
 import { customHtml } from '../molecules/customHtml/index.jsx'
 
@@ -149,9 +148,6 @@ export const Page = ({
   }, [])
   const getUrl = getImageUrl(ssrDone)
 
-  // Media Query
-  // const isMobile = useMediaQuery({ query: MediaSmall })
-
   const [modalData, setModalData] = useState({
     show: false,
     content: '',
@@ -234,6 +230,7 @@ export const Page = ({
                   show={modalData.show}
                   square={links.square}
                 />
+
                 <LinksBox
                   position={links.position}
                   zIndex={4}

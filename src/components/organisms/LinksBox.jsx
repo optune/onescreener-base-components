@@ -27,9 +27,9 @@ const LinksList = styled.div`
   ${({ isPreviewMobile }) =>
     isPreviewMobile
       ? css`
-          bottom: 0 !important;
-          justify-content: space-evenly !important;
-          white-space: nowrap !important;
+          bottom: 0;
+          justify-content: center;
+          white-space: nowrap;
         `
       : css`
           &.bottom-center {
