@@ -34,8 +34,6 @@ export const Links = ({
     linksColorState?.colorLinksBackgroundAccent ||
     links.colorLinksBackgroundAccent ||
     content.colorBackgroundAccent
-
-  console.log('PAGE URL', pageUrl)
   
   const mappedLinks = links.list
     .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
