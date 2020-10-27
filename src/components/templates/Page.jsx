@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components'
 import { customHtml } from '../molecules/customHtml/index.jsx'
 
 // Molecules
+import { Links } from '../molecules/links/Links.jsx'
 import { TextOverlay } from '../molecules/TextOverlay'
 
 // Background
@@ -14,9 +15,6 @@ import { Background } from '../atoms/Background.jsx'
 import { LogoBox } from '../organisms/LogoBox.jsx'
 import { ContentBox } from '../organisms/ContentBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
-
-// Icons
-import { Links } from '../icons/platform/index.jsx'
 
 // Utils
 import { getImageUrl } from '../../utils/getImageUrl.js'
@@ -232,6 +230,7 @@ export const Page = ({
                   show={modalData.show}
                   square={links.square}
                 />
+
                 <LinksBox position={links.position} zIndex={4} isPreviewMobile={isPreviewMobile}>
                   {Links({
                     content,

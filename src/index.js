@@ -12,7 +12,9 @@ export { Page } from './components/templates/Page.jsx'
 // export { PageSidePreview } from './components/templates/PageSidePreview'
 
 // Platform Icons
-export { PlatformLink, PlatformLinks, Links } from './components/icons/platform/index.jsx'
+export { PlatformLink } from './components/molecules/links/PlatformLink'
+export { PlatformLinks } from './components/molecules/links/PlatformLinks'
+export { Links } from './components/molecules/links/Links'
 
 export { MediaSmall, MediaMobile, NotMediaSmall } from './style/media.js'
 
