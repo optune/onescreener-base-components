@@ -1,17 +1,17 @@
 // React
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 
 // Molecules
 import { PlatformLink } from './PlatformLink'
 
 // Icons
-import { PlatformLinkIcon } from '../../icons/platform/index'
+import { PlatformLinkIcon } from '../../icons/platform/index'
 
 // Utils
 import { mapSmartLinks } from './utils/mapSmartLinks'
 
-/* 
+/*
  * Render Link list
  */
 
@@ -35,31 +35,37 @@ export const Links = ({
     links.colorLinksBackgroundAccent ||
     content.colorBackgroundAccent
 
+  console.log('PAGE URL', pageUrl)
+  
+  const mappedLinks = links.list
+    .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
+    .map(mapSmartLinks(pageUrl))
+
   return (
     <Fragment>
-      {links.list
-        .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
-        .map(mapSmartLinks(pageUrl))
-        .map((link) => (
-          <PlatformLink
-            key={link.platform}
-            border={links.border}
-            circle={links.circle}
-            square={links.square}
-            size={links.size}
-            color={color}
-            colorAccent={colorAccent}
-            colorBackground={colorBackground}
-            colorBackgroundAccent={colorBackgroundAccent}
-            isPreviewMobile={isPreviewMobile}
-            isSidePreview={isSidePreview}
-            text={link.text}
-            name={link.name}
-            modalData={modalData}
-            setModalData={setModalData}
-            {...link}
-          />
-        ))}
+      {mappedLinks.map(link => (
+        <PlatformLink
+          border={links.border}
+          circle={links.circle}
+          color={color}
+          colorAccent={colorAccent}
+          colorBackground={colorBackground}
+          colorBackgroundAccent={colorBackgroundAccent}
+          isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
+          key={link.platform}
+          label={link.label}
+          modalData={modalData}
+          name={link.name}
+          platform={link.platform}
+          setModalData={setModalData}
+          size={links.size}
+          square={links.square}
+          target={link.target}
+          text={link.text}
+          url={link.url}
+        />
+      ))}
     </Fragment>
   )
 }

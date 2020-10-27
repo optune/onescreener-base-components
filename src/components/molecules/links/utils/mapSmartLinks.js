@@ -10,7 +10,7 @@ const SmartLinks = {
 }
 
 export const mapSmartLinks = pageUrl => link => {
-  let mappedLink = link
+  let mappedLink = { ...link }
 
   if (pageUrl > '' && Object.keys(SmartLinks).includes(link.platform)) {
     const queryParams = link.url?.split('?') || []
