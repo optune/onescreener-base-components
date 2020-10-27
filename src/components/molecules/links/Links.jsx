@@ -34,14 +34,14 @@ export const Links = ({
     linksColorState?.colorLinksBackgroundAccent ||
     links.colorLinksBackgroundAccent ||
     content.colorBackgroundAccent
-  
+
   const mappedLinks = links.list
     .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
     .map(mapSmartLinks(pageUrl))
 
   return (
     <Fragment>
-      {mappedLinks.map(link => (
+      {mappedLinks.map((link) => (
         <PlatformLink
           border={links.border}
           circle={links.circle}
