@@ -8,7 +8,7 @@ const BackgroundContainer = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-image: ${({ image }) => `url(${image})`};
+  background-image: ${({ image }) => image > '' ? `url(${image})` : 'none'};
   background-repeat: no-repeat;
   background-position: ${({ focusPoint }) => focusPoint};
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
