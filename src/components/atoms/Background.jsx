@@ -8,7 +8,7 @@ const BackgroundContainer = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-image: ${({ image }) => `url(${image})`};
+  background-image: ${({ image }) => (image > '' ? `url(${image})` : 'none')};
   background-repeat: no-repeat;
   background-position: ${({ focusPoint }) => focusPoint};
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
@@ -24,13 +24,14 @@ const areEqual = (prevProps, nextProps) => {
   )
 }
 
-export const Background = React.memo(
-  ({ background, getImageUrl }) => (
+export const Background = React.memo(({ background, getImageUrl }) => {
+  const imageUrl = getImageUrl(background)
+  
+  return !!imageUrl ? (
     <BackgroundContainer
-      image={getImageUrl(background)}
+      image={imageUrl}
       focusPoint={background.focusPoint}
       fullscreen={background.fullscreen}
     />
-  ),
-  areEqual
-)
+  ) : null
+}, areEqual)
