@@ -1,4 +1,4 @@
-/* 
+/*
  * Map smart links
  */
 
@@ -9,10 +9,10 @@ const SmartLinks = {
   OPTUNENEWSLETTER: '/newsletter',
 }
 
-export const mapSmartLinks = pageUrl => link => {
+export const mapSmartLinks = (pageUrl) => (link) => {
   let mappedLink = { ...link }
 
-  // TODO: Activate once the public pages are tested on the live system 
+  // TODO: Activate once the public pages are tested on the live system
   /* if (pageUrl > '' && Object.keys(SmartLinks).includes(link.platform)) {
     const queryParams = link.url?.split('?') || []
     const querySeparator = pageUrl.includes('?') ? '&' : '?'
@@ -20,6 +20,6 @@ export const mapSmartLinks = pageUrl => link => {
     mappedLink.url = `${pageUrl || ''}${SmartLinks[link.platform]}${query}`
     mappedLink.target = '_self'
   } */
-  
+
   return mappedLink
 }
