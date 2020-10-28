@@ -136,7 +136,7 @@ export const Link = styled.div`
   }
 
   @media ${NotMediaSmall} {
-    &:hover:focus {
+    &:hover {
       ${({ notInteractive }) =>
         !notInteractive &&
         css`
