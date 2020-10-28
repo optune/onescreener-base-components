@@ -1,4 +1,4 @@
-/* 
+/*
  * Map smart links
  */
 
@@ -9,7 +9,7 @@ const SmartLinks = {
   OPTUNENEWSLETTER: '/newsletter',
 }
 
-export const mapSmartLinks = pageUrl => link => {
+export const mapSmartLinks = (pageUrl) => (link) => {
   let mappedLink = { ...link }
 
   // TODO: Activate once the public pages are tested on the live system 
