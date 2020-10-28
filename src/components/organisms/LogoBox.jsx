@@ -227,7 +227,7 @@ const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
     //(PositionBottom.includes(linkPosition) &&
       (PositionBottom.includes(logoPositionMobile) &&
       'bottom') ||
-    (isPreviewMobile && 'bottom') ||
+    // (isPreviewMobile && 'bottom') ||
     'none'
 
   return {
