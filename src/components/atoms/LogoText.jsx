@@ -46,6 +46,7 @@ const LogoTextContainer = styled.div`
     color: ${({ color }) => color};
     display: inline-block;
     font-size: 1em;
+    font-family: ${({ fontFamily }) => `${fontFamily}`};
     text-align: center;
     line-height: 1;
     white-space: nowrap;
@@ -87,11 +88,11 @@ const getLogoPosition = ({ logo }) => {
 
 export const LogoText = ({ logo, isPreviewMobile }) => {
   const logoPosition = getLogoPosition({ logo })
-
   return logo.text?.title ? (
     <LogoTextContainer
       size={logo.size}
       color={logo.text.color}
+      fontFamily={logo.text.font}
       isPreviewMobile={isPreviewMobile}
       logoPosition={logoPosition}
     >
