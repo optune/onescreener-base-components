@@ -32,16 +32,21 @@ const LogoTextContainer = styled.div`
     isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
   margin: 1rem;
 
-  @media ${MediaSmall} {
-    width: ${({ size }) => LogoSize.Mobile[size]};
-    height: ${({ size }) => LogoSize.Mobile[size]};
-  }
-
   & #auto-text-fit-container {
     display: flex;
     align-items: ${({ logoPosition, isPreviewMobile }) =>
       isPreviewMobile ? logoPosition.mobile : logoPosition.desktop};
   }
+
+  @media ${MediaSmall} {
+    width: ${({ size }) => LogoSize.Mobile[size]};
+    height: ${({ size }) => LogoSize.Mobile[size]};
+
+    & #auto-text-fit-container {
+      align-items: ${({ logoPosition }) => logoPosition.mobile};
+    }
+  }
+
   & p {
     color: ${({ color }) => color};
     display: inline-block;
