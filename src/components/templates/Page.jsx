@@ -32,11 +32,14 @@ const PageContainer = styled.div`
   right: 0;
   z-index: 1;
 
-  background-color: ${({ color = '#000000' }) => color};
-  background-image: ${({ preloadImage }) => `url(${preloadImage})`};
-  background-repeat: no-repeat;
-  background-position: ${({ focusPoint }) => focusPoint};
-  background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
+  ${({ preloadImage, color = '#000000', focusPoint, fullscreen }) => preloadImage && css`
+    background-color: ${color};
+    background-image: url(${preloadImage});
+    background-repeat: no-repeat;
+    background-position: ${focusPoint};
+    background-size: ${fullscreen ? 'cover' : 'contain'};
+  `}
+  
   display: flex;
   overflow: hidden;
 
