@@ -179,7 +179,7 @@ const LogoContainer = styled.div`
       ${isPreviewMobile ? padding.mobile : padding.desktop};
 
       @media ${MediaMobile} {
-        ${!isSidePreview && padding.mobile }
+        ${!isSidePreview && padding.mobile}
       }
     `}
 `
@@ -225,8 +225,7 @@ const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
     // (linkPosition === 'CENTER_LEFT' && PositionLeft.includes(logoPositionMobile) && 'left') ||
     // (linkPosition === 'CENTER_RIGHT' && PositionRight.includes(logoPositionMobile) && 'right') ||
     //(PositionBottom.includes(linkPosition) &&
-      (PositionBottom.includes(logoPositionMobile) &&
-      'bottom') ||
+    (linkPosition > '' && PositionBottom.includes(logoPositionMobile) && 'bottom') ||
     // (isPreviewMobile && 'bottom') ||
     'none'
 
