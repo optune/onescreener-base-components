@@ -44,7 +44,7 @@ const TextContent = styled.div`
         `}
 
   @media ${MediaMobile} {
-    padding: 1em 1em;
+    padding: ${({ padding }) => padding || '1em'};
   }
 `
 

@@ -48,6 +48,9 @@ const InfoContainer = styled.div`
     font-weight: bold;
   }
 
+  & a {
+    text-decoration: none;
+  }
 `
 
 const GigHead = styled.h2`
