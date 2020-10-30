@@ -4,6 +4,9 @@ import styled, { css } from 'styled-components'
 
 import { customHtml } from '../molecules/customHtml/index.jsx'
 
+// Atoms
+import { BackLink } from '../atoms/BackLink'
+
 // Molecules
 import { Links } from '../molecules/links/Links.jsx'
 import { TextOverlay } from '../molecules/TextOverlay'
@@ -32,14 +35,16 @@ const PageContainer = styled.div`
   right: 0;
   z-index: 1;
 
-  ${({ preloadImage, color = '#000000', focusPoint, fullscreen }) => preloadImage && css`
-    background-color: ${color};
-    background-image: url(${preloadImage});
-    background-repeat: no-repeat;
-    background-position: ${focusPoint};
-    background-size: ${fullscreen ? 'cover' : 'contain'};
-  `}
-  
+  ${({ preloadImage, color = '#000000', focusPoint, fullscreen }) =>
+    preloadImage &&
+    css`
+      background-color: ${color};
+      background-image: url(${preloadImage});
+      background-repeat: no-repeat;
+      background-position: ${focusPoint};
+      background-size: ${fullscreen ? 'cover' : 'contain'};
+    `}
+
   display: flex;
   overflow: hidden;
 
@@ -62,38 +67,6 @@ const ForegroundContainer = styled.div`
   right: 0;
   display: flex;
   z-index: 2;
-`
-
-const BacklinkUrl =
-  'https://res.cloudinary.com/optune-me/image/upload/v1598948675/onescreener-v2/app/back_link.png'
-
-const BackLink = styled.a`
-  position: ${({ isSidePreview, isPreviewMobile }) =>
-    isPreviewMobile || isSidePreview ? 'absolute' : 'fixed'};
-  background-image: url(${BacklinkUrl});
-  background-size: contain;
-  background-color: #606060;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 90px;
-  height: 26px;
-  opacity: 0.4;
-  transform: rotate(-90deg);
-  transform-origin: 100% 100%;
-  right: 0;
-  color: #ffffff;
-  transition: opacity 0.3s ease-out;
-  z-index: 9999;
-
-  &:hover {
-    opacity: 0.6;
-  }
-
-  & h1 {
-    color: #808080;
-    font-size: 5px;
-    opacity: 0.1;
-  }
 `
 
 const LogoContainer = styled.div`
@@ -180,16 +153,7 @@ export const Page = ({
 
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
-            {!noBacklink && !isSidePreview && (
-              <BackLink
-                href="https://www.onescreener.com"
-                target="_blank"
-                title="created with onescreener.com"
-                isPreviewMobile={isPreviewMobile}
-              >
-                <h1>created by onescreener.com</h1>
-              </BackLink>
-            )}
+            {!noBacklink && !isSidePreview && <BackLink isPreviewMobile={isPreviewMobile} />}
 
             {/* Logo */}
             {logo && (
