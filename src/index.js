@@ -6,6 +6,7 @@ export { Logo } from './components/atoms/Logo.jsx'
 export { SpotifyPlayer } from './components/atoms/SpotifyPlayer.jsx'
 export { ApplePlayer } from './components/atoms/ApplePlayer.jsx'
 export { DeezerPlayer } from './components/atoms/DeezerPlayer.jsx'
+export { BackLink } from './components/atoms/BackLink.jsx'
 
 // Templates
 export { Page } from './components/templates/Page.jsx'
