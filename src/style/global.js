@@ -4,11 +4,6 @@ import { MediaSmall, MediaMobile } from './media.js'
 import { ColorWhite, ColorLightGreySecond } from './color.js'
 
 export default createGlobalStyle`
-  @font-face {
-    font-family: 'CeraPRO-Regular', Helvetica, sans-serif;
-    src: url(/fonts/brandon-text-regular.woff2);
-  }
-
   html {
     font-size: 14px;
 
@@ -30,7 +25,7 @@ export default createGlobalStyle`
     justify-content: center;
     /* define grid layout desktop main mode */
     width: 100%;
-    font-family: 'CeraPRO-Regular', Helvetica, sans-serif;
+    font-family: 'CeraPRO', Helvetica, sans-serif;
     line-height: normal;
   }
 
