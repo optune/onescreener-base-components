@@ -20,6 +20,5 @@ export const getFavionUrl = ({ image }) => {
 
     imageUrl = `${CLOUDINARY_URL}/${imageTransformation}${imagePath.join('/')}`
   }
-
   return imageUrl
 }
