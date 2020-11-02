@@ -184,7 +184,7 @@ export const GigsBox = ({
 
   useEffect(() => {
     if (gigs.loading) {
-      getGigs({ gigsAPI, gigsAPIDomain }).then((data) => {
+      getGigs({ gigsAPI, gigsAPIDomain }).then(data => {
         setGigs({ loading: false, data })
       })
     }
@@ -194,6 +194,10 @@ export const GigsBox = ({
 
   // Media Query
   const isSmall = useMediaQuery({ query: MediaSmall })
+
+  const eventsPageUrl = pageUrl
+    ? `${pageUrl}/events?header=1&theme=black&ticketlinks=true`
+    : `https://api.optune.me/v4/events/${gigsAPI.slug}?header=1&theme=black&ticketlinks=true`
 
   return (
     <Fragment>
@@ -263,7 +267,7 @@ export const GigsBox = ({
             <ShowMoreContainer alignHorizontal={alignHorizontal}>
               <p>
                 <a
-                  href={`${pageUrl}/events?header=1&theme=black&ticketlinks=true`}
+                  href={eventsPageUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
