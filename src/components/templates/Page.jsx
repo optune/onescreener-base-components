@@ -28,17 +28,16 @@ import { MediaSmall } from '../../style/media.js'
 
 const PageContainer = styled.div`
   position: absolute;
-
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   z-index: 1;
+  background-color: ${({ color = '#000000' }) => color};
 
-  ${({ preloadImage, color = '#000000', focusPoint, fullscreen }) =>
+  ${({ preloadImage, focusPoint, fullscreen }) =>
     preloadImage &&
     css`
-      background-color: ${color};
       background-image: url(${preloadImage});
       background-repeat: no-repeat;
       background-position: ${focusPoint};
