@@ -160,6 +160,7 @@ export const GigsBox = ({
   gigsList,
   gigsLoading,
   isPreviewMobile,
+  pageUrl,
   square,
 }) => {
   // SSR State
@@ -262,7 +263,7 @@ export const GigsBox = ({
             <ShowMoreContainer alignHorizontal={alignHorizontal}>
               <p>
                 <a
-                  href={`https://api.optune.me/v4/events/${gigsAPI.slug}?header=1&theme=black&ticketlinks=true`}
+                  href={`${pageUrl}/events?header=1&theme=black&ticketlinks=true`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
