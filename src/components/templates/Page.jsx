@@ -35,10 +35,11 @@ const PageContainer = styled.div`
   right: 0;
   z-index: 1;
 
+  background-color: ${color};
+
   ${({ preloadImage, color = '#000000', focusPoint, fullscreen }) =>
     preloadImage &&
     css`
-      background-color: ${color};
       background-image: url(${preloadImage});
       background-repeat: no-repeat;
       background-position: ${focusPoint};
