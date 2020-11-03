@@ -196,13 +196,13 @@ export const GigsBox = ({
   const isSmall = useMediaQuery({ query: MediaSmall })
 
   // TODO: Activate to show new public widgets
-  // const eventsPageUrl = pageUrl
-  //   ? `${pageUrl}/events?theme=black&ticketlinks=true`
-  //   : `https://api.optune.me/v4/events/${gigsAPI.slug}?header=1&theme=black&ticketlinks=true`
-  // const eventsPageTarget = pageUrl ? '_self' : '_blank'
+  const eventsPageUrl = pageUrl
+    ? `${pageUrl}/events?theme=black&ticketlinks=true`
+    : `https://api.optune.me/v4/events/${gigsAPI.slug}?header=1&theme=black&ticketlinks=true`
+  const eventsPageTarget = pageUrl ? '_self' : '_blank'
 
-  const eventsPageUrl = `https://api.optune.me/v4/events/${gigsAPI.slug}?header=1&theme=black&ticketlinks=true`
-  const eventsPageTarget = '_blank'
+  // const eventsPageUrl = `https://api.optune.me/v4/events/${gigsAPI.slug}?header=1&theme=black&ticketlinks=true`
+  // const eventsPageTarget = '_blank'
 
 
   return (
