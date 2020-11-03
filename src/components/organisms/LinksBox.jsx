@@ -66,7 +66,7 @@ const LinksList = styled.div`
             justify-content: center;
           }
 
-          @media ${MediaSmall} {
+          /* @media ${MediaSmall} {
             &.bottom-left {
               justify-content: center;
             }
@@ -91,7 +91,7 @@ const LinksList = styled.div`
               justify-content: center;
               white-space: nowrap;
             }
-          }
+          } */
         `}
 `
 
