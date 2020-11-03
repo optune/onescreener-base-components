@@ -174,6 +174,7 @@ export const Page = ({
               isPreviewMobile={isPreviewMobile}
               isPreviewMobileReady={isPreviewMobileReady}
               isSidePreview={isSidePreview}
+              pageUrl={pageUrl}
             />
 
             {/* Links */}

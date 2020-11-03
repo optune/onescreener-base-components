@@ -160,6 +160,7 @@ export const GigsBox = ({
   gigsList,
   gigsLoading,
   isPreviewMobile,
+  pageUrl,
   square,
 }) => {
   // SSR State
@@ -183,7 +184,7 @@ export const GigsBox = ({
 
   useEffect(() => {
     if (gigs.loading) {
-      getGigs({ gigsAPI, gigsAPIDomain }).then((data) => {
+      getGigs({ gigsAPI, gigsAPIDomain }).then(data => {
         setGigs({ loading: false, data })
       })
     }
@@ -193,6 +194,16 @@ export const GigsBox = ({
 
   // Media Query
   const isSmall = useMediaQuery({ query: MediaSmall })
+
+  // TODO: Activate to show new public widgets
+  // const eventsPageUrl = pageUrl
+  //   ? `${pageUrl}/events?theme=black&ticketlinks=true`
+  //   : `https://api.optune.me/v4/events/${gigsAPI.slug}?header=1&theme=black&ticketlinks=true`
+  // const eventsPageTarget = pageUrl ? '_self' : '_blank'
+
+  const eventsPageUrl = `https://api.optune.me/v4/events/${gigsAPI.slug}?header=1&theme=black&ticketlinks=true`
+  const eventsPageTarget = '_blank'
+
 
   return (
     <Fragment>
@@ -262,8 +273,8 @@ export const GigsBox = ({
             <ShowMoreContainer alignHorizontal={alignHorizontal}>
               <p>
                 <a
-                  href={`https://api.optune.me/v4/events/${gigsAPI.slug}?header=1&theme=black&ticketlinks=true`}
-                  target="_blank"
+                  href={eventsPageUrl}
+                  target={eventsPageTarget}
                   rel="noopener noreferrer"
                 >
                   Show More
