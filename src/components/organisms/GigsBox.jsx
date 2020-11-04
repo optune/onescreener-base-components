@@ -195,15 +195,12 @@ export const GigsBox = ({
   // Media Query
   const isSmall = useMediaQuery({ query: MediaSmall })
 
-  // TODO: Activate to show new public widgets
+  // Public event page link
+  const querySeparator = pageUrl > '' && pageUrl.includes('page=') ? '&' : '?'
   const eventsPageUrl = pageUrl
-    ? `${pageUrl}/events?theme=black&ticketlinks=true`
+    ? `${pageUrl}/events${querySeparator}theme=black&ticketlinks=true`
     : `https://api.optune.me/v4/events/${gigsAPI.slug}?header=1&theme=black&ticketlinks=true`
   const eventsPageTarget = pageUrl ? '_self' : '_blank'
-
-  // const eventsPageUrl = `https://api.optune.me/v4/events/${gigsAPI.slug}?header=1&theme=black&ticketlinks=true`
-  // const eventsPageTarget = '_blank'
-
 
   return (
     <Fragment>
@@ -272,11 +269,7 @@ export const GigsBox = ({
           {gigsAPI.includeShowMore && (
             <ShowMoreContainer alignHorizontal={alignHorizontal}>
               <p>
-                <a
-                  href={eventsPageUrl}
-                  target={eventsPageTarget}
-                  rel="noopener noreferrer"
-                >
+                <a href={eventsPageUrl} target={eventsPageTarget} rel="noopener noreferrer">
                   Show More
                 </a>
               </p>
