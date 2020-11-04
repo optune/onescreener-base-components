@@ -289,8 +289,19 @@ export const LogoBox = ({
         />
       ) : (
         (logo.image?.url > '' && (
-          <Logo logo={logo} getImageUrl={getImageUrl} isPreviewMobile={isPreviewMobile} />
-        )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobileReady} />
+          <Logo
+            logo={logo}
+            getImageUrl={getImageUrl}
+            isPreviewMobile={isPreviewMobile}
+            isTeaserLinks={isTeaserLinks}
+          />
+        )) || (
+          <LogoText
+            logo={logo}
+            isPreviewMobile={isPreviewMobileReady}
+            isTeaserLinks={isTeaserLinks}
+          />
+        )
       )}
     </LogoContainer>
   )

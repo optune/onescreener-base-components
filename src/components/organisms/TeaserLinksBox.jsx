@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const LINKS_LIMIT = 7
 const STEP = LINKS_LIMIT - 1
@@ -17,12 +17,15 @@ const Container = styled.div`
 
   .teaser-link {
     width: 100%;
-    height: 32px;
-    font-size: 12px;
+    height: ${({ isSidePreview }) => (isSidePreview ? '32px' : '100%')};
+    max-height: ${({ isSidePreview }) => (isSidePreview ? 'unset' : '64px')};
+    font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '1rem')};
+    font-weight: 600;
     color: #0a1c3b;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex: ${({ isSidePreview }) => (isSidePreview ? 'none' : '1')};
 
     text-decoration: none;
     cursor: pointer;
@@ -46,7 +49,7 @@ const Container = styled.div`
   }
 `
 
-export const TeaserLinksBox = ({ teaserLinks }) => {
+export const TeaserLinksBox = ({ teaserLinks, isSidePreview }) => {
   const [pagination, setPagination] = useState({ start: 0, end: 8 })
   const { start, end } = pagination
 
@@ -66,7 +69,7 @@ export const TeaserLinksBox = ({ teaserLinks }) => {
   const paginationCorrection = previousPageExists && nextPageExists ? 1 : 0
 
   return (
-    <Container>
+    <Container isSidePreview={isSidePreview}>
       {previousPageExists && (
         <div className="teaser-link" onClick={paginationBack}>
           Show previous

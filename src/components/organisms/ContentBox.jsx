@@ -279,7 +279,7 @@ export const ContentBox = ({
       break
 
     case 'TEASER_LINKS':
-      Content = <TeaserLinksBox teaserLinks={teaserLinks.list} />
+      Content = <TeaserLinksBox teaserLinks={teaserLinks.list} isSidePreview={isSidePreview} />
       break
     case 'TEXT':
       Content = (
