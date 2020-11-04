@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 const LINKS_LIMIT = 7
 const STEP = LINKS_LIMIT - 1
@@ -47,7 +47,6 @@ const Container = styled.div`
 `
 
 export const TeaserLinksBox = ({ teaserLinks }) => {
-  // const list = teaserLinks.slice(0, 6)
   const [pagination, setPagination] = useState({ start: 0, end: 8 })
   const { start, end } = pagination
 
