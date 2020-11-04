@@ -24,12 +24,41 @@ const LogoSize = {
   },
 }
 
+const LogoSizeTeaserLinks = {
+  Desktop: {
+    XS: '8.333%',
+    S: '8.333%',
+    M: '11.111%',
+    L: '13.333%',
+    XL: '16.666%',
+  },
+  Mobile: {
+    XS: '10%',
+    S: '13%',
+    M: '20%',
+    L: '24%',
+    XL: '28%',
+  },
+}
+
 const LogoTextContainer = styled.div`
   position: relative;
-  width: ${({ size, isPreviewMobile }) =>
-    isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
-  height: ${({ size, isPreviewMobile }) =>
-    isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
+  width: ${({ size, isPreviewMobile, isTeaserLinks }) =>
+    isTeaserLinks
+      ? isPreviewMobile
+        ? LogoSizeTeaserLinks.Mobile[size]
+        : LogoSizeTeaserLinks.Desktop[size]
+      : isPreviewMobile
+      ? LogoSize.Mobile[size]
+      : LogoSize.Desktop[size]};
+  height: ${({ size, isPreviewMobile, isTeaserLinks }) =>
+    isTeaserLinks
+      ? isPreviewMobile
+        ? LogoSizeTeaserLinks.Mobile[size]
+        : LogoSizeTeaserLinks.Desktop[size]
+      : isPreviewMobile
+      ? LogoSize.Mobile[size]
+      : LogoSize.Desktop[size]};
   margin: 1rem;
 
   & #auto-text-fit-container {
@@ -39,8 +68,10 @@ const LogoTextContainer = styled.div`
   }
 
   @media ${MediaSmall} {
-    width: ${({ size }) => LogoSize.Mobile[size]};
-    height: ${({ size }) => LogoSize.Mobile[size]};
+    width: ${({ size, isTeaserLinks }) =>
+      isTeaserLinks ? LogoSizeTeaserLinks.Mobile[size] : LogoSize.Mobile[size]};
+    height: ${({ size, isTeaserLinks }) =>
+      isTeaserLinks ? LogoSizeTeaserLinks.Mobile[size] : LogoSize.Mobile[size]};
 
     & #auto-text-fit-container {
       align-items: ${({ logoPosition }) => logoPosition.mobile};
@@ -91,7 +122,7 @@ const getLogoPosition = ({ logo }) => {
   }
 }
 
-export const LogoText = ({ logo, isPreviewMobile }) => {
+export const LogoText = ({ logo, isPreviewMobile, isTeaserLinks }) => {
   const logoPosition = getLogoPosition({ logo })
   return logo.text?.title ? (
     <LogoTextContainer
@@ -99,7 +130,8 @@ export const LogoText = ({ logo, isPreviewMobile }) => {
       color={logo.text.color}
       fontFamily={logo.text.font}
       isPreviewMobile={isPreviewMobile}
-      logoPosition={logoPosition}
+      logoPosition={isTeaserLinks ? { desktop: 'center', mobile: 'center' } : logoPosition}
+      isTeaserLinks={isTeaserLinks}
     >
       <AutoTextFit
         adjustWidth

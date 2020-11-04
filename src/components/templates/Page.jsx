@@ -197,6 +197,7 @@ export const Page = ({
                 isPreviewMobile={isPreviewMobile}
                 isPreviewMobileReady={isPreviewMobileReady}
                 isSidePreview={isSidePreview}
+                isTeaserLinks={content.type === 'TEASER_LINKS'}
                 zIndex={10}
               />
             )}
