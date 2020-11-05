@@ -32,7 +32,7 @@ const LogoImage = styled.img`
   object-fit: contain;
   margin: 1rem;
   max-width: unset;
-  max-height: unset;
+  max-height: ${({ isTeaserLinks }) => (isTeaserLinks ? '12%' : 'unset')};
 
   @media screen and (orientation: portrait) {
     ${({ orientation, size }) =>
@@ -61,7 +61,7 @@ const LogoImage = styled.img`
   }
 `
 
-export const Logo = ({ logo, getImageUrl, isPreviewMobile }) => (
+export const Logo = ({ logo, getImageUrl, isPreviewMobile, isTeaserLinks }) => (
   <LogoImage
     isPreviewMobile={isPreviewMobile}
     orientation={logo.image.orientation}
@@ -70,5 +70,6 @@ export const Logo = ({ logo, getImageUrl, isPreviewMobile }) => (
       maxWidth: LogoSizeMax[logo.size],
     })}
     size={logo.size}
+    isTeaserLinks={isTeaserLinks}
   />
 )

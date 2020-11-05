@@ -6,6 +6,7 @@ import { TextBox } from './TextBox.jsx'
 import { GigsBox } from './GigsBox.jsx'
 import { MediaBox } from './MediaBox.jsx'
 import { CoverBox } from './CoverBox.jsx'
+import { TeaserLinksBox } from './TeaserLinksBox.jsx'
 
 import { MediaSmall, MediaMobile, NotMediaMobile } from '../../style/media.js'
 
@@ -227,13 +228,22 @@ export const ContentBox = ({
     positionMobile = '2/1',
     span = '2/4',
     spanMobile = '2/2',
+    teaserLinks,
     text,
     type,
     wordWrap,
   } = content
+
+  const isTeaserLinks = type === 'TEASER_LINKS'
   const colors = { color, colorAccent, colorBackground, colorBackgroundAccent }
-  const area = getArea({ position, span })
-  const areaMobile = getArea({ position: positionMobile, span: spanMobile })
+  const area = getArea({
+    position: isTeaserLinks ? '2/2' : position,
+    span: isTeaserLinks ? '5/4' : span,
+  })
+  const areaMobile = getArea({
+    position: isTeaserLinks ? '2/1' : positionMobile,
+    span: isTeaserLinks ? '2/2' : spanMobile,
+  })
   const { border, circle, square } = links
 
   /*
@@ -270,6 +280,9 @@ export const ContentBox = ({
       fullscreen = media ? media.fullscreen : false
       break
 
+    case 'TEASER_LINKS':
+      Content = <TeaserLinksBox teaserLinks={teaserLinks.list} isSidePreview={isSidePreview} />
+      break
     case 'TEXT':
       Content = (
         <TextBox
