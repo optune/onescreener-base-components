@@ -4,11 +4,6 @@ import { MediaSmall, MediaMobile } from './media.js'
 import { ColorWhite, ColorLightGreySecond } from './color.js'
 
 export default createGlobalStyle`
-  @font-face {
-    font-family: 'CeraPRO', Helvetica, sans-serif;
-    src: url(/fonts/brandon-text-regular.woff2);
-  }
-
   html {
     font-size: 14px;
 

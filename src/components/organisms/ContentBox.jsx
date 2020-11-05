@@ -207,6 +207,7 @@ export const ContentBox = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  pageUrl,
 }) => {
   /*
    * Get content values
@@ -266,6 +267,7 @@ export const ContentBox = ({
           gigsList={gigsList}
           gigsLoading={gigsLoading}
           isPreviewMobile={isPreviewMobileReady}
+          pageUrl={pageUrl}
           square={square}
           {...colors}
         />
