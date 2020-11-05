@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 const LINKS_LIMIT = 7
 const STEP = LINKS_LIMIT - 1
