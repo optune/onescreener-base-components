@@ -264,6 +264,7 @@ export const LogoBox = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  isTeaserLinks,
   zIndex,
 }) => {
   const position = getLogoPosition({ logo })
@@ -271,7 +272,9 @@ export const LogoBox = ({
 
   return (
     <LogoContainer
-      className={`desktop-${position.classnameDesktop} mobile-${position.classnameMobile}`}
+      className={`desktop-${isTeaserLinks ? 'top-center' : position.classnameDesktop} mobile-${
+        isTeaserLinks ? 'top-center' : position.classnameMobile
+      }`}
       zIndex={zIndex}
       isPreviewMobile={isPreviewMobile}
       isSidePreview={isSidePreview}
@@ -279,11 +282,26 @@ export const LogoBox = ({
       padding={padding}
     >
       {logo.type === 'TEXT' ? (
-        <LogoText logo={logo} isPreviewMobile={isPreviewMobileReady} />
+        <LogoText
+          logo={logo}
+          isPreviewMobile={isPreviewMobileReady}
+          isTeaserLinks={isTeaserLinks}
+        />
       ) : (
         (logo.image?.url > '' && (
-          <Logo logo={logo} getImageUrl={getImageUrl} isPreviewMobile={isPreviewMobile} />
-        )) || <LogoText logo={logo} isPreviewMobile={isPreviewMobileReady} />
+          <Logo
+            logo={logo}
+            getImageUrl={getImageUrl}
+            isPreviewMobile={isPreviewMobile}
+            isTeaserLinks={isTeaserLinks}
+          />
+        )) || (
+          <LogoText
+            logo={logo}
+            isPreviewMobile={isPreviewMobileReady}
+            isTeaserLinks={isTeaserLinks}
+          />
+        )
       )}
     </LogoContainer>
   )
