@@ -24,6 +24,33 @@ const LinksList = styled.div`
   height: auto;
   pointer-events: all;
 
+  @media ${MediaSmall} {
+    &.bottom-left {
+      justify-content: center;
+    }
+    &.bottom-right {
+      justify-content: center;
+    }
+    &.center-left {
+      flex-flow: row;
+      width: 100%;
+      height: auto;
+      bottom: 0;
+      right: none;
+      justify-content: center;
+      white-space: nowrap;
+    }
+    &.center-right {
+      flex-flow: row;
+      width: 100%;
+      height: auto;
+      bottom: 0;
+      left: none;
+      justify-content: center;
+      white-space: nowrap;
+    }
+  }
+
   ${({ isPreviewMobile }) =>
     isPreviewMobile
       ? css`
@@ -65,33 +92,6 @@ const LinksList = styled.div`
             flex-flow: column;
             justify-content: center;
           }
-
-          /* @media ${MediaSmall} {
-            &.bottom-left {
-              justify-content: center;
-            }
-            &.bottom-right {
-              justify-content: center;
-            }
-            &.center-left {
-              flex-flow: row;
-              width: 100%;
-              height: auto;
-              bottom: 0;
-              right: none;
-              justify-content: center;
-              white-space: nowrap;
-            }
-            &.center-right {
-              flex-flow: row;
-              width: 100%;
-              height: auto;
-              bottom: 0;
-              left: none;
-              justify-content: center;
-              white-space: nowrap;
-            }
-          } */
         `}
 `
 
