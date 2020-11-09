@@ -135,6 +135,7 @@ const stylesLogoMobile = `
   &bottom-center {
     align-items: flex-end;
     justify-content: center;
+    margin: 2px;
 
     & > div > div {
       justify-content: center;

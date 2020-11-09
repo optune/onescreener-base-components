@@ -39,7 +39,7 @@ const ShapeSizeSidePreview = {
   Mobile: {
     S: '29px',
     M: '32px',
-    L: '36px',
+    L: '34px',
   },
 }
 
@@ -73,7 +73,7 @@ export const Link = styled.div`
 
   margin: ${({ isSidePreview, isPreviewMobile, size, margin }) =>
     (isPreviewMobile &&
-      ((size === 'L' && (isSidePreview ? '0.5rem 0rem' : '2px')) || '0.5rem 0.1rem')) ||
+      ((size === 'L' && (isSidePreview ? '0.5rem 0.1rem' : '2px')) || '0.5rem 0.1rem')) ||
     margin ||
     '0.5rem 0.35rem'};
 
