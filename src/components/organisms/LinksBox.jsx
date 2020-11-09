@@ -65,41 +65,46 @@ const LinksList = styled.div`
             flex-flow: column;
             justify-content: center;
           }
-
-          /* @media ${MediaSmall} {
-            &.bottom-left {
-              justify-content: center;
-            }
-            &.bottom-right {
-              justify-content: center;
-            }
-            &.center-left {
-              flex-flow: row;
-              width: 100%;
-              height: auto;
-              bottom: 0;
-              right: none;
-              justify-content: center;
-              white-space: nowrap;
-            }
-            &.center-right {
-              flex-flow: row;
-              width: 100%;
-              height: auto;
-              bottom: 0;
-              left: none;
-              justify-content: center;
-              white-space: nowrap;
-            }
-          } */
         `}
+
+          @media ${MediaSmall} {
+            ${({ isSidePreview }) =>
+              !isSidePreview &&
+              css`
+                &.bottom-left {
+                  justify-content: center;
+                }
+                &.bottom-right {
+                  justify-content: center;
+                }
+                &.center-left {
+                  flex-flow: row;
+                  width: 100%;
+                  height: auto;
+                  bottom: 0;
+                  right: none;
+                  justify-content: center;
+                  white-space: nowrap;
+                }
+                &.center-right {
+                  flex-flow: row;
+                  width: 100%;
+                  height: auto;
+                  bottom: 0;
+                  left: none;
+                  justify-content: center;
+                  white-space: nowrap;
+                }
+              `}
+          }
 `
 
-export const LinksBox = ({ children, position, zIndex, isPreviewMobile }) => (
+export const LinksBox = ({ children, position, zIndex, isSidePreview, isPreviewMobile }) => (
   <LinksContainer zIndex={zIndex}>
     <LinksList
       className={position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'}
       isPreviewMobile={isPreviewMobile}
+      isSidePreview={isSidePreview}
     >
       {children}
     </LinksList>
