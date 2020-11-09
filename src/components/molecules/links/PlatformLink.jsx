@@ -8,6 +8,7 @@ import { LinkIconMapper } from '../../atoms/links/LinkIconMapper'
 
 const LinkWrapper = styled.a`
   text-decoration: none;
+  /* margin: ${({ isPreviewMobile }) => isPreviewMobile && '0 4px'}; */
   cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
 `
 
