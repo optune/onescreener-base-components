@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import styled, { keyframes, css } from 'styled-components'
+import styled from 'styled-components'
 
 import SimpleBar from 'simplebar-react'
 
@@ -10,24 +10,24 @@ import { Button } from '../atoms/buttons/Button'
 // Media
 import { MediaSmall } from '../../style/media.js'
 
-const modalFadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
+// const modalFadeIn = keyframes`
+//   from {
+//     opacity: 0;
+//   }
 
-  to {
-    opacity: 1;
-  }
-`
-const modalFadeOut = keyframes`
-  from {
-    opacity: 1;
-  }
+//   to {
+//     opacity: 1;
+//   }
+// `
+// const modalFadeOut = keyframes`
+//   from {
+//     opacity: 1;
+//   }
 
-  to {
-    opacity: 0;
-  }
-`
+//   to {
+//     opacity: 0;
+//   }
+// `
 
 const StyledModal = styled.div`
   position: ${({ isSidePreview }) => (isSidePreview ? 'absolute' : 'fixed')};
@@ -141,6 +141,8 @@ const StyledTextContainer = styled(({ isSidePreview, ...other }) => <SimpleBar {
   width: 100%;
   padding-right: 15px;
   max-height: ${({ isSidePreview }) => (isSidePreview ? '150px' : '300px')};
+  overflow-y: auto;
+  overflow-x: hidden;
 `
 
 const StyledButtonContainer = styled.div`
@@ -156,36 +158,18 @@ const StyledButton = styled(Button)`
   margin: 1rem auto 1rem;
 `
 
-export const TextOverlay = ({
-  isSidePreview,
-  border,
-  circle,
-  color,
-  colorAccent,
-  colorBackground,
-  colorBackgroundAccent,
-  content,
-  isPreviewMobile,
-  label,
-  onClose,
-  show,
-  square,
-}) => {
+export const TextOverlay = ({ isSidePreview, content, isPreviewMobile, label, onClose, show }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
     setSsrDone(true)
   }, [])
 
   return (
-    <Modal
-      isPreviewMobile={isPreviewMobile}
-      show={ssrDone && show}
-      isSidePreview={isSidePreview ? 1 : undefined}
-    >
+    <Modal isPreviewMobile={isPreviewMobile} show={ssrDone && show} isSidePreview={isSidePreview}>
       <ContentContainer>
         <TextContainer>
           <StyledTitle>{label}</StyledTitle>
-          <StyledTextContainer isSidePreview={isSidePreview ? 1 : undefined}>
+          <StyledTextContainer isSidePreview={isSidePreview}>
             {content.split('\n').map((line, lineIndex) => (
               <p key={lineIndex}>{line}</p>
             ))}
@@ -201,16 +185,9 @@ export const TextOverlay = ({
 }
 
 TextOverlay.propTypes = {
-  colorBackground: PropTypes.string,
-  colorBackgroundAccent: PropTypes.string,
-  border: PropTypes.number,
-  circle: PropTypes.bool,
-  color: PropTypes.string,
-  colorAccent: PropTypes.string,
   content: PropTypes.string,
   isPreviewMobile: PropTypes.bool,
   label: PropTypes.string,
   onClose: PropTypes.func,
   show: PropTypes.bool,
-  square: PropTypes.bool,
 }
