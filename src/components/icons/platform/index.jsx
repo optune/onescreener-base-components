@@ -10,10 +10,12 @@ import { BaiduIcon } from './Baidu.jsx'
 import { BehanceIcon } from './Behance.jsx'
 import { BloggerIcon } from './Blogger.jsx'
 import { BiographyIcon } from './Biography.jsx'
+import { CompanyIcon } from './Company.jsx'
 import { DiggIcon } from './Digg.jsx'
 import { DribbbleIcon } from './Dribbble.jsx'
 import { EtsyIcon } from './Etsy.jsx'
 import { FacebookIcon } from './Facebook.jsx'
+import { FilmRollIcon } from './FilmRoll.jsx'
 import { FlickrIcon } from './Flickr.jsx'
 import { GigsIcon } from './Gigs.jsx'
 import { GithubIcon } from './Github.jsx'
@@ -22,6 +24,7 @@ import { ITunesIcon } from './ITunes.jsx'
 import { KikIcon } from './Kik.jsx'
 import { LastFMIcon } from './LastFM.jsx'
 import { LinkedinIcon } from './Linkedin.jsx'
+import { LocationIcon } from './Location.jsx'
 import { MailIcon } from './Mail.jsx'
 import { MediumIcon } from './Medium.jsx'
 import { MessengerIcon } from './Messenger.jsx'
@@ -41,12 +44,14 @@ import { RequestFormIcon } from './RequestForm.jsx'
 import { SoundcloudIcon } from './Soundcloud.jsx'
 import { SpotifyIcon } from './Spotify.jsx'
 import { TechRiderIcon } from './TechRider.jsx'
+import { TreeIcon } from './Tree.jsx'
 import { TiktokIcon } from './Tiktok.jsx'
 import { TumblrIcon } from './Tumblr.jsx'
 import { TwitchIcon } from './Twitch.jsx'
 import { TwitterIcon } from './Twitter.jsx'
 import { YoutubeIcon } from './Youtube.jsx'
 import { VimeoIcon } from './Vimeo.jsx'
+import { VideoCamIcon } from './VideoCamera.jsx'
 import { WhatsappIcon } from './Whatsapp.jsx'
 import { WechatIcon } from './Wechat.jsx'
 
@@ -72,16 +77,19 @@ export const PlatformLinkIcon = {
   BAIDU: BaiduIcon,
   BEHANCE: BehanceIcon,
   BLOGGER: BloggerIcon,
+  COMPANY: CompanyIcon,
   DIGG: DiggIcon,
   DRIBBBLE: DribbbleIcon,
   FACEBOOK: FacebookIcon,
   FLICKR: FlickrIcon,
+  FILMROLL: FilmRollIcon,
   GITHUB: GithubIcon,
   INSTAGRAM: InstagramIcon,
   ITUNES: ITunesIcon,
   KIK: KikIcon,
   LASTFM: LastFMIcon,
   LINKEDIN: LinkedinIcon,
+  LOCATION: LocationIcon,
   MIXCLOUD: MixcloudIcon,
   MESSENGER: MessengerIcon,
   FACEBOOKMESSENGER: MessengerIcon,
@@ -96,11 +104,13 @@ export const PlatformLinkIcon = {
   SOUNDCLOUD: SoundcloudIcon,
   SPOTIFY: SpotifyIcon,
   TIKTOK: TiktokIcon,
+  TREE: TreeIcon,
   TUMBLR: TumblrIcon,
   TWITCH: TwitchIcon,
   TWITTER: TwitterIcon,
   YOUTUBE: YoutubeIcon,
   VIMEO: VimeoIcon,
+  VIDEOCAMERA: VideoCamIcon,
   WHATSAPP: WhatsappIcon,
   WECHAT: WechatIcon,
   // Miscellaneous Icons
