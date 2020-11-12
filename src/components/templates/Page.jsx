@@ -199,7 +199,12 @@ export const Page = ({
                   square={links.square}
                 />
 
-                <LinksBox position={links.position} zIndex={4} isPreviewMobile={isPreviewMobile}>
+                <LinksBox
+                  position={links.position}
+                  zIndex={4}
+                  isSidePreview={isSidePreview}
+                  isPreviewMobile={isPreviewMobile}
+                >
                   {Links({
                     content,
                     isPreviewMobile,
