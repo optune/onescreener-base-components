@@ -32,7 +32,7 @@ const LogoImage = styled.img`
   object-fit: contain;
   margin: 1rem;
   max-width: unset;
-  max-height: ${({ isTeaserLinks }) => (isTeaserLinks ? '12%' : 'unset')};
+  max-height: ${({ isTeaserLinks }) => (isTeaserLinks ? '11%' : 'unset')};
 
   @media screen and (orientation: portrait) {
     ${({ orientation, size }) =>

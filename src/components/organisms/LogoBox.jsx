@@ -271,6 +271,8 @@ export const LogoBox = ({
   const position = getLogoPosition({ logo })
   const padding = getLogoPadding({ logo, links, isPreviewMobile, isSidePreview })
 
+  const isLogoText = logo.type === 'TEXT' || (logo.type !== 'TEXT' && !logo.image?.url > '')
+
   return (
     <LogoContainer
       className={`desktop-${isTeaserLinks ? 'top-center' : position.classnameDesktop} mobile-${
@@ -282,27 +284,19 @@ export const LogoBox = ({
       isDifferentPositions={logo?.isDifferentPositions || false}
       padding={padding}
     >
-      {logo.type === 'TEXT' ? (
+      {isLogoText ? (
         <LogoText
           logo={logo}
           isPreviewMobile={isPreviewMobileReady}
           isTeaserLinks={isTeaserLinks}
         />
       ) : (
-        (logo.image?.url > '' && (
-          <Logo
-            logo={logo}
-            getImageUrl={getImageUrl}
-            isPreviewMobile={isPreviewMobile}
-            isTeaserLinks={isTeaserLinks}
-          />
-        )) || (
-          <LogoText
-            logo={logo}
-            isPreviewMobile={isPreviewMobileReady}
-            isTeaserLinks={isTeaserLinks}
-          />
-        )
+        <Logo
+          logo={logo}
+          getImageUrl={getImageUrl}
+          isPreviewMobile={isPreviewMobile}
+          isTeaserLinks={isTeaserLinks}
+        />
       )}
     </LogoContainer>
   )
