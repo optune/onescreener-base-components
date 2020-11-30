@@ -12,11 +12,15 @@ const Container = styled.div`
   left: 0;
   right: 0;
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
   flex-direction: column;
   margin: 0;
 
   .teaser-link {
+    position: relative;
     width: 100%;
+    max-width: 640px;
     height: ${({ isSidePreview }) => (isSidePreview ? '32px' : '100%')};
     max-height: ${({ isSidePreview }) => (isSidePreview ? 'unset' : '64px')};
     font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '1rem')};
@@ -31,10 +35,45 @@ const Container = styled.div`
     cursor: pointer;
 
     background: rgba(255, 255, 255, 0.75);
-    border: 1px solid #ffffff;
+    border: 1px solid transparent;
     box-sizing: border-box;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 0px 2px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
+    transition: all 0.3s ease-out;
+
+    &:hover {
+      background: #ffffff;
+      box-shadow: none;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.08), 0px 3px 6px rgba(0, 0, 0, 0.08),
+        0px 3px 12px rgba(0, 0, 0, 0.14);
+      border: 1px solid transparent;
+      border-radius: 4px;
+      transition: opacity 0.3s ease-out;
+      opacity: 0;
+    }
+
+    &:hover {
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    &:focus {
+      background-color: #ffffff;
+      &::after {
+        opacity: 0;
+      }
+    }
 
     &:not(:last-child) {
       margin-bottom: 10px;
