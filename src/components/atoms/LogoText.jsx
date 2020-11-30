@@ -68,10 +68,14 @@ const LogoTextContainer = styled.div`
   }
 
   @media ${MediaMobile} {
-    width: ${({ size, isTeaserLinks }) =>
-      isTeaserLinks ? LogoSizeTeaserLinks.Mobile[size] : LogoSize.Mobile[size]};
-    height: ${({ size, isTeaserLinks }) =>
-      isTeaserLinks ? LogoSizeTeaserLinks.Mobile[size] : LogoSize.Mobile[size]};
+    width: ${({ size, isPreviewMobile, isTeaserLinks }) =>
+      isTeaserLinks
+        ? (isPreviewMobile && LogoSizeTeaserLinks.Mobile[size]) || LogoSizeTeaserLinks.Desktop[size]
+        : LogoSize.Mobile[size]};
+    height: ${({ size, isPreviewMobile, isTeaserLinks }) =>
+      isTeaserLinks
+        ? (isPreviewMobile && LogoSizeTeaserLinks.Mobile[size]) || LogoSizeTeaserLinks.Desktop[size]
+        : LogoSize.Mobile[size]};
 
     & #auto-text-fit-container {
       align-items: ${({ logoPosition }) => logoPosition.mobile};

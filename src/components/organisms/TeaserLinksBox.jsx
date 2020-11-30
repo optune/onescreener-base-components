@@ -22,7 +22,7 @@ const Container = styled.div`
     position: relative;
     width: 100%;
     max-width: 640px;
-    min-height: 40px;
+    min-height: ${({ isSidePreview }) => (isSidePreview ? '32px' : '40px')};
 
     height: auto;
     font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '1rem')};
