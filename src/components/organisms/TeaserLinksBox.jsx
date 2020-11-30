@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { MediaSmall } from '../../style/media'
 
 const LINKS_LIMIT = 7
 const STEP = LINKS_LIMIT - 1
@@ -21,16 +22,17 @@ const Container = styled.div`
     position: relative;
     width: 100%;
     max-width: 640px;
-    height: ${({ isSidePreview }) => (isSidePreview ? '32px' : '100%')};
-    max-height: ${({ isSidePreview }) => (isSidePreview ? 'unset' : '64px')};
+    min-height: 40px;
+
+    height: auto;
     font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '1rem')};
     font-weight: 600;
     color: #0a1c3b;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex: ${({ isSidePreview }) => (isSidePreview ? 'none' : '1')};
-
+    text-align: center;
+    overflow: hidden;
     text-decoration: none;
     cursor: pointer;
 
@@ -81,9 +83,15 @@ const Container = styled.div`
 
     .clip {
       padding: 0 20px;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      line-height: ${({ isSidePreview }) => (isSidePreview ? '12px' : '22px')};
       overflow: hidden;
+      overflow-wrap: break-word;
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    @media ${MediaSmall} {
+      font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '16px')};
     }
   }
 `
