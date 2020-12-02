@@ -8,157 +8,154 @@ import { MediaBox } from './MediaBox.jsx'
 import { CoverBox } from './CoverBox.jsx'
 import { TeaserLinksBox } from './TeaserLinksBox.jsx'
 
-import { MediaSmall, MediaMobile, NotMediaMobile } from '../../style/media.js'
-
 import { renderHtml } from '../../utils/renderHtml.js'
 
-const DesktopGrid = {
-  RowSize: 6,
-  ColumnSize: 6,
-  Unit: 16.666, // = 100 : 6
-}
+import { MediaMobile } from '../../style/media'
 
-const MobileGrid = {
-  RowSize: 3,
-  ColumnSize: 2,
-  RowUnit: 33.333,
-  ColumnUnit: 50,
-}
-
-const LinkMargin = {
-  L: 9,
-  M: 7,
-  S: 5,
-}
-
-const LinkMarginMobile = {
-  S: 4.2,
-  M: 4.6,
-  L: 5,
-}
-
-const LinkMarginSidePreview = {
-  L: 3,
-  M: 2,
-  S: 1,
-}
-
-const PreviewMobile = {
-  width: 333,
-  height: 520,
-}
-
-const round = (a) => a.toFixed(2)
-
-const getGridArea = (
-  { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan },
-  { linksPosition, linksSize = 'M', isSidePreview = false }
-) => {
-  const { ColumnSize, RowSize, Unit } = DesktopGrid
-  // Decide if margin is calculated from top or bottom and left or right
-  const isLeft = ColumnSize - endColumn >= startColumn - 1
-  const positionH = isLeft ? 'left' : 'right'
-
-  const isBottom =
-    RowSize - endRow < startRow - 1 ||
-    (endRow === RowSize && ['BOTTOM_CENTER', 'BOTTOM_LEFT', 'BOTTOM_RIGHT'].includes(linksPosition))
-  const positionV = isBottom ? 'bottom' : 'top'
-
-  // Calculate vertical and horizontal margins and width
-  const marginHUnit = isLeft ? startColumn - 1 : ColumnSize - endColumn
-  const marginH = (marginHUnit * Unit).toFixed(3)
-
-  const marginVUnit = isBottom ? RowSize - endRow : startRow - 1
-  const marginV = (marginVUnit * Unit).toFixed(3)
-
-  let marginVLinks = 0
-  let marginHLinks = 0
-
-  const linkMargin = isSidePreview ? LinkMarginSidePreview[linksSize] : LinkMargin[linksSize]
-
-  // Give extra margin if links are at same side as content
-  switch (linksPosition) {
-    case 'BOTTOM_CENTER':
-    case 'BOTTOM_LEFT':
-    case 'BOTTOM_RIGHT':
-      if (isBottom && endRow === RowSize) marginVLinks += linkMargin
-      break
-    case 'CENTER_RIGHT':
-      if (!isLeft && endColumn === ColumnSize) marginHLinks += linkMargin
-      break
-    case 'CENTER_LEFT':
-      if (isLeft && startColumn === 1) marginHLinks += linkMargin
-      break
-    default:
-    // Do nothing
+const stylesContentDesktop = `
+&.desktop- {
+  &top-left {
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 
-  const width = round(columnSpan * Unit)
-  const widthCorrection = round((columnSpan * (marginHLinks + 2)) / ColumnSize)
+  &top-center {
+    align-items: flex-start;
+    justify-content: center;
 
-  const height = round(rowSpan * Unit)
-  const heightCorrection = round((rowSpan * (marginVLinks + 2)) / RowSize)
+    & > div > div {
+      justify-content: center;
+    }
+  }
 
-  const area = `
-    ${positionH}: calc(${marginH}${isSidePreview ? '%' : 'vw'} + ${marginHLinks + 1}rem);
-    ${positionV}: calc(${marginV}${isSidePreview ? '%' : 'vh'} + ${marginVLinks + 1}rem);
-    width: calc(${width}${isSidePreview ? '%' : 'vw'} - ${widthCorrection}rem);
-    height: calc(${height}${isSidePreview ? '%' : 'vh'} - ${heightCorrection}rem);
-  `
+  &top-right {
+    align-items: flex-start;
+    justify-content: flex-end;
 
-  return css`
-    ${area}
-  `
-}
+    & > div > div {
+      justify-content: flex-end;
+    }
+  }
 
-const getGridAreaMobile = (
-  { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan },
-  { linksSize = 'M', isPreviewMobile = false }
-) => {
-  const { ColumnSize, ColumnUnit, RowSize, RowUnit } = MobileGrid
+  &center-left {
+    align-items: center;
+    justify-content: flex-start;
+  }
 
-  // Decide if margin is calculated from top or bottom and left or right
-  const isLeft = ColumnSize - endColumn >= startColumn - 1
-  const positionH = isLeft ? 'left' : 'right'
+  &center-center {
+    align-items: center;
+    justify-content: center;
 
-  // Calculate vertical and horizontal margins and width
-  const marginHUnit = isLeft ? startColumn - 1 : ColumnSize - endColumn
-  let marginH = (marginHUnit * ColumnUnit).toFixed(3)
+    & > div > div {
+      justify-content: center;
+    }
+  }
 
-  const marginVUnit = RowSize - endRow
-  let marginV = (marginVUnit * RowUnit).toFixed(3)
+  &center-right {
+    align-items: center;
+    justify-content: flex-end;
 
-  let marginVLinks = 0
-  let marginHLinks = 0
+    & > div > div {
+      justify-content: flex-end;
+    }
+  }
 
-  const linkMargin = endRow === RowSize ? LinkMarginMobile[linksSize] : 0
+  &bottom-left {
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
 
-  // Give extra margin if links are at same side as content
-  if (endRow === RowSize) marginVLinks += linkMargin
+  &bottom-center {
+    align-items: flex-end;
+    justify-content: center;
 
-  const height = `${round(rowSpan * RowUnit)}${isPreviewMobile ? '%' : 'vh'}`
-  const heightCorrection = (rowSpan * (linkMargin + 2)) / RowSize
-  const width = `${round(columnSpan * ColumnUnit)}${isPreviewMobile ? '%' : 'vw'}`
-  const widthCorrection = (columnSpan * 2) / ColumnSize
+    & > div > div {
+      justify-content: center;
+    }
+  }
 
-  const important = isPreviewMobile ? ' !important' : ''
+  &bottom-right {
+    align-items: flex-end;
+    justify-content: flex-end;
 
-  marginH = isPreviewMobile ? `${Math.round(PreviewMobile.width * marginH) / 100}px` : `${marginH}%`
-  marginV = isPreviewMobile
-    ? `${Math.round(PreviewMobile.height * marginV) / 100}px`
-    : `${marginV}%`
+    & > div > div {
+      justify-content: flex-end;
+    }
+  }
+}`
 
-  const area = `
-    ${positionH}: calc(${marginH} + 1rem)${important};
-    bottom: calc(${marginV} + ${linkMargin + 1}rem)${important};
-    width: calc(${width} - ${widthCorrection}rem)${important};
-    height: calc(${height} - ${heightCorrection}rem)${important};
-  `
+const stylesContentMobile = `
+&.mobile- {
+  &top-left {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
 
-  return css`
-    ${area}
-  `
-}
+  &top-center {
+    align-items: flex-start;
+    justify-content: center;
+
+    & > div > div {
+      justify-content: center;
+    }
+  }
+
+  &top-right {
+    align-items: flex-start;
+    justify-content: flex-end;
+
+    & > div > div {
+      justify-content: flex-end;
+    }
+  }
+
+  &center-left {
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  &center-center {
+    align-items: center;
+    justify-content: center;
+
+    & > div > div {
+      justify-content: center;
+    }
+  }
+
+  &center-right {
+    align-items: center;
+    justify-content: flex-end;
+
+    & > div > div {
+      justify-content: flex-end;
+    }
+  }
+
+  &bottom-left {
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+
+  &bottom-center {
+    align-items: flex-end;
+    justify-content: center;
+    margin: 2px;
+
+    & > div > div {
+      justify-content: center;
+    }
+  }
+
+  &bottom-right {
+    align-items: flex-end;
+    justify-content: flex-end;
+
+    & > div > div {
+      justify-content: flex-end;
+    }
+  }
+}`
 
 const FullscreenContainer = styled.div`
   position: absolute;
@@ -168,46 +165,120 @@ const FullscreenContainer = styled.div`
   width: 100%;
   z-index: 1;
 `
+
 const ResponsiveContainer = styled.div`
   position: absolute;
   z-index: 3;
 
-  @media ${NotMediaMobile} {
-    ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
-      isPreviewMobile
-        ? getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
-        : getGridArea(area, { linksPosition, linksSize, isSidePreview })}
-  }
+  ${stylesContentDesktop}
 
-  @media ${MediaMobile} {
-    ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
-      (!isSidePreview && getGridAreaMobile(areaMobile, { linksSize })) || isPreviewMobile
-        ? getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
-        : getGridArea(area, { linksPosition, linksSize, isSidePreview })} }
-  }
+  ${({ isDifferentPositions, isPreviewMobile, isSidePreview }) =>
+    isDifferentPositions &&
+    css`
+      ${isPreviewMobile && stylesContentMobile}
+
+      @media ${MediaMobile} {
+        ${!isSidePreview && stylesContentMobile}
+      }
+    `}
+
+
+  ${({ isPreviewMobile, isSidePreview, padding }) =>
+    css`
+      ${isPreviewMobile ? padding.mobile : padding.desktop};
+
+      @media ${MediaMobile} {
+        ${!isSidePreview && padding.mobile}
+      }
+    `}
 `
 
-const getArea = ({ position, span }) => {
-  const [startRowField, startColumnField] = position.split('/')
-  const [rowSpanField, columnSpanField] = span.split('/')
+/*
+ * Defined content padding in alignment with links
+ */
 
-  const startRow = parseInt(startRowField)
-  const startColumn = parseInt(startColumnField)
-  const rowSpan = parseInt(rowSpanField)
-  const columnSpan = parseInt(columnSpanField)
-  const endRow = startRow + parseInt(rowSpan) - 1
-  const endColumn = startColumn + parseInt(columnSpan) - 1
+const PositionLeft = ['BOTTOM_LEFT', 'CENTER_LEFT', 'TOP_LEFT']
+const PositionRight = ['BOTTOM_RIGHT', 'CENTER_RIGHT', 'TOP_RIGHT']
+const PositionBottom = ['BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT']
+const PositionBottomLeft = ['BOTTOM_LEFT', 'BOTTOM_CENTER']
+const PositionBottomRight = ['BOTTOM_RIGHT', 'BOTTOM_CENTER']
 
-  return { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan }
+const defineContentPadding = ({ isPreviewMobile, isSidePreview }) => ({
+  left: `padding-left:  ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
+  right: `padding-right: ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
+  bottom: `padding-bottom: ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
+  none: 'padding: 0',
+})
+
+const getContentPadding = ({ content, links, isPreviewMobile, isSidePreview }) => {
+  const contentPositionDesktop = content.positionDesktop || content.position
+  const contentPositionMobile =
+    (content.isDifferentPositions && content.positionMobile) || contentPositionDesktop
+
+  const contentPadding = defineContentPadding({ isPreviewMobile, isSidePreview })
+
+  const linkPosition = links.list.length > 0 ? links.position : ''
+
+  const paddingIndexDesktop =
+    (linkPosition === 'CENTER_LEFT' && PositionLeft.includes(contentPositionDesktop) && 'left') ||
+    (linkPosition === 'CENTER_RIGHT' &&
+      PositionRight.includes(contentPositionDesktop) &&
+      'right') ||
+    (PositionBottomLeft.includes(linkPosition) &&
+      PositionBottomLeft.includes(contentPositionDesktop) &&
+      'bottom') ||
+    (PositionBottomRight.includes(linkPosition) &&
+      PositionBottomRight.includes(contentPositionDesktop) &&
+      'bottom') ||
+    'none'
+
+  const paddingIndexMobile =
+    // (linkPosition === 'CENTER_LEFT' && PositionLeft.includes(logoPositionMobile) && 'left') ||
+    // (linkPosition === 'CENTER_RIGHT' && PositionRight.includes(logoPositionMobile) && 'right') ||
+    //(PositionBottom.includes(linkPosition) &&
+    (linkPosition > '' && PositionBottom.includes(contentPositionMobile) && 'bottom') ||
+    // (isPreviewMobile && 'bottom') ||
+    'none'
+
+  return {
+    desktop: contentPadding[paddingIndexDesktop],
+    mobile: contentPadding[paddingIndexMobile],
+  }
+}
+
+/*
+ * Get classnames for content position
+ */
+
+const getContentPosition = ({ content }) => {
+  const positionDesktop =
+    (content.positionDesktop > '' && content.positionDesktop) || content.position
+
+  const classnameDesktop =
+    (positionDesktop > '' && positionDesktop.toLowerCase().replace('_', '-')) || 'top-center'
+
+  const contentPosition =
+    (content.isDifferentPositions && content.positionMobile) ||
+    content.positionDesktop ||
+    content.position
+
+  const classnameMobile =
+    (contentPosition > '' && contentPosition.toLowerCase().replace('_', '-')) || 'top-center'
+
+  return {
+    classnameMobile,
+    classnameDesktop,
+  }
 }
 
 export const ContentBox = ({
   content,
   links,
+  pageUrl,
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
-  pageUrl,
+  zIndex = 4,
 }) => {
   /*
    * Get content values
@@ -224,26 +295,19 @@ export const ContentBox = ({
     gigsList,
     gigsLoading,
     media,
-    position = '4/2',
-    positionMobile = '2/1',
-    span = '2/4',
-    spanMobile = '2/2',
+    isDifferentPositions = false,
     teaserLinks,
     text,
     type,
     wordWrap,
   } = content
 
+  const position = getContentPosition({ content })
+  const padding = getContentPadding({ content, links, isPreviewMobile, isSidePreview })
+
   const isTeaserLinks = type === 'TEASER_LINKS'
   const colors = { color, colorAccent, colorBackground, colorBackgroundAccent }
-  const area = getArea({
-    position: isTeaserLinks ? '2/2' : position,
-    span: isTeaserLinks ? '5/4' : span,
-  })
-  const areaMobile = getArea({
-    position: isTeaserLinks ? '2/1' : positionMobile,
-    span: isTeaserLinks ? '2/2' : spanMobile,
-  })
+
   const { border, circle, square } = links
 
   /*
@@ -307,12 +371,16 @@ export const ContentBox = ({
     <FullscreenContainer>{Content}</FullscreenContainer>
   ) : (
     <ResponsiveContainer
-      area={area}
-      areaMobile={areaMobile}
-      linksPosition={links.list.length > 0 ? links.position : 'NONE'}
-      linksSize={links.size}
+      className={`desktop-${isTeaserLinks ? 'top-center' : position.classnameDesktop} mobile-${
+        isTeaserLinks ? 'top-center' : position.classnameMobile
+      }`}
+      zIndex={zIndex}
       isPreviewMobile={isPreviewMobile}
       isSidePreview={isSidePreview}
+      isDifferentPositions={content?.isDifferentPositions || false}
+      padding={padding}
+      linksPosition={links.list.length > 0 ? links.position : 'NONE'}
+      linksSize={links.size}
     >
       {Content}
     </ResponsiveContainer>
