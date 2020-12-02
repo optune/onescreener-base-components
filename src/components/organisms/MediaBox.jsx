@@ -37,7 +37,6 @@ const Wrapper = styled.div`
 
 export const MediaBox = ({ media, isPreviewMobile, isSidePreview }) => {
   const [ssrDone, setSsrDone] = useState(false)
-
   useEffect(() => {
     setSsrDone(true)
   }, [])
