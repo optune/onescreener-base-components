@@ -269,11 +269,7 @@ export const GigsBox = ({
           {gigsAPI.includeShowMore && (
             <ShowMoreContainer alignHorizontal={alignHorizontal}>
               <p>
-                <a
-                  href={eventsPageUrl}
-                  target={eventsPageTarget}
-                  rel="noopener noreferrer"
-                >
+                <a href={eventsPageUrl} target={eventsPageTarget} rel="noopener noreferrer">
                   Show More
                 </a>
               </p>

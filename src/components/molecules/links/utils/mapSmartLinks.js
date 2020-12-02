@@ -9,7 +9,7 @@ const SmartLinks = {
   OPTUNENEWSLETTER: '/newsletter',
 }
 
-export const mapSmartLinks = pageUrl => link => {
+export const mapSmartLinks = (pageUrl) => (link) => {
   let mappedLink = { ...link }
 
   if (Object.keys(SmartLinks).includes(link.platform)) {

@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
 
-import { MediaSmall } from '../../style/media'
+import { MediaMobile } from '../../style/media'
 
 const LogoSize = {
   Desktop: {
@@ -26,11 +26,11 @@ const LogoSize = {
 
 const LogoSizeTeaserLinks = {
   Desktop: {
-    XS: '8.333%',
+    XS: '6.333%',
     S: '8.333%',
-    M: '11.111%',
-    L: '13.333%',
-    XL: '16.666%',
+    M: '8.333%',
+    L: '10.666%',
+    XL: '10.666%',
   },
   Mobile: {
     XS: '10%',
@@ -67,11 +67,15 @@ const LogoTextContainer = styled.div`
       isPreviewMobile ? logoPosition.mobile : logoPosition.desktop};
   }
 
-  @media ${MediaSmall} {
-    width: ${({ size, isTeaserLinks }) =>
-      isTeaserLinks ? LogoSizeTeaserLinks.Mobile[size] : LogoSize.Mobile[size]};
-    height: ${({ size, isTeaserLinks }) =>
-      isTeaserLinks ? LogoSizeTeaserLinks.Mobile[size] : LogoSize.Mobile[size]};
+  @media ${MediaMobile} {
+    width: ${({ size, isPreviewMobile, isTeaserLinks }) =>
+      isTeaserLinks
+        ? (isPreviewMobile && LogoSizeTeaserLinks.Mobile[size]) || LogoSizeTeaserLinks.Desktop[size]
+        : LogoSize.Mobile[size]};
+    height: ${({ size, isPreviewMobile, isTeaserLinks }) =>
+      isTeaserLinks
+        ? (isPreviewMobile && LogoSizeTeaserLinks.Mobile[size]) || LogoSizeTeaserLinks.Desktop[size]
+        : LogoSize.Mobile[size]};
 
     & #auto-text-fit-container {
       align-items: ${({ logoPosition }) => logoPosition.mobile};
