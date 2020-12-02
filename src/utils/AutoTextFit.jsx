@@ -26,7 +26,6 @@ const TextContent = styled.div`
     padding || ((isMobileView || isSidePreview) && '1em 1em') || '1em 2em'};
   background-color: ${({ colorBackground }) => colorBackground || 'transparent'};
 
-
   ${({ includeWidth }) =>
     includeWidth &&
     css`
@@ -44,7 +43,7 @@ const TextContent = styled.div`
         `}
 
   @media ${MediaMobile} {
-    padding: ${({ padding }) => padding || '1em'};
+    padding: ${({ padding }) => padding || '1em'};
   }
 `
 

@@ -42,7 +42,7 @@ const LogoSizeTeaserLinks = {
 }
 
 const LogoTextContainer = styled.div`
-  position: relative;
+  position: absolute;
   width: ${({ size, isPreviewMobile, isTeaserLinks }) =>
     isTeaserLinks
       ? isPreviewMobile
@@ -83,7 +83,7 @@ const LogoTextContainer = styled.div`
     display: inline-block;
     font-size: 1em;
     font-family: ${({ fontFamily }) => `${fontFamily}`};
-    text-align: center;
+
     line-height: 1;
     white-space: nowrap;
   }
