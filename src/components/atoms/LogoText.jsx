@@ -137,7 +137,7 @@ export const LogoText = ({ logo, isPreviewMobile, isTeaserLinks }) => {
         adjustWidth
         includeWidth
         padding="0"
-        maxFontSize={300}
+        maxFontSize={200}
         isMobileView={isPreviewMobile}
         isLogo
         textValue={logo.text.title}
