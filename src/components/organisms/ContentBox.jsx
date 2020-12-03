@@ -180,15 +180,25 @@ const ResponsiveContainer = styled.div`
 
   ${stylesContentDesktop}
 
-  ${({ isPreviewMobile }) =>
+  ${({ isDifferentPositions, isPreviewMobile, isSidePreview }) =>
+    isDifferentPositions &&
+    css`
+      ${isPreviewMobile && stylesContentMobile}
+
+      @media ${MediaMobile} {
+        ${!isSidePreview && stylesContentMobile}
+      }
+    `}
+
+  /* ${({ isPreviewMobile }) =>
     isPreviewMobile &&
     css`
       ${stylesContentMobile}
-    `}
+    `} */
 
-    @media ${MediaMobile} {
+    /* @media ${MediaMobile} {
       ${stylesContentMobile}
-    } 
+    }  */
 `
 
 const Container = styled.div`
@@ -205,8 +215,8 @@ const Container = styled.div`
     `}
 
   @media ${MediaMobile} {
-    height: ${({ isSidePreview }) => (isSidePreview ? '40%' : '40%')};
-    width: ${({ isSidePreview }) => (isSidePreview ? '100%' : '100%')};
+    height: ${({ isSidePreview }) => (isSidePreview ? null : '40%')};
+    width: ${({ isSidePreview }) => (isSidePreview ? null : '100%')};
     margin: 0px 10px;
   }
 
@@ -325,6 +335,9 @@ export const ContentBox = ({
     default:
       Content = null
   }
+  {
+    console.log('ContentBox --> ', ContentBox)
+  }
 
   return fullscreen ? (
     <FullscreenContainer>{Content}</FullscreenContainer>
@@ -337,12 +350,9 @@ export const ContentBox = ({
       linksSize={links.size}
       isSidePreview={isSidePreview}
       isPreviewMobile={isPreviewMobile}
+      isDifferentPositions={isDifferentPositions}
     >
-      <Container
-        isSidePreview={isSidePreview}
-        isPreviewMobile={isPreviewMobile}
-        isDifferentPositions={isDifferentPositions}
-      >
+      <Container isSidePreview={isSidePreview} isPreviewMobile={isPreviewMobile}>
         {Content}
       </Container>
     </ResponsiveContainer>
