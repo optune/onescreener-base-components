@@ -81,7 +81,7 @@ const Container = styled.div`
 
     .clip {
       padding: 0 20px;
-      line-height: ${({ isSidePreview }) => (isSidePreview ? '12px' : '22px')};
+      line-height: ${({ isSidePreview }) => (isSidePreview ? '12px' : '19px')};
       max-height: 100%;
       overflow: hidden;
       overflow-wrap: break-word;
