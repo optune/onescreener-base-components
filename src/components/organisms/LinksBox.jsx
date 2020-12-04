@@ -94,7 +94,7 @@ const LinksList = styled.div`
           }
         `}
 
-          @media ${MediaSmall} {
+  @media ${MediaSmall} {
             ${({ isSidePreview }) =>
               !isSidePreview &&
               css`
@@ -123,7 +123,7 @@ const LinksList = styled.div`
                   white-space: nowrap;
                 }
               `}
-          }
+  }
 `
 
 export const LinksBox = ({ children, position, zIndex, isSidePreview, isPreviewMobile }) => (

@@ -8,9 +8,9 @@ import { MediaBox } from './MediaBox.jsx'
 import { CoverBox } from './CoverBox.jsx'
 import { TeaserLinksBox } from './TeaserLinksBox.jsx'
 
-import { MediaSmall, MediaMobile, NotMediaMobile } from '../../style/media.js'
-
 import { renderHtml } from '../../utils/renderHtml.js'
+
+import { NotMediaMobile, MediaMobile, MediaSmall } from '../../style/media'
 
 const stylesContentDesktop = `
 &.desktop- {
@@ -160,68 +160,170 @@ const stylesContentMobile = `
 const FullscreenContainer = styled.div`
   position: absolute;
   top: 0;
-  bottom: 0;
   left: 0;
-  right: 0;
-  display: flex;
-  margin: 0;
+  height: 100%;
+  width: 100%;
   z-index: 1;
-  pointer-events: none;
 `
 
 const ResponsiveContainer = styled.div`
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  z-index: 2;
+  z-index: 3;
 
-  ${stylesContentDesktop}
-
-  ${({ isDifferentPositions, isPreviewMobile, isSidePreview }) =>
-    isDifferentPositions &&
-    css`
-      ${isPreviewMobile && stylesContentMobile}
-
-      @media ${MediaMobile} {
-        ${!isSidePreview && stylesContentMobile}
-      }
-    `}
-
-  /* ${({ isPreviewMobile }) =>
-    isPreviewMobile &&
-    css`
-      ${stylesContentMobile}
-    `} */
-
-    /* @media ${MediaMobile} {
-      ${stylesContentMobile}
-    }  */
-`
-
-const Container = styled.div`
-  position: relative;
-  height: 40%;
-  width: 40%;
-  
-  ${({ isPreviewMobile }) =>
-    isPreviewMobile &&
-    css`
-      height: ${({ isSidePreview }) => (isSidePreview ? '40%' : '40%')};
-      width: ${({ isSidePreview }) => (isSidePreview ? '100%' : '100%')};
-      margin: 0px 10px;
-    `}
-
-  @media ${MediaMobile} {
-    height: ${({ isSidePreview }) => (isSidePreview ? null : '40%')};
-    width: ${({ isSidePreview }) => (isSidePreview ? null : '100%')};
-    margin: 0px 10px;
+  @media ${MediaSmall} {
+    &.bottom-left {
+      justify-content: center;
+    }
+    &.bottom-right {
+      justify-content: center;
+    }
+    &.center-left {
+      flex-flow: row;
+      width: 100%;
+      height: auto;
+      bottom: 0;
+      right: none;
+      justify-content: center;
+      white-space: nowrap;
+    }
+    &.center-right {
+      flex-flow: row;
+      width: 100%;
+      height: auto;
+      bottom: 0;
+      left: none;
+      justify-content: center;
+      white-space: nowrap;
+    }
   }
 
-  margin: 32px 24px;
+  ${({ isPreviewMobile }) =>
+    isPreviewMobile
+      ? css`
+          bottom: 0;
+          justify-content: center;
+          white-space: nowrap;
+        `
+      : css`
+          &.bottom-center {
+            bottom: 0;
+            justify-content: center;
+            white-space: nowrap;
+          }
+
+          &.bottom-left {
+            bottom: 0;
+            justify-content: flex-start;
+            white-space: nowrap;
+          }
+
+          &.bottom-right {
+            bottom: 0;
+            justify-content: flex-end;
+            white-space: nowrap;
+          }
+
+          &.center-right {
+            right: 0;
+            width: auto;
+            height: 100%;
+            flex-flow: column;
+            justify-content: center;
+          }
+
+          &.center-left {
+            left: 0;
+            width: auto;
+            height: 100%;
+            flex-flow: column;
+            justify-content: center;
+          }
+        `}
+
+  @media ${MediaSmall} {
+   ${({ isSidePreview }) =>
+     !isSidePreview &&
+     css`
+       &.bottom-left {
+         justify-content: center;
+       }
+       &.bottom-right {
+         justify-content: center;
+       }
+       &.center-left {
+         flex-flow: row;
+         width: 100%;
+         height: auto;
+         bottom: 0;
+         right: none;
+         justify-content: center;
+         white-space: nowrap;
+       }
+       &.center-right {
+         flex-flow: row;
+         width: 100%;
+         height: auto;
+         bottom: 0;
+         left: none;
+         justify-content: center;
+         white-space: nowrap;
+       }
+     `}
+  }
+
 `
+
+/*
+ * Defined content padding in alignment with links
+ */
+
+const PositionLeft = ['BOTTOM_LEFT', 'CENTER_LEFT', 'TOP_LEFT']
+const PositionRight = ['BOTTOM_RIGHT', 'CENTER_RIGHT', 'TOP_RIGHT']
+const PositionBottom = ['BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT']
+const PositionBottomLeft = ['BOTTOM_LEFT', 'BOTTOM_CENTER']
+const PositionBottomRight = ['BOTTOM_RIGHT', 'BOTTOM_CENTER']
+
+const defineContentPadding = ({ isPreviewMobile, isSidePreview }) => ({
+  left: `padding-left:  ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
+  right: `padding-right: ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
+  bottom: `padding-bottom: ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
+  none: 'padding: 0',
+})
+
+const getContentPadding = ({ content, links, isPreviewMobile, isSidePreview }) => {
+  const contentPositionDesktop = content.positionDesktop || content.position
+  const contentPositionMobile = (content.isDifferentPositions && content.positionMobile) || content
+
+  const contentPadding = defineContentPadding({ isPreviewMobile, isSidePreview })
+
+  const linkPosition = links.list.length > 0 ? links.position : ''
+
+  const paddingIndexDesktop =
+    (linkPosition === 'CENTER_LEFT' && PositionLeft.includes(contentPositionDesktop) && 'left') ||
+    (linkPosition === 'CENTER_RIGHT' &&
+      PositionRight.includes(contentPositionDesktop) &&
+      'right') ||
+    (PositionBottomLeft.includes(linkPosition) &&
+      PositionBottomLeft.includes(contentPositionDesktop) &&
+      'bottom') ||
+    (PositionBottomRight.includes(linkPosition) &&
+      PositionBottomRight.includes(contentPositionDesktop) &&
+      'bottom') ||
+    'none'
+
+  const paddingIndexMobile =
+    // (linkPosition === 'CENTER_LEFT' && PositionLeft.includes(logoPositionMobile) && 'left') ||
+    // (linkPosition === 'CENTER_RIGHT' && PositionRight.includes(logoPositionMobile) && 'right') ||
+    //(PositionBottom.includes(linkPosition) &&
+    (linkPosition > '' && PositionBottom.includes(contentPositionMobile) && 'bottom') ||
+    // (isPreviewMobile && 'bottom') ||
+    'none'
+
+  return {
+    desktop: contentPadding[paddingIndexDesktop],
+    mobile: contentPadding[paddingIndexMobile],
+  }
+}
 
 const getContentPosition = ({ content }) => {
   const positionDesktop =
@@ -247,15 +349,15 @@ const getContentPosition = ({ content }) => {
 export const ContentBox = ({
   content,
   links,
+  pageUrl,
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
-  pageUrl,
+  zIndex = 4,
 }) => {
   /*
    * Get content values
    */
-
   const {
     alignHorizontal,
     color,
@@ -264,11 +366,11 @@ export const ContentBox = ({
     colorBackgroundAccent,
     cover,
     gigsAPI,
-    isDifferentPositions,
     gigsAPIDomain,
     gigsList,
     gigsLoading,
     media,
+    isDifferentPositions = false,
     teaserLinks,
     text,
     type,
@@ -276,9 +378,11 @@ export const ContentBox = ({
   } = content
 
   const position = getContentPosition({ content })
+  const padding = getContentPadding({ content, links, isPreviewMobile, isSidePreview })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
   const colors = { color, colorAccent, colorBackground, colorBackgroundAccent }
+
   const { border, circle, square } = links
 
   /*
@@ -314,6 +418,7 @@ export const ContentBox = ({
       ) : null
       fullscreen = media ? media.fullscreen : false
       break
+
     case 'TEASER_LINKS':
       Content = <TeaserLinksBox teaserLinks={teaserLinks.list} isSidePreview={isSidePreview} />
       break
@@ -321,6 +426,7 @@ export const ContentBox = ({
       Content = (
         <TextBox
           {...colors}
+          alignHorizontal={alignHorizontal}
           isPreviewMobile={isPreviewMobileReady}
           isSidePreview={isSidePreview}
           textValue={text}
@@ -337,21 +443,16 @@ export const ContentBox = ({
   }
 
   return fullscreen ? (
-    <FullscreenContainer>{Content}</FullscreenContainer>
+    <FullscreenContainer padding={padding}>{Content}</FullscreenContainer>
   ) : (
     <ResponsiveContainer
-      className={`desktop-${isTeaserLinks ? 'top-center' : position.classnameDesktop} mobile-${
-        isTeaserLinks ? 'top-center' : position.classnameMobile
-      }`}
       linksPosition={links.list.length > 0 ? links.position : 'NONE'}
       linksSize={links.size}
-      isSidePreview={isSidePreview}
+      padding={padding}
       isPreviewMobile={isPreviewMobile}
-      isDifferentPositions={isDifferentPositions}
+      isSidePreview={isSidePreview}
     >
-      <Container isSidePreview={isSidePreview} isPreviewMobile={isPreviewMobile}>
-        {Content}
-      </Container>
+      {Content}
     </ResponsiveContainer>
   )
 }
