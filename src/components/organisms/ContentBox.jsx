@@ -335,9 +335,6 @@ export const ContentBox = ({
     default:
       Content = null
   }
-  {
-    console.log('ContentBox --> ', ContentBox)
-  }
 
   return fullscreen ? (
     <FullscreenContainer>{Content}</FullscreenContainer>
