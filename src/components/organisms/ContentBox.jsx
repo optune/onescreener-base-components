@@ -340,8 +340,8 @@ export const ContentBox = ({
     <FullscreenContainer>{Content}</FullscreenContainer>
   ) : (
     <ResponsiveContainer
-      className={`desktop-${isTeaserLinks ? 'top-center' : position.classnameDesktop} mobile-${
-        isTeaserLinks ? 'top-center' : position.classnameMobile
+      className={`desktop-${isTeaserLinks ? 'center-center' : position.classnameDesktop} mobile-${
+        isTeaserLinks ? 'center-center' : position.classnameMobile
       }`}
       linksPosition={links.list.length > 0 ? links.position : 'NONE'}
       linksSize={links.size}
