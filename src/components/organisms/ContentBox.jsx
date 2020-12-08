@@ -476,14 +476,14 @@ export const ContentBox = ({
   const isTeaserLinks = type === 'TEASER_LINKS'
   const colors = { color, colorAccent, colorBackground, colorBackgroundAccent }
   const area =
-    positionLegacy === 'null' || span === 'null'
+    positionLegacy === 'null' || span === 'null' || !positionLegacy || !span
       ? undefined
       : getArea({
           position: isTeaserLinks ? '2/2' : positionLegacy,
           span: isTeaserLinks ? '5/4' : span,
         })
   const areaMobile =
-    positionMobile === 'null' || spanMobile === 'null'
+    positionMobile === 'null' || spanMobile === 'null' || !positionMobile || !spanMobile
       ? undefined
       : getArea({
           position: isTeaserLinks ? '2/1' : positionMobile,
