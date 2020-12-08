@@ -306,7 +306,6 @@ const getGridAreaMobile = (
 }
 
 const getArea = ({ position, span }) => {
-  console.log({ position, span })
   const [startRowField, startColumnField] = position.split('/')
   const [rowSpanField, columnSpanField] = span.split('/')
 
@@ -460,7 +459,6 @@ export const ContentBox = ({
     spanMobile,
   } = content
 
-  console.log({ positionLegacy, positionMobile, span, spanMobile })
   const position = getContentPosition({ content })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
