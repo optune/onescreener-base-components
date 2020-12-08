@@ -353,24 +353,39 @@ const ResponsiveContainer = styled.div`
       }
     `}
 
-    @media ${NotMediaMobile} {
-      ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
-        isPreviewMobile
-          ? !!areaMobile && getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
-          : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })}
-    }
-  
-    @media ${MediaMobile} {
-      ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
-        (!!areaMobile && !isSidePreview && getGridAreaMobile(areaMobile, { linksSize })) ||
-        isPreviewMobile
-          ? !!areaMobile && getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
-          : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })} }
-    }
+
+    ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
+      !!area &&
+      !!areaMobile &&
+      css`
+      top: unset;
+      bottom: unset;
+      left: unset;
+      right: unset;
+
+      @media ${NotMediaMobile} {
+        ${
+          isPreviewMobile
+            ? !!areaMobile && getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
+            : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })
+        }
+      }
+    
+      @media ${MediaMobile} {
+        ${
+          (!!areaMobile && !isSidePreview && getGridAreaMobile(areaMobile, { linksSize })) ||
+          isPreviewMobile
+            ? !!areaMobile && getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
+            : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })
+        } }
+      }
+    `}
+   
 `
 
 const Container = styled.div`
   position: relative;
+  margin: 1rem;
   height: ${({ isLegacy }) => (isLegacy ? '100%' : '40%')};
   width: ${({ isLegacy }) => (isLegacy ? '100%' : '40%')};
   
@@ -396,9 +411,6 @@ const Container = styled.div`
       `}
   }
 
-
-
-  margin: 32px 24px;
 `
 
 const getContentPosition = ({ content }) => {
