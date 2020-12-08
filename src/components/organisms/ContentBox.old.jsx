@@ -12,151 +12,6 @@ import { MediaSmall, MediaMobile, NotMediaMobile } from '../../style/media.js'
 
 import { renderHtml } from '../../utils/renderHtml.js'
 
-const stylesContentDesktop = `
-&.desktop- {
-  &top-left {
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-
-  &top-center {
-    align-items: flex-start;
-    justify-content: center;
-
-    & > div > div {
-      justify-content: center;
-    }
-  }
-
-  &top-right {
-    align-items: flex-start;
-    justify-content: flex-end;
-
-    & > div > div {
-      justify-content: flex-end;
-    }
-  }
-
-  &center-left {
-    align-items: center;
-    justify-content: flex-start;
-  }
-
-  &center-center {
-    align-items: center;
-    justify-content: center;
-
-    & > div > div {
-      justify-content: center;
-    }
-  }
-
-  &center-right {
-    align-items: center;
-    justify-content: flex-end;
-
-    & > div > div {
-      justify-content: flex-end;
-    }
-  }
-
-  &bottom-left {
-    align-items: flex-end;
-    justify-content: flex-start;
-  }
-
-  &bottom-center {
-    align-items: flex-end;
-    justify-content: center;
-
-    & > div > div {
-      justify-content: center;
-    }
-  }
-
-  &bottom-right {
-    align-items: flex-end;
-    justify-content: flex-end;
-
-    & > div > div {
-      justify-content: flex-end;
-    }
-  }
-}`
-
-const stylesContentMobile = `
-&.mobile- {
-  &top-left {
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-
-  &top-center {
-    align-items: flex-start;
-    justify-content: center;
-
-    & > div > div {
-      justify-content: center;
-    }
-  }
-
-  &top-right {
-    align-items: flex-start;
-    justify-content: flex-end;
-
-    & > div > div {
-      justify-content: flex-end;
-    }
-  }
-
-  &center-left {
-    align-items: center;
-    justify-content: flex-start;
-  }
-
-  &center-center {
-    align-items: center;
-    justify-content: center;
-
-    & > div > div {
-      justify-content: center;
-    }
-  }
-
-  &center-right {
-    align-items: center;
-    justify-content: flex-end;
-
-    & > div > div {
-      justify-content: flex-end;
-    }
-  }
-
-  &bottom-left {
-    align-items: flex-end;
-    justify-content: flex-start;
-  }
-
-  &bottom-center {
-    align-items: flex-end;
-    justify-content: center;
-    margin: 2px;
-
-    & > div > div {
-      justify-content: center;
-    }
-  }
-
-  &bottom-right {
-    align-items: flex-end;
-    justify-content: flex-end;
-
-    & > div > div {
-      justify-content: flex-end;
-    }
-  }
-}`
-
 const DesktopGrid = {
   RowSize: 6,
   ColumnSize: 6,
@@ -305,8 +160,34 @@ const getGridAreaMobile = (
   `
 }
 
+const FullscreenContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+`
+const ResponsiveContainer = styled.div`
+  position: absolute;
+  z-index: 3;
+
+  @media ${NotMediaMobile} {
+    ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
+      isPreviewMobile
+        ? getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
+        : getGridArea(area, { linksPosition, linksSize, isSidePreview })}
+  }
+
+  @media ${MediaMobile} {
+    ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
+      (!isSidePreview && getGridAreaMobile(areaMobile, { linksSize })) || isPreviewMobile
+        ? getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
+        : getGridArea(area, { linksPosition, linksSize, isSidePreview })} }
+  }
+`
+
 const getArea = ({ position, span }) => {
-  console.log({ position, span })
   const [startRowField, startColumnField] = position.split('/')
   const [rowSpanField, columnSpanField] = span.split('/')
 
@@ -320,109 +201,6 @@ const getArea = ({ position, span }) => {
   return { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan }
 }
 
-const FullscreenContainer = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  margin: 0;
-
-  z-index: 1;
-  pointer-events: none;
-`
-
-const ResponsiveContainer = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  z-index: 2;
-
-  ${stylesContentDesktop}
-
-  ${({ isDifferentPositions, isPreviewMobile, isSidePreview }) =>
-    isDifferentPositions &&
-    css`
-      ${isPreviewMobile && stylesContentMobile}
-
-      @media ${MediaMobile} {
-        ${!isSidePreview && stylesContentMobile}
-      }
-    `}
-
-    @media ${NotMediaMobile} {
-      ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
-        isPreviewMobile
-          ? !!areaMobile && getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
-          : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })}
-    }
-  
-    @media ${MediaMobile} {
-      ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
-        (!!areaMobile && !isSidePreview && getGridAreaMobile(areaMobile, { linksSize })) ||
-        isPreviewMobile
-          ? !!areaMobile && getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
-          : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })} }
-    }
-`
-
-const Container = styled.div`
-  position: relative;
-  height: ${({ isLegacy }) => (isLegacy ? '100%' : '40%')};
-  width: ${({ isLegacy }) => (isLegacy ? '100%' : '40%')};
-  
-  ${({ isPreviewMobile, isSidePreview, isLegacyMobile }) =>
-    isPreviewMobile &&
-    css`
-      height: ${isLegacyMobile ? '100%' : isSidePreview ? '40%' : '40%'};
-      width: ${isLegacyMobile ? '100%' : isSidePreview ? '100%' : '100%'};
-      margin: 0px 10px;
-    `}
-
-  @media ${MediaMobile} {
-    height: ${({ isSidePreview }) => (isSidePreview ? null : '40%')};
-    width: ${({ isSidePreview }) => (isSidePreview ? null : '100%')};
-    margin: 0px 10px;
-
-    ${({ isLegacyMobile }) =>
-      isLegacyMobile &&
-      css`
-        height: 100%;
-        width: 100%;
-        margin: 0;
-      `}
-  }
-
-
-
-  margin: 32px 24px;
-`
-
-const getContentPosition = ({ content }) => {
-  const positionDesktop =
-    (content.positionDesktop > '' && content.positionDesktop) || content.position
-
-  const classnameDesktop =
-    (positionDesktop > '' && positionDesktop.toLowerCase().replace('_', '-')) || 'top-center'
-
-  const contentPosition =
-    (content.isDifferentPositions && content.positionMobile) ||
-    content.positionDesktop ||
-    content.position
-
-  const classnameMobile =
-    (contentPosition > '' && contentPosition.toLowerCase().replace('_', '-')) || 'top-center'
-
-  return {
-    classnameMobile,
-    classnameDesktop,
-  }
-}
-
 export const ContentBox = ({
   content,
   links,
@@ -434,7 +212,6 @@ export const ContentBox = ({
   /*
    * Get content values
    */
-
   const {
     alignHorizontal,
     color,
@@ -443,42 +220,30 @@ export const ContentBox = ({
     colorBackgroundAccent,
     cover,
     gigsAPI,
-    isDifferentPositions,
     gigsAPIDomain,
     gigsList,
     gigsLoading,
     media,
+    position = '4/2',
+    positionMobile = '2/1',
+    span = '2/4',
+    spanMobile = '2/2',
     teaserLinks,
     text,
     type,
     wordWrap,
-
-    // legacy
-    position: positionLegacy,
-    positionMobile,
-    span,
-    spanMobile,
   } = content
-
-  console.log({ positionLegacy, positionMobile, span, spanMobile })
-  const position = getContentPosition({ content })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
   const colors = { color, colorAccent, colorBackground, colorBackgroundAccent }
-  const area =
-    positionLegacy === 'null' || span === 'null'
-      ? undefined
-      : getArea({
-          position: isTeaserLinks ? '2/2' : positionLegacy,
-          span: isTeaserLinks ? '5/4' : span,
-        })
-  const areaMobile =
-    positionMobile === 'null' || spanMobile === 'null'
-      ? undefined
-      : getArea({
-          position: isTeaserLinks ? '2/1' : positionMobile,
-          span: isTeaserLinks ? '2/2' : spanMobile,
-        })
+  const area = getArea({
+    position: isTeaserLinks ? '2/2' : position,
+    span: isTeaserLinks ? '5/4' : span,
+  })
+  const areaMobile = getArea({
+    position: isTeaserLinks ? '2/1' : positionMobile,
+    span: isTeaserLinks ? '2/2' : spanMobile,
+  })
   const { border, circle, square } = links
 
   /*
@@ -514,6 +279,7 @@ export const ContentBox = ({
       ) : null
       fullscreen = media ? media.fullscreen : false
       break
+
     case 'TEASER_LINKS':
       Content = <TeaserLinksBox teaserLinks={teaserLinks.list} isSidePreview={isSidePreview} />
       break
@@ -541,25 +307,14 @@ export const ContentBox = ({
     <FullscreenContainer>{Content}</FullscreenContainer>
   ) : (
     <ResponsiveContainer
-      className={`desktop-${isTeaserLinks ? 'center-center' : position.classnameDesktop} mobile-${
-        isTeaserLinks ? 'center-center' : position.classnameMobile
-      }`}
       area={area}
       areaMobile={areaMobile}
       linksPosition={links.list.length > 0 ? links.position : 'NONE'}
       linksSize={links.size}
-      isSidePreview={isSidePreview}
       isPreviewMobile={isPreviewMobile}
-      isDifferentPositions={isDifferentPositions}
+      isSidePreview={isSidePreview}
     >
-      <Container
-        isLegacy={!!area}
-        isLegacyMobile={!!areaMobile}
-        isSidePreview={isSidePreview}
-        isPreviewMobile={isPreviewMobile}
-      >
-        {Content}
-      </Container>
+      {Content}
     </ResponsiveContainer>
   )
 }
