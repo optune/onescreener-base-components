@@ -10,39 +10,54 @@ const BacklinkUrl =
 const StyledBackLink = styled.a`
   position: ${({ isSidePreview, isPreviewMobile }) =>
     isPreviewMobile || isSidePreview ? 'absolute' : 'fixed'};
-  background-image: url(${BacklinkUrl});
+  background-image: ${({ isPro }) =>
+    isPro ? null : 'linear-gradient(180.35deg,#e7fb00 42.6%, #5aeb3c 100%, #00F7CB 0%)'};
+
   background-size: contain;
-  background-color: #606060;
+  background-color: ${({ isPro }) => isPro && '#60606090'};
+  color: ${({ isPro }) => (isPro ? '#F5f5f5' : '#0a1c3b')};
   background-position: center;
   background-repeat: no-repeat;
-  width: 90px;
+  width: 100px;
   height: 26px;
-  opacity: 0.4;
+  opacity: 0.8;
   transform: rotate(-90deg);
-  transform-origin: 100% 100%;
+  transform-origin: 139% 250%;
   right: 0;
-  color: #ffffff;
   transition: opacity 0.3s ease-out;
   z-index: 9999;
+  text-decoration: none;
 
   &:hover {
     opacity: 0.6;
   }
 
   & h1 {
-    color: #808080;
-    font-size: 5px;
-    opacity: 0.1;
+    color: ${({ isPro }) => (isPro ? '#F5f5f5' : '#0a1c3b')};
+    font-size: 12px;
+    opacity: 1;
+    font-family: 'CeraPRO', Helvetica, sans-serif;
+    word-wrap: break-word;
+    line-height: 10px;
+    text-align: center;
+    margin-top: 4px;
+  }
+
+  & h1:first-line {
+    font-size: 10px;
   }
 `
 
-export const BackLink = ({ isPreviewMobile }) => (
+export const BackLink = ({ isPreviewMobile, isPro }) => (
   <StyledBackLink
     href="https://www.onescreener.com"
     target="_blank"
-    title="created with onescreener.com"
+    title="created with onescreener"
     isPreviewMobile={isPreviewMobile}
+    isPro={isPro}
   >
-    <h1>created by onescreener.com</h1>
+    <h1>
+      created with <strong>Onescreener</strong>
+    </h1>
   </StyledBackLink>
 )
