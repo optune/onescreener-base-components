@@ -23,6 +23,7 @@ export const PlatformLink = ({
   colorAccent,
   colorBackground,
   colorBackgroundAccent,
+  isHighlighted,
   isPreviewMobile,
   isSidePreview,
   label,
@@ -62,6 +63,7 @@ export const PlatformLink = ({
           colorBackgroundAccent={colorBackgroundAccent}
           margin={margin}
           noShadow
+          isHighlighted={isHighlighted}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
           size={size || 'M'}
@@ -90,6 +92,7 @@ export const PlatformLink = ({
           colorBackgroundAccent={colorBackgroundAccent}
           margin={margin}
           noShadow
+          isHighlighted={isHighlighted}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
           size={size || 'M'}
@@ -114,6 +117,7 @@ export const PlatformLink = ({
         colorBackground={colorBackground}
         colorBackgroundAccent={colorBackgroundAccent}
         noShadow
+        isHighlighted={isHighlighted}
         isPreviewMobile={isPreviewMobile}
         isSidePreview={isSidePreview}
         isPreview

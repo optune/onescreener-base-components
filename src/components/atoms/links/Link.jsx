@@ -49,7 +49,7 @@ export const Link = styled.div`
   align-items: center;
   padding: 0px;
   background-color: ${({ colorBackground }) => colorBackground};
-  border-radius: ${({ circle, square }) => (circle && '50%') || (square && 'none') || '0.4rem'};
+  border-radius: ${({ circle, square }) => (circle && '50px') || (square && 'none') || '0.4rem'};
   border-color: ${({ color }) => color || 'transparent'};
   border-width: ${({ border }) => border / 10}rem;
   border-style: solid;
@@ -61,10 +61,12 @@ export const Link = styled.div`
   color: ${({ color }) => color};
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out, color 0.25s ease-out;
 
-  width: ${({ isSidePreview, isPreviewMobile, size }) =>
-    isPreviewMobile
-      ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
-      : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]};
+  width: ${({ isHighlighted, isSidePreview, isPreviewMobile, size }) =>
+    `calc(${
+      isPreviewMobile
+        ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
+        : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]
+    } * ${isHighlighted ? '2' : '1'})`};
 
   height: ${({ isSidePreview, isPreviewMobile, size }) =>
     isPreviewMobile

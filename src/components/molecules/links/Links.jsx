@@ -49,6 +49,7 @@ export const Links = ({
           colorAccent={colorAccent}
           colorBackground={colorBackground}
           colorBackgroundAccent={colorBackgroundAccent}
+          isHighlighted={link.isHighlighted}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
           key={link.platform}
