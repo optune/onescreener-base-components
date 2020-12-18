@@ -382,23 +382,23 @@ const Container = styled.div`
   position: relative;
   margin: 1rem;
   height: ${({ isLegacy, size }) =>
-    isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '35%' : '40%'};
+    isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '40%' : '60%'};
   width: ${({ isLegacy, size }) =>
-    isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '35%' : '40%'};
+    isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '40%' : '60%'};
   
   ${({ isPreviewMobile, isSidePreview, isLegacyMobile, size }) =>
     isPreviewMobile &&
     css`
-      height: ${isLegacyMobile
+      height: ${isLegacyMobile ? '100%' : isSidePreview ? '100%' : '100%'};
+      width: ${isLegacyMobile
         ? '100%'
         : isSidePreview
         ? size === 'S'
-          ? '30%'
+          ? '60%'
           : size === 'M'
-          ? '35%'
-          : '40%'
-        : '40%'};
-      width: ${isLegacyMobile ? '100%' : isSidePreview ? '100%' : '100%'};
+          ? '80%'
+          : '100%'
+        : '100%'};
       margin: 0px 10px;
     `}
 
@@ -573,6 +573,7 @@ export const ContentBox = ({
         isLegacyMobile={!!areaMobile}
         isSidePreview={isSidePreview}
         isPreviewMobile={isPreviewMobile}
+        size={size}
       >
         {Content}
       </Container>

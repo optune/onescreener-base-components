@@ -7,7 +7,7 @@ import { Link } from '../../atoms/links/Link'
 import { LinkIconMapper } from '../../atoms/links/LinkIconMapper'
 
 // Icons
-import { PlatformLinkIcon } from '../../icons/platform/index'
+import { PlatformLinkIcon } from '../../icons/platform/index'
 
 const LinkWrapper = styled.a`
   text-decoration: none;
