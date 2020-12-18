@@ -11,7 +11,7 @@ const StyledBackLink = styled.a`
   position: ${({ isSidePreview, isPreviewMobile }) =>
     isPreviewMobile || isSidePreview ? 'absolute' : 'fixed'};
   background-image: ${({ isPro }) =>
-    isPro ? null : 'linear-gradient(180.35deg,#e7fb00 42.6%, #5aeb3c 100%, #00F7CB 0%)'};
+    isPro ? null : 'linear-gradient(175.35deg,#e7fb00 2.6%, #5aeb3c 60%, #00F7CB 100%)'};
 
   background-size: contain;
   background-color: ${({ isPro }) => isPro && '#60606090'};
