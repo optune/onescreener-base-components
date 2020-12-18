@@ -358,41 +358,46 @@ const ResponsiveContainer = styled.div`
       !!area &&
       !!areaMobile &&
       css`
-      top: unset;
-      bottom: unset;
-      left: unset;
-      right: unset;
+        top: unset;
+        bottom: unset;
+        left: unset;
+        right: unset;
 
-      @media ${NotMediaMobile} {
-        ${
-          isPreviewMobile
+        @media ${NotMediaMobile} {
+          ${isPreviewMobile
             ? !!areaMobile && getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
-            : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })
+            : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })}
         }
-      }
-    
-      @media ${MediaMobile} {
-        ${
-          (!!areaMobile && !isSidePreview && getGridAreaMobile(areaMobile, { linksSize })) ||
+
+        @media ${MediaMobile} {
+          ${(!!areaMobile && !isSidePreview && getGridAreaMobile(areaMobile, { linksSize })) ||
           isPreviewMobile
             ? !!areaMobile && getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
-            : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })
-        } }
-      }
-    `}
-   
+            : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })}
+        }
+      `}
 `
 
 const Container = styled.div`
   position: relative;
   margin: 1rem;
-  height: ${({ isLegacy }) => (isLegacy ? '100%' : '40%')};
-  width: ${({ isLegacy }) => (isLegacy ? '100%' : '40%')};
+  height: ${({ isLegacy, size }) =>
+    isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '35%' : '40%'};
+  width: ${({ isLegacy, size }) =>
+    isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '35%' : '40%'};
   
-  ${({ isPreviewMobile, isSidePreview, isLegacyMobile }) =>
+  ${({ isPreviewMobile, isSidePreview, isLegacyMobile, size }) =>
     isPreviewMobile &&
     css`
-      height: ${isLegacyMobile ? '100%' : isSidePreview ? '40%' : '40%'};
+      height: ${isLegacyMobile
+        ? '100%'
+        : isSidePreview
+        ? size === 'S'
+          ? '30%'
+          : size === 'M'
+          ? '35%'
+          : '40%'
+        : '40%'};
       width: ${isLegacyMobile ? '100%' : isSidePreview ? '100%' : '100%'};
       margin: 0px 10px;
     `}
@@ -468,9 +473,10 @@ export const ContentBox = ({
     position: positionLegacy,
     positionMobile,
     span,
+    size,
     spanMobile,
   } = content
-
+  console.log('contentSize: ', size)
   const position = getContentPosition({ content })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
