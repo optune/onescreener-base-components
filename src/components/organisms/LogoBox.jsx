@@ -223,12 +223,7 @@ const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
     'none'
 
   const paddingIndexMobile =
-    // (linkPosition === 'CENTER_LEFT' && PositionLeft.includes(logoPositionMobile) && 'left') ||
-    // (linkPosition === 'CENTER_RIGHT' && PositionRight.includes(logoPositionMobile) && 'right') ||
-    //(PositionBottom.includes(linkPosition) &&
-    (linkPosition > '' && PositionBottom.includes(logoPositionMobile) && 'bottom') ||
-    // (isPreviewMobile && 'bottom') ||
-    'none'
+    (linkPosition > '' && PositionBottom.includes(logoPositionMobile) && 'bottom') || 'none'
 
   return {
     desktop: logoPadding[paddingIndexDesktop],

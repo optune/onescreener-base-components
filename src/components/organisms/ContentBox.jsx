@@ -8,7 +8,7 @@ import { MediaBox } from './MediaBox.jsx'
 import { CoverBox } from './CoverBox.jsx'
 import { TeaserLinksBox } from './TeaserLinksBox.jsx'
 
-import { MediaSmall, MediaMobile, NotMediaMobile } from '../../style/media.js'
+import { MediaMobile, NotMediaMobile } from '../../style/media.js'
 
 import { renderHtml } from '../../utils/renderHtml.js'
 
@@ -389,7 +389,7 @@ const Container = styled.div`
   ${({ isPreviewMobile, isSidePreview, isLegacyMobile, size }) =>
     isPreviewMobile &&
     css`
-      height: ${isLegacyMobile ? '100%' : isSidePreview ? '100%' : '100%'};
+      height: ${isLegacyMobile ? '100%' : isSidePreview ? '40%' : '40%'};
       width: ${isLegacyMobile
         ? '100%'
         : isSidePreview
@@ -476,7 +476,6 @@ export const ContentBox = ({
     size,
     spanMobile,
   } = content
-  console.log('contentSize: ', size)
   const position = getContentPosition({ content })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
