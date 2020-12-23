@@ -125,8 +125,11 @@ export const Link = styled.div`
 
   @media ${MediaMobile} {
     pointer-events: none;
-    width: ${({ size, isSidePreview }) =>
-      isSidePreview ? ShapeSizeSidePreview.Mobile[size] : ShapeSize.Mobile[size]};
+    width: ${({ isHighlighted, size, isSidePreview }) =>
+      `calc(${isSidePreview ? ShapeSizeSidePreview.Mobile[size] : ShapeSize.Mobile[size]} * ${
+        isHighlighted ? '2' : '1'
+      })`};
+
     height: ${({ size, isSidePreview }) =>
       isSidePreview ? ShapeSizeSidePreview.Mobile[size] : ShapeSize.Mobile[size]};
     margin: ${({ size, margin }) => margin || (size === 'L' && '1px') || '5px'};
