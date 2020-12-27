@@ -113,6 +113,7 @@ export const Page = ({
   isPreviewMobileReady,
   isSidePreview,
   Modal,
+  hasPro,
   noBacklink,
   page,
   pageUrl,
@@ -134,7 +135,7 @@ export const Page = ({
   if (page) {
     const { background, logo, content } = page
     const { links } = page || { links: { list: [] } }
-    const isPro = content.type !== 'NONE'
+    const isPro = hasPro || content.type !== 'NONE'
 
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
