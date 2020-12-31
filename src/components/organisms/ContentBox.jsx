@@ -8,7 +8,7 @@ import { MediaBox } from './MediaBox.jsx'
 import { CoverBox } from './CoverBox.jsx'
 import { TeaserLinksBox } from './TeaserLinksBox.jsx'
 
-import { MediaSmall, MediaMobile, NotMediaMobile } from '../../style/media.js'
+import { MediaMobile, NotMediaMobile } from '../../style/media.js'
 
 import { renderHtml } from '../../utils/renderHtml.js'
 
@@ -339,7 +339,7 @@ const ResponsiveContainer = styled.div`
   left: 0;
   right: 0;
   display: flex;
-  z-index: 2;
+  z-index: 99;
 
   ${stylesContentDesktop}
 
@@ -358,42 +358,47 @@ const ResponsiveContainer = styled.div`
       !!area &&
       !!areaMobile &&
       css`
-      top: unset;
-      bottom: unset;
-      left: unset;
-      right: unset;
+        top: unset;
+        bottom: unset;
+        left: unset;
+        right: unset;
 
-      @media ${NotMediaMobile} {
-        ${
-          isPreviewMobile
+        @media ${NotMediaMobile} {
+          ${isPreviewMobile
             ? !!areaMobile && getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
-            : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })
+            : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })}
         }
-      }
-    
-      @media ${MediaMobile} {
-        ${
-          (!!areaMobile && !isSidePreview && getGridAreaMobile(areaMobile, { linksSize })) ||
+
+        @media ${MediaMobile} {
+          ${(!!areaMobile && !isSidePreview && getGridAreaMobile(areaMobile, { linksSize })) ||
           isPreviewMobile
             ? !!areaMobile && getGridAreaMobile(areaMobile, { linksSize, isPreviewMobile: true })
-            : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })
-        } }
-      }
-    `}
-   
+            : !!area && getGridArea(area, { linksPosition, linksSize, isSidePreview })}
+        }
+      `}
 `
 
 const Container = styled.div`
   position: relative;
   margin: 1rem;
-  height: ${({ isLegacy }) => (isLegacy ? '100%' : '40%')};
-  width: ${({ isLegacy }) => (isLegacy ? '100%' : '40%')};
+  height: ${({ isLegacy, size }) =>
+    isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '40%' : '60%'};
+  width: ${({ isLegacy, size }) =>
+    isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '40%' : '60%'};
   
-  ${({ isPreviewMobile, isSidePreview, isLegacyMobile }) =>
+  ${({ isPreviewMobile, isSidePreview, isLegacyMobile, size }) =>
     isPreviewMobile &&
     css`
       height: ${isLegacyMobile ? '100%' : isSidePreview ? '40%' : '40%'};
-      width: ${isLegacyMobile ? '100%' : isSidePreview ? '100%' : '100%'};
+      width: ${isLegacyMobile
+        ? '100%'
+        : isSidePreview
+        ? size === 'S'
+          ? '60%'
+          : size === 'M'
+          ? '80%'
+          : '100%'
+        : '100%'};
       margin: 0px 10px;
     `}
 
@@ -468,9 +473,9 @@ export const ContentBox = ({
     position: positionLegacy,
     positionMobile,
     span,
+    size,
     spanMobile,
   } = content
-
   const position = getContentPosition({ content })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
@@ -567,6 +572,7 @@ export const ContentBox = ({
         isLegacyMobile={!!areaMobile}
         isSidePreview={isSidePreview}
         isPreviewMobile={isPreviewMobile}
+        size={size}
       >
         {Content}
       </Container>
