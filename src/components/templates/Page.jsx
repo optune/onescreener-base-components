@@ -113,6 +113,7 @@ export const Page = ({
   isPreviewMobileReady,
   isSidePreview,
   Modal,
+  hasPro,
   noBacklink,
   page,
   pageUrl,
@@ -135,6 +136,8 @@ export const Page = ({
     const { background, logo, content } = page
     const { links } = page || { links: { list: [] } }
 
+    const isPro = hasPro || !!(content.type !== 'NONE')
+
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
     PageComponent = (
@@ -152,7 +155,9 @@ export const Page = ({
 
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
-            {!noBacklink && !isSidePreview && <BackLink isPreviewMobile={isPreviewMobile} />}
+            {!noBacklink && !isSidePreview && (
+              <BackLink isPreviewMobile={isPreviewMobile} isPro={isPro} />
+            )}
 
             {/* Logo */}
             {logo && (
