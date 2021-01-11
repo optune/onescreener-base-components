@@ -17,7 +17,7 @@ const CoverLink = styled.a`
 `
 
 const CoverImage = styled.img`
-  width: ${({ fullscreen }) => (fullscreen ? '100%' : 'auto')};
+  width: 100%;
   height: 100%;
   object-fit: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
 `
