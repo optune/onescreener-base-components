@@ -27,6 +27,21 @@ export default createGlobalStyle`
     width: 100%;
     font-family: 'CeraPRO', Helvetica, sans-serif;
     line-height: normal;
+
+    @media ${MediaSmall} {
+      &.noscroll {
+        overflow-y: hidden;
+
+        #render-target {
+          position: absolute;
+          top: 0;
+          width: 100%;
+          height: 100%;
+
+          overflow-y: scroll;
+        }
+      }
+    }
   }
 
   h1, h2, h3, h4, h5, p, li, ul, i, span, b {
