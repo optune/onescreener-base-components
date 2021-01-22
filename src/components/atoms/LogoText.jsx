@@ -27,9 +27,26 @@ const LogoSize = {
 const LogoSizeTeaserLinks = {
   Desktop: {
     XS: '6.333%',
-    S: '8.333%',
+    S: '7.333%',
     M: '8.333%',
-    L: '10.666%',
+    L: '9.666%',
+    XL: '10.666%',
+  },
+  Mobile: {
+    XS: '10%',
+    S: '13%',
+    M: '20%',
+    L: '24%',
+    XL: '28%',
+  },
+}
+
+const LogoSizeTeaserLinksSidePreview = {
+  Desktop: {
+    XS: '6.333%',
+    S: '7.333%',
+    M: '8.333%',
+    L: '9.666%',
     XL: '10.666%',
   },
   Mobile: {
@@ -46,8 +63,8 @@ const LogoTextContainer = styled.div`
   width: ${({ size, isPreviewMobile, isTeaserLinks }) =>
     isTeaserLinks
       ? isPreviewMobile
-        ? LogoSizeTeaserLinks.Mobile[size]
-        : LogoSizeTeaserLinks.Desktop[size]
+        ? `calc(${LogoSizeTeaserLinks.Mobile[size]} * 2)`
+        : `calc(${LogoSizeTeaserLinks.Desktop[size]} * 3)`
       : isPreviewMobile
       ? LogoSize.Mobile[size]
       : LogoSize.Desktop[size]};
@@ -69,9 +86,7 @@ const LogoTextContainer = styled.div`
 
   @media ${MediaMobile} {
     width: ${({ size, isPreviewMobile, isTeaserLinks }) =>
-      isTeaserLinks
-        ? (isPreviewMobile && LogoSizeTeaserLinks.Mobile[size]) || LogoSizeTeaserLinks.Desktop[size]
-        : LogoSize.Mobile[size]};
+      isTeaserLinks ? (isPreviewMobile && '60%') || '80%' : LogoSize.Mobile[size]};
     height: ${({ size, isPreviewMobile, isTeaserLinks }) =>
       isTeaserLinks
         ? (isPreviewMobile && LogoSizeTeaserLinks.Mobile[size]) || LogoSizeTeaserLinks.Desktop[size]
