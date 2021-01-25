@@ -339,7 +339,7 @@ const ResponsiveContainer = styled.div`
   left: 0;
   right: 0;
   display: flex;
-  z-index: 99;
+  z-index: 2;
 
   ${stylesContentDesktop}
 

@@ -27,9 +27,11 @@ const LinksList = styled.div`
   @media ${MediaSmall} {
     &.bottom-left {
       justify-content: center;
+      bottom: 0;
     }
     &.bottom-right {
       justify-content: center;
+      bottom: 0;
     }
     &.center-left {
       flex-flow: row;
