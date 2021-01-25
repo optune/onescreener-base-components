@@ -329,7 +329,7 @@ const FullscreenContainer = styled.div`
   margin: 0;
 
   z-index: 1;
-  pointer-events: none;
+  /* pointer-events: none; */
 `
 
 const ResponsiveContainer = styled.div`
