@@ -386,6 +386,14 @@ const Container = styled.div`
   width: ${({ isLegacy, size }) =>
     isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '40%' : '60%'};
   
+
+  ${({ isTeaserLinks }) =>
+    isTeaserLinks &&
+    css`
+      min-width: 300px;
+    `}
+
+
   ${({ isPreviewMobile, isSidePreview, isLegacyMobile, size }) =>
     isPreviewMobile &&
     css`
@@ -572,6 +580,7 @@ export const ContentBox = ({
         isLegacyMobile={!!areaMobile}
         isSidePreview={isSidePreview}
         isPreviewMobile={isPreviewMobile}
+        isTeaserLinks={isTeaserLinks}
         size={size}
       >
         {Content}
