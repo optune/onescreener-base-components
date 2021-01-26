@@ -284,6 +284,7 @@ export const LogoBox = ({
           logo={logo}
           isPreviewMobile={isPreviewMobileReady}
           isTeaserLinks={isTeaserLinks}
+          isSidePreview={isSidePreview}
         />
       ) : (
         <Logo
