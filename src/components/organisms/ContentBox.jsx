@@ -69,6 +69,7 @@ const stylesContentDesktop = `
     align-items: flex-end;
     justify-content: center;
 
+
     & > div > div {
       justify-content: center;
     }
