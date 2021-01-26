@@ -17,6 +17,7 @@ const stylesContentDesktop = `
   &top-left {
     align-items: flex-start;
     justify-content: flex-start;
+    margin-left: 32px;
   }
 
   &top-center {
@@ -31,6 +32,7 @@ const stylesContentDesktop = `
   &top-right {
     align-items: flex-start;
     justify-content: flex-end;
+    margin-right: 32px;
 
     & > div > div {
       justify-content: flex-end;
@@ -40,6 +42,7 @@ const stylesContentDesktop = `
   &center-left {
     align-items: center;
     justify-content: flex-start;
+    margin-left: 32px;
   }
 
   &center-center {
@@ -54,6 +57,7 @@ const stylesContentDesktop = `
   &center-right {
     align-items: center;
     justify-content: flex-end;
+    margin-right: 32px;
 
     & > div > div {
       justify-content: flex-end;
@@ -63,11 +67,14 @@ const stylesContentDesktop = `
   &bottom-left {
     align-items: flex-end;
     justify-content: flex-start;
+    margin-bottom: 22px;
+    margin-left: 32px;
   }
 
   &bottom-center {
     align-items: flex-end;
     justify-content: center;
+    margin-bottom: 22px;
 
 
     & > div > div {
@@ -78,6 +85,8 @@ const stylesContentDesktop = `
   &bottom-right {
     align-items: flex-end;
     justify-content: flex-end;
+    margin-bottom: 22px;
+    margin-right: 32px;
 
     & > div > div {
       justify-content: flex-end;
@@ -142,6 +151,7 @@ const stylesContentMobile = `
     align-items: flex-end;
     justify-content: center;
     margin: 2px;
+    margin-bottom: 12px;
 
     & > div > div {
       justify-content: center;
