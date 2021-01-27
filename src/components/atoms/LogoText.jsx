@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
 
@@ -24,13 +24,47 @@ const LogoSize = {
   },
 }
 
-const LogoSizeTeaserLinks = {
+const LogoSizeMinWidth = {
   Desktop: {
-    XS: '6.333%',
-    S: '8.333%',
-    M: '8.333%',
-    L: '10.666%',
-    XL: '10.666%',
+    XS: '30%',
+    S: '35%',
+    M: '45%',
+    L: '60%',
+    XL: '80%',
+  },
+  Mobile: {
+    XS: '40%',
+    S: '45%',
+    M: '55%',
+    L: '60%',
+    XL: '80%',
+  },
+}
+
+const LogoSizeMaxHeight = {
+  Desktop: {
+    XS: '10%',
+    S: '12%',
+    M: '14%',
+    L: '18%',
+    XL: '20%',
+  },
+  Mobile: {
+    XS: '10%',
+    S: '13%',
+    M: '20%',
+    L: '24%',
+    XL: '28%',
+  },
+}
+
+const LogoSizeMaxHeightSidePreview = {
+  Desktop: {
+    XS: '7%',
+    S: '9%',
+    M: '10%',
+    L: '12%',
+    XL: '14%',
   },
   Mobile: {
     XS: '10%',
@@ -43,23 +77,29 @@ const LogoSizeTeaserLinks = {
 
 const LogoTextContainer = styled.div`
   position: absolute;
-  width: ${({ size, isPreviewMobile, isTeaserLinks }) =>
-    isTeaserLinks
-      ? isPreviewMobile
-        ? LogoSizeTeaserLinks.Mobile[size]
-        : LogoSizeTeaserLinks.Desktop[size]
-      : isPreviewMobile
-      ? LogoSize.Mobile[size]
-      : LogoSize.Desktop[size]};
-  height: ${({ size, isPreviewMobile, isTeaserLinks }) =>
-    isTeaserLinks
-      ? isPreviewMobile
-        ? LogoSizeTeaserLinks.Mobile[size]
-        : LogoSizeTeaserLinks.Desktop[size]
-      : isPreviewMobile
-      ? LogoSize.Mobile[size]
-      : LogoSize.Desktop[size]};
+  width: ${({ size, isPreviewMobile }) =>
+    isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
+  height: ${({ size, isPreviewMobile }) =>
+    isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
   margin: 1rem;
+
+  ${({ size, isPreviewMobile, isSidePreview, isTeaserLinks }) =>
+    isTeaserLinks &&
+    css`
+      max-height: ${isPreviewMobile
+        ? LogoSizeMaxHeight.Mobile[size]
+        : LogoSizeMaxHeight.Desktop[size]};
+      min-width: ${isPreviewMobile
+        ? LogoSizeMinWidth.Mobile[size]
+        : LogoSizeMinWidth.Desktop[size]};
+
+      ${isSidePreview &&
+      `max-height: ${
+        isPreviewMobile
+          ? LogoSizeMaxHeightSidePreview.Mobile[size]
+          : LogoSizeMaxHeightSidePreview.Desktop[size]
+      }; `}
+    `}
 
   & #auto-text-fit-container {
     display: flex;
@@ -68,14 +108,8 @@ const LogoTextContainer = styled.div`
   }
 
   @media ${MediaMobile} {
-    width: ${({ size, isPreviewMobile, isTeaserLinks }) =>
-      isTeaserLinks
-        ? (isPreviewMobile && LogoSizeTeaserLinks.Mobile[size]) || LogoSizeTeaserLinks.Desktop[size]
-        : LogoSize.Mobile[size]};
-    height: ${({ size, isPreviewMobile, isTeaserLinks }) =>
-      isTeaserLinks
-        ? (isPreviewMobile && LogoSizeTeaserLinks.Mobile[size]) || LogoSizeTeaserLinks.Desktop[size]
-        : LogoSize.Mobile[size]};
+    width: ${({ size }) => LogoSize.Mobile[size]};
+    height: ${({ size }) => LogoSize.Mobile[size]};
 
     & #auto-text-fit-container {
       align-items: ${({ logoPosition }) => logoPosition.mobile};
@@ -126,7 +160,7 @@ const getLogoPosition = ({ logo }) => {
   }
 }
 
-export const LogoText = ({ logo, isPreviewMobile, isTeaserLinks }) => {
+export const LogoText = ({ logo, isPreviewMobile, isSidePreview, isTeaserLinks }) => {
   const logoPosition = getLogoPosition({ logo })
   return logo.text?.title ? (
     <LogoTextContainer
@@ -134,7 +168,8 @@ export const LogoText = ({ logo, isPreviewMobile, isTeaserLinks }) => {
       color={logo.text.color}
       fontFamily={logo.text.font}
       isPreviewMobile={isPreviewMobile}
-      logoPosition={isTeaserLinks ? { desktop: 'center', mobile: 'center' } : logoPosition}
+      isSidePreview={isSidePreview}
+      logoPosition={isTeaserLinks ? { desktop: 'flex-start', mobile: 'flex-start' } : logoPosition}
       isTeaserLinks={isTeaserLinks}
     >
       <AutoTextFit
