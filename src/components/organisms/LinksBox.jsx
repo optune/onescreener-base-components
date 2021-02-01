@@ -83,6 +83,7 @@ const LinksList = styled.div`
             height: 100%;
             flex-flow: column;
             justify-content: center;
+            align-items: flex-end;
           }
 
           &.center-left {
@@ -91,6 +92,7 @@ const LinksList = styled.div`
             height: 100%;
             flex-flow: column;
             justify-content: center;
+            align-items: flex-start;
           }
         `}
 

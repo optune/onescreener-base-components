@@ -206,7 +206,7 @@ export const Page = ({
 
                 <LinksBox
                   position={links.position}
-                  zIndex={10}
+                  zIndex={99}
                   isSidePreview={isSidePreview}
                   isPreviewMobile={isPreviewMobile}
                 >
