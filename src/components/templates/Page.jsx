@@ -33,7 +33,7 @@ const PageContainer = styled.div`
   bottom: 0;
   right: 0;
   z-index: 1;
-  background-color: ${({ color = '#000000' }) => color};
+  background: ${({ color = '#000000' }) => color};
 
   ${({ preloadImage, focusPoint, fullscreen }) =>
     preloadImage &&

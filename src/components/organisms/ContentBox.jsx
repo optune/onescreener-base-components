@@ -67,15 +67,14 @@ const stylesContentDesktop = `
   &bottom-left {
     align-items: flex-end;
     justify-content: flex-start;
-    margin-bottom: 22px;
     margin-left: 32px;
+    margin-bottom: 22px;
   }
 
   &bottom-center {
     align-items: flex-end;
     justify-content: center;
     margin-bottom: 22px;
-
 
     & > div > div {
       justify-content: center;
@@ -85,8 +84,8 @@ const stylesContentDesktop = `
   &bottom-right {
     align-items: flex-end;
     justify-content: flex-end;
-    margin-bottom: 22px;
     margin-right: 32px;
+    margin-bottom: 22px;
 
     & > div > div {
       justify-content: flex-end;
