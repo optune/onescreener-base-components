@@ -395,10 +395,10 @@ const Container = styled.div`
     isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '40%' : '60%'};
   
 
-  ${({ isTeaserLinks }) =>
+  ${({ isSidePreview, isTeaserLinks }) =>
     isTeaserLinks &&
     css`
-      min-width: 300px;
+      min-width: ${({ isSidePreview }) => (isSidePreview ? '250px' : '300px')};
     `}
 
 
