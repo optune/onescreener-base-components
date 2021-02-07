@@ -67,15 +67,14 @@ const stylesContentDesktop = `
   &bottom-left {
     align-items: flex-end;
     justify-content: flex-start;
-    margin-bottom: 22px;
     margin-left: 32px;
+    margin-bottom: 22px;
   }
 
   &bottom-center {
     align-items: flex-end;
     justify-content: center;
     margin-bottom: 22px;
-
 
     & > div > div {
       justify-content: center;
@@ -85,8 +84,8 @@ const stylesContentDesktop = `
   &bottom-right {
     align-items: flex-end;
     justify-content: flex-end;
-    margin-bottom: 22px;
     margin-right: 32px;
+    margin-bottom: 22px;
 
     & > div > div {
       justify-content: flex-end;
@@ -340,6 +339,7 @@ const FullscreenContainer = styled.div`
   margin: 0;
 
   z-index: 1;
+  /* pointer-events: none; */
 `
 
 const ResponsiveContainer = styled.div`
@@ -397,10 +397,10 @@ const Container = styled.div`
     isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '40%' : '60%'};
   
 
-  ${({ isTeaserLinks }) =>
+  ${({ isSidePreview, isTeaserLinks }) =>
     isTeaserLinks &&
     css`
-      min-width: 300px;
+      min-width: ${({ isSidePreview }) => (isSidePreview ? '250px' : '300px')};
     `}
 
 
