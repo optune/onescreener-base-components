@@ -58,7 +58,6 @@ const stylesContentDesktop = `
     align-items: center;
     justify-content: flex-end;
     
-
     & > div > div {
       justify-content: flex-end;
     }
@@ -67,14 +66,13 @@ const stylesContentDesktop = `
   &bottom-left {
     align-items: flex-end;
     justify-content: flex-start;
-    
-    margin-bottom: 22px;
+    margin-bottom: 42px;
   }
 
   &bottom-center {
     align-items: flex-end;
     justify-content: center;
-    margin-bottom: 22px;
+    margin-bottom: 42px;
 
     & > div > div {
       justify-content: center;
@@ -85,7 +83,7 @@ const stylesContentDesktop = `
     align-items: flex-end;
     justify-content: flex-end;
     
-    margin-bottom: 22px;
+    margin-bottom: 42px;
 
     & > div > div {
       justify-content: flex-end;
@@ -150,7 +148,7 @@ const stylesContentMobile = `
     align-items: flex-end;
     justify-content: center;
     margin: 2px;
-    margin-bottom: 12px;
+    margin-bottom: 42px;
 
     & > div > div {
       justify-content: center;
