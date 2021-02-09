@@ -62,7 +62,9 @@ export const Links = ({
           square={links.square}
           target={link.target}
           text={link.text}
-          url={link.url.startsWith('http://') ? link.url : `mailto:${link.url}`}
+          url={
+            link.username ? `mailto:${link.username}` : link.url?.startsWith('http://') && link.url
+          }
         />
       ))}
     </Fragment>
