@@ -17,8 +17,8 @@ const stylesContentDesktop = `
   &top-left {
     align-items: flex-start;
     justify-content: flex-start;
-    
-  }
+
+}
 
   &top-center {
     align-items: flex-start;
@@ -32,8 +32,8 @@ const stylesContentDesktop = `
   &top-right {
     align-items: flex-start;
     justify-content: flex-end;
-    
 
+    
     & > div > div {
       justify-content: flex-end;
     }
@@ -95,7 +95,7 @@ const stylesContentMobile = `
 &.mobile- {
   &top-left {
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   &top-center {
@@ -109,16 +109,16 @@ const stylesContentMobile = `
 
   &top-right {
     align-items: flex-start;
-    justify-content: flex-end;
+    justify-content: center;
 
     & > div > div {
-      justify-content: flex-end;
+      justify-content: center;
     }
   }
 
   &center-left {
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   &center-center {
@@ -132,16 +132,16 @@ const stylesContentMobile = `
 
   &center-right {
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
 
     & > div > div {
-      justify-content: flex-end;
+      justify-content: center;
     }
   }
 
   &bottom-left {
     align-items: flex-end;
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   &bottom-center {
@@ -157,10 +157,10 @@ const stylesContentMobile = `
 
   &bottom-right {
     align-items: flex-end;
-    justify-content: flex-end;
+    justify-content: center;
 
     & > div > div {
-      justify-content: flex-end;
+      justify-content: center;
     }
   }
 }`
