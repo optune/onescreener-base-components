@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { MediaSmall } from '../../style/media'
+import { RGBToHex } from '../../utils/convertRGBtoHEX'
 
 const LINKS_LIMIT = 7
 const STEP = LINKS_LIMIT - 1
@@ -28,6 +29,11 @@ const Container = styled.div`
     font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '1rem')};
     font-weight: 600;
     color: ${({ colorLinks }) => (colorLinks ? colorLinks : '#0a1c3b')};
+    text-shadow: ${({ colorLinksBackground }) =>
+      colorLinksBackground == 'rgba(255,255,255,0)'
+        ? `0px 2px 2px rgba(0, 0, 0, 0.08), 0px 3px 6px rgba(0, 0, 0, 0.08),
+      0px 3px 12px rgba(0, 0, 0, 0.14)`
+        : null};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -61,7 +67,10 @@ const Container = styled.div`
 
     &:hover,
     &:focus {
-      background: #ffffff;
+      background: ${({ colorLinksBackground, colorLinks }) =>
+        colorLinksBackground == 'rgba(255,255,255,0)'
+          ? `${RGBToHex(colorLinks)}10`
+          : colorLinksBackground};
     }
 
     &:hover {
