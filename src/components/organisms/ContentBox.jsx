@@ -546,7 +546,14 @@ export const ContentBox = ({
       fullscreen = media ? media.fullscreen : false
       break
     case 'TEASER_LINKS':
-      Content = <TeaserLinksBox teaserLinks={teaserLinks.list} isSidePreview={isSidePreview} />
+      Content = (
+        <TeaserLinksBox
+          teaserLinks={teaserLinks.list}
+          isSidePreview={isSidePreview}
+          colorLinks={teaserLinks.colorLinks}
+          colorLinksBackground={teaserLinks.colorLinksBackground}
+        />
+      )
       break
     case 'TEXT':
       Content = (
