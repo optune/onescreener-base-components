@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { MediaSmall } from '../../style/media'
+import { RGBToHex } from '../../utils/convertRGBtoHEX'
 
 const LINKS_LIMIT = 7
 const STEP = LINKS_LIMIT - 1
@@ -27,7 +28,12 @@ const Container = styled.div`
     height: auto;
     font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '1rem')};
     font-weight: 600;
-    color: #0a1c3b;
+    color: ${({ colorLinks }) => (colorLinks ? colorLinks : '#0a1c3b')};
+    text-shadow: ${({ colorLinksBackground }) =>
+      colorLinksBackground == 'rgba(255,255,255,0)'
+        ? `0px 2px 2px rgba(0, 0, 0, 0.08), 0px 3px 6px rgba(0, 0, 0, 0.08),
+      0px 3px 12px rgba(0, 0, 0, 0.14)`
+        : null};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,8 +41,9 @@ const Container = styled.div`
     text-decoration: none;
     cursor: pointer;
 
-    background: rgba(255, 255, 255, 0.75);
-    border: 1px solid white;
+    background: ${({ colorLinksBackground }) =>
+      colorLinksBackground ? colorLinksBackground : 'rgba(255, 255, 255, 0.75)'};
+    border: 1px solid ${({ colorLinks }) => (colorLinks ? colorLinks : 'white')};
     box-sizing: border-box;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 0px 2px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
@@ -60,7 +67,10 @@ const Container = styled.div`
 
     &:hover,
     &:focus {
-      background: #ffffff;
+      background: ${({ colorLinksBackground, colorLinks }) =>
+        colorLinksBackground == 'rgba(255,255,255,0)'
+          ? `${RGBToHex(colorLinks)}10`
+          : colorLinksBackground};
     }
 
     &:hover {
@@ -95,7 +105,12 @@ const Container = styled.div`
   }
 `
 
-export const TeaserLinksBox = ({ teaserLinks, isSidePreview }) => {
+export const TeaserLinksBox = ({
+  teaserLinks,
+  isSidePreview,
+  colorLinksBackground,
+  colorLinks,
+}) => {
   const [pagination, setPagination] = useState({ start: 0, end: 8 })
   const { start, end } = pagination
 
@@ -115,7 +130,11 @@ export const TeaserLinksBox = ({ teaserLinks, isSidePreview }) => {
   const paginationCorrection = previousPageExists && nextPageExists ? 1 : 0
 
   return (
-    <Container isSidePreview={isSidePreview}>
+    <Container
+      isSidePreview={isSidePreview}
+      colorLinks={colorLinks}
+      colorLinksBackground={colorLinksBackground}
+    >
       {previousPageExists && (
         <div className="teaser-link" onClick={paginationBack}>
           Show previous
