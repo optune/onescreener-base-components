@@ -14,6 +14,12 @@ const LinksContainer = styled.div`
   margin: 0;
   z-index: ${({ zIndex }) => zIndex};
   pointer-events: none;
+
+  ${({ isInstagramBrowser }) =>
+    isInstagramBrowser &&
+    css`
+      margin-bottom: 20px !important;
+    `};
 `
 
 const LinksList = styled.div`
@@ -126,8 +132,15 @@ const LinksList = styled.div`
   }
 `
 
-export const LinksBox = ({ children, position, zIndex, isSidePreview, isPreviewMobile }) => (
-  <LinksContainer zIndex={zIndex}>
+export const LinksBox = ({
+  children,
+  position,
+  zIndex,
+  isSidePreview,
+  isPreviewMobile,
+  isInstagramBrowser,
+}) => (
+  <LinksContainer zIndex={zIndex} isInstagramBrowser={isInstagramBrowser}>
     <LinksList
       className={position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'}
       isPreviewMobile={isPreviewMobile}
