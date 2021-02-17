@@ -52,6 +52,7 @@ export const Links = ({
           isHighlighted={link.isHighlighted}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
+          position={links.position}
           key={link.platform}
           label={link.label}
           modalData={modalData}
@@ -63,7 +64,9 @@ export const Links = ({
           target={link.target}
           text={link.text}
           url={
-            link.username ? `mailto:${link.username}` : link.url?.startsWith('http://') && link.url
+            link.url?.includes('@') || link?.username?.includes('@')
+              ? `mailto:${link.username}`
+              : link.url
           }
         />
       ))}
