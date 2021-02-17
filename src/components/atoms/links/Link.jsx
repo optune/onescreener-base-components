@@ -66,14 +66,19 @@ export const Link = styled.div`
       isPreviewMobile
         ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
         : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]
-    } * ${isHighlighted && position === 'BOTTOM_CENTER' ? '2' : '1'})`};
+    } * ${isHighlighted && (position === 'BOTTOM_CENTER' || isPreviewMobile) ? '2' : '1'})`};
+
+/* height: ${({ isSidePreview, isPreviewMobile, size }) =>
+  isPreviewMobile
+    ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
+    : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]}; */
 
   height: ${({ isSidePreview, isHighlighted, isPreviewMobile, size, position }) =>
     `calc(${
       isPreviewMobile
         ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
         : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]
-    } * ${isHighlighted && position !== 'BOTTOM_CENTER' ? '2' : '1'})`};
+    } * ${isHighlighted && position !== 'BOTTOM_CENTER' && !isPreviewMobile ? '2' : '1'})`};
 
   margin: ${({ isSidePreview, isPreviewMobile, size, margin }) =>
     (isPreviewMobile &&
