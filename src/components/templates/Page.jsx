@@ -137,7 +137,7 @@ export const Page = ({
     const { background, logo, content } = page
     const { links } = page || { links: { list: [] } }
 
-    const isPro = hasPro || !!(content.type !== 'NONE')
+    const isPro = hasPro || !!(content.type !== 'NONE') || !!(logo.type !== 'text')
 
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
