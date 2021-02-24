@@ -62,7 +62,11 @@ export const Links = ({
           square={links.square}
           target={link.target}
           text={link.text}
-          url={link.url}
+          url={
+            link.url?.includes('@') || link?.username?.includes('@')
+              ? `mailto:${link.username}`
+              : link.url
+          }
         />
       ))}
     </Fragment>
