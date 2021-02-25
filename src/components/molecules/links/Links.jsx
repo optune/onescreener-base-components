@@ -52,6 +52,7 @@ export const Links = ({
           isHighlighted={link.isHighlighted}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
+          position={links.position}
           key={link.platform}
           label={link.label}
           modalData={modalData}
