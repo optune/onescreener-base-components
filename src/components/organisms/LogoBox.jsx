@@ -254,6 +254,7 @@ const getLogoPosition = ({ logo }) => {
 }
 
 export const LogoBox = ({
+  design,
   logo,
   links,
   getImageUrl,
@@ -281,6 +282,7 @@ export const LogoBox = ({
     >
       {isLogoText ? (
         <LogoText
+          design={design}
           logo={logo}
           isPreviewMobile={isPreviewMobileReady}
           isTeaserLinks={isTeaserLinks}

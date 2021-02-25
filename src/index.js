@@ -10,14 +10,13 @@ export { BackLink } from './components/atoms/BackLink.jsx'
 
 // Templates
 export { Page } from './components/templates/Page.jsx'
-// export { PageSidePreview } from './components/templates/PageSidePreview'
 
 // Platform Icons
 export { PlatformLink } from './components/molecules/links/PlatformLink'
 export { PlatformLinks } from './components/molecules/links/PlatformLinks'
 export { Links } from './components/molecules/links/Links'
 
-export { MediaSmall, MediaMobile, NotMediaSmall } from './style/media.js'
+export { MediaSmall, MediaSmallMobile, MediaMobile, NotMediaSmall } from './style/media.js'
 
 export { getGigs } from './api/gigs/index.js'
 

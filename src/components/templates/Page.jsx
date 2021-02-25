@@ -35,7 +35,8 @@ const PageContainer = styled.div`
   z-index: 1;
   background: ${({ color = '#000000' }) => color};
 
-  ${({ preloadImage, focusPoint, fullscreen }) =>
+  ${({ preloadImage, focusPoint, fullscreen, isBackgroundSelected }) =>
+    !isBackgroundSelected &&
     preloadImage &&
     css`
       background-image: url(${preloadImage});
@@ -134,12 +135,16 @@ export const Page = ({
   let PageComponent = null
 
   if (page) {
-    const { background, logo, content } = page
+    const { background, logo, content, design, selectedThemeId } = page
     const { links } = page || { links: { list: [] } }
 
     const isPro = hasPro || !!(content.type !== 'NONE') || !!(logo.type !== 'text')
 
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
+
+    const isBackgroundSelected =
+      background.selectedBackgroundId > '' && background.selectedBackgroundId !== 'custom'
+    const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
 
     PageComponent = (
       <Fragment>
@@ -148,11 +153,14 @@ export const Page = ({
           preloadImage={getImageUrl(false)(background)}
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
-          color={background.color}
+          color={design?.background?.color || background.color}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
+          isBackgroundSelected={isBackgroundSelected}
         >
-          {ssrDone && <Background background={background} getImageUrl={getUrl} />}
+          {ssrDone && !isBackgroundSelected && (
+            <Background background={background} getImageUrl={getUrl} />
+          )}
 
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
@@ -163,6 +171,7 @@ export const Page = ({
             {/* Logo */}
             {logo && (
               <LogoBox
+                design={isThemeSelected && design}
                 logo={logo}
                 links={links}
                 getImageUrl={getUrl}
@@ -176,6 +185,7 @@ export const Page = ({
 
             {/* Content */}
             <ContentBox
+              design={isThemeSelected && design}
               content={content}
               links={links}
               isPreviewMobile={isPreviewMobile}
@@ -190,11 +200,25 @@ export const Page = ({
                 <TextOverlay
                   border={links.border}
                   circle={links.circle}
-                  color={links.colorLinks || content.color}
-                  colorAccent={links.colorLinksAccent || content.colorAccent}
-                  colorBackground={links.colorLinksBackground || content.colorBackground}
+                  color={
+                    (isThemeSelected && design?.theme?.links?.color) ||
+                    links.colorLinks ||
+                    content.color
+                  }
+                  colorAccent={
+                    (isThemeSelected && design?.theme?.links?.colorAccent) ||
+                    links.colorLinksAccent ||
+                    content.colorAccent
+                  }
+                  colorBackground={
+                    (isThemeSelected && design?.theme?.links?.colorBackground) ||
+                    links.colorLinksBackground ||
+                    content.colorBackground
+                  }
                   colorBackgroundAccent={
-                    links.colorLinksBackgroundAccent || content.colorBackgroundAccent
+                    (isThemeSelected && design?.theme?.links?.colorBackgroundAccent) ||
+                    links.colorLinksBackgroundAccent ||
+                    content.colorBackgroundAccent
                   }
                   content={modalData.content}
                   isPreviewMobile={isPreviewMobile}
@@ -214,6 +238,8 @@ export const Page = ({
                 >
                   {Links({
                     content,
+                    design,
+                    isThemeSelected,
                     isPreviewMobile,
                     isSidePreview,
                     links,
