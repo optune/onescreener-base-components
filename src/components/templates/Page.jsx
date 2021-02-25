@@ -112,6 +112,7 @@ export const Page = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  isInstagramBrowser,
   Modal,
   hasPro,
   noBacklink,
@@ -209,6 +210,7 @@ export const Page = ({
                   zIndex={99}
                   isSidePreview={isSidePreview}
                   isPreviewMobile={isPreviewMobile}
+                  isInstagramBrowser={isInstagramBrowser}
                 >
                   {Links({
                     content,
