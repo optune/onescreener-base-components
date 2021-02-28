@@ -132,6 +132,7 @@ export const Link = styled.div`
 
   @media ${MediaMobile} {
     pointer-events: none;
+    margin: ${({ size, margin }) => margin || (size === 'L' && '1px') || '4px'};
     width: ${({ isHighlighted, size, isSidePreview }) =>
       `calc(${isSidePreview ? ShapeSizeSidePreview.Mobile[size] : ShapeSize.Mobile[size]} * ${
         isHighlighted ? '2' : '1'
@@ -139,7 +140,6 @@ export const Link = styled.div`
 
     height: ${({ size, isSidePreview }) =>
       isSidePreview ? ShapeSizeSidePreview.Mobile[size] : ShapeSize.Mobile[size]};
-    margin: ${({ size, margin }) => margin || (size === 'L' && '1px') || '5px'};
 
     & .icon {
       width: ${({ size }) => IconSize.Mobile[size]};
