@@ -160,12 +160,12 @@ const getLogoPosition = ({ logo }) => {
   }
 }
 
-export const LogoText = ({ logo, isPreviewMobile, isSidePreview, isTeaserLinks }) => {
+export const LogoText = ({ design, logo, isPreviewMobile, isSidePreview, isTeaserLinks }) => {
   const logoPosition = getLogoPosition({ logo })
   return logo.text?.title ? (
     <LogoTextContainer
       size={logo.size}
-      color={logo.text.color}
+      color={design?.theme?.logo?.color || logo.text.color}
       fontFamily={logo.text.font}
       isPreviewMobile={isPreviewMobile}
       isSidePreview={isSidePreview}

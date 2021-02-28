@@ -62,7 +62,7 @@ const LogoImage = styled.img`
   }
 `
 
-export const Logo = ({ logo, getImageUrl, isPreviewMobile, isTeaserLinks }) => (
+export const Logo = ({ design, logo, getImageUrl, isPreviewMobile, isTeaserLinks }) => (
   <LogoImage
     isPreviewMobile={isPreviewMobile}
     orientation={logo.image.orientation}
