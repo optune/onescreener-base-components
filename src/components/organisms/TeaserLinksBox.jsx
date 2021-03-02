@@ -107,8 +107,6 @@ export const TeaserLinksBox = ({ teaserLinks, isSidePreview, colorBackground, co
   const [pagination, setPagination] = useState({ start: 0, end: 8 })
   const { start, end } = pagination
 
-  // console.log({ color, colorBackground })
-
   useEffect(() => {
     if (start === 0 && teaserLinks.length > LINKS_LIMIT) {
       setPagination({ start: 0, end: 6 })

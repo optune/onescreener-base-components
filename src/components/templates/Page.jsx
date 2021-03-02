@@ -200,22 +200,22 @@ export const Page = ({
                   border={links.border}
                   circle={links.circle}
                   color={
-                    (isThemeSelected && design?.theme?.links?.color) ||
+                    (isThemeSelected && design?.theme?.links?.colorLinks) ||
                     links.colorLinks ||
                     content.color
                   }
                   colorAccent={
-                    (isThemeSelected && design?.theme?.links?.colorAccent) ||
+                    (isThemeSelected && design?.theme?.links?.colorLinksAccent) ||
                     links.colorLinksAccent ||
                     content.colorAccent
                   }
                   colorBackground={
-                    (isThemeSelected && design?.theme?.links?.colorBackground) ||
+                    (isThemeSelected && design?.theme?.links?.colorLinksBackground) ||
                     links.colorLinksBackground ||
                     content.colorBackground
                   }
                   colorBackgroundAccent={
-                    (isThemeSelected && design?.theme?.links?.colorBackgroundAccent) ||
+                    (isThemeSelected && design?.theme?.links?.colorLinksBackgroundAccent) ||
                     links.colorLinksBackgroundAccent ||
                     content.colorBackgroundAccent
                   }

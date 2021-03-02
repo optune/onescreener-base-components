@@ -499,6 +499,9 @@ export const ContentBox = ({
     colorBackground: colorBackgroundDesign,
     colorAccent: colorAccentDesign,
     colorBackgroundAccent: colorBackgroundAccentDesign,
+
+    colorLinksDesign,
+    colorLinksBackgroundDesign,
   } = design?.theme?.content || {}
 
   const position = getContentPosition({ content })
@@ -565,8 +568,10 @@ export const ContentBox = ({
         <TeaserLinksBox
           teaserLinks={teaserLinks.list}
           isSidePreview={isSidePreview}
-          color={colorDesign || teaserLinks.colorLinks}
-          colorBackground={colorBackgroundDesign || teaserLinks.colorLinksBackground}
+          color={colorLinksDesign || colorDesign || teaserLinks.colorLinks}
+          colorBackground={
+            colorLinksBackgroundDesign || colorBackgroundDesign || teaserLinks.colorLinksBackground
+          }
         />
       )
       break
