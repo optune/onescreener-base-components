@@ -3,6 +3,7 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 
 import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
+import { MediaMobile } from '../../style/media'
 
 const FadeIn = keyframes`
   from { opacity: 0.1; }
@@ -16,12 +17,19 @@ const TextBackground = styled.div`
   left: 0;
   right: 0;
   animation: ${FadeIn} 0.3s ease-out;
+
+  @media ${MediaMobile} {
+    overflow-y: scroll;
+    height: 200px;
+  }
 `
 
 const Text = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+
+
   
   color: ${({ colorPrimary }) => colorPrimary};
   transition: color 0.3s ease-out;
