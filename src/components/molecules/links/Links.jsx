@@ -29,22 +29,22 @@ export const Links = ({
 }) => {
   const color =
     linksColorState?.colorLinks ||
-    (isThemeSelected && design?.theme?.links?.color) ||
+    (isThemeSelected && design?.theme?.links?.colorLinks) ||
     links.colorLinks ||
     content.color
   const colorAccent =
     linksColorState?.colorLinksAccent ||
-    (isThemeSelected && design?.theme?.links?.colorAccent) ||
+    (isThemeSelected && design?.theme?.links?.colorLinksAccent) ||
     links.colorLinksAccent ||
     content.colorAccent
   const colorBackground =
     linksColorState?.colorLinksBackground ||
-    (isThemeSelected && design?.theme?.links?.colorBackground) ||
+    (isThemeSelected && design?.theme?.links?.colorLinksBackground) ||
     links.colorLinksBackground ||
     content.colorBackground
   const colorBackgroundAccent =
     linksColorState?.colorLinksBackgroundAccent ||
-    (isThemeSelected && design?.theme?.links?.colorBackgroundAccent) ||
+    (isThemeSelected && design?.theme?.links?.colorLinksBackgroundAccent) ||
     links.colorLinksBackgroundAccent ||
     content.colorBackgroundAccent
 
