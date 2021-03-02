@@ -118,6 +118,8 @@ const LogoTextContainer = styled.div`
 
   & p {
     color: ${({ color }) => color};
+    text-shadow: ${({ shadowSize, shadowColor }) =>
+      `${shadowSize}px ${shadowSize}px 3px ${shadowColor}`};
     display: inline-block;
     font-size: 1em;
     font-family: ${({ fontFamily }) => `${fontFamily}`};
@@ -166,6 +168,8 @@ export const LogoText = ({ logo, isPreviewMobile, isSidePreview, isTeaserLinks }
     <LogoTextContainer
       size={logo.size}
       color={logo.text.color}
+      shadowColor={logo.text.shadowColor}
+      shadowSize={logo.text.shadowSize}
       fontFamily={logo.text.font}
       isPreviewMobile={isPreviewMobile}
       isSidePreview={isSidePreview}
