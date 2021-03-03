@@ -17,19 +17,13 @@ const TextBackground = styled.div`
   left: 0;
   right: 0;
   animation: ${FadeIn} 0.3s ease-out;
-
-  @media ${MediaMobile} {
-    overflow-y: scroll;
-    height: 200px;
-  }
 `
 
 const Text = styled.div`
   position: relative;
   width: 100%;
-  height: 100%;
-
-
+  height: 20em;
+  overflow-y: scroll;
   
   color: ${({ colorPrimary }) => colorPrimary};
   transition: color 0.3s ease-out;
@@ -109,7 +103,7 @@ export const TextBox = ({
       <Text colorPrimary={color} colorAccent={colorAccent} wordWrap={wordWrap}>
         <AutoTextFit
           colorBackground={colorBackground}
-          includeWidth={!wordWrap}
+          includeWidth={wordWrap}
           isMobileView={isPreviewMobile}
           isSidePreview={isSidePreview}
           textValue={textValue}

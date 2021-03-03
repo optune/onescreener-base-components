@@ -55,7 +55,7 @@ const DEFAULTS = {
   maxFontSize: 100,
 
   // the maximum font size in pixel.
-  minFontSize: 1,
+  minFontSize: 10,
 
   // avoid line breaks
   includeWidth: false,
