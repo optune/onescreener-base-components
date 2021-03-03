@@ -395,8 +395,8 @@ const Container = styled.div`
     isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '40%' : '60%'};
   
 
-  ${({ isSidePreview, isTeaserLinks }) =>
-    isTeaserLinks &&
+  ${({ isSidePreview, isTeaserLinks, isGigs }) =>
+    (isTeaserLinks || isGigs) &&
     css`
       min-width: ${({ isSidePreview }) => (isSidePreview ? '250px' : '300px')};
     `}
@@ -507,6 +507,8 @@ export const ContentBox = ({
   const position = getContentPosition({ content })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
+  const isGigs = type === 'GIGS'
+
   const colors = {
     color: colorDesign || color,
     colorAccent: colorAccentDesign || colorAccent,
@@ -616,6 +618,7 @@ export const ContentBox = ({
         isSidePreview={isSidePreview}
         isPreviewMobile={isPreviewMobile}
         isTeaserLinks={isTeaserLinks}
+        isGigs={isGigs}
         size={size}
       >
         {Content}

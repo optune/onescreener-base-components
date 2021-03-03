@@ -113,6 +113,7 @@ export const Page = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  isInstagramBrowser,
   Modal,
   hasPro,
   noBacklink,
@@ -137,7 +138,7 @@ export const Page = ({
     const { background, logo, content, design, selectedThemeId } = page
     const { links } = page || { links: { list: [] } }
 
-    const isPro = hasPro || !!(content.type !== 'NONE')
+    const isPro = hasPro || !!(content.type !== 'NONE') || !!(logo.type !== 'text')
 
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
@@ -233,6 +234,7 @@ export const Page = ({
                   zIndex={99}
                   isSidePreview={isSidePreview}
                   isPreviewMobile={isPreviewMobile}
+                  isInstagramBrowser={isInstagramBrowser}
                 >
                   {Links({
                     content,

@@ -32,6 +32,7 @@ export const PlatformLink = ({
   name,
   noShadow,
   platform,
+  position,
   setModalData,
   size,
   square,
@@ -62,6 +63,7 @@ export const PlatformLink = ({
           colorBackground={colorBackground}
           colorBackgroundAccent={colorBackgroundAccent}
           margin={margin}
+          position={position}
           noShadow
           isHighlighted={isHighlighted}
           isPreviewMobile={isPreviewMobile}

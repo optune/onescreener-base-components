@@ -184,7 +184,7 @@ export const GigsBox = ({
 
   useEffect(() => {
     if (gigs.loading) {
-      getGigs({ gigsAPI, gigsAPIDomain }).then(data => {
+      getGigs({ gigsAPI, gigsAPIDomain }).then((data) => {
         setGigs({ loading: false, data })
       })
     }

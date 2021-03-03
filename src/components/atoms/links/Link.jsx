@@ -61,17 +61,24 @@ export const Link = styled.div`
   color: ${({ color }) => color};
   transition: border-color 0.25s ease-out, background-color 0.25s ease-out, color 0.25s ease-out;
 
-  width: ${({ isHighlighted, isSidePreview, isPreviewMobile, size }) =>
+  width: ${({ isHighlighted, isSidePreview, isPreviewMobile, size, position }) =>
     `calc(${
       isPreviewMobile
         ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
         : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]
-    } * ${isHighlighted ? '2' : '1'})`};
+    } * ${isHighlighted && (position === 'BOTTOM_CENTER' || isPreviewMobile) ? '2' : '1'})`};
 
-  height: ${({ isSidePreview, isPreviewMobile, size }) =>
-    isPreviewMobile
-      ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
-      : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]};
+/* height: ${({ isSidePreview, isPreviewMobile, size }) =>
+  isPreviewMobile
+    ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
+    : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]}; */
+
+  height: ${({ isSidePreview, isHighlighted, isPreviewMobile, size, position }) =>
+    `calc(${
+      isPreviewMobile
+        ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
+        : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]
+    } * ${isHighlighted && position !== 'BOTTOM_CENTER' && !isPreviewMobile ? '2' : '1'})`};
 
   margin: ${({ isSidePreview, isPreviewMobile, size, margin }) =>
     (isPreviewMobile &&
@@ -125,6 +132,7 @@ export const Link = styled.div`
 
   @media ${MediaMobile} {
     pointer-events: none;
+    margin: ${({ size, margin }) => margin || (size === 'L' && '1px') || '4px'};
     width: ${({ isHighlighted, size, isSidePreview }) =>
       `calc(${isSidePreview ? ShapeSizeSidePreview.Mobile[size] : ShapeSize.Mobile[size]} * ${
         isHighlighted ? '2' : '1'
@@ -132,7 +140,6 @@ export const Link = styled.div`
 
     height: ${({ size, isSidePreview }) =>
       isSidePreview ? ShapeSizeSidePreview.Mobile[size] : ShapeSize.Mobile[size]};
-    margin: ${({ size, margin }) => margin || (size === 'L' && '1px') || '5px'};
 
     & .icon {
       width: ${({ size }) => IconSize.Mobile[size]};
