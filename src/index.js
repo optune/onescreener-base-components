@@ -16,7 +16,13 @@ export { PlatformLink } from './components/molecules/links/PlatformLink'
 export { PlatformLinks } from './components/molecules/links/PlatformLinks'
 export { Links } from './components/molecules/links/Links'
 
-export { MediaSmall, MediaSmallMobile, MediaMobile, NotMediaSmall } from './style/media.js'
+export {
+  MediaSmall,
+  MediaTinyMobile,
+  MediaSmallMobile,
+  MediaMobile,
+  NotMediaSmall,
+} from './style/media.js'
 
 export { getGigs } from './api/gigs/index.js'
 
