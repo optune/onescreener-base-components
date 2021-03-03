@@ -3,7 +3,6 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 
 import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
-import { MediaMobile } from '../../style/media'
 
 const FadeIn = keyframes`
   from { opacity: 0.1; }
@@ -17,23 +16,15 @@ const TextBackground = styled.div`
   left: 0;
   right: 0;
   animation: ${FadeIn} 0.3s ease-out;
-
-  @media ${MediaMobile} {
-    overflow-y: scroll;
-    height: 200px;
-  }
 `
 
 const Text = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-
-
   
   color: ${({ colorPrimary }) => colorPrimary};
   transition: color 0.3s ease-out;
-
   & h1,
   h2,
   h3,
@@ -51,11 +42,9 @@ const Text = styled.div`
     margin: 0 0 0.1em;
     padding: 0;
   }
-
   & a {
     word-break: ${({ wordWrap }) => (wordWrap ? 'break-word' : 'normal')};
   }
-
   & .separator-line {
     background: ${({ colorPrimary }) => colorPrimary};
     height: 0.1em;
@@ -64,30 +53,24 @@ const Text = styled.div`
     padding: 0;
     border: none;
   }
-
   & a:hover {
     color: ${({ colorPrimary, colorAccent }) => colorAccent || colorPrimary};
   }
-
   & h1 {
     font-size: 1.8em;
     font-weight: bold;
     margin: 1em 0;
   }
-
   & h2 {
     font-size: 1.5em;
     font-weight: bold;
   }
-
   & h3 {
     font-size: 1.2em;
   }
-
   & h4 {
     font-size: 1em;
   }
-
   & h5 {
     font-size: 0.8em;
   }

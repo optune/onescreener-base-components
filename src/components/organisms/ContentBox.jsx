@@ -507,6 +507,7 @@ export const ContentBox = ({
   const position = getContentPosition({ content })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
+  const isText = type === 'TEXT'
   const isGigs = type === 'GIGS'
 
   const colors = {

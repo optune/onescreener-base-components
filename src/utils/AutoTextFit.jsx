@@ -19,6 +19,10 @@ const TextContainer = styled.div`
 
   display: flex;
   justify-content: ${({ alignHorizontal = 'CENTER_LEFT' }) => HorizontalAlignment[alignHorizontal]};
+
+  @media ${MediaMobile} {
+    overflow-y: scroll;
+  }
 `
 
 const TextContent = styled.div`
