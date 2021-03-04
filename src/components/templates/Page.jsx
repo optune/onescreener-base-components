@@ -20,18 +20,11 @@ import { ContentBox } from '../organisms/ContentBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
 
 // Utils
+import { getBackground } from '../../utils/getBackground.js'
 import { getImageUrl } from '../../utils/getImageUrl.js'
 
 // Global Styles
 import GlobalStyle from '../../style/global.js'
-import { MediaSmall } from '../../style/media.js'
-
-// ${({ preloadImage, designColor, isBackgroundSelected }) =>
-//   isBackgroundSelected &&
-//   preloadImage &&
-//   designColor &&
-//   css`
-// `}
 
 const PageContainer = styled.div`
   position: absolute;
@@ -42,9 +35,9 @@ const PageContainer = styled.div`
   z-index: 1;
 
   background: ${({ color = '#000000', designColor, preloadImage }) =>
-    preloadImage > ''
-      ? `${designColor ? `${designColor},` : ''} url(${preloadImage})`
-      : designColor || color};
+    getBackground({ url: preloadImage, color: designColor || color })};
+
+  background-color: ${({ preloadImage, color }) => (preloadImage ? color : !preloadImage && '')};
 
   ${({ preloadImage, focusPoint, fullscreen }) =>
     preloadImage &&
@@ -168,7 +161,7 @@ export const Page = ({
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
           color={background.color}
-          designColor={design?.background?.color}
+          designColor={isBackgroundSelected && design?.background?.color}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
         >

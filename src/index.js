@@ -27,5 +27,6 @@ export {
 export { getGigs } from './api/gigs/index.js'
 
 export { renderHtml } from './utils/renderHtml.js'
+export { getBackground } from './utils/getBackground.js'
 export { getImageUrl } from './utils/getImageUrl.js'
 export { getFavionUrl } from './utils/getFaviconUrl.js'
