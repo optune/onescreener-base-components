@@ -165,13 +165,15 @@ export const Page = ({
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
         >
-          {ssrDone && !isBackgroundSelected && (
+          {ssrDone && (
             <Background
               background={{
                 ...background,
                 isBackgroundSelected,
                 selectedBackgroundUrl: design?.background?.url,
               }}
+              color={background.color}
+              designColor={isBackgroundSelected && design?.background?.color}
               getImageUrl={getUrl}
             />
           )}
