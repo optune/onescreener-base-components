@@ -14,8 +14,17 @@ export const getImageUrl = (isClient, isSocial) => ({
   image,
   maxHeight = 100,
   maxWidth = 100,
+  isBackgroundSelected,
+  selectedBackgroundUrl,
 }) => {
   let imageUrl
+
+  if (isBackgroundSelected && !selectedBackgroundUrl) return ''
+
+  if (isBackgroundSelected && selectedBackgroundUrl > '') {
+    image = {}
+    image.url = selectedBackgroundUrl
+  }
 
   if (image?.url > '') {
     const imageParts = image.url.split('/')
