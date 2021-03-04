@@ -166,7 +166,7 @@ export const LogoText = ({ design, logo, isPreviewMobile, isSidePreview, isTease
     <LogoTextContainer
       size={logo.size}
       color={design?.theme?.logo?.color || logo.text.color}
-      fontFamily={logo.text.font}
+      fontFamily={design?.theme?.logo?.font || logo.text.font}
       isPreviewMobile={isPreviewMobile}
       isSidePreview={isSidePreview}
       logoPosition={isTeaserLinks ? { desktop: 'flex-start', mobile: 'flex-start' } : logoPosition}

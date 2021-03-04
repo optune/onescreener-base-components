@@ -26,9 +26,10 @@ const areEqual = (prevProps, nextProps) => {
 
 export const Background = React.memo(({ background, getImageUrl }) => {
   const imageUrl = getImageUrl(background)
-  
+
   return !!imageUrl ? (
     <BackgroundContainer
+      className="bg-container"
       image={imageUrl}
       focusPoint={background.focusPoint}
       fullscreen={background.fullscreen}
