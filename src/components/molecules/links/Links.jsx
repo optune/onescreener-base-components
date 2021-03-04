@@ -16,6 +16,8 @@ import { mapSmartLinks } from './utils/mapSmartLinks'
  */
 
 export const Links = ({
+  design,
+  isThemeSelected,
   content,
   isPreviewMobile,
   isSidePreview,
@@ -25,13 +27,24 @@ export const Links = ({
   pageUrl,
   setModalData,
 }) => {
-  const color = linksColorState?.colorLinks || links.colorLinks || content.color
+  const color =
+    linksColorState?.colorLinks ||
+    (isThemeSelected && design?.theme?.links?.colorLinks) ||
+    links.colorLinks ||
+    content.color
   const colorAccent =
-    linksColorState?.colorLinksAccent || links.colorLinksAccent || content.colorAccent
+    linksColorState?.colorLinksAccent ||
+    (isThemeSelected && design?.theme?.links?.colorLinksAccent) ||
+    links.colorLinksAccent ||
+    content.colorAccent
   const colorBackground =
-    linksColorState?.colorLinksBackground || links.colorLinksBackground || content.colorBackground
+    linksColorState?.colorLinksBackground ||
+    (isThemeSelected && design?.theme?.links?.colorLinksBackground) ||
+    links.colorLinksBackground ||
+    content.colorBackground
   const colorBackgroundAccent =
     linksColorState?.colorLinksBackgroundAccent ||
+    (isThemeSelected && design?.theme?.links?.colorLinksBackgroundAccent) ||
     links.colorLinksBackgroundAccent ||
     content.colorBackgroundAccent
 

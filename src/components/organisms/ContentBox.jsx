@@ -456,6 +456,7 @@ const getContentPosition = ({ content }) => {
 }
 
 export const ContentBox = ({
+  design,
   content,
   links,
   isPreviewMobile,
@@ -492,11 +493,29 @@ export const ContentBox = ({
     size,
     spanMobile,
   } = content
+
+  const {
+    color: colorDesign,
+    colorBackground: colorBackgroundDesign,
+    colorAccent: colorAccentDesign,
+    colorBackgroundAccent: colorBackgroundAccentDesign,
+
+    colorLinksDesign,
+    colorLinksBackgroundDesign,
+  } = design?.theme?.content || {}
+
   const position = getContentPosition({ content })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
   const isGigs = type === 'GIGS'
-  const colors = { color, colorAccent, colorBackground, colorBackgroundAccent }
+
+  const colors = {
+    color: colorDesign || color,
+    colorAccent: colorAccentDesign || colorAccent,
+    colorBackground: colorBackgroundDesign || colorBackground,
+    colorBackgroundAccent: colorBackgroundAccentDesign || colorBackgroundAccent,
+  }
+
   const area =
     positionLegacy === 'null' || span === 'null' || !positionLegacy || !span
       ? undefined
@@ -551,8 +570,10 @@ export const ContentBox = ({
         <TeaserLinksBox
           teaserLinks={teaserLinks.list}
           isSidePreview={isSidePreview}
-          colorLinks={teaserLinks.colorLinks}
-          colorLinksBackground={teaserLinks.colorLinksBackground}
+          color={colorLinksDesign || colorDesign || teaserLinks.colorLinks}
+          colorBackground={
+            colorLinksBackgroundDesign || colorBackgroundDesign || teaserLinks.colorLinksBackground
+          }
         />
       )
       break
