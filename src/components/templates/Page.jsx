@@ -20,11 +20,11 @@ import { ContentBox } from '../organisms/ContentBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
 
 // Utils
+import { getBackground } from '../../utils/getBackground.js'
 import { getImageUrl } from '../../utils/getImageUrl.js'
 
 // Global Styles
 import GlobalStyle from '../../style/global.js'
-import { MediaSmall } from '../../style/media.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -33,13 +33,15 @@ const PageContainer = styled.div`
   bottom: 0;
   right: 0;
   z-index: 1;
-  background: ${({ color = '#000000' }) => color};
 
-  ${({ preloadImage, focusPoint, fullscreen, isBackgroundSelected }) =>
-    !isBackgroundSelected &&
+  background: ${({ color = '#000000', designColor, preloadImage }) =>
+    getBackground({ url: preloadImage, color: designColor || color })};
+
+  background-color: ${({ preloadImage, color }) => (preloadImage ? color : !preloadImage && '')};
+
+  ${({ preloadImage, focusPoint, fullscreen }) =>
     preloadImage &&
     css`
-      background-image: url(${preloadImage});
       background-repeat: no-repeat;
       background-position: ${focusPoint};
       background-size: ${fullscreen ? 'cover' : 'contain'};
@@ -150,16 +152,30 @@ export const Page = ({
       <Fragment>
         <GlobalStyle />
         <PageContainer
-          preloadImage={getImageUrl(false)(background)}
+          className="page-container"
+          preloadImage={getImageUrl(false)({
+            ...background,
+            isBackgroundSelected,
+            selectedBackgroundUrl: design?.background?.url,
+          })}
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
-          color={design?.background?.color || background.color}
+          color={background.color}
+          designColor={isBackgroundSelected && design?.background?.color}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
-          isBackgroundSelected={isBackgroundSelected}
         >
-          {ssrDone && !isBackgroundSelected && (
-            <Background background={background} getImageUrl={getUrl} />
+          {ssrDone && (
+            <Background
+              background={{
+                ...background,
+                isBackgroundSelected,
+                selectedBackgroundUrl: design?.background?.url,
+              }}
+              color={background.color}
+              designColor={isBackgroundSelected && design?.background?.color}
+              getImageUrl={getUrl}
+            />
           )}
 
           <ForegroundContainer>
