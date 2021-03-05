@@ -68,11 +68,6 @@ export const Link = styled.div`
         : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]
     } * ${isHighlighted && (position === 'BOTTOM_CENTER' || isPreviewMobile) ? '2' : '1'})`};
 
-/* height: ${({ isSidePreview, isPreviewMobile, size }) =>
-  isPreviewMobile
-    ? (isSidePreview && ShapeSizeSidePreview.Mobile[size]) || ShapeSize.Mobile[size]
-    : (isSidePreview && ShapeSizeSidePreview.Desktop[size]) || ShapeSize.Desktop[size]}; */
-
   height: ${({ isSidePreview, isHighlighted, isPreviewMobile, size, position }) =>
     `calc(${
       isPreviewMobile
@@ -130,15 +125,20 @@ export const Link = styled.div`
     }
   }
 
-  @media ${MediaMobile} {
-    pointer-events: none;
-    width: ${({ isHighlighted, size, isSidePreview }) =>
-      `calc(${isSidePreview ? ShapeSizeSidePreview.Mobile[size] : ShapeSize.Mobile[size]} * ${
-        isHighlighted ? '2' : '1'
-      })`};
+    ${({ isSidePreview }) =>
+      !isSidePreview &&
+      css`
+    @media ${MediaMobile} {
+      width: ${({ isHighlighted, size }) =>
+        `calc(${ShapeSize.Mobile[size]} * ${isHighlighted ? '2' : '1'})`};
 
-    height: ${({ size, isSidePreview }) =>
-      isSidePreview ? ShapeSizeSidePreview.Mobile[size] : ShapeSize.Mobile[size]};
+    height: ${({ isHighlighted, size }) =>
+      `calc(${ShapeSize.Mobile[size]} * ${isHighlighted ? '1' : '1'})`};
+
+      pointer-events: none;
+      `}
+
+  @media ${MediaMobile} {
     margin: ${({ size, margin }) => margin || (size === 'L' && '1px') || '5px'};
 
     & .icon {
