@@ -395,8 +395,8 @@ const Container = styled.div`
     isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '40%' : '60%'};
   
 
-  ${({ isSidePreview, isTeaserLinks }) =>
-    isTeaserLinks &&
+  ${({ isSidePreview, isTeaserLinks, isGigs }) =>
+    (isTeaserLinks || isGigs) &&
     css`
       min-width: ${({ isSidePreview }) => (isSidePreview ? '250px' : '300px')};
     `}
@@ -456,6 +456,7 @@ const getContentPosition = ({ content }) => {
 }
 
 export const ContentBox = ({
+  design,
   content,
   links,
   isPreviewMobile,
@@ -492,10 +493,29 @@ export const ContentBox = ({
     size,
     spanMobile,
   } = content
+
+  const {
+    color: colorDesign,
+    colorBackground: colorBackgroundDesign,
+    colorAccent: colorAccentDesign,
+    colorBackgroundAccent: colorBackgroundAccentDesign,
+
+    colorLinksDesign,
+    colorLinksBackgroundDesign,
+  } = design?.theme?.content || {}
+
   const position = getContentPosition({ content })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
-  const colors = { color, colorAccent, colorBackground, colorBackgroundAccent }
+  const isGigs = type === 'GIGS'
+
+  const colors = {
+    color: colorDesign || color,
+    colorAccent: colorAccentDesign || colorAccent,
+    colorBackground: colorBackgroundDesign || colorBackground,
+    colorBackgroundAccent: colorBackgroundAccentDesign || colorBackgroundAccent,
+  }
+
   const area =
     positionLegacy === 'null' || span === 'null' || !positionLegacy || !span
       ? undefined
@@ -550,8 +570,10 @@ export const ContentBox = ({
         <TeaserLinksBox
           teaserLinks={teaserLinks.list}
           isSidePreview={isSidePreview}
-          colorLinks={teaserLinks.colorLinks}
-          colorLinksBackground={teaserLinks.colorLinksBackground}
+          color={colorLinksDesign || colorDesign || teaserLinks.colorLinks}
+          colorBackground={
+            colorLinksBackgroundDesign || colorBackgroundDesign || teaserLinks.colorLinksBackground
+          }
         />
       )
       break
@@ -596,6 +618,7 @@ export const ContentBox = ({
         isSidePreview={isSidePreview}
         isPreviewMobile={isPreviewMobile}
         isTeaserLinks={isTeaserLinks}
+        isGigs={isGigs}
         size={size}
       >
         {Content}
