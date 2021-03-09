@@ -22,7 +22,7 @@ const Text = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  
+
   color: ${({ colorPrimary }) => colorPrimary};
   transition: color 0.3s ease-out;
   & h1,
