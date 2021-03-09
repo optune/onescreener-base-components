@@ -139,7 +139,9 @@ export const Link = styled.div`
       `}
 
   @media ${MediaMobile} {
+
     margin: ${({ size, margin }) => margin || (size === 'L' && '1px') || '5px'};
+
 
     & .icon {
       width: ${({ size }) => IconSize.Mobile[size]};
