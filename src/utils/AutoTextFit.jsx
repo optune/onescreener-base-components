@@ -20,14 +20,16 @@ const TextContainer = styled.div`
   display: flex;
   justify-content: ${({ alignHorizontal = 'CENTER_LEFT' }) => HorizontalAlignment[alignHorizontal]};
 
-  @media ${MediaMobile} {
+  overflow-y: scroll;
+
+  /* @media ${MediaMobile} {
     overflow-y: scroll;
-  }
+  } */
 `
 
 const TextContent = styled.div`
   padding: ${({ padding, isMobileView, isSidePreview }) =>
-    padding || ((isMobileView || isSidePreview) && '1em 1em') || '1em 2em'};
+    padding || ((isMobileView || isSidePreview) && '1em 1em') || '1em 1em'};
   background-color: ${({ colorBackground }) => colorBackground || 'transparent'};
 
   ${({ includeWidth }) =>
@@ -59,7 +61,7 @@ const DEFAULTS = {
   maxFontSize: 100,
 
   // the maximum font size in pixel.
-  minFontSize: 1,
+  minFontSize: 8,
 
   // avoid line breaks
   includeWidth: false,
