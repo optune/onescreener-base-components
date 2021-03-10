@@ -101,6 +101,7 @@ const TextContainer = styled.div`
     margin-bottom: 1.5rem;
     word-break: break-word;
     white-space: pre-wrap;
+    align-self: center;
   }
 
   & b {
@@ -127,6 +128,7 @@ const StyledTextContainer = styled(({ isSidePreview, ...other }) => <SimpleBar {
   max-height: ${({ isSidePreview }) => (isSidePreview ? '150px' : '300px')};
   overflow-y: auto;
   overflow-x: hidden;
+  text-align: center;
 `
 
 const StyledButtonContainer = styled.div`
