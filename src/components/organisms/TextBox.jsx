@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes, css } from 'styled-components'
 
 import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
 import { MediaMobile } from '../../style/media.js'
@@ -44,10 +44,14 @@ const Text = styled.div`
     padding: 0;
     text-align: justify;
 
+${({ isSidePreview }) =>
+  !isSidePreview &&
+  css`
     @media ${MediaMobile} {
       font-size: 1.2em !important;
-      
-      }
+    }
+  `}
+    
   }
   & a {
     word-break: ${({ wordWrap }) => (wordWrap ? 'break-word' : 'normal')};
@@ -96,7 +100,12 @@ export const TextBox = ({
 }) => {
   return (
     <TextBackground>
-      <Text colorPrimary={color} colorAccent={colorAccent} wordWrap={wordWrap}>
+      <Text
+        colorPrimary={color}
+        colorAccent={colorAccent}
+        wordWrap={wordWrap}
+        isSidePreview={isSidePreview}
+      >
         <AutoTextFit
           colorBackground={colorBackground}
           includeWidth={!wordWrap}
