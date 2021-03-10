@@ -3,6 +3,7 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 
 import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
+import { MediaMobile } from '../../style/media.js'
 
 const FadeIn = keyframes`
   from { opacity: 0.1; }
@@ -41,6 +42,12 @@ const Text = styled.div`
     line-height: 1.4;
     margin: 0 0 0.1em;
     padding: 0;
+    text-align: justify;
+
+    @media ${MediaMobile} {
+      font-size: 1.2em !important;
+      
+      }
   }
   & a {
     word-break: ${({ wordWrap }) => (wordWrap ? 'break-word' : 'normal')};
