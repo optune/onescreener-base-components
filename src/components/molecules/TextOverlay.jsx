@@ -124,7 +124,7 @@ const StyledTextContainer = styled(({ isSidePreview, ...other }) => <SimpleBar {
   margin-top: 0.5rem;
   margin-bottom: 0;
   width: 100%;
-  padding-right: 15px;
+  /* padding-right: 15px; */
   max-height: ${({ isSidePreview }) => (isSidePreview ? '150px' : '300px')};
   overflow-y: auto;
   overflow-x: hidden;
