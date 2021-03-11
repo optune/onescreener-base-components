@@ -87,6 +87,8 @@ const LogoTextContainer = styled.div`
     isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
   padding: 0.25rem;
 
+  max-height: ${LogoSize.Desktop.XL};
+
   ${({ size, isPreviewMobile, isSidePreview, isTeaserLinks }) =>
     isTeaserLinks &&
     css`
@@ -112,8 +114,10 @@ const LogoTextContainer = styled.div`
   }
 
   @media ${MediaMobile} {
-    width: ${({ size }) => LogoSize.Mobile[size]};
-    height: ${({ size }) => LogoSize.Mobile[size]};
+    width: ${({ size, isSidePreview, isPreviewMobile }) =>
+      isSidePreview && !isPreviewMobile ? LogoSize.Desktop[size] : LogoSize.Mobile[size]};
+    height: ${({ size, isSidePreview, isPreviewMobile }) =>
+      isSidePreview && !isPreviewMobile ? LogoSize.Desktop[size] : LogoSize.Mobile[size]};
 
     & #auto-text-fit-container {
       align-items: ${({ logoPosition }) => logoPosition.mobile};
