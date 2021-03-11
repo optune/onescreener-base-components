@@ -32,7 +32,6 @@ const stylesContentDesktop = `
   &top-right {
     align-items: flex-start;
     justify-content: flex-end;
-
     
     & > div > div {
       justify-content: flex-end;
@@ -96,6 +95,7 @@ const stylesContentMobile = `
   &top-left {
     align-items: flex-start;
     justify-content: center;
+
   }
 
   &top-center {
@@ -200,6 +200,14 @@ const PreviewMobile = {
   width: 333,
   height: 520,
 }
+
+// const LogoSize = {
+//   XS: '6em',
+//   S: '7em',
+//   M: '8em',
+//   L: '9em',
+//   XL: '10em',
+// }
 
 const round = (a) => a.toFixed(2)
 
@@ -492,6 +500,7 @@ export const ContentBox = ({
     size,
     spanMobile,
   } = content
+
   const position = getContentPosition({ content })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
