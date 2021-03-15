@@ -20,11 +20,11 @@ const TextContainer = styled.div`
   display: flex;
   justify-content: ${({ alignHorizontal = 'CENTER_LEFT' }) => HorizontalAlignment[alignHorizontal]};
 
-  overflow-y: scroll;
-
-  /* @media ${MediaMobile} {
-    overflow-y: scroll;
-  } */
+  ${({ isLogo }) =>
+    !isLogo &&
+    css`
+      overflow-y: scroll;
+    `}
 `
 
 const TextContent = styled.div`
@@ -221,6 +221,7 @@ export class AutoTextFit extends Component {
         id="auto-text-fit-container"
         show={ssrDone && resized}
         alignHorizontal={alignHorizontal}
+        isLogo={isLogo}
       >
         <TextContent
           adjustWidth={adjustWidth}
