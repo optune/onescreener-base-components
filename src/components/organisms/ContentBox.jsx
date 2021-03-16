@@ -405,8 +405,7 @@ const ResponsiveContainer = styled.div`
 
 const Container = styled.div`
   position: relative;
-  // margin: 1rem;
-  padding: 0.25rem;
+  margin: 0.5rem;
   height: ${({ isLegacy, size }) => (isLegacy ? '100%' : ContentSize.Desktop[size])};
   width: ${({ isLegacy, size }) => (isLegacy ? '100%' : ContentSize.Desktop[size])};
   
