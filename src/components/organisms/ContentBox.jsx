@@ -368,7 +368,6 @@ const ResponsiveContainer = styled.div`
   ${stylesContentDesktop}
 
   ${({ isDifferentPositions, isPreviewMobile, isSidePreview }) =>
-    isDifferentPositions &&
     css`
       ${isPreviewMobile && stylesContentMobile}
 
@@ -376,7 +375,7 @@ const ResponsiveContainer = styled.div`
         ${!isSidePreview && stylesContentMobile}
       }
     `}
-
+    
 
     ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
       !!area &&
