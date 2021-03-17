@@ -9,11 +9,11 @@ import { MediaMobile } from '../../style/media'
 
 const LogoSize = {
   Desktop: {
-    XS: '8.333%',
-    S: '16.666%',
-    M: '33.333%',
-    L: '50%',
-    XL: '66.666%',
+    XS: '13%',
+    S: '20%',
+    M: '27%',
+    L: '33%',
+    XL: '41%',
   },
   Mobile: {
     XS: '33.333%',
@@ -23,6 +23,10 @@ const LogoSize = {
     XL: '75%',
   },
 }
+
+/*
+ * Teaser Links Size options
+ */
 
 const LogoSizeMinWidth = {
   Desktop: {
@@ -81,7 +85,9 @@ const LogoTextContainer = styled.div`
     isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
   height: ${({ size, isPreviewMobile }) =>
     isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
-  margin: 1rem;
+  padding: 0.25rem;
+
+  max-height: ${LogoSize.Desktop.XL};
 
   ${({ size, isPreviewMobile, isSidePreview, isTeaserLinks }) =>
     isTeaserLinks &&
@@ -108,8 +114,10 @@ const LogoTextContainer = styled.div`
   }
 
   @media ${MediaMobile} {
-    width: ${({ size }) => LogoSize.Mobile[size]};
-    height: ${({ size }) => LogoSize.Mobile[size]};
+    width: ${({ size, isSidePreview, isPreviewMobile }) =>
+      isSidePreview && !isPreviewMobile ? LogoSize.Desktop[size] : LogoSize.Mobile[size]};
+    height: ${({ size, isSidePreview, isPreviewMobile }) =>
+      isSidePreview && !isPreviewMobile ? LogoSize.Desktop[size] : LogoSize.Mobile[size]};
 
     & #auto-text-fit-container {
       align-items: ${({ logoPosition }) => logoPosition.mobile};
@@ -118,6 +126,8 @@ const LogoTextContainer = styled.div`
 
   & p {
     color: ${({ color }) => color};
+    text-shadow: ${({ shadowSize, shadowColor }) =>
+      `${shadowSize}px ${shadowSize}px 3px ${shadowColor}`};
     display: inline-block;
     font-size: 1em;
     font-family: ${({ fontFamily }) => `${fontFamily}`};
@@ -160,13 +170,16 @@ const getLogoPosition = ({ logo }) => {
   }
 }
 
-export const LogoText = ({ logo, isPreviewMobile, isSidePreview, isTeaserLinks }) => {
+export const LogoText = ({ design, logo, isPreviewMobile, isSidePreview, isTeaserLinks }) => {
   const logoPosition = getLogoPosition({ logo })
   return logo.text?.title ? (
     <LogoTextContainer
       size={logo.size}
-      color={logo.text.color}
-      fontFamily={logo.text.font}
+      shadowColor={logo.text.shadowColor}
+      shadowSize={logo.text.shadowSize}
+      color={design?.theme?.logo?.color || logo.text.color}
+      fontFamily={design?.theme?.logo?.font || logo.text.font}
+
       isPreviewMobile={isPreviewMobile}
       isSidePreview={isSidePreview}
       logoPosition={isTeaserLinks ? { desktop: 'flex-start', mobile: 'flex-start' } : logoPosition}

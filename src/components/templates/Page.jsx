@@ -20,11 +20,11 @@ import { ContentBox } from '../organisms/ContentBox.jsx'
 import { LinksBox } from '../organisms/LinksBox.jsx'
 
 // Utils
+import { getBackground } from '../../utils/getBackground.js'
 import { getImageUrl } from '../../utils/getImageUrl.js'
 
 // Global Styles
 import GlobalStyle from '../../style/global.js'
-import { MediaSmall } from '../../style/media.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -33,12 +33,15 @@ const PageContainer = styled.div`
   bottom: 0;
   right: 0;
   z-index: 1;
-  background: ${({ color = '#000000' }) => color};
+
+  background: ${({ color = '#000000', designColor, preloadImage }) =>
+    getBackground({ url: preloadImage, color: designColor || color })};
+
+  background-color: ${({ preloadImage, color }) => (preloadImage ? color : !preloadImage && '')};
 
   ${({ preloadImage, focusPoint, fullscreen }) =>
     preloadImage &&
     css`
-      background-image: url(${preloadImage});
       background-repeat: no-repeat;
       background-position: ${focusPoint};
       background-size: ${fullscreen ? 'cover' : 'contain'};
@@ -134,25 +137,46 @@ export const Page = ({
   let PageComponent = null
 
   if (page) {
-    const { background, logo, content } = page
+    const { background, logo, content, design, selectedThemeId } = page
     const { links } = page || { links: { list: [] } }
 
     const isPro = hasPro || !!(content.type !== 'NONE') || !!(logo.type !== 'text')
 
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
+    const isBackgroundSelected =
+      background.selectedBackgroundId > '' && background.selectedBackgroundId !== 'custom'
+    const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
+
     PageComponent = (
       <Fragment>
         <GlobalStyle />
         <PageContainer
-          preloadImage={getImageUrl(false)(background)}
+          className="page-container"
+          preloadImage={getImageUrl(false)({
+            ...background,
+            isBackgroundSelected,
+            selectedBackgroundUrl: design?.background?.url,
+          })}
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
           color={background.color}
+          designColor={isBackgroundSelected && design?.background?.color}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
         >
-          {ssrDone && <Background background={background} getImageUrl={getUrl} />}
+          {ssrDone && (
+            <Background
+              background={{
+                ...background,
+                isBackgroundSelected,
+                selectedBackgroundUrl: design?.background?.url,
+              }}
+              color={background.color}
+              designColor={isBackgroundSelected && design?.background?.color}
+              getImageUrl={getUrl}
+            />
+          )}
 
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
@@ -163,6 +187,7 @@ export const Page = ({
             {/* Logo */}
             {logo && (
               <LogoBox
+                design={isThemeSelected && design}
                 logo={logo}
                 links={links}
                 getImageUrl={getUrl}
@@ -176,6 +201,7 @@ export const Page = ({
 
             {/* Content */}
             <ContentBox
+              design={isThemeSelected && design}
               content={content}
               links={links}
               isPreviewMobile={isPreviewMobile}
@@ -190,11 +216,25 @@ export const Page = ({
                 <TextOverlay
                   border={links.border}
                   circle={links.circle}
-                  color={links.colorLinks || content.color}
-                  colorAccent={links.colorLinksAccent || content.colorAccent}
-                  colorBackground={links.colorLinksBackground || content.colorBackground}
+                  color={
+                    (isThemeSelected && design?.theme?.links?.colorLinks) ||
+                    links.colorLinks ||
+                    content.color
+                  }
+                  colorAccent={
+                    (isThemeSelected && design?.theme?.links?.colorLinksAccent) ||
+                    links.colorLinksAccent ||
+                    content.colorAccent
+                  }
+                  colorBackground={
+                    (isThemeSelected && design?.theme?.links?.colorLinksBackground) ||
+                    links.colorLinksBackground ||
+                    content.colorBackground
+                  }
                   colorBackgroundAccent={
-                    links.colorLinksBackgroundAccent || content.colorBackgroundAccent
+                    (isThemeSelected && design?.theme?.links?.colorLinksBackgroundAccent) ||
+                    links.colorLinksBackgroundAccent ||
+                    content.colorBackgroundAccent
                   }
                   content={modalData.content}
                   isPreviewMobile={isPreviewMobile}
@@ -214,6 +254,8 @@ export const Page = ({
                 >
                   {Links({
                     content,
+                    design,
+                    isThemeSelected,
                     isPreviewMobile,
                     isSidePreview,
                     links,

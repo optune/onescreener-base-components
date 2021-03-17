@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import SimpleBar from 'simplebar-react'
 
@@ -10,24 +10,8 @@ import { Button } from '../atoms/buttons/Button'
 // Media
 import { MediaSmall } from '../../style/media.js'
 
-// const modalFadeIn = keyframes`
-//   from {
-//     opacity: 0;
-//   }
-
-//   to {
-//     opacity: 1;
-//   }
-// `
-// const modalFadeOut = keyframes`
-//   from {
-//     opacity: 1;
-//   }
-
-//   to {
-//     opacity: 0;
-//   }
-// `
+// Styles
+import { BackgroundColor, ForegroundColor, ColorHaiti } from '../../style/color'
 
 const StyledModal = styled.div`
   position: ${({ isSidePreview }) => (isSidePreview ? 'absolute' : 'fixed')};
@@ -39,7 +23,7 @@ const StyledModal = styled.div`
   z-index: 999999;
   overflow: hidden;
   background-color: ${({ isPreviewMobile }) =>
-    isPreviewMobile ? 'transparent' : 'rgba(10, 15, 44, 0.95)'};
+    isPreviewMobile ? 'transparent' : 'rgba(0,0,0, 0.50)'};
   pointer-events: none;
   transition: opacity 0.5s ease-out;
 `
@@ -62,8 +46,7 @@ const StyledModalContent = styled.div`
     auto;
   padding: ${({ isSidePreview, isPreviewMobile }) =>
     isSidePreview && isPreviewMobile ? '50px 0 0' : '0'};
-  background: ${({ isPreviewMobile }) =>
-    isPreviewMobile ? 'rgba(10, 15, 44, 0.95)' : 'transparent'};
+  background: ${({ isPreviewMobile }) => (isPreviewMobile ? 'rgba(0,0,0, 0.50)' : 'transparent')};
   pointer-events: ${({ show }) => (show ? 'all' : 'none')};
   overflow: hidden;
 
@@ -96,7 +79,8 @@ Modal.propTypes = {
 }
 
 const ContentContainer = styled.div`
-  background: ${({ colorBackground }) => colorBackground || 'rgba(255,255,255, 0.9)'};
+  background: ${({ colorBackground }) => colorBackground || 'rgba(255,255,255)'};
+  border-radius: 4px;
 `
 
 const TextContainer = styled.div`
@@ -117,6 +101,7 @@ const TextContainer = styled.div`
     margin-bottom: 1.5rem;
     word-break: break-word;
     white-space: pre-wrap;
+    align-self: center;
   }
 
   & b {
@@ -139,10 +124,11 @@ const StyledTextContainer = styled(({ isSidePreview, ...other }) => <SimpleBar {
   margin-top: 0.5rem;
   margin-bottom: 0;
   width: 100%;
-  padding-right: 15px;
+  /* padding-right: 15px; */
   max-height: ${({ isSidePreview }) => (isSidePreview ? '150px' : '300px')};
   overflow-y: auto;
   overflow-x: hidden;
+  text-align: center;
 `
 
 const StyledButtonContainer = styled.div`
@@ -156,6 +142,13 @@ const StyledButtonContainer = styled.div`
 const StyledButton = styled(Button)`
   justify-self: flex-end;
   margin: 1rem auto 1rem;
+  background-color: ${ForegroundColor.accent};
+  color: ${ColorHaiti} !important;
+
+  &:hover {
+    color: ${ForegroundColor.accent} !important;
+    background-color: ${BackgroundColor.selected} !important;
+  }
 `
 
 export const TextOverlay = ({ isSidePreview, content, isPreviewMobile, label, onClose, show }) => {
