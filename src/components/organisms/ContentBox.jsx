@@ -32,7 +32,6 @@ const stylesContentDesktop = `
   &top-right {
     align-items: flex-start;
     justify-content: flex-end;
-
     
     & > div > div {
       justify-content: flex-end;
@@ -96,6 +95,7 @@ const stylesContentMobile = `
   &top-left {
     align-items: flex-start;
     justify-content: center;
+
   }
 
   &top-center {
@@ -200,6 +200,7 @@ const PreviewMobile = {
   width: 333,
   height: 520,
 }
+
 
 const ContentSize = {
   Desktop: {
@@ -500,6 +501,7 @@ export const ContentBox = ({
     spanMobile,
   } = content
 
+
   const {
     color: colorDesign,
     colorBackground: colorBackgroundDesign,
@@ -513,6 +515,7 @@ export const ContentBox = ({
   const position = getContentPosition({ content })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
+  const isText = type === 'TEXT'
   const isGigs = type === 'GIGS'
 
   const colors = {

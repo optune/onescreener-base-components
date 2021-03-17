@@ -19,11 +19,22 @@ const TextContainer = styled.div`
 
   display: flex;
   justify-content: ${({ alignHorizontal = 'CENTER_LEFT' }) => HorizontalAlignment[alignHorizontal]};
+
+  ${({ isLogo }) =>
+    !isLogo &&
+    css`
+      overflow-y: scroll;
+      -ms-overflow-style: none; /* Internet Explorer 10+ */
+      scrollbar-width: none; /* Firefox */
+      ::-webkit-scrollbar {
+        display: none; /* Safari and Chrome */
+      }
+    `}
 `
 
 const TextContent = styled.div`
   padding: ${({ padding, isMobileView, isSidePreview }) =>
-    padding || ((isMobileView || isSidePreview) && '1em 1em') || '1em 2em'};
+    padding || ((isMobileView || isSidePreview) && '1em 1em') || '1em 1em'};
   background-color: ${({ colorBackground }) => colorBackground || 'transparent'};
 
   ${({ includeWidth }) =>
@@ -55,7 +66,7 @@ const DEFAULTS = {
   maxFontSize: 100,
 
   // the maximum font size in pixel.
-  minFontSize: 1,
+  minFontSize: 8,
 
   // avoid line breaks
   includeWidth: false,
@@ -215,6 +226,7 @@ export class AutoTextFit extends Component {
         id="auto-text-fit-container"
         show={ssrDone && resized}
         alignHorizontal={alignHorizontal}
+        isLogo={isLogo}
       >
         <TextContent
           adjustWidth={adjustWidth}
