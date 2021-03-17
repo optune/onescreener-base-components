@@ -201,6 +201,19 @@ const PreviewMobile = {
   height: 520,
 }
 
+const ContentSize = {
+  Desktop: {
+    S: '25%',
+    M: '30%',
+    L: '33.333%',
+  },
+  Mobile: {
+    S: '60%',
+    M: '80%',
+    L: '100%',
+  },
+}
+
 const round = (a) => a.toFixed(2)
 
 const getGridArea = (
@@ -341,18 +354,20 @@ const FullscreenContainer = styled.div`
 `
 
 const ResponsiveContainer = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  // position: absolute;
+  // top: 0;
+  // bottom: 0;
+  // left: 0;
+  // right: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
   z-index: 99;
 
   ${stylesContentDesktop}
 
   ${({ isDifferentPositions, isPreviewMobile, isSidePreview }) =>
-    isDifferentPositions &&
     css`
       ${isPreviewMobile && stylesContentMobile}
 
@@ -360,12 +375,13 @@ const ResponsiveContainer = styled.div`
         ${!isSidePreview && stylesContentMobile}
       }
     `}
-
+    
 
     ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
       !!area &&
       !!areaMobile &&
       css`
+        position: absolute;
         top: unset;
         bottom: unset;
         left: unset;
@@ -388,11 +404,9 @@ const ResponsiveContainer = styled.div`
 
 const Container = styled.div`
   position: relative;
-  margin: 1rem;
-  height: ${({ isLegacy, size }) =>
-    isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '40%' : '60%'};
-  width: ${({ isLegacy, size }) =>
-    isLegacy ? '100%' : size === 'S' ? '30%' : size === 'M' ? '40%' : '60%'};
+  margin: 0.5rem;
+  height: ${({ isLegacy, size }) => (isLegacy ? '100%' : ContentSize.Desktop[size])};
+  width: ${({ isLegacy, size }) => (isLegacy ? '100%' : ContentSize.Desktop[size])};
   
 
   ${({ isSidePreview, isTeaserLinks, isGigs }) =>
@@ -406,15 +420,7 @@ const Container = styled.div`
     isPreviewMobile &&
     css`
       height: ${isLegacyMobile ? '100%' : isSidePreview ? '40%' : '40%'};
-      width: ${isLegacyMobile
-        ? '100%'
-        : isSidePreview
-        ? size === 'S'
-          ? '60%'
-          : size === 'M'
-          ? '80%'
-          : '100%'
-        : '100%'};
+      width: ${isLegacyMobile ? '100%' : isSidePreview ? ContentSize.Mobile[size] : '100%'};
       margin: 0px 10px;
     `}
 
