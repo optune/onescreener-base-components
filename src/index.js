@@ -10,17 +10,23 @@ export { BackLink } from './components/atoms/BackLink.jsx'
 
 // Templates
 export { Page } from './components/templates/Page.jsx'
-// export { PageSidePreview } from './components/templates/PageSidePreview'
 
 // Platform Icons
 export { PlatformLink } from './components/molecules/links/PlatformLink'
 export { PlatformLinks } from './components/molecules/links/PlatformLinks'
 export { Links } from './components/molecules/links/Links'
 
-export { MediaSmall, MediaMobile, NotMediaSmall } from './style/media.js'
+export {
+  MediaSmall,
+  MediaTinyMobile,
+  MediaSmallMobile,
+  MediaMobile,
+  NotMediaSmall,
+} from './style/media.js'
 
 export { getGigs } from './api/gigs/index.js'
 
 export { renderHtml } from './utils/renderHtml.js'
+export { getBackground } from './utils/getBackground.js'
 export { getImageUrl } from './utils/getImageUrl.js'
 export { getFavionUrl } from './utils/getFaviconUrl.js'
