@@ -1,3 +1,6 @@
+export const MediaDesktop = '(max-width: 1400px)'
+export const MediaSmallDesktop = '(max-width: 900px)'
+
 export const MediaSmall = '(max-width: 736px)'
 export const MediaMobile = '(max-width: 480px)'
 
