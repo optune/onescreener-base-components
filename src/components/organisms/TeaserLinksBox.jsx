@@ -39,7 +39,7 @@ const Container = styled.div`
     cursor: pointer;
 
     background: ${({ colorBackground }) =>
-      colorBackground ? colorBackground : 'rgba(255, 255, 255, 0.75)'};
+      colorBackground ? colorBackground : 'rgba(130, 130, 130, 0.30)'};
     border: 1px solid ${({ color }) => (color ? color : 'white')};
     box-sizing: border-box;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 0px 2px rgba(0, 0, 0, 0.1);
