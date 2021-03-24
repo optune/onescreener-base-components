@@ -17,6 +17,8 @@ export { PlatformLinks } from './components/molecules/links/PlatformLinks'
 export { Links } from './components/molecules/links/Links'
 
 export {
+  MediaDesktop,
+  MediaSmallDesktop,
   MediaSmall,
   MediaTinyMobile,
   MediaSmallMobile,
