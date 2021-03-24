@@ -29,11 +29,8 @@ const Container = styled.div`
     font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '1rem')};
     font-weight: 600;
     color: ${({ color }) => (color ? color : '#0a1c3b')};
-    text-shadow: ${({ colorBackground }) =>
-      colorBackground == 'rgba(255,255,255,0)'
-        ? `0px 2px 2px rgba(0, 0, 0, 0.08), 0px 3px 6px rgba(0, 0, 0, 0.08),
-      0px 3px 12px rgba(0, 0, 0, 0.14)`
-        : null};
+    text-shadow: 1px 1px 1px rgba(46, 49, 49, 0.3);
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,7 +39,7 @@ const Container = styled.div`
     cursor: pointer;
 
     background: ${({ colorBackground }) =>
-      colorBackground ? colorBackground : 'rgba(255, 255, 255, 0.75)'};
+      colorBackground ? colorBackground : 'rgba(130, 130, 130, 0.30)'};
     border: 1px solid ${({ color }) => (color ? color : 'white')};
     box-sizing: border-box;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 0px 2px rgba(0, 0, 0, 0.1);
