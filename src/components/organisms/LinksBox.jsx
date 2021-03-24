@@ -22,7 +22,7 @@ const LinksContainer = styled.div`
   ${({ isInstagramBrowser }) =>
     isInstagramBrowser &&
     css`
-      margin-bottom: 20px !important;
+      bottom: 20px;
     `};
 `
 
