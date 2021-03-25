@@ -51,11 +51,11 @@ export const MediaBox = ({ media, isPreviewMobile, isSidePreview }) => {
     theme = media.deezer.theme
   }
 
-  if (media?.url.indexOf('spotify') !== -1) {
+  if (media?.url?.indexOf('spotify') !== -1) {
     Player = SpotifyPlayer
-  } else if (media?.url.indexOf('apple') !== -1) {
+  } else if (media?.url?.indexOf('apple') !== -1) {
     Player = ApplePlayer
-  } else if (media?.url.indexOf('deezer') !== -1) {
+  } else if (media?.url?.indexOf('deezer') !== -1) {
     Player = DeezerPlayer
   }
 
