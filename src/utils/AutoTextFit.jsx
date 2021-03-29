@@ -78,7 +78,10 @@ const childrenFit = ({ element }) =>
     let pWidth = element.scrollWidth
     let cWidth = parseInt(ch.scrollWidth)
 
-    return pWidth - pPadding * 2 < cWidth
+    console.log({ ch, pPadding, pWidth, cWidth })
+    const isInBound = pWidth - pPadding * 2 < cWidth
+    console.log({ isInBoundChild: isInBound })
+    return isInBound
   })
 
 const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth, isLogo }) => {
@@ -89,17 +92,32 @@ const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth,
   const parentWidth = element.parentElement.clientWidth
   const parentHeight = element.parentElement.clientHeight
 
+  const firstChild = element.children[0]
+  const firstChildHeight = element.children[0].clientHeight
+  console.log({ element, firstChild })
+
+  console.log({ isLogo })
   const inBounds = () => {
-    return (
+    const isInBound =
       parentHeight >= element.scrollHeight &&
-      (!includeWidth || parentWidth >= element.scrollWidth) &&
-      (isLogo || childrenFit({ element }))
-    )
+      (isLogo ? parentWidth > firstChild.clientWidth : childrenFit({ element })) &&
+      (!includeWidth || parentWidth >= element.scrollWidth)
+
+    console.log({
+      elWidth: element.scrollWidth,
+      parentWidth,
+      chWidth: firstChild.clientWidth,
+      isInBound,
+    })
+    console.log({ parentBiggerThenCh: parentWidth > firstChild.clientWidth })
+    return isInBound
   }
 
   const grow = () => {
     fontSize += step
 
+    console.log('grow')
+    console.log({ fontSize, fontSizeCandidate })
     // Match criteria for currentFontSize
     if (fontSize >= fontSizeCandidate || fontSize >= maxFontSize) return
 
@@ -118,6 +136,7 @@ const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth,
   const shrink = () => {
     fontSize -= step
 
+    console.log('shrink')
     // Match criteria for fontSizeCandidate
     if (fontSize <= minFontSize) return
 
@@ -176,23 +195,33 @@ export class AutoTextFit extends Component {
     this.resizeObserver.observe(element.parentElement)
 
     this.setState({ ssrDone: true, resized: false })
+    // updateFontSize(element, options)
+    // console.log('did mount')
+    // console.log({ ssrDone: this.state.ssrDone, resized: this.state.resized })
   }
 
   componentDidUpdate(prevProps) {
     const { ssrDone, resized } = this.state
+    // console.log({ props: this.props, prevProps })
     const shouldResize =
       this.props.isMobileView !== prevProps.isMobileView ||
       this.props.textValue !== prevProps.textValue ||
-      this.props.includeWidth !== prevProps.includeWidth
+      this.props.includeWidth !== prevProps.includeWidth ||
+      !ssrDone ||
+      !resized
 
+    // console.log('did update')
+    // console.log({ ssrDone, resized, shouldResize })
     if (resized && shouldResize) {
       this.setState({ resized: false })
+      // console.log('should resizze')
     }
 
     if (ssrDone && !resized) {
+      // console.log('kick off res')
       // Resize text if window size is set or changes
-      const { maxFontSize, minFontSize, step, includeWidth } = this.props
-      const options = { maxFontSize, minFontSize, step, includeWidth }
+      const { maxFontSize, minFontSize, step, includeWidth, isLogo } = this.props
+      const options = { maxFontSize, minFontSize, step, includeWidth, isLogo }
       const element = this.TextRef.current
 
       updateFontSize(element, options)
