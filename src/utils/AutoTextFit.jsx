@@ -99,7 +99,6 @@ const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth,
   const parentHeight = element.parentElement.clientHeight
 
   const firstChild = element.children[0]
-  const firstChildHeight = element.children[0].clientHeight
 
   const inBounds = () => {
     const isInBound =
