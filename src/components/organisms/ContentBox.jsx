@@ -577,8 +577,10 @@ export const ContentBox = ({
         <TeaserLinksBox
           teaserLinks={teaserLinks.list}
           isSidePreview={isSidePreview}
-          color={colorLinksDesign || colors.color}
-          colorBackground={colorLinksBackgroundDesign || colors.colorBackground}
+          color={colorLinksDesign || teaserLinks.colorLinks || colors.color}
+          colorBackground={
+            colorLinksBackgroundDesign || teaserLinks.colorLinksBackground || colors.colorBackground
+          }
         />
       )
       break
