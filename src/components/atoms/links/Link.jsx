@@ -125,23 +125,20 @@ export const Link = styled.div`
     }
   }
 
-    ${({ isSidePreview }) =>
-      !isSidePreview &&
-      css`
-    @media ${MediaMobile} {
-      width: ${({ isHighlighted, size }) =>
-        `calc(${ShapeSize.Mobile[size]} * ${isHighlighted ? '2' : '1'})`};
+  ${({ isSidePreview }) =>
+    !isSidePreview &&
+    css`
+      @media ${MediaMobile} {
+        width: ${({ isHighlighted, size }) =>
+          `calc(${ShapeSize.Mobile[size]} * ${isHighlighted ? '2' : '1'})`};
 
-    height: ${({ isHighlighted, size }) =>
-      `calc(${ShapeSize.Mobile[size]} * ${isHighlighted ? '1' : '1'})`};
-
-      pointer-events: none;
-      `}
+        height: ${({ isHighlighted, size }) =>
+          `calc(${ShapeSize.Mobile[size]} * ${isHighlighted ? '1' : '1'})`};
+      }
+    `}
 
   @media ${MediaMobile} {
-
     margin: ${({ size, margin }) => margin || (size === 'L' && '1px') || '5px'};
-
 
     & .icon {
       width: ${({ size }) => IconSize.Mobile[size]};
@@ -149,36 +146,30 @@ export const Link = styled.div`
     }
   }
 
-  @media ${NotMediaSmall} {
-    &:hover {
-      ${({ notInteractive }) =>
-        !notInteractive &&
-        css`
-          background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
-          border-color: ${({ colorAccent }) => colorAccent};
-          color: ${({ colorAccent }) => colorAccent};
+  &:hover {
+    background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent || 'red'};
+    border-color: ${({ colorAccent }) => colorAccent};
+    color: ${({ colorAccent }) => colorAccent};
 
-          & .icon g {
-            & path,
-            line,
-            circle,
-            polygon,
-            polyline,
-            rect,
-            ellipse {
-              fill: ${({ colorAccent }) => colorAccent};
-              stroke: ${({ colorAccent }) => colorAccent};
+    & .icon g {
+      & path,
+      line,
+      circle,
+      polygon,
+      polyline,
+      rect,
+      ellipse {
+        fill: ${({ colorAccent }) => colorAccent};
+        stroke: ${({ colorAccent }) => colorAccent};
 
-              &[fill='none'] {
-                fill: none;
-              }
+        &[fill='none'] {
+          fill: none;
+        }
 
-              &[stroke='none'] {
-                stroke: none;
-              }
-            }
-          }
-        `}
+        &[stroke='none'] {
+          stroke: none;
+        }
+      }
     }
   }
 `
