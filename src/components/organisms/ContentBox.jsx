@@ -201,7 +201,6 @@ const PreviewMobile = {
   height: 520,
 }
 
-
 const ContentSize = {
   Desktop: {
     S: '25%',
@@ -501,7 +500,6 @@ export const ContentBox = ({
     spanMobile,
   } = content
 
-
   const {
     color: colorDesign,
     colorBackground: colorBackgroundDesign,
@@ -579,10 +577,8 @@ export const ContentBox = ({
         <TeaserLinksBox
           teaserLinks={teaserLinks.list}
           isSidePreview={isSidePreview}
-          color={colorLinksDesign || colorDesign || teaserLinks.colorLinks}
-          colorBackground={
-            colorLinksBackgroundDesign || colorBackgroundDesign || teaserLinks.colorLinksBackground
-          }
+          color={colorLinksDesign || colors.color}
+          colorBackground={colorLinksBackgroundDesign || colors.colorBackground}
         />
       )
       break
