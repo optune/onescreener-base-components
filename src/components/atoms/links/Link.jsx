@@ -146,6 +146,7 @@ export const Link = styled.div`
     }
   }
 
+  // TODO: Fox non-interactive for editor page
   &:hover {
     background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent || 'red'};
     border-color: ${({ colorAccent }) => colorAccent};
