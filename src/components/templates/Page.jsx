@@ -121,6 +121,7 @@ export const Page = ({
   noBacklink,
   page,
   pageUrl,
+  userName,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
@@ -130,6 +131,7 @@ export const Page = ({
 
   const [modalData, setModalData] = useState({
     show: false,
+    paypalLink: '',
     content: '',
     label: '',
   })
@@ -237,6 +239,8 @@ export const Page = ({
                     content.colorBackgroundAccent
                   }
                   content={modalData.content}
+                  paypalLink={modalData.paypalLink}
+                  userName={userName}
                   isPreviewMobile={isPreviewMobile}
                   isSidePreview={isSidePreview}
                   label={modalData.label}

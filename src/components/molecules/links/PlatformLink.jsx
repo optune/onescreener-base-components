@@ -23,9 +23,11 @@ export const PlatformLink = ({
   colorAccent,
   colorBackground,
   colorBackgroundAccent,
+  email,
   isHighlighted,
   isPreviewMobile,
   isSidePreview,
+  isWithoutIcon,
   label,
   margin,
   modalData,
@@ -47,7 +49,49 @@ export const PlatformLink = ({
     platform
   ).replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, (l) => l.toUpperCase())
 
-  if (url > '') {
+  if (platform === 'DONATION') {
+    return (
+      <LinkWrapperText
+        onClick={() =>
+          setModalData({
+            show: true,
+            content: text,
+            paypalLink: `https://www.paypal.com/donate?business=${email}&currency_code=USD`,
+            label: labelText,
+          })
+        }
+      >
+        <Link
+          border={border}
+          circle={circle}
+          color={color}
+          colorAccent={colorAccent}
+          colorBackground={colorBackground}
+          colorBackgroundAccent={colorBackgroundAccent}
+          margin={margin}
+          position={position}
+          noShadow
+          isHighlighted
+          isSpecial={isWithoutIcon}
+          isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
+          size={size || 'M'}
+          square={square}
+        >
+          {isWithoutIcon ? (
+            'DONATE'
+          ) : (
+            <Icon
+              color={color}
+              size={size}
+              isPreviewMobile={isPreviewMobile}
+              isSidePreview={isSidePreview}
+            />
+          )}
+        </Link>
+      </LinkWrapperText>
+    )
+  } else if (url > '') {
     return (
       <LinkWrapper
         href={url}

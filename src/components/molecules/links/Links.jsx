@@ -65,6 +65,8 @@ export const Links = ({
           isHighlighted={link.isHighlighted}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
+          email={link.email}
+          isWithoutIcon={link.platform === 'DONATION'}
           position={links.position}
           key={link.platform}
           label={link.label}
@@ -77,7 +79,8 @@ export const Links = ({
           target={link.target}
           text={link.text}
           url={
-            link.url?.includes('@') || link?.username?.includes('@')
+            // TODO: refactor, use real email field maybe
+            !link.email && (link.url?.includes('@') || link?.username?.includes('@'))
               ? `mailto:${link.username}`
               : link.url
           }

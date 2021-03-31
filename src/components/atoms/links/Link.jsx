@@ -47,6 +47,7 @@ export const Link = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: ${({ isSidePreview }) => (isSidePreview ? '1rem' : '1.5rem')};
   padding: 0px;
   background-color: ${({ colorBackground }) => colorBackground};
   border-radius: ${({ circle, square }) => (circle && '50px') || (square && 'none') || '0.4rem'};
@@ -125,18 +126,19 @@ export const Link = styled.div`
     }
   }
 
-    ${({ isSidePreview }) =>
-      !isSidePreview &&
-      css`
-    @media ${MediaMobile} {
-      width: ${({ isHighlighted, size }) =>
-        `calc(${ShapeSize.Mobile[size]} * ${isHighlighted ? '2' : '1'})`};
+  ${({ isSidePreview }) =>
+    !isSidePreview &&
+    css`
+      @media ${MediaMobile} {
+        width: ${({ isHighlighted, size }) =>
+          `calc(${ShapeSize.Mobile[size]} * ${isHighlighted ? '2' : '1'})`};
 
-    height: ${({ isHighlighted, size }) =>
-      `calc(${ShapeSize.Mobile[size]} * ${isHighlighted ? '1' : '1'})`};
+        height: ${({ isHighlighted, size }) =>
+          `calc(${ShapeSize.Mobile[size]} * ${isHighlighted ? '1' : '1'})`};
 
-      pointer-events: none;
-      `}
+        pointer-events: none;
+      }
+    `}
 
   @media ${MediaMobile} {
 
@@ -149,14 +151,28 @@ export const Link = styled.div`
     }
   }
 
+
+  ${({ isSpecial }) =>
+    isSpecial &&
+    css`
+      background: linear-gradient(90deg, #d9b85e 5%, rgb(40 228 211 / 50%) 100%), #c4c4c4;
+      color: white;
+    `}
+
   @media ${NotMediaSmall} {
     &:hover {
-      ${({ notInteractive }) =>
+      ${({ notInteractive, isSpecial }) =>
         !notInteractive &&
         css`
           background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
           border-color: ${({ colorAccent }) => colorAccent};
           color: ${({ colorAccent }) => colorAccent};
+
+          ${isSpecial &&
+          css`
+            background: linear-gradient(90deg, rgb(40 228 211 / 50%) 5%, #d9b85e 100%), #c4c4c4;
+            color: white;
+          `}
 
           & .icon g {
             & path,
@@ -181,4 +197,6 @@ export const Link = styled.div`
         `}
     }
   }
+
+
 `
