@@ -147,30 +147,36 @@ export const Link = styled.div`
   }
 
   // TODO: Fox non-interactive for editor page
-  &:hover {
-    background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent || 'red'};
-    border-color: ${({ colorAccent }) => colorAccent};
-    color: ${({ colorAccent }) => colorAccent};
+  @media ${NotMediaSmall} {
+    &:hover {
+    ${({ notInteractive }) =>
+      !notInteractive &&
+      css`
+        background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent || 'red'};
+        border-color: ${({ colorAccent }) => colorAccent};
+        color: ${({ colorAccent }) => colorAccent};
 
-    & .icon g {
-      & path,
-      line,
-      circle,
-      polygon,
-      polyline,
-      rect,
-      ellipse {
-        fill: ${({ colorAccent }) => colorAccent};
-        stroke: ${({ colorAccent }) => colorAccent};
+        & .icon g {
+          & path,
+          line,
+          circle,
+          polygon,
+          polyline,
+          rect,
+          ellipse {
+            fill: ${({ colorAccent }) => colorAccent};
+            stroke: ${({ colorAccent }) => colorAccent};
 
-        &[fill='none'] {
-          fill: none;
+            &[fill='none'] {
+              fill: none;
+            }
+
+            &[stroke='none'] {
+              stroke: none;
+            }
+          }
         }
-
-        &[stroke='none'] {
-          stroke: none;
-        }
-      }
+      `}
     }
   }
 `
