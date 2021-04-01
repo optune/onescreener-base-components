@@ -10,10 +10,12 @@ const LinkWrapper = styled.a`
   text-decoration: none;
   /* margin: ${({ isPreviewMobile }) => isPreviewMobile && '0 4px'}; */
   cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
+  pointer-events: ${({ notInteractive }) => (notInteractive ? 'none' : 'auto')};
 `
 
 const LinkWrapperText = styled.div`
   cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
+  pointer-events: ${({ notInteractive }) => (notInteractive ? 'none' : 'auto')};
 `
 
 export const PlatformLink = ({
@@ -33,6 +35,7 @@ export const PlatformLink = ({
   margin,
   modalData,
   name,
+  notInteractive,
   noShadow,
   platform,
   position,
@@ -53,6 +56,7 @@ export const PlatformLink = ({
   if (platform === 'DONATION') {
     return (
       <LinkWrapperText
+        notInteractive={notInteractive}
         onClick={() =>
           setModalData({
             show: true,
@@ -84,6 +88,7 @@ export const PlatformLink = ({
           colorBackgroundAccent={colorBackgroundAccent}
           margin={margin}
           position={position}
+          notInteractive={notInteractive}
           noShadow
           isHighlighted
           isSpecial={isWithoutIcon}
