@@ -134,6 +134,8 @@ export const Page = ({
     paypalLink: '',
     content: '',
     label: '',
+    hasActionFinished: false,
+    onAction: null,
   })
 
   let PageComponent = null
@@ -240,10 +242,12 @@ export const Page = ({
                   }
                   content={modalData.content}
                   paypalLink={modalData.paypalLink}
-                  userName={userName}
+                  userName={userName || page.userName}
                   isPreviewMobile={isPreviewMobile}
                   isSidePreview={isSidePreview}
                   label={modalData.label}
+                  onAction={modalData.onAction}
+                  hasActionFinished={modalData.hasActionFinished}
                   onClose={() => setModalData({ ...modalData, show: false })}
                   show={modalData.show}
                   square={links.square}

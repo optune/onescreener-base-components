@@ -206,6 +206,8 @@ export const TextOverlay = ({
   content,
   isPreviewMobile,
   label,
+  onAction,
+  hasActionFinished,
   paypalLink,
   userName,
   onClose,
@@ -226,7 +228,9 @@ export const TextOverlay = ({
         </CloseButton>
         <TextContainer>
           <StyledTitle>
-            {isDonation ? (userName > '' && `Donate to ${userName}`) || 'Donate' : label}
+            {isDonation
+              ? (!hasActionFinished && userName > '' && `Donate to ${userName}`) || 'Donation'
+              : label}
           </StyledTitle>
           <StyledTextContainer isSidePreview={isSidePreview}>
             {content.split('\n').map((line, lineIndex) => (
@@ -236,8 +240,14 @@ export const TextOverlay = ({
         </TextContainer>
 
         <StyledButtonContainer>
-          {isDonation ? (
-            <a className="donate" href={paypalLink} target="_blank" rel="noreferrer noopener">
+          {isDonation && !hasActionFinished ? (
+            <a
+              className="donate"
+              href={paypalLink}
+              onClick={onAction}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
               Donate
             </a>
           ) : (

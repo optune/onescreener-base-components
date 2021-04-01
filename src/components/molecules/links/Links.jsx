@@ -66,6 +66,7 @@ export const Links = ({
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
           email={link.email}
+          actionText={link.actionText}
           isWithoutIcon={link.platform === 'DONATION'}
           position={links.position}
           key={link.platform}

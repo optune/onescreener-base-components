@@ -24,6 +24,7 @@ export const PlatformLink = ({
   colorBackground,
   colorBackgroundAccent,
   email,
+  actionText,
   isHighlighted,
   isPreviewMobile,
   isSidePreview,
@@ -58,6 +59,19 @@ export const PlatformLink = ({
             content: text,
             paypalLink: `https://www.paypal.com/donate?business=${email}&currency_code=USD`,
             label: labelText,
+            onAction:
+              actionText > ''
+                ? () => {
+                    setModalData({
+                      ...modalData,
+                      show: true,
+                      label: labelText,
+                      paypalLink: `https://www.paypal.com/donate?business=${email}&currency_code=USD`,
+                      content: actionText,
+                      hasActionFinished: true,
+                    })
+                  }
+                : null,
           })
         }
       >
