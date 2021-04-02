@@ -519,8 +519,9 @@ export const ContentBox = ({
     colorBackground: colorBackgroundDesign || colorBackground,
     colorBackgroundAccent: colorBackgroundAccentDesign || colorBackgroundAccent,
 
-    colorLinks: colorDesign || teaserLinks.colorLinks,
-    colorLinksBackground: colorBackgroundDesign || teaserLinks.colorLinksBackground,
+    colorLinks: colorDesign || teaserLinks?.colorLinks || color,
+    colorLinksBackground:
+      colorBackgroundDesign || teaserLinks?.colorLinksBackground || colorBackground,
   }
 
   const area =
