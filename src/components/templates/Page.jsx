@@ -140,8 +140,6 @@ export const Page = ({
     const { background, logo, content, design, selectedThemeId } = page
     const { links } = page || { links: { list: [] } }
 
-    const isPro = hasPro || !!(content.type !== 'NONE') || !!(logo.type !== 'text')
-
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
     const isBackgroundSelected =
@@ -181,7 +179,7 @@ export const Page = ({
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
             {!noBacklink && !isSidePreview && (
-              <BackLink isPreviewMobile={isPreviewMobile} isPro={isPro} />
+              <BackLink isPreviewMobile={isPreviewMobile} isPro={hasPro} />
             )}
 
             {/* Logo */}
