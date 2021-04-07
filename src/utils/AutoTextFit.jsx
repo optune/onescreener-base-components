@@ -37,11 +37,19 @@ const TextContent = styled.div`
     padding || ((isMobileView || isSidePreview) && '1em 1em') || '1em 1em'};
   background-color: ${({ colorBackground }) => colorBackground || 'transparent'};
 
+  ${({ isLogo }) =>
+    isLogo &&
+    css`
+      display: flex;
+      justify-content: center;
+    `}
+
   ${({ includeWidth }) =>
     includeWidth &&
     css`
       & > * {
         display: table-row;
+        text-align: center;
       }
     `}
   ${({ adjustWidth }) =>
@@ -65,7 +73,7 @@ const DEFAULTS = {
   // the maximum font size in pixel.
   maxFontSize: 100,
 
-  // the maximum font size in pixel.
+  // the minimum font size in pixel.
   minFontSize: 8,
 
   // avoid line breaks
@@ -78,7 +86,8 @@ const childrenFit = ({ element }) =>
     let pWidth = element.scrollWidth
     let cWidth = parseInt(ch.scrollWidth)
 
-    return pWidth - pPadding * 2 < cWidth
+    const isInBound = pWidth - pPadding * 2 < cWidth
+    return isInBound
   })
 
 const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth, isLogo }) => {
@@ -89,12 +98,16 @@ const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth,
   const parentWidth = element.parentElement.clientWidth
   const parentHeight = element.parentElement.clientHeight
 
+  const firstChild = element.children[0]
+
   const inBounds = () => {
-    return (
+    const isInBound =
       parentHeight >= element.scrollHeight &&
+      (!includeWidth || !isLogo || parentWidth >= firstChild.scrollWidth) &&
       (!includeWidth || parentWidth >= element.scrollWidth) &&
       (isLogo || childrenFit({ element }))
-    )
+
+    return isInBound
   }
 
   const grow = () => {
@@ -142,6 +155,7 @@ const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth,
   return
 }
 
+// TODO: rewrite component as functional
 export class AutoTextFit extends Component {
   constructor(props) {
     super(props)
@@ -176,6 +190,11 @@ export class AutoTextFit extends Component {
     this.resizeObserver.observe(element.parentElement)
 
     this.setState({ ssrDone: true, resized: false })
+
+    setTimeout(() => {
+      // TODO: fix the real problem with logo font not being updated after first render
+      updateFontSize(element, options) // !HACKS
+    }, 1000)
   }
 
   componentDidUpdate(prevProps) {
@@ -183,7 +202,9 @@ export class AutoTextFit extends Component {
     const shouldResize =
       this.props.isMobileView !== prevProps.isMobileView ||
       this.props.textValue !== prevProps.textValue ||
-      this.props.includeWidth !== prevProps.includeWidth
+      this.props.includeWidth !== prevProps.includeWidth ||
+      !ssrDone ||
+      !resized
 
     if (resized && shouldResize) {
       this.setState({ resized: false })
@@ -191,8 +212,8 @@ export class AutoTextFit extends Component {
 
     if (ssrDone && !resized) {
       // Resize text if window size is set or changes
-      const { maxFontSize, minFontSize, step, includeWidth } = this.props
-      const options = { maxFontSize, minFontSize, step, includeWidth }
+      const { maxFontSize, minFontSize, step, includeWidth, isLogo } = this.props
+      const options = { maxFontSize, minFontSize, step, includeWidth, isLogo }
       const element = this.TextRef.current
 
       updateFontSize(element, options)
@@ -236,6 +257,7 @@ export class AutoTextFit extends Component {
           includeWidth={includeWidth}
           isMobileView={isMobileView}
           isSidePreview={isSidePreview}
+          isLogo={isLogo}
         >
           {children}
           {

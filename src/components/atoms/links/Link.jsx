@@ -137,20 +137,18 @@ export const Link = styled.div`
           `calc(${ShapeSize.Mobile[size]} * ${isHighlighted ? '1' : '1'})`};
 
         pointer-events: none;
+
       }
     `}
 
   @media ${MediaMobile} {
-
     margin: ${({ size, margin }) => margin || (size === 'L' && '1px') || '5px'};
-
 
     & .icon {
       width: ${({ size }) => IconSize.Mobile[size]};
       height: ${({ size }) => IconSize.Mobile[size]};
     }
   }
-
 
   ${({ isSpecial }) =>
     isSpecial &&
@@ -192,9 +190,11 @@ export const Link = styled.div`
               &[stroke='none'] {
                 stroke: none;
               }
+
             }
           }
-        `}
+        }
+      `}
     }
   }
 

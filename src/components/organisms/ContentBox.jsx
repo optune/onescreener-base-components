@@ -505,9 +505,6 @@ export const ContentBox = ({
     colorBackground: colorBackgroundDesign,
     colorAccent: colorAccentDesign,
     colorBackgroundAccent: colorBackgroundAccentDesign,
-
-    colorLinksDesign,
-    colorLinksBackgroundDesign,
   } = design?.theme?.content || {}
 
   const position = getContentPosition({ content })
@@ -521,6 +518,10 @@ export const ContentBox = ({
     colorAccent: colorAccentDesign || colorAccent,
     colorBackground: colorBackgroundDesign || colorBackground,
     colorBackgroundAccent: colorBackgroundAccentDesign || colorBackgroundAccent,
+
+    colorLinks: colorDesign || teaserLinks?.colorLinks || color,
+    colorLinksBackground:
+      colorBackgroundDesign || teaserLinks?.colorLinksBackground || colorBackground,
   }
 
   const area =
@@ -577,10 +578,8 @@ export const ContentBox = ({
         <TeaserLinksBox
           teaserLinks={teaserLinks.list}
           isSidePreview={isSidePreview}
-          color={colorLinksDesign || teaserLinks.colorLinks || colors.color}
-          colorBackground={
-            colorLinksBackgroundDesign || teaserLinks.colorLinksBackground || colors.colorBackground
-          }
+          color={colors.colorLinks}
+          colorBackground={colors.colorLinksBackground}
         />
       )
       break

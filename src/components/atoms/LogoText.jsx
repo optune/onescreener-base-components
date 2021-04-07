@@ -85,7 +85,7 @@ const LogoTextContainer = styled.div`
     isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
   height: ${({ size, isPreviewMobile }) =>
     isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
-  padding: 0.25rem;
+  margin: 0.8rem;
 
   max-height: ${LogoSize.Desktop.XL};
 
