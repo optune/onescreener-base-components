@@ -163,6 +163,7 @@ export const PlatformLink = ({
           noShadow
           isHighlighted={isHighlighted}
           isPreviewMobile={isPreviewMobile}
+          position={position}
           isSidePreview={isSidePreview}
           size={size || 'M'}
           square={square}
@@ -187,6 +188,7 @@ export const PlatformLink = ({
         colorBackgroundAccent={colorBackgroundAccent}
         notInteractive={notInteractive}
         noShadow
+        position={position}
         isHighlighted={isHighlighted}
         isPreviewMobile={isPreviewMobile}
         isSidePreview={isSidePreview}
