@@ -10,10 +10,12 @@ const LinkWrapper = styled.a`
   text-decoration: none;
   /* margin: ${({ isPreviewMobile }) => isPreviewMobile && '0 4px'}; */
   cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
+  pointer-events: ${({ notInteractive }) => (notInteractive ? 'none' : 'auto')};
 `
 
 const LinkWrapperText = styled.div`
   cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
+  pointer-events: ${({ notInteractive }) => (notInteractive ? 'none' : 'auto')};
 `
 
 export const PlatformLink = ({
@@ -23,9 +25,12 @@ export const PlatformLink = ({
   colorAccent,
   colorBackground,
   colorBackgroundAccent,
+  email,
+  actionText,
   isHighlighted,
   isPreviewMobile,
   isSidePreview,
+  isWithoutIcon,
   label,
   margin,
   modalData,
@@ -48,7 +53,64 @@ export const PlatformLink = ({
     platform
   ).replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, (l) => l.toUpperCase())
 
-  if (url > '') {
+  if (platform === 'DONATION') {
+    return (
+      <LinkWrapperText
+        notInteractive={notInteractive}
+        onClick={() =>
+          setModalData({
+            show: true,
+            content: text,
+            paypalLink: `https://www.paypal.com/donate?business=${email}&currency_code=USD`,
+            label: labelText,
+            onAction:
+              actionText > ''
+                ? () => {
+                    setModalData({
+                      ...modalData,
+                      show: true,
+                      label: labelText,
+                      paypalLink: `https://www.paypal.com/donate?business=${email}&currency_code=USD`,
+                      content: actionText,
+                      hasActionFinished: true,
+                    })
+                  }
+                : null,
+          })
+        }
+      >
+        <Link
+          border={border}
+          circle={circle}
+          color={color}
+          colorAccent={colorAccent}
+          colorBackground={colorBackground}
+          colorBackgroundAccent={colorBackgroundAccent}
+          margin={margin}
+          position={position}
+          notInteractive={notInteractive}
+          noShadow
+          isHighlighted
+          isSpecial={isWithoutIcon}
+          isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
+          size={size || 'M'}
+          square={square}
+        >
+          {isWithoutIcon ? (
+            'DONATE'
+          ) : (
+            <Icon
+              color={color}
+              size={size}
+              isPreviewMobile={isPreviewMobile}
+              isSidePreview={isSidePreview}
+            />
+          )}
+        </Link>
+      </LinkWrapperText>
+    )
+  } else if (url > '') {
     return (
       <LinkWrapper
         href={url}

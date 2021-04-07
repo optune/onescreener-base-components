@@ -37,6 +37,7 @@ import { NewsletterFormIcon } from './NewsletterForm.jsx'
 import { OptuneIcon } from './Optune.jsx'
 import { PressKitIcon } from './PressKit.jsx'
 import { PandoraIcon } from './Pandora.jsx'
+import { PaypalIcon } from './Paypal.jsx'
 import { PhotosIcon } from './Photos.jsx'
 import { PicasaIcon } from './Picasa.jsx'
 import { PinterestIcon } from './Pinterest.jsx'
@@ -137,4 +138,7 @@ export const PlatformLinkIcon = {
   MAIL: MailIcon,
   PRESSKIT: PressKitIcon,
   TECHRIDER: TechRiderIcon,
+
+  // Donnate
+  DONATION: PaypalIcon, // TODO: chjange to actual icon
 }

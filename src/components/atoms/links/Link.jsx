@@ -47,6 +47,7 @@ export const Link = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: ${({ isSidePreview }) => (isSidePreview ? '1rem' : '1.5rem')};
   padding: 0px;
   background-color: ${({ colorBackground }) => colorBackground};
   border-radius: ${({ circle, square }) => (circle && '50px') || (square && 'none') || '0.4rem'};
@@ -134,6 +135,9 @@ export const Link = styled.div`
 
         height: ${({ isHighlighted, size }) =>
           `calc(${ShapeSize.Mobile[size]} * ${isHighlighted ? '1' : '1'})`};
+
+        pointer-events: none;
+
       }
     `}
 
@@ -146,37 +150,53 @@ export const Link = styled.div`
     }
   }
 
-  // TODO: Fox non-interactive for editor page
+  ${({ isSpecial }) =>
+    isSpecial &&
+    css`
+      background: linear-gradient(90deg, #d9b85e 5%, rgb(40 228 211 / 50%) 100%), #c4c4c4;
+      color: white;
+    `}
+
   @media ${NotMediaSmall} {
     &:hover {
-    ${({ notInteractive }) =>
-      !notInteractive &&
-      css`
-        background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent || 'red'};
-        border-color: ${({ colorAccent }) => colorAccent};
-        color: ${({ colorAccent }) => colorAccent};
+      ${({ notInteractive, isSpecial }) =>
+        !notInteractive &&
+        css`
+          background-color: ${({ colorBackgroundAccent }) => colorBackgroundAccent};
+          border-color: ${({ colorAccent }) => colorAccent};
+          color: ${({ colorAccent }) => colorAccent};
 
-        & .icon g {
-          & path,
-          line,
-          circle,
-          polygon,
-          polyline,
-          rect,
-          ellipse {
-            fill: ${({ colorAccent }) => colorAccent};
-            stroke: ${({ colorAccent }) => colorAccent};
+          ${isSpecial &&
+          css`
+            background: linear-gradient(90deg, rgb(40 228 211 / 50%) 5%, #d9b85e 100%), #c4c4c4;
+            color: white;
+          `}
 
-            &[fill='none'] {
-              fill: none;
-            }
+          & .icon g {
+            & path,
+            line,
+            circle,
+            polygon,
+            polyline,
+            rect,
+            ellipse {
+              fill: ${({ colorAccent }) => colorAccent};
+              stroke: ${({ colorAccent }) => colorAccent};
 
-            &[stroke='none'] {
-              stroke: none;
+              &[fill='none'] {
+                fill: none;
+              }
+
+              &[stroke='none'] {
+                stroke: none;
+              }
+
             }
           }
         }
       `}
     }
   }
+
+
 `

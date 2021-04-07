@@ -12,6 +12,7 @@ import { MediaSmall } from '../../style/media.js'
 
 // Styles
 import { BackgroundColor, ForegroundColor, ColorHaiti } from '../../style/color'
+import { CloseDarkIcon } from '../icons/CloseIcon'
 
 const StyledModal = styled.div`
   position: ${({ isSidePreview }) => (isSidePreview ? 'absolute' : 'fixed')};
@@ -78,9 +79,56 @@ Modal.propTypes = {
   style: PropTypes.object,
 }
 
-const ContentContainer = styled.div`
+const Container = styled.div`
   background: ${({ colorBackground }) => colorBackground || 'rgba(255,255,255)'};
   border-radius: 4px;
+  position: relative;
+
+  .close-icon {
+    width: 16px !important;
+    height: 16px !important;
+
+    g {
+      path {
+        fill: white !important;
+      }
+    }
+  }
+
+  .donate {
+    width: 50%;
+    height: ${({ isSidePreview }) => (isSidePreview ? '30px' : '60px')};
+    text-decoration: none;
+    font-size: ${({ isSidePreview }) => (isSidePreview ? '1rem' : '1.5rem')};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: ${({ isSidePreview }) => (isSidePreview ? '10px' : '20px')};
+    margin-bottom: ${({ isSidePreview }) => (isSidePreview ? '20px' : '40px')};
+
+    background: linear-gradient(90deg, #d9b85e 5%, rgb(40 228 211 / 50%) 100%), #c4c4c4;
+    color: white;
+
+    &:hover {
+      background: linear-gradient(90deg, rgb(40 228 211 / 50%) 5%, #d9b85e 100%), #c4c4c4;
+    }
+  }
+`
+
+const CloseButton = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #0a1c3b;
+  padding: 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  z-index: 999;
 `
 
 const TextContainer = styled.div`
@@ -137,6 +185,8 @@ const StyledButtonContainer = styled.div`
   left: 0;
   right: 0;
   display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const StyledButton = styled(Button)`
@@ -151,17 +201,37 @@ const StyledButton = styled(Button)`
   }
 `
 
-export const TextOverlay = ({ isSidePreview, content, isPreviewMobile, label, onClose, show }) => {
+export const TextOverlay = ({
+  isSidePreview,
+  content,
+  isPreviewMobile,
+  label,
+  onAction,
+  hasActionFinished,
+  paypalLink,
+  userName,
+  onClose,
+  show,
+}) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
     setSsrDone(true)
   }, [])
 
+  const isDonation = paypalLink > ''
+
   return (
     <Modal isPreviewMobile={isPreviewMobile} show={ssrDone && show} isSidePreview={isSidePreview}>
-      <ContentContainer>
+      <Container isSidePreview={isSidePreview}>
+        <CloseButton onClick={onClose}>
+          <CloseDarkIcon className="close-icon" />
+        </CloseButton>
         <TextContainer>
-          <StyledTitle>{label}</StyledTitle>
+          <StyledTitle>
+            {isDonation
+              ? (!hasActionFinished && userName > '' && `Donate to ${userName}`) || 'Donation'
+              : label}
+          </StyledTitle>
           <StyledTextContainer isSidePreview={isSidePreview}>
             {content.split('\n').map((line, lineIndex) => (
               <p key={lineIndex}>{line}</p>
@@ -170,9 +240,21 @@ export const TextOverlay = ({ isSidePreview, content, isPreviewMobile, label, on
         </TextContainer>
 
         <StyledButtonContainer>
-          <StyledButton onClick={onClose}>Close</StyledButton>
+          {isDonation && !hasActionFinished ? (
+            <a
+              className="donate"
+              href={paypalLink}
+              onClick={onAction}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              Donate
+            </a>
+          ) : (
+            <StyledButton onClick={onClose}>Close</StyledButton>
+          )}
         </StyledButtonContainer>
-      </ContentContainer>
+      </Container>
     </Modal>
   )
 }

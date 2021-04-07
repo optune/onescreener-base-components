@@ -121,6 +121,7 @@ export const Page = ({
   noBacklink,
   page,
   pageUrl,
+  userName,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
@@ -130,8 +131,11 @@ export const Page = ({
 
   const [modalData, setModalData] = useState({
     show: false,
+    paypalLink: '',
     content: '',
     label: '',
+    hasActionFinished: false,
+    onAction: null,
   })
 
   let PageComponent = null
@@ -237,9 +241,13 @@ export const Page = ({
                     content.colorBackgroundAccent
                   }
                   content={modalData.content}
+                  paypalLink={modalData.paypalLink}
+                  userName={userName || page.userName}
                   isPreviewMobile={isPreviewMobile}
                   isSidePreview={isSidePreview}
                   label={modalData.label}
+                  onAction={modalData.onAction}
+                  hasActionFinished={modalData.hasActionFinished}
                   onClose={() => setModalData({ ...modalData, show: false })}
                   show={modalData.show}
                   square={links.square}
