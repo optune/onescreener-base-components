@@ -351,7 +351,20 @@ const FullscreenContainer = styled.div`
 `
 
 const ResponsiveContainer = styled.div`
-  bottom: ${({ isSidePreview }) => (isSidePreview ? '3.2rem' : '6rem')};
+
+${({ isSidePreview, linksPosition, contentPosition }) =>
+  css`
+    bottom: ${linksPosition.includes('BOTTOM') &&
+    contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM') &&
+    (isSidePreview ? '3.2rem' : '6rem')};
+    left: ${linksPosition.includes('LEFT') &&
+    contentPosition.classnameDesktop.toUpperCase().includes('LEFT') &&
+    (isSidePreview ? '3.2rem' : '6rem')};
+    right: ${linksPosition.includes('RIGHT') &&
+    contentPosition.classnameDesktop.toUpperCase().includes('RIGHT') &&
+    (isSidePreview ? '3.2rem' : '6rem')};
+  `}
+  
   position: relative;
   width: 100%;
   height: 100%;
@@ -359,7 +372,10 @@ const ResponsiveContainer = styled.div`
   z-index: 99;
 
   @media ${MediaMobile} {
-    bottom: ${({ isSidePreview }) => isSidePreview && '6rem'};
+    ${({ contentPosition }) =>
+      css`
+        bottom: ${contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') && '6.2rem'};
+      `}
   }
 
   ${stylesContentDesktop}
@@ -599,7 +615,7 @@ export const ContentBox = ({
     default:
       Content = null
   }
-
+  console.log({ position })
   return fullscreen ? (
     <FullscreenContainer>{Content}</FullscreenContainer>
   ) : (
@@ -611,6 +627,7 @@ export const ContentBox = ({
       areaMobile={areaMobile}
       linksPosition={links.list.length > 0 ? links.position : 'NONE'}
       linksSize={links.size}
+      contentPosition={position}
       isSidePreview={isSidePreview}
       isPreviewMobile={isPreviewMobile}
       isDifferentPositions={isDifferentPositions}
