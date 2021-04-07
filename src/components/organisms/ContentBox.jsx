@@ -65,13 +65,12 @@ const stylesContentDesktop = `
   &bottom-left {
     align-items: flex-end;
     justify-content: flex-start;
-    margin-bottom: 42px;
   }
 
   &bottom-center {
     align-items: flex-end;
     justify-content: center;
-    margin-bottom: 42px;
+
 
     & > div > div {
       justify-content: center;
@@ -82,7 +81,6 @@ const stylesContentDesktop = `
     align-items: flex-end;
     justify-content: flex-end;
     
-    margin-bottom: 42px;
 
     & > div > div {
       justify-content: flex-end;
@@ -148,7 +146,6 @@ const stylesContentMobile = `
     align-items: flex-end;
     justify-content: center;
     margin: 2px;
-    margin-bottom: 42px;
 
     & > div > div {
       justify-content: center;
@@ -354,16 +351,16 @@ const FullscreenContainer = styled.div`
 `
 
 const ResponsiveContainer = styled.div`
-  // position: absolute;
-  // top: 0;
-  // bottom: 0;
-  // left: 0;
-  // right: 0;
+  bottom: ${({ isSidePreview }) => (isSidePreview ? '3.2rem' : '6rem')};
   position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   z-index: 99;
+
+  @media ${MediaMobile} {
+    bottom: ${({ isSidePreview }) => isSidePreview && '6rem'};
+  }
 
   ${stylesContentDesktop}
 
