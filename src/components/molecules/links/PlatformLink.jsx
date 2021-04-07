@@ -30,6 +30,7 @@ export const PlatformLink = ({
   margin,
   modalData,
   name,
+  notInteractive,
   noShadow,
   platform,
   position,
@@ -54,6 +55,7 @@ export const PlatformLink = ({
         title={labelText}
         target={target || '_blank'}
         rel="noopener noreferrer"
+        notInteractive={notInteractive}
       >
         <Link
           border={border}
@@ -63,6 +65,7 @@ export const PlatformLink = ({
           colorBackground={colorBackground}
           colorBackgroundAccent={colorBackgroundAccent}
           margin={margin}
+          notInteractive={notInteractive}
           position={position}
           noShadow
           isHighlighted={isHighlighted}
@@ -83,6 +86,7 @@ export const PlatformLink = ({
   } else if (text > '' && setModalData) {
     return (
       <LinkWrapperText
+        notInteractive={notInteractive}
         onClick={() => setModalData({ show: true, content: text, label: labelText })}
       >
         <Link
@@ -93,6 +97,7 @@ export const PlatformLink = ({
           colorBackground={colorBackground}
           colorBackgroundAccent={colorBackgroundAccent}
           margin={margin}
+          notInteractive={notInteractive}
           noShadow
           isHighlighted={isHighlighted}
           isPreviewMobile={isPreviewMobile}
@@ -118,6 +123,7 @@ export const PlatformLink = ({
         colorAccent={colorAccent}
         colorBackground={colorBackground}
         colorBackgroundAccent={colorBackgroundAccent}
+        notInteractive={notInteractive}
         noShadow
         isHighlighted={isHighlighted}
         isPreviewMobile={isPreviewMobile}
