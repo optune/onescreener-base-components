@@ -65,13 +65,12 @@ const stylesContentDesktop = `
   &bottom-left {
     align-items: flex-end;
     justify-content: flex-start;
-    margin-bottom: 42px;
   }
 
   &bottom-center {
     align-items: flex-end;
     justify-content: center;
-    margin-bottom: 42px;
+
 
     & > div > div {
       justify-content: center;
@@ -82,7 +81,6 @@ const stylesContentDesktop = `
     align-items: flex-end;
     justify-content: flex-end;
     
-    margin-bottom: 42px;
 
     & > div > div {
       justify-content: flex-end;
@@ -148,7 +146,6 @@ const stylesContentMobile = `
     align-items: flex-end;
     justify-content: center;
     margin: 2px;
-    margin-bottom: 42px;
 
     & > div > div {
       justify-content: center;
@@ -354,16 +351,32 @@ const FullscreenContainer = styled.div`
 `
 
 const ResponsiveContainer = styled.div`
-  // position: absolute;
-  // top: 0;
-  // bottom: 0;
-  // left: 0;
-  // right: 0;
+
+${({ isSidePreview, linksPosition, contentPosition }) =>
+  css`
+    bottom: ${linksPosition.includes('BOTTOM') &&
+    contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM') &&
+    (isSidePreview ? '3.2rem' : '6rem')};
+    left: ${linksPosition.includes('LEFT') &&
+    contentPosition.classnameDesktop.toUpperCase().includes('LEFT') &&
+    (isSidePreview ? '3.2rem' : '6rem')};
+    right: ${linksPosition.includes('RIGHT') &&
+    contentPosition.classnameDesktop.toUpperCase().includes('RIGHT') &&
+    (isSidePreview ? '3.2rem' : '6rem')};
+  `}
+  
   position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   z-index: 99;
+
+  @media ${MediaMobile} {
+    ${({ contentPosition }) =>
+      css`
+        bottom: ${contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') && '6.2rem'};
+      `}
+  }
 
   ${stylesContentDesktop}
 
@@ -614,6 +627,7 @@ export const ContentBox = ({
       areaMobile={areaMobile}
       linksPosition={links.list.length > 0 ? links.position : 'NONE'}
       linksSize={links.size}
+      contentPosition={position}
       isSidePreview={isSidePreview}
       isPreviewMobile={isPreviewMobile}
       isDifferentPositions={isDifferentPositions}
