@@ -132,6 +132,7 @@ export const Page = ({
   const [modalData, setModalData] = useState({
     show: false,
     paypalLink: '',
+    title: '',
     content: '',
     label: '',
     hasActionFinished: false,
@@ -238,6 +239,7 @@ export const Page = ({
                     links.colorLinksBackgroundAccent ||
                     content.colorBackgroundAccent
                   }
+                  title={modalData.title}
                   content={modalData.content}
                   paypalLink={modalData.paypalLink}
                   userName={userName || page.userName}

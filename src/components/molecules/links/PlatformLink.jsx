@@ -60,6 +60,7 @@ export const PlatformLink = ({
         onClick={() =>
           setModalData({
             show: true,
+            title: name,
             content: text,
             paypalLink: `https://www.paypal.com/donate?business=${email}&currency_code=USD`,
             label: labelText,
@@ -71,7 +72,9 @@ export const PlatformLink = ({
                       show: true,
                       label: labelText,
                       paypalLink: `https://www.paypal.com/donate?business=${email}&currency_code=USD`,
+                      title: name,
                       content: actionText,
+
                       hasActionFinished: true,
                     })
                   }
