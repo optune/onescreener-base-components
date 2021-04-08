@@ -356,13 +356,13 @@ ${({ isSidePreview, linksPosition, contentPosition }) =>
   css`
     bottom: ${linksPosition.includes('BOTTOM') &&
     contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM') &&
-    (isSidePreview ? '3.2rem' : '6rem')};
+    (isSidePreview ? '3.3rem' : '6rem')};
     left: ${linksPosition.includes('LEFT') &&
     contentPosition.classnameDesktop.toUpperCase().includes('LEFT') &&
-    (isSidePreview ? '3.2rem' : '6rem')};
+    (isSidePreview ? '3.3rem' : '6rem')};
     right: ${linksPosition.includes('RIGHT') &&
     contentPosition.classnameDesktop.toUpperCase().includes('RIGHT') &&
-    (isSidePreview ? '3.2rem' : '6rem')};
+    (isSidePreview ? '3.3rem' : '6rem')};
   `}
   
   position: relative;
