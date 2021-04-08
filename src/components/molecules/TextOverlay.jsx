@@ -203,6 +203,7 @@ const StyledButton = styled(Button)`
 
 export const TextOverlay = ({
   isSidePreview,
+  title,
   content,
   isPreviewMobile,
   label,
@@ -229,7 +230,9 @@ export const TextOverlay = ({
         <TextContainer>
           <StyledTitle>
             {isDonation
-              ? (!hasActionFinished && userName > '' && `Donate to ${userName}`) || 'Donation'
+              ? (!hasActionFinished && title > '' && title) ||
+                (userName > '' && `Donate to ${userName}`) ||
+                'Donation'
               : label}
           </StyledTitle>
           <StyledTextContainer isSidePreview={isSidePreview}>
