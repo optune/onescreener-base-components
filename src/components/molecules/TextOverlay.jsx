@@ -236,7 +236,7 @@ export const TextOverlay = ({
               : label}
           </StyledTitle>
           <StyledTextContainer isSidePreview={isSidePreview}>
-            {content.split('\n').map((line, lineIndex) => (
+            {content?.split('\n').map((line, lineIndex) => (
               <p key={lineIndex}>{line}</p>
             ))}
           </StyledTextContainer>
