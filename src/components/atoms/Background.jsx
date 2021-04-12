@@ -10,9 +10,7 @@ const BackgroundContainer = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background: ${({ image, color, designColor }) =>
-    getBackground({ url: image, color: designColor || color })};
-  background-color: ${({ image, color }) => (image ? color : !image && '')};
+  background: ${({ image, designColor }) => getBackground({ url: image, color: designColor })};
   background-repeat: no-repeat;
   background-position: ${({ focusPoint }) => focusPoint};
   background-size: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};

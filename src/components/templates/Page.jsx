@@ -34,8 +34,11 @@ const PageContainer = styled.div`
   right: 0;
   z-index: 1;
 
-  background: ${({ color = '#000000', designColor, preloadImage }) =>
-    getBackground({ url: preloadImage, color: designColor || color })};
+  background: ${({ color = '#000000', ssrDone, designColor, preloadImage }) =>
+    getBackground({
+      url: preloadImage,
+      color: ssrDone && preloadImage ? null : designColor || color, // To avoid double layer of color in Theme
+    })};
 
   background-color: ${({ preloadImage, color }) => (preloadImage ? color : !preloadImage && '')};
 
@@ -161,6 +164,7 @@ export const Page = ({
             isBackgroundSelected,
             selectedBackgroundUrl: design?.background?.url,
           })}
+          ssrDone={ssrDone}
           focusPoint={background.focusPoint}
           fullscreen={background.fullscreen}
           color={background.color}

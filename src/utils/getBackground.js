@@ -1,6 +1,6 @@
-export const getBackground = ({ url, color }) => {
+export const getBackground = ({ url, color = 'transparent', designColor }) => {
   let isRgb = color > '' && color.startsWith('rgb')
-  let hasColor = color > ''
+  let hasColor = color > '' && color !== 'transparent'
   let hasUrl = url > ''
   let background = 'transparent'
 
