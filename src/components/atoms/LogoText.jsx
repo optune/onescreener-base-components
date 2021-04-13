@@ -126,6 +126,7 @@ const LogoTextContainer = styled.div`
 
   & p {
     color: ${({ color }) => color};
+    text-align: center;
     ${({ shadowSize }) =>
       shadowSize > 0 &&
       css`
