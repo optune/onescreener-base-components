@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled, { css } from 'styled-components'
 
 import { Logo } from '../atoms/Logo.jsx'
 import { LogoText } from '../atoms/LogoText.jsx'
 
 import { MediaMobile } from '../../style/media'
+import { SectionOverlay } from '../molecules/SectionOverlay.js'
 
 const stylesLogoDesktop = `
 &.desktop- {
@@ -160,7 +161,6 @@ const LogoContainer = styled.div`
   right: 0;
   display: flex;
   z-index: ${({ zIndex }) => zIndex};
-  pointer-events: none;
 
   ${stylesLogoDesktop}
 
@@ -270,32 +270,42 @@ export const LogoBox = ({
   const isLogoText = logo.type === 'TEXT' || (logo.type !== 'TEXT' && !logo.image?.url > '')
 
   return (
-    <LogoContainer
-      className={`desktop-${isTeaserLinks ? 'top-center' : position.classnameDesktop} mobile-${
-        isTeaserLinks ? 'top-center' : position.classnameMobile
-      }`}
-      zIndex={zIndex}
-      isPreviewMobile={isPreviewMobile}
-      isSidePreview={isSidePreview}
-      isDifferentPositions={logo?.isDifferentPositions || false}
-      padding={padding}
-    >
-      {isLogoText ? (
-        <LogoText
-          design={design}
-          logo={logo}
-          isPreviewMobile={isPreviewMobileReady}
-          isTeaserLinks={isTeaserLinks}
-          isSidePreview={isSidePreview}
-        />
-      ) : (
-        <Logo
-          logo={logo}
-          getImageUrl={getImageUrl}
-          isPreviewMobile={isPreviewMobile}
-          isTeaserLinks={isTeaserLinks}
+    <Fragment>
+      {/* // TODO: find a way to make container dynamic */}
+      {isSidePreview && (
+        <SectionOverlay
+          positionDesktop={position.classnameDesktop}
+          positionMobile={position.classnameMobile}
+          onClick={(e) => console.log('logo clikc')}
         />
       )}
-    </LogoContainer>
+      <LogoContainer
+        className={`desktop-${isTeaserLinks ? 'top-center' : position.classnameDesktop} mobile-${
+          isTeaserLinks ? 'top-center' : position.classnameMobile
+        }`}
+        zIndex={zIndex}
+        isPreviewMobile={isPreviewMobile}
+        isSidePreview={isSidePreview}
+        isDifferentPositions={logo?.isDifferentPositions || false}
+        padding={padding}
+      >
+        {isLogoText ? (
+          <LogoText
+            design={design}
+            logo={logo}
+            isPreviewMobile={isPreviewMobileReady}
+            isTeaserLinks={isTeaserLinks}
+            isSidePreview={isSidePreview}
+          />
+        ) : (
+          <Logo
+            logo={logo}
+            getImageUrl={getImageUrl}
+            isPreviewMobile={isPreviewMobile}
+            isTeaserLinks={isTeaserLinks}
+          />
+        )}
+      </LogoContainer>
+    </Fragment>
   )
 }

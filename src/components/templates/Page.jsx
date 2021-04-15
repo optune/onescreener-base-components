@@ -9,7 +9,7 @@ import { BackLink } from '../atoms/BackLink'
 
 // Molecules
 import { Links } from '../molecules/links/Links.jsx'
-import { TextOverlay } from '../molecules/TextOverlay'
+import { TextModal } from '../molecules/TextModal'
 
 // Background
 import { Background } from '../atoms/Background.jsx'
@@ -216,7 +216,7 @@ export const Page = ({
             {/* Links */}
             {links.list.length > 0 && (
               <Fragment>
-                <TextOverlay
+                <TextModal
                   border={links.border}
                   circle={links.circle}
                   color={
