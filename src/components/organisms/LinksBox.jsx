@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled, { css } from 'styled-components'
 
 import { MediaMobile, MediaSmall, NotMediaMobile } from '../../style/media.js'
+import { SectionOverlay } from '../molecules/SectionOverlay.js'
 
 const LinksContainer = styled.div`
   position: absolute;
@@ -107,35 +108,35 @@ const LinksList = styled.div`
         `}
 
   @media ${MediaSmall} {
-            ${({ isSidePreview }) =>
-              !isSidePreview &&
-              css`
-                &.bottom-left {
-                  justify-content: center;
-                }
-                &.bottom-right {
-                  justify-content: center;
-                }
-                &.center-left {
-                  flex-flow: row;
-                  width: 100%;
-                  height: auto;
-                  bottom: 0;
-                  right: none;
-                  justify-content: center;
-                  white-space: nowrap;
-                }
-                &.center-right {
-                  flex-flow: row;
-                  width: 100%;
-                  height: auto;
-                  bottom: 0;
-                  left: none;
-                  justify-content: center;
-                  white-space: nowrap;
-                }
-              `}
-  }
+    ${({ isSidePreview }) =>
+      !isSidePreview &&
+      css`
+        &.bottom-left {
+          justify-content: center;
+        }
+        &.bottom-right {
+          justify-content: center;
+        }
+        &.center-left {
+          flex-flow: row;
+          width: 100%;
+          height: auto;
+          bottom: 0;
+          right: none;
+          justify-content: center;
+          white-space: nowrap;
+        }
+        &.center-right {
+          flex-flow: row;
+          width: 100%;
+          height: auto;
+          bottom: 0;
+          left: none;
+          justify-content: center;
+          white-space: nowrap;
+        }
+      `}
+    }
 `
 
 export const LinksBox = ({
@@ -145,14 +146,30 @@ export const LinksBox = ({
   isSidePreview,
   isPreviewMobile,
   isInstagramBrowser,
-}) => (
-  <LinksContainer zIndex={zIndex} isInstagramBrowser={isInstagramBrowser}>
-    <LinksList
-      className={position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'}
-      isPreviewMobile={isPreviewMobile}
-      isSidePreview={isSidePreview}
-    >
-      {children}
-    </LinksList>
-  </LinksContainer>
-)
+  onLinksSectionClick,
+}) => {
+  const positionLinks = position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'
+
+  return (
+    <Fragment>
+      {isSidePreview && (
+        <SectionOverlay
+          positionDesktop={positionLinks}
+          positionMobile={positionLinks}
+          onClick={onLinksSectionClick}
+          isPreviewMobile={isPreviewMobile}
+          isLinks
+        />
+      )}
+      <LinksContainer zIndex={zIndex} isInstagramBrowser={isInstagramBrowser}>
+        <LinksList
+          className={positionLinks}
+          isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
+        >
+          {children}
+        </LinksList>
+      </LinksContainer>
+    </Fragment>
+  )
+}

@@ -262,6 +262,7 @@ export const LogoBox = ({
   isPreviewMobileReady,
   isSidePreview,
   isTeaserLinks,
+  onLogoSectionClick,
   zIndex,
 }) => {
   const position = getLogoPosition({ logo })
@@ -276,7 +277,9 @@ export const LogoBox = ({
         <SectionOverlay
           positionDesktop={position.classnameDesktop}
           positionMobile={position.classnameMobile}
-          onClick={(e) => console.log('logo clikc')}
+          linksPosition={links?.list?.length > 0 ? links?.position : ''}
+          onClick={onLogoSectionClick}
+          isPreviewMobile={isPreviewMobile}
         />
       )}
       <LogoContainer

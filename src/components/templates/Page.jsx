@@ -122,6 +122,9 @@ export const Page = ({
   page,
   pageUrl,
   userName,
+  onLogoSectionClick,
+  onContentSectionClick,
+  onLinksSectionClick,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
@@ -199,6 +202,7 @@ export const Page = ({
                 isSidePreview={isSidePreview}
                 isTeaserLinks={content.type === 'TEASER_LINKS'}
                 zIndex={10}
+                onLogoSectionClick={onLogoSectionClick}
               />
             )}
 
@@ -211,6 +215,7 @@ export const Page = ({
               isPreviewMobileReady={isPreviewMobileReady}
               isSidePreview={isSidePreview}
               pageUrl={pageUrl}
+              onContentSectionClick={onContentSectionClick}
             />
 
             {/* Links */}
@@ -259,6 +264,7 @@ export const Page = ({
                   isSidePreview={isSidePreview}
                   isPreviewMobile={isPreviewMobile}
                   isInstagramBrowser={isInstagramBrowser}
+                  onLinksSectionClick={onLinksSectionClick}
                 >
                   {Links({
                     content,
