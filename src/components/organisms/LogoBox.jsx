@@ -280,6 +280,7 @@ export const LogoBox = ({
           linksPosition={links?.list?.length > 0 ? links?.position : ''}
           onClick={onLogoSectionClick}
           isPreviewMobile={isPreviewMobile}
+          color="gray"
         />
       )}
       <LogoContainer

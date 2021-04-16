@@ -10,16 +10,10 @@ const Container = styled.div`
   bottom: ${({ bottom, bottomMobile, isPreviewMobile }) =>
     isPreviewMobile ? bottomMobile : bottom};
   left: ${({ left, leftMobile, isPreviewMobile }) => (isPreviewMobile ? leftMobile : left)};
-
+  background-color: ${({ colorSection }) => colorSection};
+  opacity: 0.5;
   z-index: 9999;
   cursor: pointer;
-
-  @media ${MediaSmall} {
-    top: ${({ topMobile }) => topMobile};
-    right: ${({ rightMobile }) => rightMobile};
-    bottom: ${({ bottomMobile }) => bottomMobile};
-    left: ${({ leftMobile }) => leftMobile};
-  }
 `
 
 const TOP = 'top'
@@ -126,12 +120,13 @@ const getPositionMobile = (position, isLinks, linksPosition) => {
     top = 66.666
     bottom = 0
 
-    if (yLinks > '') {
+    if (!isLinks && yLinks > '') {
       top = 54.666
-      bottom = 12
+      bottom = 11
     }
     if (isLinks) {
-      top = 88
+      top = 89
+      bottom = 0
     }
   }
 
@@ -149,7 +144,9 @@ export const SectionOverlay = ({
   isPreviewMobile,
   isLinks,
   linksPosition,
+  color,
   onClick,
+  isTest = false,
 }) => {
   const mappedLinksPosition = linksPosition?.toLowerCase().replace('_', '-') || ''
 
@@ -174,6 +171,7 @@ export const SectionOverlay = ({
       leftMobile={leftMobile}
       rightMobile={rightMobile}
       bottomMobile={bottomMobile}
+      colorSection={isTest && color}
       isPreviewMobile={isPreviewMobile}
       onClick={onClick}
     />

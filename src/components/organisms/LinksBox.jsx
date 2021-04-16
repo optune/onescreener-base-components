@@ -155,9 +155,10 @@ export const LinksBox = ({
       {isSidePreview && (
         <SectionOverlay
           positionDesktop={positionLinks}
-          positionMobile={positionLinks}
+          positionMobile="bottom-center"
           onClick={onLinksSectionClick}
           isPreviewMobile={isPreviewMobile}
+          color="yellow"
           isLinks
         />
       )}
