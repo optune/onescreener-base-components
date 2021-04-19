@@ -629,6 +629,7 @@ export const ContentBox = ({
           linksPosition={links?.list?.length > 0 ? links?.position : ''}
           onClick={onContentSectionClick}
           isPreviewMobile={isPreviewMobile}
+          isTeaserLinks={isTeaserLinks}
           color={'red'}
         />
       )}

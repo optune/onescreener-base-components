@@ -171,6 +171,7 @@ export const Page = ({
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
         >
+          {/* // TODO: Try to move SectionOverlay for all components here --> sectionOverlays.map(s => <SectionOverlay {...s} />) (To avoid unnecessary prop drilling) */}
           {ssrDone && (
             <Background
               background={{
@@ -183,7 +184,6 @@ export const Page = ({
               getImageUrl={getUrl}
             />
           )}
-
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
             {!noBacklink && !isSidePreview && (
@@ -282,7 +282,6 @@ export const Page = ({
               </Fragment>
             )}
           </ForegroundContainer>
-
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
         </PageContainer>
 

@@ -24,7 +24,7 @@ const CENTER = 'center'
 
 const getAxis = (position) => (position > '' ? position.split('-') : ['', ''])
 
-const getPositionDesktop = (position, isLinks, linksPosition) => {
+const getPositionDesktop = (position, isLinks, isLogo, isTeaserLinks, linksPosition) => {
   let top = 0,
     left = 0,
     right = 0,
@@ -96,10 +96,24 @@ const getPositionDesktop = (position, isLinks, linksPosition) => {
     }
   }
 
+  if (isTeaserLinks) {
+    top = 17
+    left = 30.333
+    right = 30.333
+    bottom = 17
+
+    if (isLogo) {
+      top = 0
+      left = 33.333
+      right = 33.333
+      bottom = 83
+    }
+  }
+
   return { top: `${top}%`, left: `${left}%`, right: `${right}%`, bottom: `${bottom}%` }
 }
 
-const getPositionMobile = (position, isLinks, linksPosition) => {
+const getPositionMobile = (position, isLinks, isLogo, isTeaserLinks, linksPosition) => {
   let top = 0,
     left = 0,
     right = 0,
@@ -130,6 +144,20 @@ const getPositionMobile = (position, isLinks, linksPosition) => {
     }
   }
 
+  if (isTeaserLinks) {
+    top = 20
+    left = 0
+    right = 0
+    bottom = 20
+
+    if (isLogo) {
+      top = 0
+      left = 0
+      right = 0
+      bottom = 80
+    }
+  }
+
   return {
     topMobile: `${top}%`,
     leftMobile: `${left}%`,
@@ -138,11 +166,14 @@ const getPositionMobile = (position, isLinks, linksPosition) => {
   }
 }
 
+// TODO: change for TEASER LINKS
 export const SectionOverlay = ({
   positionDesktop = 'top-center',
   positionMobile = 'top-center',
   isPreviewMobile,
   isLinks,
+  isLogo,
+  isTeaserLinks,
   linksPosition,
   color,
   onClick,
@@ -153,11 +184,15 @@ export const SectionOverlay = ({
   const { top, left, right, bottom } = getPositionDesktop(
     positionDesktop,
     isLinks,
+    isLogo,
+    isTeaserLinks,
     mappedLinksPosition
   )
   const { topMobile, leftMobile, rightMobile, bottomMobile } = getPositionMobile(
     positionMobile,
     isLinks,
+    isLogo,
+    isTeaserLinks,
     mappedLinksPosition
   )
 

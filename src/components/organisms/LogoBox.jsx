@@ -272,7 +272,6 @@ export const LogoBox = ({
 
   return (
     <Fragment>
-      {/* // TODO: find a way to make container dynamic */}
       {isSidePreview && (
         <SectionOverlay
           positionDesktop={position.classnameDesktop}
@@ -280,6 +279,8 @@ export const LogoBox = ({
           linksPosition={links?.list?.length > 0 ? links?.position : ''}
           onClick={onLogoSectionClick}
           isPreviewMobile={isPreviewMobile}
+          isLogo
+          isTeaserLinks={isTeaserLinks}
           color="gray"
         />
       )}
