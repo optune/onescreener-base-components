@@ -372,12 +372,16 @@ ${({ isSidePreview, linksPosition, contentPosition }) =>
   display: flex;
   z-index: 99;
 
-  @media ${MediaMobile} {
-    ${({ contentPosition }) =>
-      css`
-        bottom: ${contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') && '6.2rem'};
-      `}
-  }
+  ${({ contentPosition, isPreviewMobile, isTeaserLinks }) =>
+    !isTeaserLinks &&
+    contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') &&
+    css`
+      ${isPreviewMobile && 'bottom: 6.2rem;'}
+
+      @media ${MediaMobile} {
+        bottom: 6.2rem;
+      }
+    `}
 
   ${stylesContentDesktop}
 
@@ -642,6 +646,7 @@ export const ContentBox = ({
         linksPosition={links.list.length > 0 ? links.position : 'NONE'}
         linksSize={links.size}
         contentPosition={position}
+        isTeaserLinks={isTeaserLinks}
         isSidePreview={isSidePreview}
         isPreviewMobile={isPreviewMobile}
         isDifferentPositions={isDifferentPositions}
