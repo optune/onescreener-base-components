@@ -199,7 +199,7 @@ const defineLogoPadding = ({ isPreviewMobile, isSidePreview }) => ({
   left: `padding-left:  ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
   right: `padding-right: ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
   bottom: `padding-bottom: ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
-  none: 'padding: 0',
+  none: 'padding: 1rem',
 })
 
 const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
