@@ -201,7 +201,7 @@ const StyledButton = styled(Button)`
   }
 `
 
-export const TextOverlay = ({
+export const TextModal = ({
   isSidePreview,
   title,
   content,
@@ -262,7 +262,7 @@ export const TextOverlay = ({
   )
 }
 
-TextOverlay.propTypes = {
+TextModal.propTypes = {
   content: PropTypes.string,
   isPreviewMobile: PropTypes.bool,
   label: PropTypes.string,
