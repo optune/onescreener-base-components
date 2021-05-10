@@ -9,7 +9,7 @@ import { BackLink } from '../atoms/BackLink'
 
 // Molecules
 import { Links } from '../molecules/links/Links.jsx'
-import { TextOverlay } from '../molecules/TextOverlay'
+import { TextModal } from '../molecules/TextModal'
 
 // Background
 import { Background } from '../atoms/Background.jsx'
@@ -125,6 +125,9 @@ export const Page = ({
   page,
   pageUrl,
   userName,
+  onLogoSectionClick,
+  onContentSectionClick,
+  onLinksSectionClick,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
@@ -172,6 +175,7 @@ export const Page = ({
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
         >
+          {/* // TODO: Try to move SectionOverlay for all components here --> sectionOverlays.map(s => <SectionOverlay {...s} />) (To avoid unnecessary prop drilling) */}
           {ssrDone && (
             <Background
               background={{
@@ -184,7 +188,6 @@ export const Page = ({
               getImageUrl={getUrl}
             />
           )}
-
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
             {!noBacklink && !isSidePreview && (
@@ -203,6 +206,7 @@ export const Page = ({
                 isSidePreview={isSidePreview}
                 isTeaserLinks={content.type === 'TEASER_LINKS'}
                 zIndex={10}
+                onLogoSectionClick={onLogoSectionClick}
               />
             )}
 
@@ -215,12 +219,13 @@ export const Page = ({
               isPreviewMobileReady={isPreviewMobileReady}
               isSidePreview={isSidePreview}
               pageUrl={pageUrl}
+              onContentSectionClick={onContentSectionClick}
             />
 
             {/* Links */}
             {links.list.length > 0 && (
               <Fragment>
-                <TextOverlay
+                <TextModal
                   border={links.border}
                   circle={links.circle}
                   color={
@@ -263,6 +268,7 @@ export const Page = ({
                   isSidePreview={isSidePreview}
                   isPreviewMobile={isPreviewMobile}
                   isInstagramBrowser={isInstagramBrowser}
+                  onLinksSectionClick={onLinksSectionClick}
                 >
                   {Links({
                     content,
@@ -280,7 +286,6 @@ export const Page = ({
               </Fragment>
             )}
           </ForegroundContainer>
-
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
         </PageContainer>
 

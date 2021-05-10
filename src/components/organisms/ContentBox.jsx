@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled, { css } from 'styled-components'
 
 import { TextBox } from './TextBox.jsx'
@@ -11,6 +11,7 @@ import { TeaserLinksBox } from './TeaserLinksBox.jsx'
 import { MediaMobile, NotMediaMobile } from '../../style/media.js'
 
 import { renderHtml } from '../../utils/renderHtml.js'
+import { SectionOverlay } from '../molecules/SectionOverlay.js'
 
 const stylesContentDesktop = `
 &.desktop- {
@@ -371,12 +372,16 @@ ${({ isSidePreview, linksPosition, contentPosition }) =>
   display: flex;
   z-index: 99;
 
-  @media ${MediaMobile} {
-    ${({ contentPosition }) =>
-      css`
-        bottom: ${contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') && '6.2rem'};
-      `}
-  }
+  ${({ contentPosition, isPreviewMobile, isTeaserLinks }) =>
+    !isTeaserLinks &&
+    contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') &&
+    css`
+      ${isPreviewMobile && 'bottom: 6.2rem;'}
+
+      @media ${MediaMobile} {
+        bottom: 6.2rem;
+      }
+    `}
 
   ${stylesContentDesktop}
 
@@ -482,6 +487,7 @@ export const ContentBox = ({
   isPreviewMobileReady,
   isSidePreview,
   pageUrl,
+  onContentSectionClick,
 }) => {
   /*
    * Get content values
@@ -619,30 +625,44 @@ export const ContentBox = ({
   return fullscreen ? (
     <FullscreenContainer>{Content}</FullscreenContainer>
   ) : (
-    <ResponsiveContainer
-      className={`desktop-${isTeaserLinks ? 'center-center' : position.classnameDesktop} mobile-${
-        isTeaserLinks ? 'center-center' : position.classnameMobile
-      }`}
-      area={area}
-      areaMobile={areaMobile}
-      linksPosition={links.list.length > 0 ? links.position : 'NONE'}
-      linksSize={links.size}
-      contentPosition={position}
-      isSidePreview={isSidePreview}
-      isPreviewMobile={isPreviewMobile}
-      isDifferentPositions={isDifferentPositions}
-    >
-      <Container
-        isLegacy={!!area}
-        isLegacyMobile={!!areaMobile}
+    <Fragment>
+      {isSidePreview && (
+        <SectionOverlay
+          positionDesktop={position.classnameDesktop}
+          positionMobile={position.classnameMobile}
+          linksPosition={links?.list?.length > 0 ? links?.position : ''}
+          onClick={onContentSectionClick}
+          isPreviewMobile={isPreviewMobile}
+          isTeaserLinks={isTeaserLinks}
+          color={'red'}
+        />
+      )}
+      <ResponsiveContainer
+        className={`desktop-${isTeaserLinks ? 'center-center' : position.classnameDesktop} mobile-${
+          isTeaserLinks ? 'center-center' : position.classnameMobile
+        }`}
+        area={area}
+        areaMobile={areaMobile}
+        linksPosition={links.list.length > 0 ? links.position : 'NONE'}
+        linksSize={links.size}
+        contentPosition={position}
+        isTeaserLinks={isTeaserLinks}
         isSidePreview={isSidePreview}
         isPreviewMobile={isPreviewMobile}
-        isTeaserLinks={isTeaserLinks}
-        isGigs={isGigs}
-        size={size}
+        isDifferentPositions={isDifferentPositions}
       >
-        {Content}
-      </Container>
-    </ResponsiveContainer>
+        <Container
+          isLegacy={!!area}
+          isLegacyMobile={!!areaMobile}
+          isSidePreview={isSidePreview}
+          isPreviewMobile={isPreviewMobile}
+          isTeaserLinks={isTeaserLinks}
+          isGigs={isGigs}
+          size={size}
+        >
+          {Content}
+        </Container>
+      </ResponsiveContainer>
+    </Fragment>
   )
 }
