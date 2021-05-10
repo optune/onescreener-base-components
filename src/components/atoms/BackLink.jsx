@@ -50,7 +50,7 @@ const StyledBackLink = styled.a`
 
 export const BackLink = ({ isPreviewMobile, isPro }) => (
   <StyledBackLink
-    href="https://www.onescreener.com"
+    href="https://www.onescreener.com/?utm_source=livepage&utm_medium=banner&utm_campaign=referral"
     target="_blank"
     title="created with onescreener"
     isPreviewMobile={isPreviewMobile}
