@@ -128,6 +128,9 @@ export const Page = ({
   onLogoSectionClick,
   onContentSectionClick,
   onLinksSectionClick,
+  trackingVisitorStats,
+  visitorSession,
+  artistId,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
@@ -281,6 +284,9 @@ export const Page = ({
                     modalData,
                     pageUrl,
                     setModalData,
+                    trackingVisitorStats,
+                    visitorSession,
+                    artistId,
                   })}
                 </LinksBox>
               </Fragment>

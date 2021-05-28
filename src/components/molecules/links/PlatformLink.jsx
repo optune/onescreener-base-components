@@ -19,6 +19,9 @@ const LinkWrapperText = styled.div`
 `
 
 export const PlatformLink = ({
+  trackingVisitorStats,
+  visitorSession,
+  artistId,
   border,
   circle,
   color,
@@ -53,11 +56,34 @@ export const PlatformLink = ({
     platform
   ).replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, (l) => l.toUpperCase())
 
+  trackingVisitorStats({
+    artistId,
+    visitorSession,
+    category: {
+      links: {
+        event: {
+          name: 'PlatformLink',
+          url: 'http://PlatformLink.com',
+          createdAt: new Date(),
+        },
+      },
+      teaser: {
+        event: {},
+      },
+      shop: {
+        event: {},
+      },
+      donation: {
+        event: {},
+      },
+    },
+  })
+
   if (platform === 'DONATION') {
     return (
       <LinkWrapperText
         notInteractive={notInteractive}
-        onClick={() =>
+        onClick={() => {
           setModalData({
             show: true,
             title: name,
@@ -80,7 +106,8 @@ export const PlatformLink = ({
                   }
                 : null,
           })
-        }
+          handleStats()
+        }}
       >
         <Link
           border={border}
@@ -121,6 +148,7 @@ export const PlatformLink = ({
         target={target || '_blank'}
         rel="noopener noreferrer"
         notInteractive={notInteractive}
+        onClick={() => trackingVisitorStats()}
       >
         <Link
           border={border}
@@ -183,6 +211,7 @@ export const PlatformLink = ({
   } else {
     return (
       <Link
+        onClick={() => trackingVisitorStats()}
         border={border}
         circle={circle}
         color={color}

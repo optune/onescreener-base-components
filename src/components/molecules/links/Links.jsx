@@ -26,6 +26,9 @@ export const Links = ({
   modalData,
   pageUrl,
   setModalData,
+  trackingVisitorStats,
+  visitorSession,
+  artistId,
 }) => {
   const color =
     linksColorState?.colorLinks ||
@@ -56,6 +59,9 @@ export const Links = ({
     <Fragment>
       {mappedLinks.map((link) => (
         <PlatformLink
+          trackingVisitorStats={trackingVisitorStats}
+          visitorSession={visitorSession}
+          artistId={artistId}
           border={links.border}
           circle={links.circle}
           color={color}
