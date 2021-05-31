@@ -366,15 +366,15 @@ ${({ isSidePreview, linksPosition, contentPosition }) =>
     bottom: ${linksPosition.includes('BOTTOM') &&
     contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM') &&
     isSidePreview &&
-    '2.2rem'};
+    '2.4rem'};
     left: ${linksPosition.includes('LEFT') &&
     contentPosition.classnameDesktop.toUpperCase().includes('LEFT') &&
     isSidePreview &&
-    '2.2rem'};
+    '2.4rem'};
     right: ${linksPosition.includes('RIGHT') &&
     contentPosition.classnameDesktop.toUpperCase().includes('RIGHT') &&
     isSidePreview &&
-    '2.2rem'};
+    '2.4rem'};
   `}
 
 
