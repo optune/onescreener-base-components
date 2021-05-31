@@ -9,7 +9,8 @@ import { BackLink } from '../atoms/BackLink'
 
 // Molecules
 import { Links } from '../molecules/links/Links.jsx'
-import { TextModal } from '../molecules/TextModal'
+import { TextModal } from '../molecules/modals/TextModal'
+import { PaymentModal } from '../molecules/modals/PaymentModal.js'
 
 // Background
 import { Background } from '../atoms/Background.jsx'
@@ -125,6 +126,7 @@ export const Page = ({
   page,
   pageUrl,
   userName,
+  onBuyItem,
   onLogoSectionClick,
   onContentSectionClick,
   onLinksSectionClick,
@@ -143,6 +145,10 @@ export const Page = ({
     label: '',
     hasActionFinished: false,
     onAction: null,
+  })
+
+  const [modalDataPayment, setModalDataPayment] = useState({
+    show: false,
   })
 
   let PageComponent = null
@@ -221,6 +227,22 @@ export const Page = ({
               pageUrl={pageUrl}
               onContentSectionClick={onContentSectionClick}
             />
+
+            {modalDataPayment.show && (
+              <PaymentModal
+                isSidePreview={isSidePreview}
+                isPreviewMobile={isPreviewMobile}
+                onClose={() => console.log('close')}
+                show={true}
+                onBuyItem={onBuyItem}
+                shopItem={{
+                  // Comes from page.storeSomething later...
+                  name: 'Test Item',
+                  amount: 12000,
+                  quantity: 1,
+                }}
+              />
+            )}
 
             {/* Links */}
             {links.list.length > 0 && (

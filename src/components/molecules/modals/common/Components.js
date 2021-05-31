@@ -1,18 +1,15 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
-
+import React from 'react'
+import styled from 'styled-components'
 import SimpleBar from 'simplebar-react'
 
-import { Button } from '../atoms/buttons/Button'
+import { Button } from '../../../atoms/buttons/Button'
 
 // Media
-import { MediaSmall } from '../../style/media.js'
+import { MediaSmall } from '../../../../style/media.js'
 
 // Styles
-import { BackgroundColor, ForegroundColor, ColorHaiti } from '../../style/color'
-import { CloseDarkIcon } from '../icons/CloseIcon'
+import { BackgroundColor, ForegroundColor, ColorHaiti } from '../../../../style/color'
 
 const StyledModal = styled.div`
   position: ${({ isSidePreview }) => (isSidePreview ? 'absolute' : 'fixed')};
@@ -28,13 +25,6 @@ const StyledModal = styled.div`
   pointer-events: none;
   transition: opacity 0.5s ease-out;
 `
-
-/* REMOVED: Tricky for first time without having a fade-out effect
-  animation-name: ${({ show }) => (show ? modalFadeIn : modalFadeOut)};
-  animation-fill-mode: both;
-  animation-timing-function: ease-out;
-  animation-duration: ${({ show }) => (!show ? '0.1s' : '0.5s')};
- */
 
 const StyledModalContent = styled.div`
   position: relative;
@@ -58,7 +48,7 @@ const StyledModalContent = styled.div`
   }
 `
 
-const Modal = ({ children, show, isPreviewMobile, isSidePreview }) => {
+export const Modal = ({ children, show, isPreviewMobile, isSidePreview }) => {
   return (
     <StyledModal show={show} isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview}>
       <StyledModalContent
@@ -72,14 +62,7 @@ const Modal = ({ children, show, isPreviewMobile, isSidePreview }) => {
   )
 }
 
-Modal.propTypes = {
-  children: PropTypes.node,
-  isPreviewMobile: PropTypes.bool,
-  show: PropTypes.bool,
-  style: PropTypes.object,
-}
-
-const Container = styled.div`
+export const Container = styled.div`
   background: ${({ colorBackground }) => colorBackground || 'rgba(255,255,255)'};
   border-radius: 4px;
   position: relative;
@@ -115,7 +98,7 @@ const Container = styled.div`
   }
 `
 
-const CloseButton = styled.div`
+export const CloseButton = styled.div`
   position: absolute;
   top: 0;
   right: 0;
@@ -131,7 +114,7 @@ const CloseButton = styled.div`
   z-index: 999;
 `
 
-const TextContainer = styled.div`
+export const TextContainer = styled.div`
   position: relative;
   margin: 0;
   padding: 1rem 3rem 0 3rem;
@@ -161,14 +144,16 @@ const TextContainer = styled.div`
   }
 `
 
-const StyledTitle = styled.h2`
+export const StyledTitle = styled.h2`
   font-weight: bold;
   font-size: 1.5rem;
   text-align: center;
   width: 100%;
 `
 
-const StyledTextContainer = styled(({ isSidePreview, ...other }) => <SimpleBar {...other} />)`
+export const StyledTextContainer = styled(({ isSidePreview, ...other }) => (
+  <SimpleBar {...other} />
+))`
   margin-top: 0.5rem;
   margin-bottom: 0;
   width: 100%;
@@ -179,7 +164,7 @@ const StyledTextContainer = styled(({ isSidePreview, ...other }) => <SimpleBar {
   text-align: center;
 `
 
-const StyledButtonContainer = styled.div`
+export const StyledButtonContainer = styled.div`
   position: sticky;
   bottom: 0;
   left: 0;
@@ -189,7 +174,7 @@ const StyledButtonContainer = styled.div`
   align-items: center;
 `
 
-const StyledButton = styled(Button)`
+export const StyledButton = styled(Button)`
   justify-self: flex-end;
   margin: 1rem auto 1rem;
   background-color: ${ForegroundColor.accent};
@@ -200,72 +185,3 @@ const StyledButton = styled(Button)`
     background-color: ${BackgroundColor.selected} !important;
   }
 `
-
-export const TextModal = ({
-  isSidePreview,
-  title,
-  content,
-  isPreviewMobile,
-  label,
-  onAction,
-  hasActionFinished,
-  paypalLink,
-  userName,
-  onClose,
-  show,
-}) => {
-  const [ssrDone, setSsrDone] = useState(false)
-  useEffect(() => {
-    setSsrDone(true)
-  }, [])
-
-  const isDonation = paypalLink > ''
-
-  return (
-    <Modal isPreviewMobile={isPreviewMobile} show={ssrDone && show} isSidePreview={isSidePreview}>
-      <Container isSidePreview={isSidePreview}>
-        <CloseButton onClick={onClose}>
-          <CloseDarkIcon className="close-icon" />
-        </CloseButton>
-        <TextContainer>
-          <StyledTitle>
-            {isDonation
-              ? (!hasActionFinished && title > '' && title) ||
-                (userName > '' && `Donate to ${userName}`) ||
-                'Donation'
-              : label}
-          </StyledTitle>
-          <StyledTextContainer isSidePreview={isSidePreview}>
-            {content?.split('\n').map((line, lineIndex) => (
-              <p key={lineIndex}>{line}</p>
-            ))}
-          </StyledTextContainer>
-        </TextContainer>
-
-        <StyledButtonContainer>
-          {isDonation && !hasActionFinished ? (
-            <a
-              className="donate"
-              href={paypalLink}
-              onClick={onAction}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              Donate
-            </a>
-          ) : (
-            <StyledButton onClick={onClose}>Close</StyledButton>
-          )}
-        </StyledButtonContainer>
-      </Container>
-    </Modal>
-  )
-}
-
-TextModal.propTypes = {
-  content: PropTypes.string,
-  isPreviewMobile: PropTypes.bool,
-  label: PropTypes.string,
-  onClose: PropTypes.func,
-  show: PropTypes.bool,
-}
