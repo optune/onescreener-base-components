@@ -19,7 +19,7 @@ const LinkWrapperText = styled.div`
 `
 
 export const PlatformLink = ({
-  trackingVisitorStats,
+  trackingVisitorEvents,
   visitorSession,
   artistId,
   border,
@@ -56,29 +56,6 @@ export const PlatformLink = ({
     platform
   ).replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, (l) => l.toUpperCase())
 
-  trackingVisitorStats({
-    artistId,
-    visitorSession,
-    category: {
-      links: {
-        event: {
-          name: 'PlatformLink',
-          url: 'http://PlatformLink.com',
-          createdAt: new Date(),
-        },
-      },
-      teaser: {
-        event: {},
-      },
-      shop: {
-        event: {},
-      },
-      donation: {
-        event: {},
-      },
-    },
-  })
-
   if (platform === 'DONATION') {
     return (
       <LinkWrapperText
@@ -106,7 +83,6 @@ export const PlatformLink = ({
                   }
                 : null,
           })
-          handleStats()
         }}
       >
         <Link
@@ -148,7 +124,20 @@ export const PlatformLink = ({
         target={target || '_blank'}
         rel="noopener noreferrer"
         notInteractive={notInteractive}
-        onClick={() => trackingVisitorStats()}
+        onClick={() => {
+          trackingVisitorEvents({
+            visitorSession,
+            artistId: '4bXQhu8hkwEwY5E2x',
+            category: {
+              links: {
+                event: {
+                  name: labelText,
+                  url: url,
+                },
+              },
+            },
+          })
+        }}
       >
         <Link
           border={border}

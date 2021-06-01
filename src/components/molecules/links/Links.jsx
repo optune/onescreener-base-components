@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // React
 import React, { Fragment, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
@@ -26,7 +27,7 @@ export const Links = ({
   modalData,
   pageUrl,
   setModalData,
-  trackingVisitorStats,
+  trackingVisitorEvents,
   visitorSession,
   artistId,
 }) => {
@@ -59,7 +60,7 @@ export const Links = ({
     <Fragment>
       {mappedLinks.map((link) => (
         <PlatformLink
-          trackingVisitorStats={trackingVisitorStats}
+          trackingVisitorEvents={trackingVisitorEvents}
           visitorSession={visitorSession}
           artistId={artistId}
           border={links.border}

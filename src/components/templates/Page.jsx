@@ -128,7 +128,7 @@ export const Page = ({
   onLogoSectionClick,
   onContentSectionClick,
   onLinksSectionClick,
-  trackingVisitorStats,
+  trackingVisitorEvents,
   visitorSession,
   artistId,
 }) => {
@@ -137,7 +137,7 @@ export const Page = ({
     setSsrDone(true)
   }, [])
   const getUrl = getImageUrl(ssrDone)
-
+  console.log({ Page: artistId })
   const [modalData, setModalData] = useState({
     show: false,
     paypalLink: '',
@@ -284,7 +284,7 @@ export const Page = ({
                     modalData,
                     pageUrl,
                     setModalData,
-                    trackingVisitorStats,
+                    trackingVisitorEvents,
                     visitorSession,
                     artistId,
                   })}
