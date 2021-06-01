@@ -29,7 +29,7 @@ export const Links = ({
   setModalData,
   trackingVisitorEvents,
   visitorSession,
-  artistId,
+  domainName,
 }) => {
   const color =
     linksColorState?.colorLinks ||
@@ -56,13 +56,14 @@ export const Links = ({
     .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
     .map(mapSmartLinks(pageUrl))
 
+  console.log({ Links: domainName })
   return (
     <Fragment>
       {mappedLinks.map((link) => (
         <PlatformLink
           trackingVisitorEvents={trackingVisitorEvents}
           visitorSession={visitorSession}
-          artistId={artistId}
+          domainName={domainName}
           border={links.border}
           circle={links.circle}
           color={color}

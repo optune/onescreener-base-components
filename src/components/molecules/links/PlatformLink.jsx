@@ -21,7 +21,7 @@ const LinkWrapperText = styled.div`
 export const PlatformLink = ({
   trackingVisitorEvents,
   visitorSession,
-  artistId,
+  domainName,
   border,
   circle,
   color,
@@ -49,6 +49,7 @@ export const PlatformLink = ({
   text,
   url,
 }) => {
+  console.log({ PlatformLink: domainName })
   const Icon = LinkIconMapper({ platform, size })
   const labelText = (
     name ||
@@ -127,7 +128,7 @@ export const PlatformLink = ({
         onClick={() => {
           trackingVisitorEvents({
             visitorSession,
-            artistId: '4bXQhu8hkwEwY5E2x',
+            domainName: 'bbb.onescreener.show',
             category: {
               links: {
                 event: {

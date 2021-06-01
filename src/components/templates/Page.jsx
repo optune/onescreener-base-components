@@ -130,14 +130,13 @@ export const Page = ({
   onLinksSectionClick,
   trackingVisitorEvents,
   visitorSession,
-  artistId,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
     setSsrDone(true)
   }, [])
   const getUrl = getImageUrl(ssrDone)
-  console.log({ Page: artistId })
+
   const [modalData, setModalData] = useState({
     show: false,
     paypalLink: '',
@@ -153,7 +152,7 @@ export const Page = ({
   if (page) {
     const { background, logo, content, design, selectedThemeId } = page
     const { links } = page || { links: { list: [] } }
-
+    const domainName = page.domainName
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
     const isBackgroundSelected =
@@ -286,7 +285,7 @@ export const Page = ({
                     setModalData,
                     trackingVisitorEvents,
                     visitorSession,
-                    artistId,
+                    domainName,
                   })}
                 </LinksBox>
               </Fragment>
