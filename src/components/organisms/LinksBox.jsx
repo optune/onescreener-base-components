@@ -16,11 +16,9 @@ const LinksContainer = styled.div`
   z-index: ${({ zIndex }) => zIndex};
   pointer-events: none;
 
-  ${({ isInstagramBrowser }) =>
-    isInstagramBrowser &&
-    css`
-      bottom: 20px;
-    `};
+  @media ${MediaSmall} {
+    bottom: 20px;
+  }
 `
 
 const LinksList = styled.div`
