@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { filterTime, getFromDate } from '../../api'
 
 import { MediaSmall } from '../../style/media'
 import { RGBToHex } from '../../utils/convertRGBtoHEX'
@@ -107,7 +108,8 @@ export const TeaserLinksBox = ({
   isSidePreview,
   colorBackground,
   color,
-  artistStatistics,
+  analyticsLivePage,
+  statisticsPeriod,
   showStatistics,
 }) => {
   const [pagination, setPagination] = useState({ start: 0, end: 8 })
@@ -128,17 +130,16 @@ export const TeaserLinksBox = ({
   const nextPageExists = teaserLinks.length - end > 0
   const paginationCorrection = previousPageExists && nextPageExists ? 1 : 0
 
-  const getLinkClicks = (name) => {
+  const getLinkClicks = ({ name, url }) => {
     let clicks = 0
 
-    artistStatistics.forEach((session) => {
-      session.analytics.category.teaser.forEach((link) => {
-        console.log({ link })
-        if (link.name === name) clicks += 1
+    const fromDate = getFromDate(statisticsPeriod)
+
+    analyticsLivePage.forEach((session) => {
+      filterTime(session.analytics.category.teaserLinks, fromDate)?.forEach((link) => {
+        if (link.name === name && link.url === url) clicks += 1
       })
     })
-
-    console.log({ clicks, name })
 
     return clicks
   }
@@ -157,7 +158,7 @@ export const TeaserLinksBox = ({
             <a key={`${name}-${index}`} href={url} target="_blank" className="teaser-link">
               {showStatistics && (
                 <StatisticsOverlay>
-                  <div>{getLinkClicks(name)}</div>
+                  <div>{getLinkClicks({ name, url })}</div>
                 </StatisticsOverlay>
               )}
               <p className="clip">{name}</p>

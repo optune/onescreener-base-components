@@ -10,6 +10,8 @@ import { PlatformLinkIcon } from '../../icons/platform/index'
 
 // Utils
 import { mapSmartLinks } from './utils/mapSmartLinks'
+import { filterTime } from '../../../api'
+import { getFromDate } from '../../../api'
 
 /*
  * Render Link list
@@ -21,7 +23,8 @@ export const Links = ({
   content,
   isPreviewMobile,
   isSidePreview,
-  artistStatistics,
+  analyticsLivePage,
+  statisticsPeriod,
   showStatistics,
   links,
   linksColorState,
@@ -57,9 +60,11 @@ export const Links = ({
   const getLinkClicks = (platform) => () => {
     let clicks = 0
 
-    artistStatistics.forEach((session) => {
-      session.analytics.category.links.forEach((link) => {
-        if (link.name === platform) clicks += 1
+    const fromDate = getFromDate(statisticsPeriod)
+
+    analyticsLivePage.forEach((session) => {
+      filterTime(session.analytics.category.links, fromDate)?.forEach((link) => {
+        if (link.platform === platform) clicks += 1
       })
     })
 

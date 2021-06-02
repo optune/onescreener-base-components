@@ -486,7 +486,8 @@ export const ContentBox = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
-  artistStatistics,
+  analyticsLivePage,
+  statisticsPeriod,
   showStatistics,
   pageUrl,
   onContentSectionClick,
@@ -601,7 +602,8 @@ export const ContentBox = ({
           isSidePreview={isSidePreview}
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
-          artistStatistics={artistStatistics}
+          analyticsLivePage={analyticsLivePage}
+          statisticsPeriod={statisticsPeriod}
           showStatistics={showStatistics}
         />
       )
