@@ -611,15 +611,12 @@ export const ContentBox = ({
           isSidePreview={isSidePreview}
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
-<<<<<<< HEAD
           trackingVisitorEvents={trackingVisitorEvents}
           visitorSession={visitorSession}
           domainName={domainName}
-=======
           analyticsLivePage={analyticsLivePage}
           statisticsPeriod={statisticsPeriod}
           showStatistics={showStatistics}
->>>>>>> feature/statistics
         />
       )
       break
