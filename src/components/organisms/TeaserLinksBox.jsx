@@ -100,7 +100,15 @@ const Container = styled.div`
   }
 `
 
-export const TeaserLinksBox = ({ teaserLinks, isSidePreview, colorBackground, color }) => {
+export const TeaserLinksBox = ({
+  teaserLinks,
+  isSidePreview,
+  colorBackground,
+  color,
+  trackingVisitorEvents,
+  visitorSession,
+  domainName,
+}) => {
   const [pagination, setPagination] = useState({ start: 0, end: 8 })
   const { start, end } = pagination
 
@@ -130,7 +138,27 @@ export const TeaserLinksBox = ({ teaserLinks, isSidePreview, colorBackground, co
         ({ url, name }, index) =>
           index >= start &&
           index < end - paginationCorrection && (
-            <a key={`${name}-${index}`} href={url} target="_blank" className="teaser-link">
+            <a
+              key={`${name}-${index}`}
+              href={url}
+              target="_blank"
+              rel="noreferrer"
+              className="teaser-link"
+              onClick={() => {
+                trackingVisitorEvents({
+                  visitorSession,
+                  domainName,
+                  category: {
+                    teaserLinks: {
+                      event: {
+                        name,
+                        url,
+                      },
+                    },
+                  },
+                })
+              }}
+            >
               <p className="clip">{name}</p>
             </a>
           )

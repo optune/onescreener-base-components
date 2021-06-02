@@ -56,7 +56,6 @@ export const Links = ({
     .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
     .map(mapSmartLinks(pageUrl))
 
-  console.log({ Links: domainName })
   return (
     <Fragment>
       {mappedLinks.map((link) => (

@@ -49,7 +49,6 @@ export const PlatformLink = ({
   text,
   url,
 }) => {
-  console.log({ PlatformLink: domainName })
   const Icon = LinkIconMapper({ platform, size })
   const labelText = (
     name ||
@@ -128,11 +127,12 @@ export const PlatformLink = ({
         onClick={() => {
           trackingVisitorEvents({
             visitorSession,
-            domainName: 'bbb.onescreener.show',
+            domainName,
             category: {
               links: {
                 event: {
                   name: labelText,
+                  platform: platform,
                   url: url,
                 },
               },
