@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components'
 import { Logo } from '../atoms/Logo.jsx'
 import { LogoText } from '../atoms/LogoText.jsx'
 
-import { MediaMobile } from '../../style/media'
+import { MediaMobile, MediaSmall } from '../../style/media'
 import { SectionOverlay } from '../molecules/SectionOverlay.js'
 
 const stylesLogoDesktop = `
@@ -182,6 +182,10 @@ const LogoContainer = styled.div`
 
       @media ${MediaMobile} {
         ${!isSidePreview && padding.mobile}
+      }
+
+      @media ${MediaSmall} {
+        ${isSidePreview && 'padding-bottom: 5.4rem;'}
       }
     `}
 `
