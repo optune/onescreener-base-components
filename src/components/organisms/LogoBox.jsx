@@ -160,6 +160,7 @@ const LogoContainer = styled.div`
   left: 0;
   right: 0;
   display: flex;
+
   z-index: ${({ zIndex }) => zIndex};
 
   ${stylesLogoDesktop}

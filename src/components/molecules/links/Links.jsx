@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // React
 import React, { Fragment, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
@@ -26,6 +27,9 @@ export const Links = ({
   modalData,
   pageUrl,
   setModalData,
+  trackingVisitorEvents,
+  visitorSession,
+  domainName,
 }) => {
   const color =
     linksColorState?.colorLinks ||
@@ -56,6 +60,9 @@ export const Links = ({
     <Fragment>
       {mappedLinks.map((link) => (
         <PlatformLink
+          trackingVisitorEvents={trackingVisitorEvents}
+          visitorSession={visitorSession}
+          domainName={domainName}
           border={links.border}
           circle={links.circle}
           color={color}
