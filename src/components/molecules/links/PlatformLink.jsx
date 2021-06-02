@@ -5,15 +5,18 @@ import styled from 'styled-components'
 // Atoms
 import { Link } from '../../atoms/links/Link'
 import { LinkIconMapper } from '../../atoms/links/LinkIconMapper'
+import { StatisticsOverlay } from '../../atoms/StatisticsOverlay'
 
 const LinkWrapper = styled.a`
-  text-decoration: none;
+position: relative;
+text-decoration: none;
   /* margin: ${({ isPreviewMobile }) => isPreviewMobile && '0 4px'}; */
   cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
   pointer-events: ${({ notInteractive }) => (notInteractive ? 'none' : 'auto')};
 `
 
 const LinkWrapperText = styled.div`
+  position: relative;
   cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
   pointer-events: ${({ notInteractive }) => (notInteractive ? 'none' : 'auto')};
 `
@@ -31,6 +34,8 @@ export const PlatformLink = ({
   isPreviewMobile,
   isSidePreview,
   isWithoutIcon,
+  showStatistics,
+  linkClicks,
   label,
   margin,
   modalData,
@@ -100,6 +105,11 @@ export const PlatformLink = ({
           size={size || 'M'}
           square={square}
         >
+          {showStatistics && (
+            <StatisticsOverlay>
+              <div> {linkClicks()}</div>
+            </StatisticsOverlay>
+          )}
           {isWithoutIcon ? (
             'DONATE'
           ) : (
@@ -139,6 +149,11 @@ export const PlatformLink = ({
           size={size || 'M'}
           square={square}
         >
+          {showStatistics && (
+            <StatisticsOverlay>
+              <div> {linkClicks()}</div>
+            </StatisticsOverlay>
+          )}
           <Icon
             color={color}
             size={size}
@@ -171,6 +186,11 @@ export const PlatformLink = ({
           size={size || 'M'}
           square={square}
         >
+          {showStatistics && (
+            <StatisticsOverlay>
+              <div> {linkClicks()}</div>
+            </StatisticsOverlay>
+          )}
           <Icon
             color={color}
             size={size}
@@ -199,6 +219,11 @@ export const PlatformLink = ({
         size={size || 'M'}
         square={square}
       >
+        {showStatistics && (
+          <StatisticsOverlay>
+            <div> {linkClicks()}</div>
+          </StatisticsOverlay>
+        )}
         <Icon
           color={color}
           size={size}

@@ -21,6 +21,8 @@ export const Links = ({
   content,
   isPreviewMobile,
   isSidePreview,
+  artistStatistics,
+  showStatistics,
   links,
   linksColorState,
   modalData,
@@ -52,6 +54,18 @@ export const Links = ({
     .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
     .map(mapSmartLinks(pageUrl))
 
+  const getLinkClicks = (platform) => () => {
+    let clicks = 0
+
+    artistStatistics.forEach((session) => {
+      session.analytics.category.links.forEach((link) => {
+        if (link.name === platform) clicks += 1
+      })
+    })
+
+    return clicks
+  }
+
   return (
     <Fragment>
       {mappedLinks.map((link) => (
@@ -65,6 +79,8 @@ export const Links = ({
           isHighlighted={link.isHighlighted}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
+          showStatistics={showStatistics}
+          linkClicks={getLinkClicks(link.platform)}
           email={link.email}
           actionText={link.actionText}
           isWithoutIcon={link.platform === 'DONATION'}

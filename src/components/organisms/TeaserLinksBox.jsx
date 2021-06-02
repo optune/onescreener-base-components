@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+
 import { MediaSmall } from '../../style/media'
 import { RGBToHex } from '../../utils/convertRGBtoHEX'
+import { StatisticsOverlay } from '../atoms/StatisticsOverlay'
 
 const LINKS_LIMIT = 7
 const STEP = LINKS_LIMIT - 1
@@ -100,7 +102,14 @@ const Container = styled.div`
   }
 `
 
-export const TeaserLinksBox = ({ teaserLinks, isSidePreview, colorBackground, color }) => {
+export const TeaserLinksBox = ({
+  teaserLinks,
+  isSidePreview,
+  colorBackground,
+  color,
+  artistStatistics,
+  showStatistics,
+}) => {
   const [pagination, setPagination] = useState({ start: 0, end: 8 })
   const { start, end } = pagination
 
@@ -119,6 +128,21 @@ export const TeaserLinksBox = ({ teaserLinks, isSidePreview, colorBackground, co
   const nextPageExists = teaserLinks.length - end > 0
   const paginationCorrection = previousPageExists && nextPageExists ? 1 : 0
 
+  const getLinkClicks = (name) => {
+    let clicks = 0
+
+    artistStatistics.forEach((session) => {
+      session.analytics.category.teaser.forEach((link) => {
+        console.log({ link })
+        if (link.name === name) clicks += 1
+      })
+    })
+
+    console.log({ clicks, name })
+
+    return clicks
+  }
+
   return (
     <Container isSidePreview={isSidePreview} color={color} colorBackground={colorBackground}>
       {previousPageExists && (
@@ -131,6 +155,11 @@ export const TeaserLinksBox = ({ teaserLinks, isSidePreview, colorBackground, co
           index >= start &&
           index < end - paginationCorrection && (
             <a key={`${name}-${index}`} href={url} target="_blank" className="teaser-link">
+              {showStatistics && (
+                <StatisticsOverlay>
+                  <div>{getLinkClicks(name)}</div>
+                </StatisticsOverlay>
+              )}
               <p className="clip">{name}</p>
             </a>
           )

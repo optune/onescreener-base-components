@@ -125,6 +125,8 @@ export const Page = ({
   page,
   pageUrl,
   userName,
+  artistStatistics,
+  showStatistics,
   onLogoSectionClick,
   onContentSectionClick,
   onLinksSectionClick,
@@ -218,6 +220,8 @@ export const Page = ({
               isPreviewMobile={isPreviewMobile}
               isPreviewMobileReady={isPreviewMobileReady}
               isSidePreview={isSidePreview}
+              artistStatistics={artistStatistics}
+              showStatistics={showStatistics}
               pageUrl={pageUrl}
               onContentSectionClick={onContentSectionClick}
             />
@@ -276,6 +280,8 @@ export const Page = ({
                     isThemeSelected,
                     isPreviewMobile,
                     isSidePreview,
+                    artistStatistics,
+                    showStatistics,
                     links,
                     Modal,
                     modalData,

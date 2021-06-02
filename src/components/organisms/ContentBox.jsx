@@ -486,6 +486,8 @@ export const ContentBox = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  artistStatistics,
+  showStatistics,
   pageUrl,
   onContentSectionClick,
 }) => {
@@ -599,6 +601,8 @@ export const ContentBox = ({
           isSidePreview={isSidePreview}
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
+          artistStatistics={artistStatistics}
+          showStatistics={showStatistics}
         />
       )
       break
