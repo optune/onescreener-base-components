@@ -494,6 +494,9 @@ export const ContentBox = ({
   isSidePreview,
   pageUrl,
   onContentSectionClick,
+  trackingVisitorEvents,
+  visitorSession,
+  domainName,
 }) => {
   /*
    * Get content values
@@ -605,6 +608,9 @@ export const ContentBox = ({
           isSidePreview={isSidePreview}
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
+          trackingVisitorEvents={trackingVisitorEvents}
+          visitorSession={visitorSession}
+          domainName={domainName}
         />
       )
       break
