@@ -125,6 +125,9 @@ export const Page = ({
   page,
   pageUrl,
   userName,
+  analyticsLivePage,
+  statisticsPeriod,
+  showStatistics,
   onLogoSectionClick,
   onContentSectionClick,
   onLinksSectionClick,
@@ -221,6 +224,9 @@ export const Page = ({
               isPreviewMobile={isPreviewMobile}
               isPreviewMobileReady={isPreviewMobileReady}
               isSidePreview={isSidePreview}
+              analyticsLivePage={analyticsLivePage}
+              statisticsPeriod={statisticsPeriod}
+              showStatistics={showStatistics}
               pageUrl={pageUrl}
               onContentSectionClick={onContentSectionClick}
               trackingVisitorEvents={trackingVisitorEvents}
@@ -282,6 +288,9 @@ export const Page = ({
                     isThemeSelected,
                     isPreviewMobile,
                     isSidePreview,
+                    analyticsLivePage,
+                    statisticsPeriod,
+                    showStatistics,
                     links,
                     Modal,
                     modalData,

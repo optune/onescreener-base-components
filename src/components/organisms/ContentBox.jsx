@@ -492,6 +492,9 @@ export const ContentBox = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  analyticsLivePage,
+  statisticsPeriod,
+  showStatistics,
   pageUrl,
   onContentSectionClick,
   trackingVisitorEvents,
@@ -608,9 +611,15 @@ export const ContentBox = ({
           isSidePreview={isSidePreview}
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
+<<<<<<< HEAD
           trackingVisitorEvents={trackingVisitorEvents}
           visitorSession={visitorSession}
           domainName={domainName}
+=======
+          analyticsLivePage={analyticsLivePage}
+          statisticsPeriod={statisticsPeriod}
+          showStatistics={showStatistics}
+>>>>>>> feature/statistics
         />
       )
       break
