@@ -136,7 +136,7 @@ export const TeaserLinksBox = ({
     const fromDate = getFromDate(statisticsPeriod)
 
     analyticsLivePage.forEach((session) => {
-      filterTime(session.analytics.category.teaserLinks, fromDate)?.forEach((link) => {
+      filterTime(session.analytics?.category?.teaserLinks, fromDate)?.forEach((link) => {
         if (link.name === name && link.url === url) clicks += 1
       })
     })
