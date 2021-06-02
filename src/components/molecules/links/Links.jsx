@@ -61,13 +61,15 @@ export const Links = ({
     .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
     .map(mapSmartLinks(pageUrl))
 
+  console.log({ analyticsLivePage })
+
   const getLinkClicks = (platform) => () => {
     let clicks = 0
 
     const fromDate = getFromDate(statisticsPeriod)
 
     analyticsLivePage.forEach((session) => {
-      filterTime(session.analytics.category.links, fromDate)?.forEach((link) => {
+      filterTime(session.analytics?.category?.links, fromDate)?.forEach((link) => {
         if (link.platform === platform) clicks += 1
       })
     })
