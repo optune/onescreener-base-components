@@ -492,6 +492,7 @@ export const ContentBox = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  showRedirectOverlay,
   analyticsLivePage,
   statisticsPeriod,
   showStatistics,
@@ -644,7 +645,7 @@ export const ContentBox = ({
     <FullscreenContainer>{Content}</FullscreenContainer>
   ) : (
     <Fragment>
-      {isSidePreview && (
+      {showRedirectOverlay && (
         <SectionOverlay
           positionDesktop={position.classnameDesktop}
           positionMobile={position.classnameMobile}

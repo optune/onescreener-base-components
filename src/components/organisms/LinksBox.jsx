@@ -140,13 +140,14 @@ export const LinksBox = ({
   isSidePreview,
   isPreviewMobile,
   isInstagramBrowser,
+  showRedirectOverlay,
   onLinksSectionClick,
 }) => {
   const positionLinks = position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'
 
   return (
     <Fragment>
-      {isSidePreview && (
+      {showRedirectOverlay && (
         <SectionOverlay
           positionDesktop={positionLinks}
           positionMobile="bottom-center"
