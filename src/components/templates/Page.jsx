@@ -160,6 +160,8 @@ export const Page = ({
       background.selectedBackgroundId > '' && background.selectedBackgroundId !== 'custom'
     const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
 
+    const showRedirectOverlay = isSidePreview && !showStatistics
+
     PageComponent = (
       <Fragment>
         <GlobalStyle />
@@ -208,6 +210,7 @@ export const Page = ({
                 isPreviewMobileReady={isPreviewMobileReady}
                 isSidePreview={isSidePreview}
                 isTeaserLinks={content.type === 'TEASER_LINKS'}
+                showRedirectOverlay={showRedirectOverlay}
                 zIndex={10}
                 onLogoSectionClick={onLogoSectionClick}
               />
@@ -221,6 +224,7 @@ export const Page = ({
               isPreviewMobile={isPreviewMobile}
               isPreviewMobileReady={isPreviewMobileReady}
               isSidePreview={isSidePreview}
+              showRedirectOverlay={showRedirectOverlay}
               analyticsLivePage={analyticsLivePage}
               statisticsPeriod={statisticsPeriod}
               showStatistics={showStatistics}
@@ -274,6 +278,7 @@ export const Page = ({
                   isSidePreview={isSidePreview}
                   isPreviewMobile={isPreviewMobile}
                   isInstagramBrowser={isInstagramBrowser}
+                  showRedirectOverlay={showRedirectOverlay}
                   onLinksSectionClick={onLinksSectionClick}
                 >
                   {Links({
