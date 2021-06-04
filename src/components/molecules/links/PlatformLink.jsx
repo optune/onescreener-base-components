@@ -66,6 +66,18 @@ export const PlatformLink = ({
       <LinkWrapperText
         notInteractive={notInteractive}
         onClick={() => {
+          trackingVisitorEvents({
+            visitorSession,
+            domainName,
+            category: {
+              links: {
+                event: {
+                  name: labelText,
+                  platform: platform,
+                },
+              },
+            },
+          })
           setModalData({
             show: true,
             title: name,
@@ -185,7 +197,22 @@ export const PlatformLink = ({
     return (
       <LinkWrapperText
         notInteractive={notInteractive}
-        onClick={() => setModalData({ show: true, content: text, label: labelText })}
+        onClick={() => {
+          trackingVisitorEvents({
+            visitorSession,
+            domainName,
+            category: {
+              links: {
+                event: {
+                  name: labelText,
+                  platform: platform,
+                  url: text,
+                },
+              },
+            },
+          })
+          setModalData({ show: true, content: text, label: labelText })
+        }}
       >
         <Link
           border={border}
@@ -221,7 +248,20 @@ export const PlatformLink = ({
   } else {
     return (
       <Link
-        onClick={() => trackingVisitorStats()}
+        onClick={() =>
+          trackingVisitorEvents({
+            visitorSession,
+            domainName,
+            category: {
+              links: {
+                event: {
+                  name: labelText,
+                  platform: platform,
+                },
+              },
+            },
+          })
+        }
         border={border}
         circle={circle}
         color={color}
