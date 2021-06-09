@@ -140,13 +140,13 @@ const stylesContentMobile = `
 
   &bottom-left {
     align-items: flex-end;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   &bottom-center {
     align-items: flex-end;
     justify-content: center;
-    margin: 2px;
+
 
     & > div > div {
       justify-content: center;
@@ -155,10 +155,11 @@ const stylesContentMobile = `
 
   &bottom-right {
     align-items: flex-end;
-    justify-content: center;
+    justify-content: flex-end;
+    
 
     & > div > div {
-      justify-content: center;
+      justify-content: flex-end;
     }
   }
 }`
@@ -183,9 +184,9 @@ const LinkMargin = {
 }
 
 const LinkMarginMobile = {
-  S: 4.2,
-  M: 4.6,
-  L: 5,
+  S: 2.5,
+  M: 3.5,
+  L: 4.5,
 }
 
 const LinkMarginSidePreview = {
@@ -353,35 +354,43 @@ const FullscreenContainer = styled.div`
 
 const ResponsiveContainer = styled.div`
 
-${({ isSidePreview, linksPosition, contentPosition }) =>
+position: relative;
+width: 100%;
+height: 100%;
+display: flex;
+z-index: 99;
+/* bottom: 5.2rem; */
+
+${({ isSidePreview, linksPosition, contentPosition, isPreviewMobile }) =>
   css`
     bottom: ${linksPosition.includes('BOTTOM') &&
     contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM') &&
-    (isSidePreview ? '3.3rem' : '6rem')};
+    isSidePreview &&
+    !isPreviewMobile &&
+    '2.4rem'};
     left: ${linksPosition.includes('LEFT') &&
     contentPosition.classnameDesktop.toUpperCase().includes('LEFT') &&
-    (isSidePreview ? '3.3rem' : '6rem')};
+    isSidePreview &&
+    !isPreviewMobile &&
+    '2.4rem'};
     right: ${linksPosition.includes('RIGHT') &&
     contentPosition.classnameDesktop.toUpperCase().includes('RIGHT') &&
-    (isSidePreview ? '3.3rem' : '6rem')};
+    isSidePreview &&
+    !isPreviewMobile &&
+    '2.4rem'};
   `}
-  
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  z-index: 99;
 
-  ${({ contentPosition, isPreviewMobile, isTeaserLinks }) =>
+
+  /* ${({ contentPosition, isPreviewMobile, isTeaserLinks }) =>
     !isTeaserLinks &&
     contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') &&
     css`
-      ${isPreviewMobile && 'bottom: 6.2rem;'}
+      ${isPreviewMobile && 'bottom: .4rem;'}
 
       @media ${MediaMobile} {
         bottom: 6.2rem;
       }
-    `}
+    `} */
 
   ${stylesContentDesktop}
 
