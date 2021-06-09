@@ -11,6 +11,8 @@ import { PlatformLinkIcon } from '../../icons/platform/index'
 
 // Utils
 import { mapSmartLinks } from './utils/mapSmartLinks'
+import { filterTime } from '../../../api'
+import { getFromDate } from '../../../api'
 
 /*
  * Render Link list
@@ -22,6 +24,9 @@ export const Links = ({
   content,
   isPreviewMobile,
   isSidePreview,
+  analyticsLivePage,
+  statisticsPeriod,
+  showStatistics,
   links,
   linksColorState,
   modalData,
@@ -56,6 +61,22 @@ export const Links = ({
     .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
     .map(mapSmartLinks(pageUrl))
 
+  console.log({ analyticsLivePage })
+
+  const getLinkClicks = (platform) => () => {
+    let clicks = 0
+
+    const fromDate = getFromDate(statisticsPeriod)
+
+    analyticsLivePage.forEach((session) => {
+      filterTime(session.analytics?.category?.links, fromDate)?.forEach((link) => {
+        if (link.platform === platform) clicks += 1
+      })
+    })
+
+    return clicks
+  }
+
   return (
     <Fragment>
       {mappedLinks.map((link) => (
@@ -72,6 +93,8 @@ export const Links = ({
           isHighlighted={link.isHighlighted}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
+          showStatistics={showStatistics}
+          linkClicks={getLinkClicks(link.platform)}
           email={link.email}
           actionText={link.actionText}
           isWithoutIcon={link.platform === 'DONATION'}

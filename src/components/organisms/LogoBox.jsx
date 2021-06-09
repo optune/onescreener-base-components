@@ -268,6 +268,7 @@ export const LogoBox = ({
   isSidePreview,
   isTeaserLinks,
   onLogoSectionClick,
+  showRedirectOverlay,
   zIndex,
 }) => {
   const position = getLogoPosition({ logo })
@@ -277,7 +278,7 @@ export const LogoBox = ({
 
   return (
     <Fragment>
-      {isSidePreview && (
+      {showRedirectOverlay && (
         <SectionOverlay
           positionDesktop={position.classnameDesktop}
           positionMobile={position.classnameMobile}

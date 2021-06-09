@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { filterTime, getFromDate } from '../../api'
+
 import { MediaSmall } from '../../style/media'
 import { RGBToHex } from '../../utils/convertRGBtoHEX'
+import { StatisticsOverlay } from '../atoms/StatisticsOverlay'
 
 const LINKS_LIMIT = 7
 const STEP = LINKS_LIMIT - 1
@@ -105,6 +108,9 @@ export const TeaserLinksBox = ({
   isSidePreview,
   colorBackground,
   color,
+  analyticsLivePage,
+  statisticsPeriod,
+  showStatistics,
   trackingVisitorEvents,
   visitorSession,
   domainName,
@@ -127,6 +133,20 @@ export const TeaserLinksBox = ({
   const nextPageExists = teaserLinks.length - end > 0
   const paginationCorrection = previousPageExists && nextPageExists ? 1 : 0
 
+  const getLinkClicks = ({ name, url }) => {
+    let clicks = 0
+
+    const fromDate = getFromDate(statisticsPeriod)
+
+    analyticsLivePage.forEach((session) => {
+      filterTime(session.analytics?.category?.teaserLinks, fromDate)?.forEach((link) => {
+        if (link.name === name && link.url === url) clicks += 1
+      })
+    })
+
+    return clicks
+  }
+
   return (
     <Container isSidePreview={isSidePreview} color={color} colorBackground={colorBackground}>
       {previousPageExists && (
@@ -138,13 +158,9 @@ export const TeaserLinksBox = ({
         ({ url, name }, index) =>
           index >= start &&
           index < end - paginationCorrection && (
-            <a
-              key={`${name}-${index}`}
-              href={url}
-              target="_blank"
-              rel="noreferrer"
-              className="teaser-link"
-              onClick={() => {
+
+            <a key={`${name}-${index}`} href={url} target="_blank" rel="noreferrer" className="teaser-link" 
+             onClick={() => {
                 trackingVisitorEvents({
                   visitorSession,
                   domainName,
@@ -157,8 +173,13 @@ export const TeaserLinksBox = ({
                     },
                   },
                 })
-              }}
-            >
+              }}>
+              {showStatistics && (
+                <StatisticsOverlay>
+                  <div>{getLinkClicks({ name, url })}</div>
+                </StatisticsOverlay>
+              )}
+
               <p className="clip">{name}</p>
             </a>
           )

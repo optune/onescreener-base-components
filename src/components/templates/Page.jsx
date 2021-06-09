@@ -125,6 +125,9 @@ export const Page = ({
   page,
   pageUrl,
   userName,
+  analyticsLivePage,
+  statisticsPeriod,
+  showStatistics,
   onLogoSectionClick,
   onContentSectionClick,
   onLinksSectionClick,
@@ -159,6 +162,8 @@ export const Page = ({
     const isBackgroundSelected =
       background.selectedBackgroundId > '' && background.selectedBackgroundId !== 'custom'
     const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
+
+    const showRedirectOverlay = isSidePreview && !showStatistics
 
     PageComponent = (
       <Fragment>
@@ -208,6 +213,7 @@ export const Page = ({
                 isPreviewMobileReady={isPreviewMobileReady}
                 isSidePreview={isSidePreview}
                 isTeaserLinks={content.type === 'TEASER_LINKS'}
+                showRedirectOverlay={showRedirectOverlay}
                 zIndex={10}
                 onLogoSectionClick={onLogoSectionClick}
               />
@@ -221,6 +227,10 @@ export const Page = ({
               isPreviewMobile={isPreviewMobile}
               isPreviewMobileReady={isPreviewMobileReady}
               isSidePreview={isSidePreview}
+              showRedirectOverlay={showRedirectOverlay}
+              analyticsLivePage={analyticsLivePage}
+              statisticsPeriod={statisticsPeriod}
+              showStatistics={showStatistics}
               pageUrl={pageUrl}
               onContentSectionClick={onContentSectionClick}
               trackingVisitorEvents={trackingVisitorEvents}
@@ -274,6 +284,7 @@ export const Page = ({
                   isSidePreview={isSidePreview}
                   isPreviewMobile={isPreviewMobile}
                   isInstagramBrowser={isInstagramBrowser}
+                  showRedirectOverlay={showRedirectOverlay}
                   onLinksSectionClick={onLinksSectionClick}
                 >
                   {Links({
@@ -282,6 +293,9 @@ export const Page = ({
                     isThemeSelected,
                     isPreviewMobile,
                     isSidePreview,
+                    analyticsLivePage,
+                    statisticsPeriod,
+                    showStatistics,
                     links,
                     Modal,
                     modalData,

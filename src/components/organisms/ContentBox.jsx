@@ -495,6 +495,10 @@ export const ContentBox = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  showRedirectOverlay,
+  analyticsLivePage,
+  statisticsPeriod,
+  showStatistics,
   pageUrl,
   onContentSectionClick,
   trackingVisitorEvents,
@@ -611,6 +615,9 @@ export const ContentBox = ({
           isSidePreview={isSidePreview}
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
+          analyticsLivePage={analyticsLivePage}
+          statisticsPeriod={statisticsPeriod}
+          showStatistics={showStatistics}
           trackingVisitorEvents={trackingVisitorEvents}
           visitorSession={visitorSession}
           domainName={domainName}
@@ -641,7 +648,7 @@ export const ContentBox = ({
     <FullscreenContainer>{Content}</FullscreenContainer>
   ) : (
     <Fragment>
-      {isSidePreview && (
+      {showRedirectOverlay && (
         <SectionOverlay
           positionDesktop={position.classnameDesktop}
           positionMobile={position.classnameMobile}
