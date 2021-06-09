@@ -131,6 +131,9 @@ export const Page = ({
   onLogoSectionClick,
   onContentSectionClick,
   onLinksSectionClick,
+  trackingVisitorEvents,
+  visitorSession,
+  domainName,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
@@ -153,7 +156,7 @@ export const Page = ({
   if (page) {
     const { background, logo, content, design, selectedThemeId } = page
     const { links } = page || { links: { list: [] } }
-
+    // const domainName = page.domainName
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
     const isBackgroundSelected =
@@ -230,6 +233,9 @@ export const Page = ({
               showStatistics={showStatistics}
               pageUrl={pageUrl}
               onContentSectionClick={onContentSectionClick}
+              trackingVisitorEvents={trackingVisitorEvents}
+              visitorSession={visitorSession}
+              domainName={domainName}
             />
 
             {/* Links */}
@@ -295,6 +301,9 @@ export const Page = ({
                     modalData,
                     pageUrl,
                     setModalData,
+                    trackingVisitorEvents,
+                    visitorSession,
+                    domainName,
                   })}
                 </LinksBox>
               </Fragment>

@@ -19,12 +19,6 @@ const LinksContainer = styled.div`
   @media ${MediaSmall} {
     bottom: 20px;
   }
-
-  ${({ isInstagramBrowser }) =>
-    isInstagramBrowser &&
-    css`
-      bottom: 20px;
-    `};
 `
 
 const LinksList = styled.div`
