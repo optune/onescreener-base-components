@@ -13,7 +13,7 @@ const DEFAULT_DEGREE = 20
 
 // Color Theme
 export const BackgroundColor = {
-  accent: ColorHarlequin,
+  accent: ColorBlue,
   disabled: ColorWhite,
   hover: ColorHaiti,
   secondary: ColorWhite,
@@ -25,7 +25,7 @@ export const BackgroundColor = {
 export const ForegroundColor = {
   accent: ColorWhite,
   disabled: ColorLightGrey,
-  hover: ColorHarlequin,
+  hover: ColorBlue,
   secondary: ColorStormGray,
   selected: ColorWhite,
 }

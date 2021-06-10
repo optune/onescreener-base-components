@@ -25,6 +25,7 @@ export const Links = ({
   isPreviewMobile,
   isSidePreview,
   analyticsLivePage,
+  isProPlanRequired,
   statisticsPeriod,
   showStatistics,
   links,
@@ -61,9 +62,8 @@ export const Links = ({
     .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
     .map(mapSmartLinks(pageUrl))
 
-  console.log({ analyticsLivePage })
-
   const getLinkClicks = (platform) => () => {
+    if (isProPlanRequired) return '?'
     let clicks = 0
 
     const fromDate = getFromDate(statisticsPeriod)

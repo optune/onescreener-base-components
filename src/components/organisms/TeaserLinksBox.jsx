@@ -112,6 +112,7 @@ export const TeaserLinksBox = ({
   visitorSession,
   domainName,
   analyticsLivePage,
+  isProPlanRequired,
   statisticsPeriod,
   showStatistics,
 }) => {
@@ -134,6 +135,7 @@ export const TeaserLinksBox = ({
   const paginationCorrection = previousPageExists && nextPageExists ? 1 : 0
 
   const getLinkClicks = ({ name, url }) => {
+    if (isProPlanRequired) return '?'
     let clicks = 0
 
     const fromDate = getFromDate(statisticsPeriod)

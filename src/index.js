@@ -8,6 +8,10 @@ export { ApplePlayer } from './components/atoms/ApplePlayer.jsx'
 export { DeezerPlayer } from './components/atoms/DeezerPlayer.jsx'
 export { BackLink } from './components/atoms/BackLink.jsx'
 
+// Molecules
+
+export { UpgradeOverlay } from './components/molecules/UpgradeOverlay'
+
 // Templates
 export { Page } from './components/templates/Page.jsx'
 

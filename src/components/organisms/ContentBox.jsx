@@ -494,6 +494,7 @@ export const ContentBox = ({
   isSidePreview,
   showRedirectOverlay,
   analyticsLivePage,
+  isProPlanRequired,
   statisticsPeriod,
   showStatistics,
   pageUrl,
@@ -616,6 +617,7 @@ export const ContentBox = ({
           visitorSession={visitorSession}
           domainName={domainName}
           analyticsLivePage={analyticsLivePage}
+          isProPlanRequired={isProPlanRequired}
           statisticsPeriod={statisticsPeriod}
           showStatistics={showStatistics}
         />
