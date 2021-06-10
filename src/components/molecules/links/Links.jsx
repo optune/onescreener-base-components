@@ -57,8 +57,6 @@ export const Links = ({
     .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
     .map(mapSmartLinks(pageUrl))
 
-  console.log({ analyticsLivePage })
-
   const getLinkClicks = (platform) => () => {
     let clicks = 0
 
