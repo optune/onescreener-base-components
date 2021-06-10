@@ -488,6 +488,7 @@ export const ContentBox = ({
   isSidePreview,
   showRedirectOverlay,
   analyticsLivePage,
+  isProPlanRequired,
   statisticsPeriod,
   showStatistics,
   pageUrl,
@@ -604,6 +605,7 @@ export const ContentBox = ({
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
           analyticsLivePage={analyticsLivePage}
+          isProPlanRequired={isProPlanRequired}
           statisticsPeriod={statisticsPeriod}
           showStatistics={showStatistics}
         />
