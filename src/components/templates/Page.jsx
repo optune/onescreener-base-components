@@ -25,6 +25,7 @@ import { getImageUrl } from '../../utils/getImageUrl.js'
 
 // Global Styles
 import GlobalStyle from '../../style/global.js'
+import { UpgradeOverlay } from '../molecules/UpgradeOverlay.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -128,6 +129,9 @@ export const Page = ({
   analyticsLivePage,
   statisticsPeriod,
   showStatistics,
+  showUpgradeOverlay,
+  onUpgrade,
+  ProTag,
   onLogoSectionClick,
   onContentSectionClick,
   onLinksSectionClick,
@@ -140,6 +144,8 @@ export const Page = ({
     setSsrDone(true)
   }, [])
   const getUrl = getImageUrl(ssrDone)
+
+  const isProPlanRequired = showUpgradeOverlay
 
   const [modalData, setModalData] = useState({
     show: false,
@@ -183,6 +189,7 @@ export const Page = ({
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
         >
+          {showUpgradeOverlay && <UpgradeOverlay onUpgrade={onUpgrade} ProTag={ProTag} />}
           {/* // TODO: Try to move SectionOverlay for all components here --> sectionOverlays.map(s => <SectionOverlay {...s} />) (To avoid unnecessary prop drilling) */}
           {ssrDone && (
             <Background
@@ -213,6 +220,7 @@ export const Page = ({
                 isPreviewMobileReady={isPreviewMobileReady}
                 isSidePreview={isSidePreview}
                 isTeaserLinks={content.type === 'TEASER_LINKS'}
+                isProPlanRequired={isProPlanRequired}
                 showRedirectOverlay={showRedirectOverlay}
                 zIndex={10}
                 onLogoSectionClick={onLogoSectionClick}
@@ -228,6 +236,7 @@ export const Page = ({
               isPreviewMobileReady={isPreviewMobileReady}
               isSidePreview={isSidePreview}
               showRedirectOverlay={showRedirectOverlay}
+              isProPlanRequired={isProPlanRequired}
               analyticsLivePage={analyticsLivePage}
               statisticsPeriod={statisticsPeriod}
               showStatistics={showStatistics}
@@ -294,6 +303,7 @@ export const Page = ({
                     isPreviewMobile,
                     isSidePreview,
                     analyticsLivePage,
+                    isProPlanRequired,
                     statisticsPeriod,
                     showStatistics,
                     links,
