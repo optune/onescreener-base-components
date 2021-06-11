@@ -160,9 +160,13 @@ export const TeaserLinksBox = ({
         ({ url, name }, index) =>
           index >= start &&
           index < end - paginationCorrection && (
-
-            <a key={`${name}-${index}`} href={url} target="_blank" rel="noreferrer" className="teaser-link" 
-             onClick={() => {
+            <a
+              key={`${name}-${index}`}
+              href={url}
+              target="_blank"
+              rel="noreferrer"
+              className="teaser-link"
+              onClick={() => {
                 trackingVisitorEvents({
                   visitorSession,
                   domainName,
@@ -174,8 +178,9 @@ export const TeaserLinksBox = ({
                       },
                     },
                   },
-                })
-              }}>
+                }).then((r) => console.log({ r }))
+              }}
+            >
               {showStatistics && (
                 <StatisticsOverlay>
                   <div>{getLinkClicks({ name, url })}</div>
