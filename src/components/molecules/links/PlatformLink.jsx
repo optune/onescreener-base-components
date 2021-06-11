@@ -77,7 +77,7 @@ export const PlatformLink = ({
                 },
               },
             },
-          })
+          }).then((r) => console.log({ r }))
           setModalData({
             show: true,
             title: name,
@@ -159,7 +159,7 @@ export const PlatformLink = ({
                 },
               },
             },
-          })
+          }).then((r) => console.log({ r }))
         }}
       >
         <Link
@@ -210,7 +210,7 @@ export const PlatformLink = ({
                 },
               },
             },
-          })
+          }).then((r) => console.log({ r }))
           setModalData({ show: true, content: text, label: labelText })
         }}
       >
@@ -260,7 +260,7 @@ export const PlatformLink = ({
                 },
               },
             },
-          })
+          }).then((r) => console.log({ r }))
         }
         border={border}
         circle={circle}
