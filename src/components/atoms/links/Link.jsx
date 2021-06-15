@@ -44,6 +44,7 @@ const ShapeSizeSidePreview = {
 }
 
 export const Link = styled.div`
+position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -137,7 +138,6 @@ export const Link = styled.div`
           `calc(${ShapeSize.Mobile[size]} * ${isHighlighted ? '1' : '1'})`};
 
         pointer-events: none;
-
       }
     `}
 
@@ -166,11 +166,13 @@ export const Link = styled.div`
           border-color: ${({ colorAccent }) => colorAccent};
           color: ${({ colorAccent }) => colorAccent};
 
-          ${isSpecial &&
-          css`
-            background: linear-gradient(90deg, rgb(40 228 211 / 50%) 5%, #d9b85e 100%), #c4c4c4;
-            color: white;
-          `}
+          ${
+            isSpecial &&
+            css`
+              background: linear-gradient(90deg, rgb(40 228 211 / 50%) 5%, #d9b85e 100%), #c4c4c4;
+              color: white;
+            `
+          }
 
           & .icon g {
             & path,

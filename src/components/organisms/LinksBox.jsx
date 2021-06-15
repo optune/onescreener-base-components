@@ -19,12 +19,6 @@ const LinksContainer = styled.div`
   @media ${MediaSmall} {
     bottom: 20px;
   }
-
-  ${({ isInstagramBrowser }) =>
-    isInstagramBrowser &&
-    css`
-      bottom: 20px;
-    `};
 `
 
 const LinksList = styled.div`
@@ -146,13 +140,14 @@ export const LinksBox = ({
   isSidePreview,
   isPreviewMobile,
   isInstagramBrowser,
+  showRedirectOverlay,
   onLinksSectionClick,
 }) => {
   const positionLinks = position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'
 
   return (
     <Fragment>
-      {isSidePreview && (
+      {showRedirectOverlay && (
         <SectionOverlay
           positionDesktop={positionLinks}
           positionMobile="bottom-center"

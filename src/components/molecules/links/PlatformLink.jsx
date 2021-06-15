@@ -5,20 +5,26 @@ import styled from 'styled-components'
 // Atoms
 import { Link } from '../../atoms/links/Link'
 import { LinkIconMapper } from '../../atoms/links/LinkIconMapper'
+import { StatisticsOverlay } from '../../atoms/StatisticsOverlay'
 
 const LinkWrapper = styled.a`
-  text-decoration: none;
+position: relative;
+text-decoration: none;
   /* margin: ${({ isPreviewMobile }) => isPreviewMobile && '0 4px'}; */
   cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
   pointer-events: ${({ notInteractive }) => (notInteractive ? 'none' : 'auto')};
 `
 
 const LinkWrapperText = styled.div`
+  position: relative;
   cursor: ${({ notInteractive }) => (notInteractive ? 'default' : 'pointer')};
   pointer-events: ${({ notInteractive }) => (notInteractive ? 'none' : 'auto')};
 `
 
 export const PlatformLink = ({
+  trackingVisitorEvents,
+  visitorSession,
+  domainName,
   border,
   circle,
   color,
@@ -31,6 +37,8 @@ export const PlatformLink = ({
   isPreviewMobile,
   isSidePreview,
   isWithoutIcon,
+  showStatistics,
+  linkClicks,
   label,
   margin,
   modalData,
@@ -57,7 +65,19 @@ export const PlatformLink = ({
     return (
       <LinkWrapperText
         notInteractive={notInteractive}
-        onClick={() =>
+        onClick={() => {
+          trackingVisitorEvents({
+            visitorSession,
+            domainName,
+            category: {
+              links: {
+                event: {
+                  name: labelText,
+                  platform: platform,
+                },
+              },
+            },
+          }).then((r) => console.log({ r }))
           setModalData({
             show: true,
             title: name,
@@ -80,7 +100,7 @@ export const PlatformLink = ({
                   }
                 : null,
           })
-        }
+        }}
       >
         <Link
           border={border}
@@ -100,6 +120,11 @@ export const PlatformLink = ({
           size={size || 'M'}
           square={square}
         >
+          {showStatistics && (
+            <StatisticsOverlay>
+              <div> {linkClicks()}</div>
+            </StatisticsOverlay>
+          )}
           {isWithoutIcon ? (
             'DONATE'
           ) : (
@@ -121,6 +146,21 @@ export const PlatformLink = ({
         target={target || '_blank'}
         rel="noopener noreferrer"
         notInteractive={notInteractive}
+        onClick={() => {
+          trackingVisitorEvents({
+            visitorSession,
+            domainName,
+            category: {
+              links: {
+                event: {
+                  name: labelText,
+                  platform: platform,
+                  url: url,
+                },
+              },
+            },
+          }).then((r) => console.log({ r }))
+        }}
       >
         <Link
           border={border}
@@ -139,6 +179,11 @@ export const PlatformLink = ({
           size={size || 'M'}
           square={square}
         >
+          {showStatistics && (
+            <StatisticsOverlay>
+              <div> {linkClicks()}</div>
+            </StatisticsOverlay>
+          )}
           <Icon
             color={color}
             size={size}
@@ -152,7 +197,22 @@ export const PlatformLink = ({
     return (
       <LinkWrapperText
         notInteractive={notInteractive}
-        onClick={() => setModalData({ show: true, content: text, label: labelText })}
+        onClick={() => {
+          trackingVisitorEvents({
+            visitorSession,
+            domainName,
+            category: {
+              links: {
+                event: {
+                  name: labelText,
+                  platform: platform,
+                  url: text,
+                },
+              },
+            },
+          }).then((r) => console.log({ r }))
+          setModalData({ show: true, content: text, label: labelText })
+        }}
       >
         <Link
           border={border}
@@ -171,6 +231,11 @@ export const PlatformLink = ({
           size={size || 'M'}
           square={square}
         >
+          {showStatistics && (
+            <StatisticsOverlay>
+              <div> {linkClicks()}</div>
+            </StatisticsOverlay>
+          )}
           <Icon
             color={color}
             size={size}
@@ -183,6 +248,20 @@ export const PlatformLink = ({
   } else {
     return (
       <Link
+        onClick={() =>
+          trackingVisitorEvents({
+            visitorSession,
+            domainName,
+            category: {
+              links: {
+                event: {
+                  name: labelText,
+                  platform: platform,
+                },
+              },
+            },
+          }).then((r) => console.log({ r }))
+        }
         border={border}
         circle={circle}
         color={color}
@@ -199,6 +278,11 @@ export const PlatformLink = ({
         size={size || 'M'}
         square={square}
       >
+        {showStatistics && (
+          <StatisticsOverlay>
+            <div> {linkClicks()}</div>
+          </StatisticsOverlay>
+        )}
         <Icon
           color={color}
           size={size}

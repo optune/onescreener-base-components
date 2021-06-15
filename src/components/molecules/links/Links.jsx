@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // React
 import React, { Fragment, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
@@ -10,6 +11,8 @@ import { PlatformLinkIcon } from '../../icons/platform/index'
 
 // Utils
 import { mapSmartLinks } from './utils/mapSmartLinks'
+import { filterTime } from '../../../api'
+import { getFromDate } from '../../../api'
 
 /*
  * Render Link list
@@ -21,11 +24,18 @@ export const Links = ({
   content,
   isPreviewMobile,
   isSidePreview,
+  analyticsLivePage,
+  isProPlanRequired,
+  statisticsPeriod,
+  showStatistics,
   links,
   linksColorState,
   modalData,
   pageUrl,
   setModalData,
+  trackingVisitorEvents,
+  visitorSession,
+  domainName,
 }) => {
   const color =
     linksColorState?.colorLinks ||
@@ -52,10 +62,28 @@ export const Links = ({
     .filter(({ platform, url }) => !!PlatformLinkIcon[platform])
     .map(mapSmartLinks(pageUrl))
 
+  const getLinkClicks = (platform) => () => {
+    if (isProPlanRequired) return '?'
+    let clicks = 0
+
+    const fromDate = getFromDate(statisticsPeriod)
+
+    analyticsLivePage.forEach((session) => {
+      filterTime(session.analytics?.category?.links, fromDate)?.forEach((link) => {
+        if (link.platform === platform) clicks += 1
+      })
+    })
+
+    return clicks
+  }
+
   return (
     <Fragment>
       {mappedLinks.map((link) => (
         <PlatformLink
+          trackingVisitorEvents={trackingVisitorEvents}
+          visitorSession={visitorSession}
+          domainName={domainName}
           border={links.border}
           circle={links.circle}
           color={color}
@@ -65,6 +93,8 @@ export const Links = ({
           isHighlighted={link.isHighlighted}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
+          showStatistics={showStatistics}
+          linkClicks={getLinkClicks(link.platform)}
           email={link.email}
           actionText={link.actionText}
           isWithoutIcon={link.platform === 'DONATION'}
