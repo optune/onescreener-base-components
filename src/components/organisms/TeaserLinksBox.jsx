@@ -22,6 +22,15 @@ const Container = styled.div`
   flex-direction: column;
   margin: 0;
 
+  .image {
+    align-self: start !important;
+    height: 82px;
+    width: 82px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+  }
+
   .teaser-link {
     position: relative;
     width: 100%;
@@ -157,7 +166,7 @@ export const TeaserLinksBox = ({
         </div>
       )}
       {teaserLinks.map(
-        ({ url, name }, index) =>
+        ({ url, name, image }, index) =>
           index >= start &&
           index < end - paginationCorrection && (
             <a
@@ -186,7 +195,7 @@ export const TeaserLinksBox = ({
                   <div>{getLinkClicks({ name, url })}</div>
                 </StatisticsOverlay>
               )}
-
+              {image && <img src={image.url} alt={name} className="image" />}
               <p className="clip">{name}</p>
             </a>
           )
