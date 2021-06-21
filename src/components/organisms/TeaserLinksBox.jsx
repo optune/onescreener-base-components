@@ -17,19 +17,10 @@ const Container = styled.div`
   left: 0;
   right: 0;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   margin: 0;
-
-  .image {
-    align-self: start !important;
-    height: 82px;
-    width: 82px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    border-radius: 8px;
-  }
 
   .teaser-link {
     position: relative;
@@ -43,8 +34,10 @@ const Container = styled.div`
     color: ${({ color }) => (color ? color : '#0a1c3b')};
     text-shadow: 1px 1px 1px rgba(46, 49, 49, 0.3);
 
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: ${({ image }) => (image ? '90px auto' : 'auto')};
+    grid-row-gap: 0;
+
     align-items: center;
     text-align: center;
     text-decoration: none;
@@ -97,6 +90,12 @@ const Container = styled.div`
     }
 
     .clip {
+      grid-column: ${({ image }) => (image ? '2/2' : '1/1')};
+      justify-self: ${({ image }) => (image ? 'flex-start' : 'center')};
+      align-self: center;
+      display: flex;
+      position: absolute;
+
       padding: 0 20px;
       line-height: ${({ isSidePreview }) => (isSidePreview ? '12px' : '19px')};
       max-height: 100%;
@@ -104,6 +103,16 @@ const Container = styled.div`
       overflow-wrap: break-word;
       white-space: normal;
       word-break: break-word;
+    }
+
+    .image {
+      grid-column: ${({ image }) => (image ? '1/1' : null)};
+      height: 82px;
+      width: 82px;
+      margin-top: 8px;
+      margin-left: 8px;
+      margin-bottom: 8px;
+      border-radius: 8px;
     }
 
     @media ${MediaSmall} {
@@ -172,9 +181,10 @@ export const TeaserLinksBox = ({
             <a
               key={`${name}-${index}`}
               href={url}
+              image={image}
+              className="teaser-link"
               target="_blank"
               rel="noreferrer"
-              className="teaser-link"
               onClick={() => {
                 trackingVisitorEvents({
                   visitorSession,
@@ -195,8 +205,10 @@ export const TeaserLinksBox = ({
                   <div>{getLinkClicks({ name, url })}</div>
                 </StatisticsOverlay>
               )}
-              {image && <img src={image.url} alt={name} className="image" />}
-              <p className="clip">{name}</p>
+              {image && <img image={image} src={image.url} alt={name} className="image" />}
+              <p image={image} className="clip">
+                {name}
+              </p>
             </a>
           )
       )}
