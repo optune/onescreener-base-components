@@ -26,7 +26,7 @@ const Container = styled.div`
     position: relative;
     width: 100%;
     max-width: 640px;
-    min-height: ${({ isSidePreview }) => (isSidePreview ? '32px' : '40px')};
+    min-height: ${({ isSidePreview }) => (isSidePreview ? '32px' : '50px')};
 
     height: auto;
     font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '1rem')};
@@ -107,12 +107,12 @@ const Container = styled.div`
 
     .image {
       grid-column: ${({ image }) => (image ? '1/1' : null)};
-      height: 82px;
-      width: 82px;
+      height: ${({ isSidePreview }) => (isSidePreview ? '41px' : '82px')};
+      width: ${({ isSidePreview }) => (isSidePreview ? '41px' : '82px')};
       margin-top: 8px;
       margin-left: 8px;
       margin-bottom: 8px;
-      border-radius: 8px;
+      border-radius: 4px;
     }
 
     @media ${MediaSmall} {
