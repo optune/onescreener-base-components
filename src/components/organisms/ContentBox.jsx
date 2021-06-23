@@ -361,19 +361,22 @@ display: flex;
 z-index: 99;
 /* bottom: 5.2rem; */
 
-${({ isSidePreview, linksPosition, contentPosition }) =>
+${({ isSidePreview, linksPosition, contentPosition, isPreviewMobile }) =>
   css`
     bottom: ${linksPosition.includes('BOTTOM') &&
     contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM') &&
     isSidePreview &&
+    !isPreviewMobile &&
     '2.4rem'};
     left: ${linksPosition.includes('LEFT') &&
     contentPosition.classnameDesktop.toUpperCase().includes('LEFT') &&
     isSidePreview &&
+    !isPreviewMobile &&
     '2.4rem'};
     right: ${linksPosition.includes('RIGHT') &&
     contentPosition.classnameDesktop.toUpperCase().includes('RIGHT') &&
     isSidePreview &&
+    !isPreviewMobile &&
     '2.4rem'};
   `}
 
@@ -613,13 +616,13 @@ export const ContentBox = ({
           isSidePreview={isSidePreview}
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
-          trackingVisitorEvents={trackingVisitorEvents}
-          visitorSession={visitorSession}
-          domainName={domainName}
           analyticsLivePage={analyticsLivePage}
           isProPlanRequired={isProPlanRequired}
           statisticsPeriod={statisticsPeriod}
           showStatistics={showStatistics}
+          trackingVisitorEvents={trackingVisitorEvents}
+          visitorSession={visitorSession}
+          domainName={domainName}
         />
       )
       break

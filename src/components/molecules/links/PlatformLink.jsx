@@ -60,7 +60,6 @@ export const PlatformLink = ({
     label ||
     platform
   ).replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, (l) => l.toUpperCase())
-
   if (platform === 'DONATION') {
     return (
       <LinkWrapperText
@@ -77,7 +76,7 @@ export const PlatformLink = ({
                 },
               },
             },
-          })
+          }).then((r) => console.log({ r }))
           setModalData({
             show: true,
             title: name,
@@ -159,7 +158,7 @@ export const PlatformLink = ({
                 },
               },
             },
-          })
+          }).then((r) => console.log({ r }))
         }}
       >
         <Link
@@ -210,7 +209,7 @@ export const PlatformLink = ({
                 },
               },
             },
-          })
+          }).then((r) => console.log({ r }))
           setModalData({ show: true, content: text, label: labelText })
         }}
       >
@@ -260,7 +259,7 @@ export const PlatformLink = ({
                 },
               },
             },
-          })
+          }).then((r) => console.log({ r }))
         }
         border={border}
         circle={circle}
