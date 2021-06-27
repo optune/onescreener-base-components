@@ -503,7 +503,6 @@ export const ContentBox = ({
   pageUrl,
   onContentSectionClick,
   trackingVisitorEvents,
-  visitorSession,
   domainName,
 }) => {
   /*
@@ -621,7 +620,6 @@ export const ContentBox = ({
           statisticsPeriod={statisticsPeriod}
           showStatistics={showStatistics}
           trackingVisitorEvents={trackingVisitorEvents}
-          visitorSession={visitorSession}
           domainName={domainName}
         />
       )

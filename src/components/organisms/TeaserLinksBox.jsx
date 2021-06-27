@@ -113,7 +113,6 @@ export const TeaserLinksBox = ({
   statisticsPeriod,
   showStatistics,
   trackingVisitorEvents,
-  visitorSession,
   domainName,
 }) => {
   const [pagination, setPagination] = useState({ start: 0, end: 8 })
@@ -168,7 +167,6 @@ export const TeaserLinksBox = ({
               className="teaser-link"
               onClick={() => {
                 trackingVisitorEvents({
-                  visitorSession,
                   domainName,
                   category: {
                     teaserLinks: {
