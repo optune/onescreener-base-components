@@ -136,7 +136,6 @@ export const Page = ({
   onContentSectionClick,
   onLinksSectionClick,
   trackingVisitorEvents,
-  visitorSession,
   domainName,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
@@ -243,7 +242,6 @@ export const Page = ({
               pageUrl={pageUrl}
               onContentSectionClick={onContentSectionClick}
               trackingVisitorEvents={trackingVisitorEvents}
-              visitorSession={visitorSession}
               domainName={domainName}
             />
 
@@ -312,7 +310,6 @@ export const Page = ({
                     pageUrl,
                     setModalData,
                     trackingVisitorEvents,
-                    visitorSession,
                     domainName,
                   })}
                 </LinksBox>

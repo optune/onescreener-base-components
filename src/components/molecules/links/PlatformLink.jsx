@@ -23,7 +23,6 @@ const LinkWrapperText = styled.div`
 
 export const PlatformLink = ({
   trackingVisitorEvents,
-  visitorSession,
   domainName,
   border,
   circle,
@@ -67,7 +66,6 @@ export const PlatformLink = ({
         notInteractive={notInteractive}
         onClick={() => {
           trackingVisitorEvents({
-            visitorSession,
             domainName,
             category: {
               links: {
@@ -148,7 +146,6 @@ export const PlatformLink = ({
         notInteractive={notInteractive}
         onClick={() => {
           trackingVisitorEvents({
-            visitorSession,
             domainName,
             category: {
               links: {
@@ -199,7 +196,6 @@ export const PlatformLink = ({
         notInteractive={notInteractive}
         onClick={() => {
           trackingVisitorEvents({
-            visitorSession,
             domainName,
             category: {
               links: {
@@ -250,7 +246,6 @@ export const PlatformLink = ({
       <Link
         onClick={() =>
           trackingVisitorEvents({
-            visitorSession,
             domainName,
             category: {
               links: {
