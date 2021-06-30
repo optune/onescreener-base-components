@@ -54,9 +54,6 @@ export const PlatformLink = ({
   text,
   url,
 }) => {
-  console.log({ trackingVisitorEvents })
-  console.log({ visitorSession })
-  console.log({ domainName })
   const Icon = LinkIconMapper({ platform, size })
   const labelText = (
     name ||
