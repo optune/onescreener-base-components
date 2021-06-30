@@ -43,7 +43,7 @@ export const TextModal = ({
         <CloseButton onClick={onClose}>
           <CloseDarkIcon className="close-icon" />
         </CloseButton>
-        <TextContainer>
+        <TextContainer overflowHidden>
           <StyledTitle>
             {isDonation
               ? (!hasActionFinished && title > '' && title) ||

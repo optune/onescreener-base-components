@@ -103,18 +103,22 @@ const Container = styled.div`
   }
 `
 
+const TeaserLink = styled.a``
+
 export const TeaserLinksBox = ({
-  teaserLinks,
-  isSidePreview,
-  colorBackground,
-  color,
   analyticsLivePage,
+  color,
+  colorBackground,
+  domainName,
   isProPlanRequired,
-  statisticsPeriod,
+  isSidePreview,
+  modalShop,
+  setModalShop,
   showStatistics,
+  statisticsPeriod,
+  teaserLinks,
   trackingVisitorEvents,
   visitorSession,
-  domainName,
 }) => {
   const [pagination, setPagination] = useState({ start: 0, end: 8 })
   const { start, end } = pagination
@@ -156,11 +160,16 @@ export const TeaserLinksBox = ({
           Show previous
         </div>
       )}
-      {teaserLinks.map(
-        ({ url, name }, index) =>
+      {teaserLinks.map(({ url, name, images, isShop, shop }, index) => {
+        if (isShop) console.log({ isShop, shop, name, images })
+
+        const isLink = !isShop
+
+        return (
           index >= start &&
           index < end - paginationCorrection && (
-            <a
+            <TeaserLink
+              as={isLink ? 'a' : 'div'}
               key={`${name}-${index}`}
               href={url}
               target="_blank"
@@ -179,6 +188,17 @@ export const TeaserLinksBox = ({
                     },
                   },
                 }).then((r) => console.log({ r }))
+
+                if (isShop) {
+                  setModalShop({
+                    show: true,
+                    item: {
+                      name,
+                      images,
+                      ...shop,
+                    },
+                  })
+                }
               }}
             >
               {showStatistics && (
@@ -188,9 +208,10 @@ export const TeaserLinksBox = ({
               )}
 
               <p className="clip">{name}</p>
-            </a>
+            </TeaserLink>
           )
-      )}
+        )
+      })}
       {nextPageExists && (
         <div className="teaser-link" onClick={paginationNext}>
           Show more

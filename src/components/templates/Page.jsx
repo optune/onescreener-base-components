@@ -10,7 +10,7 @@ import { BackLink } from '../atoms/BackLink'
 // Molecules
 import { Links } from '../molecules/links/Links.jsx'
 import { TextModal } from '../molecules/modals/TextModal'
-import { PaymentModal } from '../molecules/modals/PaymentModal.js'
+import { ShopModal } from '../molecules/modals/ShopModal.js'
 
 // Background
 import { Background } from '../atoms/Background.jsx'
@@ -117,29 +117,31 @@ const BlockedOverlay = styled.p`
 `
 
 export const Page = ({
+  analyticsLivePage,
+  domainName,
+  hasPro,
+  isInstagramBrowser,
+  isOrderSuccess,
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
-  isInstagramBrowser,
   Modal,
-  hasPro,
   noBacklink,
-  page,
-  pageUrl,
-  userName,
   onBuyItem,
-  analyticsLivePage,
-  statisticsPeriod,
-  showStatistics,
-  showUpgradeOverlay,
-  onUpgrade,
-  ProTag,
-  onLogoSectionClick,
   onContentSectionClick,
   onLinksSectionClick,
+  onLoadOrder,
+  onLogoSectionClick,
+  onUpgrade,
+  page,
+  pageUrl,
+  ProTag,
+  showStatistics,
+  showUpgradeOverlay,
+  statisticsPeriod,
   trackingVisitorEvents,
+  userName,
   visitorSession,
-  domainName,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
@@ -159,8 +161,9 @@ export const Page = ({
     onAction: null,
   })
 
-  const [modalDataPayment, setModalDataPayment] = useState({
+  const [modalShop, setModalShop] = useState({
     show: false,
+    isOrderSuccess,
   })
 
   let PageComponent = null
@@ -235,39 +238,36 @@ export const Page = ({
 
             {/* Content */}
             <ContentBox
-              design={isThemeSelected && design}
+              analyticsLivePage={analyticsLivePage}
               content={content}
-              links={links}
+              design={isThemeSelected && design}
+              domainName={domainName}
               isPreviewMobile={isPreviewMobile}
               isPreviewMobileReady={isPreviewMobileReady}
-              isSidePreview={isSidePreview}
-              showRedirectOverlay={showRedirectOverlay}
               isProPlanRequired={isProPlanRequired}
-              analyticsLivePage={analyticsLivePage}
-              statisticsPeriod={statisticsPeriod}
-              showStatistics={showStatistics}
-              pageUrl={pageUrl}
+              isSidePreview={isSidePreview}
+              links={links}
+              modalShop={modalShop}
               onContentSectionClick={onContentSectionClick}
+              pageUrl={pageUrl}
+              setModalShop={setModalShop}
+              showRedirectOverlay={showRedirectOverlay}
+              showStatistics={showStatistics}
+              statisticsPeriod={statisticsPeriod}
               trackingVisitorEvents={trackingVisitorEvents}
               visitorSession={visitorSession}
-              domainName={domainName}
             />
 
-            {modalDataPayment.show && (
-              <PaymentModal
-                isSidePreview={isSidePreview}
-                isPreviewMobile={isPreviewMobile}
-                onClose={() => console.log('close')}
-                show={true}
-                onBuyItem={onBuyItem}
-                shopItem={{
-                  // Comes from page.storeSomething later...
-                  name: 'Test Item',
-                  amount: 12000,
-                  quantity: 1,
-                }}
-              />
-            )}
+            <ShopModal
+              isSidePreview={isSidePreview}
+              isPreviewMobile={isPreviewMobile}
+              onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
+              isOrderSuccess={isOrderSuccess}
+              show={modalShop.isOrderSuccess || modalShop.show}
+              onBuyItem={onBuyItem}
+              onLoadOrder={onLoadOrder}
+              shopItem={modalShop.item}
+            />
 
             {/* Links */}
             {links.list.length > 0 && (

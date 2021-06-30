@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import SimpleBar from 'simplebar-react'
 
 import { Button } from '../../../atoms/buttons/Button'
@@ -28,8 +28,8 @@ const StyledModal = styled.div`
 
 const StyledModalContent = styled.div`
   position: relative;
-  width: ${({ isSidePreview, isPreviewMobile }) =>
-    isSidePreview && isPreviewMobile ? '100%' : isPreviewMobile ? '334px' : '50%'};
+  width: ${({ isSidePreview, isPreviewMobile, width }) =>
+    isSidePreview && isPreviewMobile ? '100%' : isPreviewMobile ? '334px' : width || '50%'};
   height: ${({ isSidePreview, isPreviewMobile }) =>
     isSidePreview && isPreviewMobile ? '100%' : isPreviewMobile ? '520px' : '80%'};
   margin: ${({ isSidePreview, isPreviewMobile }) =>
@@ -48,13 +48,14 @@ const StyledModalContent = styled.div`
   }
 `
 
-export const Modal = ({ children, show, isPreviewMobile, isSidePreview }) => {
+export const Modal = ({ children, show, isPreviewMobile, isSidePreview, width }) => {
   return (
     <StyledModal show={show} isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview}>
       <StyledModalContent
         show={show}
         isPreviewMobile={isPreviewMobile}
         isSidePreview={isSidePreview}
+        width={width}
       >
         {children}
       </StyledModalContent>
@@ -96,6 +97,53 @@ export const Container = styled.div`
       background: linear-gradient(90deg, rgb(40 228 211 / 50%) 5%, #d9b85e 100%), #c4c4c4;
     }
   }
+
+  .price {
+    font-weight: bold;
+    font-size: 2rem;
+    text-transform: italic;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &.marginTop {
+      margin-top: 24px;
+    }
+
+    &.marginBottom {
+      margin-bottom: 24px;
+    }
+  }
+
+  .column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    &.fullwidth {
+      width: 100%;
+    }
+
+    &.half {
+      width: 50%;
+    }
+
+    &.third {
+      width: 33.33%;
+    }
+
+    &.left {
+      justify-content: flex-start;
+    }
+
+    &.right {
+      justify-content: flex-end;
+    }
+  }
 `
 
 export const CloseButton = styled.div`
@@ -119,7 +167,7 @@ export const TextContainer = styled.div`
   margin: 0;
   padding: 1rem 3rem 0 3rem;
   color: ${({ color }) => color || '#000000'};
-  overflow: hidden;
+  overflow: ${({ overflowHidden }) => (overflowHidden ? 'hidden' : 'auto')};
 
   @media ${MediaSmall} {
     padding: 2rem 1.5rem 0 1.5rem;
@@ -146,9 +194,26 @@ export const TextContainer = styled.div`
 
 export const StyledTitle = styled.h2`
   font-weight: bold;
-  font-size: 1.5rem;
-  text-align: center;
+  font-size: 2rem;
+  text-align: ${({ left }) => (left ? 'left' : 'center')};
   width: 100%;
+`
+
+export const Select = styled.select`
+  font-size: 1.5rem;
+  width: 100%;
+  padding: 5px 0;
+  max-width: 60px;
+`
+
+export const Text = styled.p`
+  font-size: 1.5rem;
+  text-align: left;
+  width: 100%;
+
+  &.bold {
+    font-weight: bold;
+  }
 `
 
 export const StyledTextContainer = styled(({ isSidePreview, ...other }) => (
@@ -180,6 +245,12 @@ export const StyledButton = styled(Button)`
   background-color: ${ForegroundColor.accent};
   color: ${ColorHaiti} !important;
 
+  ${({ active }) =>
+    active &&
+    css`
+      color: ${ForegroundColor.accent} !important;
+      background-color: ${BackgroundColor.selected} !important;
+    `}
   &:hover {
     color: ${ForegroundColor.accent} !important;
     background-color: ${BackgroundColor.selected} !important;
