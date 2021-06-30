@@ -60,7 +60,6 @@ export const PlatformLink = ({
     label ||
     platform
   ).replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, (l) => l.toUpperCase())
-
   if (platform === 'DONATION') {
     return (
       <LinkWrapperText
