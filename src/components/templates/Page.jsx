@@ -9,7 +9,8 @@ import { BackLink } from '../atoms/BackLink'
 
 // Molecules
 import { Links } from '../molecules/links/Links.jsx'
-import { TextModal } from '../molecules/TextModal'
+import { TextModal } from '../molecules/modals/TextModal'
+import { ShopModal } from '../molecules/modals/ShopModal.js'
 
 // Background
 import { Background } from '../atoms/Background.jsx'
@@ -26,6 +27,7 @@ import { getImageUrl } from '../../utils/getImageUrl.js'
 // Global Styles
 import GlobalStyle from '../../style/global.js'
 import { UpgradeOverlay } from '../molecules/UpgradeOverlay.js'
+import { ShopFinishedModal } from '../molecules/modals/ShopFinishedModal.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -116,28 +118,31 @@ const BlockedOverlay = styled.p`
 `
 
 export const Page = ({
+  analyticsLivePage,
+  domainName,
+  hasPro,
+  isInstagramBrowser,
+  isOrderSuccess,
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
-  isInstagramBrowser,
   Modal,
-  hasPro,
   noBacklink,
-  page,
-  pageUrl,
-  userName,
-  analyticsLivePage,
-  statisticsPeriod,
-  showStatistics,
-  showUpgradeOverlay,
-  onUpgrade,
-  ProTag,
-  onLogoSectionClick,
+  onBuyItem,
   onContentSectionClick,
   onLinksSectionClick,
+  onLoadOrder,
+  onLogoSectionClick,
+  onUpgrade,
+  page,
+  pageUrl,
+  ProTag,
+  showStatistics,
+  showUpgradeOverlay,
+  statisticsPeriod,
   trackingVisitorEvents,
+  userName,
   visitorSession,
-  domainName,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
@@ -155,6 +160,11 @@ export const Page = ({
     label: '',
     hasActionFinished: false,
     onAction: null,
+  })
+
+  const [modalShop, setModalShop] = useState({
+    show: false,
+    isOrderSuccess,
   })
 
   let PageComponent = null
@@ -229,22 +239,45 @@ export const Page = ({
 
             {/* Content */}
             <ContentBox
-              design={isThemeSelected && design}
+              analyticsLivePage={analyticsLivePage}
               content={content}
-              links={links}
+              design={isThemeSelected && design}
+              domainName={domainName}
               isPreviewMobile={isPreviewMobile}
               isPreviewMobileReady={isPreviewMobileReady}
-              isSidePreview={isSidePreview}
-              showRedirectOverlay={showRedirectOverlay}
               isProPlanRequired={isProPlanRequired}
-              analyticsLivePage={analyticsLivePage}
-              statisticsPeriod={statisticsPeriod}
-              showStatistics={showStatistics}
-              pageUrl={pageUrl}
+              isSidePreview={isSidePreview}
+              links={links}
+              modalShop={modalShop}
               onContentSectionClick={onContentSectionClick}
+              pageUrl={pageUrl}
+              setModalShop={setModalShop}
+              showRedirectOverlay={showRedirectOverlay}
+              showStatistics={showStatistics}
+              statisticsPeriod={statisticsPeriod}
               trackingVisitorEvents={trackingVisitorEvents}
               visitorSession={visitorSession}
-              domainName={domainName}
+            />
+
+            <ShopModal
+              isSidePreview={isSidePreview}
+              isPreviewMobile={isPreviewMobile}
+              onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
+              isOrderSuccess={isOrderSuccess}
+              show={modalShop.show}
+              onBuyItem={onBuyItem}
+              onLoadOrder={onLoadOrder}
+              shopItem={modalShop.item}
+            />
+
+            <ShopFinishedModal
+              isSidePreview={isSidePreview}
+              isPreviewMobile={isPreviewMobile}
+              onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
+              isOrderSuccess={isOrderSuccess}
+              show={modalShop.isOrderSuccess}
+              onLoadOrder={onLoadOrder}
+              shopItem={modalShop.item}
             />
 
             {/* Links */}
