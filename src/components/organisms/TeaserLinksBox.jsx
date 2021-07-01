@@ -213,7 +213,7 @@ export const TeaserLinksBox = ({
                     show: true,
                     item: {
                       name,
-                      images,
+                      image,
                       ...shop,
                     },
                   })

@@ -22,8 +22,9 @@ import { InputField } from '../../atoms/forms/InputField'
 
 const InfoForm = ({
   name,
-  images,
+  image,
   price,
+  isPhysical,
   description,
   quantity,
   onSelectQuantity,
@@ -32,20 +33,20 @@ const InfoForm = ({
   return (
     <Fragment>
       <StyledTitle left>{name}</StyledTitle>
-      <Text>images length: {images?.length}</Text>
-
+      <Text>Image TBA: {image?.url}</Text>
       <div className="row marginTop marginBottom">
         <div className="column third left">
-          <Select onChange={onSelectQuantity} value={quantity}>
-            <option value={1}>1x</option>
-            <option value={2}>2x</option>
-            <option value={3}>3x</option>
-            <option value={4}>4x</option>
-          </Select>
+          {isPhysical && (
+            <Select onChange={onSelectQuantity} value={quantity}>
+              <option value={1}>1x</option>
+              <option value={2}>2x</option>
+              <option value={3}>3x</option>
+              <option value={4}>4x</option>
+            </Select>
+          )}
         </div>
         <div className="column half right price">{actualPrice}$</div>
       </div>
-
       <Text left className="bold">
         {description}
       </Text>
@@ -55,9 +56,10 @@ const InfoForm = ({
 
 const CheckoutForm = ({
   name,
-  images,
+  image,
   price,
   description,
+  isPhysical,
   quantity,
   onSelectQuantity,
   note,
@@ -69,15 +71,18 @@ const CheckoutForm = ({
     <Fragment>
       <div className="checkout header"></div>
       <StyledTitle left>{name}</StyledTitle>
+      <Text>Image TBA: {image?.url}</Text>
 
       <div className="row marginTop marginBottom">
         <div className="column third left">
-          <Select onChange={onSelectQuantity} value={quantity}>
-            <option value={1}>1x</option>
-            <option value={2}>2x</option>
-            <option value={3}>3x</option>
-            <option value={4}>4x</option>
-          </Select>
+          {isPhysical && (
+            <Select onChange={onSelectQuantity} value={quantity}>
+              <option value={1}>1x</option>
+              <option value={2}>2x</option>
+              <option value={3}>3x</option>
+              <option value={4}>4x</option>
+            </Select>
+          )}
         </div>
         <div className="column half right price">{actualPrice}$</div>
       </div>
@@ -128,66 +133,78 @@ const CheckoutForm = ({
               value={formData.clientNote}
               onChange={handleFormChange}
               onBlur={handleFormChange}
-              placeholder={'Message'}
+              placeholder={'Add message'}
               label={note}
               // small={true}
             />
           </div>
         </div>
       )}
-    </Fragment>
-  )
-}
-
-const SuccessMessage = ({ isPhysical, order }) => {
-  console.log({ order })
-  return (
-    <Fragment>
-      <div className="row">
-        <div className="column">
-          <StyledTitle>{order.message}</StyledTitle>{' '}
-        </div>
-      </div>
-      <div className="row">
-        <div className="column  left">
-          <Text>Order ID: {order?._id}</Text>
-        </div>
-      </div>
-
-      <div className="column third left">
-        <Text>Quantity: {order?.details.quantity}</Text>
-      </div>
-      <div className="column third left">
-        <Text>Price: {order?.details.price}</Text>
-      </div>
-      <div className="column third left">
-        <Text>Total: {order?.details.total}</Text>
-      </div>
-
-      {isPhysical ? (
-        <div className="row">
-          <div className="column third left">
-            <Text>Your message: {order?.details.note}</Text>
+      {isPhysical && (
+        <Fragment>
+          <div className="row">
+            <div className="column">
+              <InputField
+                fullwidth
+                name="street"
+                type="text"
+                touched={false}
+                error={false}
+                value={formData.street}
+                onChange={handleFormChange}
+                onBlur={handleFormChange}
+                placeholder={'Enter street name and number'}
+                label={'Address'}
+                // small={true}
+              />
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="row">
-          <div className="column">
-            <StyledButton>Download Link</StyledButton>
+
+          <div className="row">
+            <div className="column">
+              <InputField
+                fullwidth
+                name="city"
+                type="text"
+                touched={false}
+                error={false}
+                value={formData.city}
+                onChange={handleFormChange}
+                onBlur={handleFormChange}
+                placeholder={'Enter the city you live in'}
+                label={'City'}
+                // small={true}
+              />
+            </div>
           </div>
-        </div>
+
+          <div className="row">
+            <div className="column">
+              <InputField
+                fullwidth
+                name="zip"
+                type="text"
+                touched={false}
+                error={false}
+                value={formData.zip}
+                onChange={handleFormChange}
+                onBlur={handleFormChange}
+                placeholder={'Zip'}
+                label={'Zip code'}
+                // small={true}
+              />
+            </div>
+          </div>
+        </Fragment>
       )}
-      <Text>You will shortly receive your receipt by e-mail </Text>
     </Fragment>
   )
 }
 
 export const ShopModal = ({
-  isOrderSuccess,
   isPreviewMobile,
   isSidePreview,
   onBuyItem,
-  onLoadOrder,
   onClose,
   shopItem,
   show,
@@ -195,10 +212,9 @@ export const ShopModal = ({
   accountId,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
-  const [orderAvailable, setOrderAvailable] = useState(true)
 
   const [quantity, setQuantity] = useState(1)
-  const [step, setStep] = useState(isOrderSuccess ? 3 : 1)
+  const [step, setStep] = useState(1)
 
   const initialFormData = {
     clientName: '',
@@ -210,26 +226,12 @@ export const ShopModal = ({
   }
   const [formData, setFormData] = useState(initialFormData)
 
-  const initialOrder = {
-    details: {
-      note: 'Size 2',
-    },
-    product: {
-      name: '',
-      isPhysical: true,
-      downloadLink: '#',
-      downloadLabel: '#',
-      message: 'Thank you for purchase!',
-    },
-  }
-  const [order, setOrder] = useState(initialOrder)
-
   // TODO: add fields for address
-  const { name, images, price, description, note, maxQuantity, isPhysical } = shopItem || {
+  const { name, image, price, description, note, maxQuantity, isPhysical } = shopItem || {
     checkout: {},
   }
 
-  console.log({ shopItem })
+  console.log({ MODAL: shopItem })
 
   const actualPrice = +price * +quantity
 
@@ -238,25 +240,6 @@ export const ShopModal = ({
   const handleFormChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
   useEffect(() => {
-    // setOrderAvailable(true)
-    if (isOrderSuccess) {
-      ;(async () => {
-        const order = await onLoadOrder?.()
-        console.log({ lOrder: order })
-        if (!!order) {
-          setOrder(order)
-          // setOrderAvailable(true)
-        } else {
-          // TODO: make viewd orders unavalible
-          // TODO: MB move success modal out of this one
-          // setOrderAvailable(false)
-          setOrder({
-            details: {},
-            client: {},
-          })
-        }
-      })()
-    }
     setSsrDone(true)
   }, [])
 
@@ -276,18 +259,20 @@ export const ShopModal = ({
       width="60%"
       // TODO: maxwidth
     >
-      <Container isSidePreview={isSidePreview}>
+      {/* // TODO: fix overflow y */}
+      <Container isSidePreview={isSidePreview} className={isPhysical && step === 2 && 'overflow-y'}>
         <CloseButton onClick={onClose}>
           <CloseDarkIcon className="close-icon" />
         </CloseButton>
-        <TextContainer>
+        <TextContainer className="checkout">
           {step === 1 && (
             <InfoForm
               actualPrice={actualPrice}
               name={name}
-              images={images}
+              image={image}
               price={price}
               description={description}
+              isPhysical={isPhysical}
               quantity={quantity}
               onSelectQuantity={handleQuantityChange}
             />
@@ -296,23 +281,20 @@ export const ShopModal = ({
             <CheckoutForm
               actualPrice={actualPrice}
               name={name}
-              images={images}
+              image={image}
               price={price}
               description={description}
               quantity={quantity}
               onSelectQuantity={handleQuantityChange}
               formData={formData}
+              isPhysical={isPhysical}
               handleFormChange={handleFormChange}
               note={note}
             />
           )}
-          {step === 3 && (
-            <SuccessMessage isPhysical={order?.isPhysical} message={order?.message} order={order} />
-          )}
-          Max quant: {+maxQuantity}
         </TextContainer>
 
-        <StyledButtonContainer>
+        <StyledButtonContainer className="gradient">
           <StyledButton
             active
             // TODO: secondary
@@ -322,8 +304,7 @@ export const ShopModal = ({
                 ? () => {
                     setStep(2)
                   }
-                : step === 2
-                ? () => {
+                : () => {
                     onBuyItem?.({
                       // TODO: sort out all fields
                       shopItem,
@@ -348,19 +329,11 @@ export const ShopModal = ({
                         },
                       },
                     })
-                    // setStep(3)
-                  }
-                : () => {
-                    const si = document.location.href.indexOf('success=')
-                    const newUrl = document.location.href.slice(0, si - 1)
-                    history.replaceState(null, '', newUrl)
-                    onClose()
                   }
             }
           >
             {step === 1 && 'Checkout'}
             {step === 2 && `Buy for $ ${actualPrice}`}
-            {step === 3 && `Close`}
           </StyledButton>
         </StyledButtonContainer>
       </Container>

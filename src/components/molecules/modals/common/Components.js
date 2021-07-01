@@ -63,10 +63,27 @@ export const Modal = ({ children, show, isPreviewMobile, isSidePreview, width })
   )
 }
 
+export const Header = styled.div`
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`
+
 export const Container = styled.div`
   background: ${({ colorBackground }) => colorBackground || 'rgba(255,255,255)'};
   border-radius: 4px;
   position: relative;
+
+  &.overflow-y {
+    overflow-y: auto;
+    height: 100%;
+  }
 
   .close-icon {
     width: 16px !important;
@@ -173,6 +190,10 @@ export const TextContainer = styled.div`
     padding: 2rem 1.5rem 0 1.5rem;
   }
 
+  &.checkout {
+    padding: 24px 16px 0;
+  }
+
   & h2,
   p {
     color: ${({ color }) => color || '#000000'};
@@ -207,9 +228,13 @@ export const Select = styled.select`
 `
 
 export const Text = styled.p`
-  font-size: 1.5rem;
+  font-size: ${({ fontSize }) => fontSize || '1.5rem'};
   text-align: left;
   width: 100%;
+
+  &.center {
+    text-align: center;
+  }
 
   &.bold {
     font-weight: bold;
@@ -237,6 +262,10 @@ export const StyledButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &.gradient {
+    background: linear-gradient(to top, white, 75%, transparent);
+  }
 `
 
 export const StyledButton = styled(Button)`

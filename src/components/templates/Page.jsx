@@ -27,6 +27,7 @@ import { getImageUrl } from '../../utils/getImageUrl.js'
 // Global Styles
 import GlobalStyle from '../../style/global.js'
 import { UpgradeOverlay } from '../molecules/UpgradeOverlay.js'
+import { ShopFinishedModal } from '../molecules/modals/ShopFinishedModal.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -263,8 +264,18 @@ export const Page = ({
               isPreviewMobile={isPreviewMobile}
               onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
               isOrderSuccess={isOrderSuccess}
-              show={modalShop.isOrderSuccess || modalShop.show}
+              show={modalShop.show}
               onBuyItem={onBuyItem}
+              onLoadOrder={onLoadOrder}
+              shopItem={modalShop.item}
+            />
+
+            <ShopFinishedModal
+              isSidePreview={isSidePreview}
+              isPreviewMobile={isPreviewMobile}
+              onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
+              isOrderSuccess={isOrderSuccess}
+              show={modalShop.isOrderSuccess}
               onLoadOrder={onLoadOrder}
               shopItem={modalShop.item}
             />
