@@ -121,18 +121,22 @@ const Container = styled.div`
   }
 `
 
+const TeaserLink = styled.a``
+
 export const TeaserLinksBox = ({
-  teaserLinks,
-  isSidePreview,
-  colorBackground,
-  color,
   analyticsLivePage,
+  color,
+  colorBackground,
+  domainName,
   isProPlanRequired,
-  statisticsPeriod,
+  isSidePreview,
+  modalShop,
+  setModalShop,
   showStatistics,
+  statisticsPeriod,
+  teaserLinks,
   trackingVisitorEvents,
   visitorSession,
-  domainName,
 }) => {
   const [pagination, setPagination] = useState({ start: 0, end: 8 })
   const { start, end } = pagination
@@ -174,11 +178,16 @@ export const TeaserLinksBox = ({
           Show previous
         </div>
       )}
-      {teaserLinks.map(
-        ({ url, name, image }, index) =>
+      {teaserLinks.map(({ url, name, image, isShop, shop }, index) => {
+        if (isShop) console.log({ isShop, shop, name, image })
+
+        const isLink = !isShop
+
+        return (
           index >= start &&
           index < end - paginationCorrection && (
-            <a
+            <TeaserLink
+              as={isLink ? 'a' : 'div'}
               key={`${name}-${index}`}
               href={url}
               image={image}
@@ -198,6 +207,17 @@ export const TeaserLinksBox = ({
                     },
                   },
                 }).then((r) => console.log({ r }))
+
+                if (isShop) {
+                  setModalShop({
+                    show: true,
+                    item: {
+                      name,
+                      image,
+                      ...shop,
+                    },
+                  })
+                }
               }}
             >
               {showStatistics && (
@@ -205,13 +225,15 @@ export const TeaserLinksBox = ({
                   <div>{getLinkClicks({ name, url })}</div>
                 </StatisticsOverlay>
               )}
+
               {image && <img image={image} src={image.url} alt={name} className="image" />}
               <p image={image} className="clip">
                 {name}
               </p>
-            </a>
+            </TeaserLink>
           )
-      )}
+        )
+      })}
       {nextPageExists && (
         <div className="teaser-link" onClick={paginationNext}>
           Show more

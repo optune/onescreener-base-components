@@ -489,22 +489,24 @@ const getContentPosition = ({ content }) => {
 }
 
 export const ContentBox = ({
-  design,
+  analyticsLivePage,
   content,
-  links,
+  design,
+  domainName,
   isPreviewMobile,
   isPreviewMobileReady,
-  isSidePreview,
-  showRedirectOverlay,
-  analyticsLivePage,
   isProPlanRequired,
-  statisticsPeriod,
-  showStatistics,
-  pageUrl,
+  isSidePreview,
+  links,
+  modalShop,
   onContentSectionClick,
+  pageUrl,
+  setModalShop,
+  showRedirectOverlay,
+  showStatistics,
+  statisticsPeriod,
   trackingVisitorEvents,
   visitorSession,
-  domainName,
 }) => {
   /*
    * Get content values
@@ -612,17 +614,19 @@ export const ContentBox = ({
     case 'TEASER_LINKS':
       Content = (
         <TeaserLinksBox
-          teaserLinks={teaserLinks.list}
-          isSidePreview={isSidePreview}
+          analyticsLivePage={analyticsLivePage}
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
-          analyticsLivePage={analyticsLivePage}
+          domainName={domainName}
           isProPlanRequired={isProPlanRequired}
-          statisticsPeriod={statisticsPeriod}
+          isSidePreview={isSidePreview}
+          modalShop={modalShop}
+          setModalShop={setModalShop}
           showStatistics={showStatistics}
+          statisticsPeriod={statisticsPeriod}
+          teaserLinks={teaserLinks.list}
           trackingVisitorEvents={trackingVisitorEvents}
           visitorSession={visitorSession}
-          domainName={domainName}
         />
       )
       break

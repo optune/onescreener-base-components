@@ -1,18 +1,15 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import styled, { css } from 'styled-components'
-
 import SimpleBar from 'simplebar-react'
 
-import { Button } from '../atoms/buttons/Button'
+import { Button } from '../../../atoms/buttons/Button'
 
 // Media
-import { MediaSmall } from '../../style/media.js'
+import { MediaSmall } from '../../../../style/media.js'
 
 // Styles
-import { BackgroundColor, ForegroundColor, ColorHaiti } from '../../style/color'
-import { CloseDarkIcon } from '../icons/CloseIcon'
+import { BackgroundColor, ForegroundColor, ColorHaiti } from '../../../../style/color'
 
 const StyledModal = styled.div`
   position: ${({ isSidePreview }) => (isSidePreview ? 'absolute' : 'fixed')};
@@ -29,17 +26,10 @@ const StyledModal = styled.div`
   transition: opacity 0.5s ease-out;
 `
 
-/* REMOVED: Tricky for first time without having a fade-out effect
-  animation-name: ${({ show }) => (show ? modalFadeIn : modalFadeOut)};
-  animation-fill-mode: both;
-  animation-timing-function: ease-out;
-  animation-duration: ${({ show }) => (!show ? '0.1s' : '0.5s')};
- */
-
 const StyledModalContent = styled.div`
   position: relative;
-  width: ${({ isSidePreview, isPreviewMobile }) =>
-    isSidePreview && isPreviewMobile ? '100%' : isPreviewMobile ? '334px' : '50%'};
+  width: ${({ isSidePreview, isPreviewMobile, width }) =>
+    isSidePreview && isPreviewMobile ? '100%' : isPreviewMobile ? '334px' : width || '50%'};
   height: ${({ isSidePreview, isPreviewMobile }) =>
     isSidePreview && isPreviewMobile ? '100%' : isPreviewMobile ? '520px' : '80%'};
   margin: ${({ isSidePreview, isPreviewMobile }) =>
@@ -58,13 +48,14 @@ const StyledModalContent = styled.div`
   }
 `
 
-const Modal = ({ children, show, isPreviewMobile, isSidePreview }) => {
+export const Modal = ({ children, show, isPreviewMobile, isSidePreview, width }) => {
   return (
     <StyledModal show={show} isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview}>
       <StyledModalContent
         show={show}
         isPreviewMobile={isPreviewMobile}
         isSidePreview={isSidePreview}
+        width={width}
       >
         {children}
       </StyledModalContent>
@@ -72,17 +63,27 @@ const Modal = ({ children, show, isPreviewMobile, isSidePreview }) => {
   )
 }
 
-Modal.propTypes = {
-  children: PropTypes.node,
-  isPreviewMobile: PropTypes.bool,
-  show: PropTypes.bool,
-  style: PropTypes.object,
-}
+export const Header = styled.div`
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`
 
-const Container = styled.div`
+export const Container = styled.div`
   background: ${({ colorBackground }) => colorBackground || 'rgba(255,255,255)'};
   border-radius: 4px;
   position: relative;
+
+  &.overflow-y {
+    overflow-y: auto;
+    height: 100%;
+  }
 
   .close-icon {
     width: 16px !important;
@@ -113,9 +114,56 @@ const Container = styled.div`
       background: linear-gradient(90deg, rgb(40 228 211 / 50%) 5%, #d9b85e 100%), #c4c4c4;
     }
   }
+
+  .price {
+    font-weight: bold;
+    font-size: 2rem;
+    text-transform: italic;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &.marginTop {
+      margin-top: 24px;
+    }
+
+    &.marginBottom {
+      margin-bottom: 24px;
+    }
+  }
+
+  .column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    &.fullwidth {
+      width: 100%;
+    }
+
+    &.half {
+      width: 50%;
+    }
+
+    &.third {
+      width: 33.33%;
+    }
+
+    &.left {
+      justify-content: flex-start;
+    }
+
+    &.right {
+      justify-content: flex-end;
+    }
+  }
 `
 
-const CloseButton = styled.div`
+export const CloseButton = styled.div`
   position: absolute;
   top: 0;
   right: 0;
@@ -131,15 +179,19 @@ const CloseButton = styled.div`
   z-index: 999;
 `
 
-const TextContainer = styled.div`
+export const TextContainer = styled.div`
   position: relative;
   margin: 0;
   padding: 1rem 3rem 0 3rem;
   color: ${({ color }) => color || '#000000'};
-  overflow: hidden;
+  overflow: ${({ overflowHidden }) => (overflowHidden ? 'hidden' : 'auto')};
 
   @media ${MediaSmall} {
     padding: 2rem 1.5rem 0 1.5rem;
+  }
+
+  &.checkout {
+    padding: 24px 16px 0;
   }
 
   & h2,
@@ -161,14 +213,37 @@ const TextContainer = styled.div`
   }
 `
 
-const StyledTitle = styled.h2`
+export const StyledTitle = styled.h2`
   font-weight: bold;
-  font-size: 1.5rem;
-  text-align: center;
+  font-size: 2rem;
+  text-align: ${({ left }) => (left ? 'left' : 'center')};
   width: 100%;
 `
 
-const StyledTextContainer = styled(({ isSidePreview, ...other }) => <SimpleBar {...other} />)`
+export const Select = styled.select`
+  font-size: 1.5rem;
+  width: 100%;
+  padding: 5px 0;
+  max-width: 60px;
+`
+
+export const Text = styled.p`
+  font-size: ${({ fontSize }) => fontSize || '1.5rem'};
+  text-align: left;
+  width: 100%;
+
+  &.center {
+    text-align: center;
+  }
+
+  &.bold {
+    font-weight: bold;
+  }
+`
+
+export const StyledTextContainer = styled(({ isSidePreview, ...other }) => (
+  <SimpleBar {...other} />
+))`
   margin-top: 0.5rem;
   margin-bottom: 0;
   width: 100%;
@@ -179,7 +254,7 @@ const StyledTextContainer = styled(({ isSidePreview, ...other }) => <SimpleBar {
   text-align: center;
 `
 
-const StyledButtonContainer = styled.div`
+export const StyledButtonContainer = styled.div`
   position: sticky;
   bottom: 0;
   left: 0;
@@ -187,85 +262,26 @@ const StyledButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &.gradient {
+    background: linear-gradient(to top, white, 75%, transparent);
+  }
 `
 
-const StyledButton = styled(Button)`
+export const StyledButton = styled(Button)`
   justify-self: flex-end;
   margin: 1rem auto 1rem;
   background-color: ${ForegroundColor.accent};
   color: ${ColorHaiti} !important;
 
+  ${({ active }) =>
+    active &&
+    css`
+      color: ${ForegroundColor.accent} !important;
+      background-color: ${BackgroundColor.selected} !important;
+    `}
   &:hover {
     color: ${ForegroundColor.accent} !important;
     background-color: ${BackgroundColor.selected} !important;
   }
 `
-
-export const TextModal = ({
-  isSidePreview,
-  title,
-  content,
-  isPreviewMobile,
-  label,
-  onAction,
-  hasActionFinished,
-  paypalLink,
-  userName,
-  onClose,
-  show,
-}) => {
-  const [ssrDone, setSsrDone] = useState(false)
-  useEffect(() => {
-    setSsrDone(true)
-  }, [])
-
-  const isDonation = paypalLink > ''
-
-  return (
-    <Modal isPreviewMobile={isPreviewMobile} show={ssrDone && show} isSidePreview={isSidePreview}>
-      <Container isSidePreview={isSidePreview}>
-        <CloseButton onClick={onClose}>
-          <CloseDarkIcon className="close-icon" />
-        </CloseButton>
-        <TextContainer>
-          <StyledTitle>
-            {isDonation
-              ? (!hasActionFinished && title > '' && title) ||
-                (userName > '' && `Donate to ${userName}`) ||
-                'Donation'
-              : label}
-          </StyledTitle>
-          <StyledTextContainer isSidePreview={isSidePreview}>
-            {content?.split('\n').map((line, lineIndex) => (
-              <p key={lineIndex}>{line}</p>
-            ))}
-          </StyledTextContainer>
-        </TextContainer>
-
-        <StyledButtonContainer>
-          {isDonation && !hasActionFinished ? (
-            <a
-              className="donate"
-              href={paypalLink}
-              onClick={onAction}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              Donate
-            </a>
-          ) : (
-            <StyledButton onClick={onClose}>Close</StyledButton>
-          )}
-        </StyledButtonContainer>
-      </Container>
-    </Modal>
-  )
-}
-
-TextModal.propTypes = {
-  content: PropTypes.string,
-  isPreviewMobile: PropTypes.bool,
-  label: PropTypes.string,
-  onClose: PropTypes.func,
-  show: PropTypes.bool,
-}
