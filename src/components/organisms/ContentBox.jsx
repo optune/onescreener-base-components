@@ -500,6 +500,7 @@ export const ContentBox = ({
   links,
   modalShop,
   onContentSectionClick,
+  onLoadShopItem,
   pageUrl,
   setModalShop,
   showRedirectOverlay,
@@ -621,6 +622,7 @@ export const ContentBox = ({
           isProPlanRequired={isProPlanRequired}
           isSidePreview={isSidePreview}
           modalShop={modalShop}
+          onLoadShopItem={onLoadShopItem}
           setModalShop={setModalShop}
           showStatistics={showStatistics}
           statisticsPeriod={statisticsPeriod}

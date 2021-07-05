@@ -89,6 +89,16 @@ const Container = styled.div`
       margin-bottom: 10px;
     }
 
+    &.disabled {
+      cursor: auto;
+      pointer-events: none;
+      opacity: 0.5;
+
+      &::after {
+        content: unset;
+      }
+    }
+
     .clip {
       grid-column: ${({ image }) => (image ? '2/2' : '1/1')};
       justify-self: ${({ image }) => (image ? 'flex-start' : 'center')};
@@ -115,6 +125,16 @@ const Container = styled.div`
       border-radius: 4px;
     }
 
+    .sold-out {
+      position: absolute;
+      text-transform: uppercase;
+      font-size: ${({ isSidePreview }) => (isSidePreview ? '10px' : '12px')};
+      color: red;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+    }
+
     @media ${MediaSmall} {
       font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '16px')};
     }
@@ -131,6 +151,7 @@ export const TeaserLinksBox = ({
   isProPlanRequired,
   isSidePreview,
   modalShop,
+  onLoadShopItem,
   setModalShop,
   showStatistics,
   statisticsPeriod,
@@ -178,10 +199,11 @@ export const TeaserLinksBox = ({
           Show previous
         </div>
       )}
-      {teaserLinks.map(({ url, name, image, isShop, shop }, index) => {
+      {teaserLinks.map(({ _id, url, name, image, isShop, shop }, index) => {
         if (isShop) console.log({ isShop, shop, name, image })
 
         const isLink = !isShop
+        const soldOut = shop?.maxQuantity === -1
 
         return (
           index >= start &&
@@ -191,7 +213,7 @@ export const TeaserLinksBox = ({
               key={`${name}-${index}`}
               href={url}
               image={image}
-              className="teaser-link"
+              className={`teaser-link ${soldOut && 'disabled'}`}
               target="_blank"
               rel="noreferrer"
               onClick={() => {
@@ -208,24 +230,33 @@ export const TeaserLinksBox = ({
                   },
                 }).then((r) => console.log({ r }))
 
-                if (isShop) {
-                  setModalShop({
-                    show: true,
-                    item: {
-                      name,
-                      image,
-                      ...shop,
-                    },
+                if (!isSidePreview && isShop) {
+                  onLoadShopItem?.({ itemId: _id }).then((item) => {
+                    if (item.shop.maxQuantity > -1) {
+                      setModalShop({
+                        show: true,
+                        item: {
+                          _id: item._id,
+                          name: item.name,
+                          image: item.image,
+                          ...item.shop,
+                        },
+                      })
+                    }
                   })
                 }
               }}
             >
+              {soldOut && (
+                <div className="sold-out">
+                  Sold <br /> out
+                </div>
+              )}
               {showStatistics && (
                 <StatisticsOverlay>
                   <div>{getLinkClicks({ name, url })}</div>
                 </StatisticsOverlay>
               )}
-
               {image && <img image={image} src={image.url} alt={name} className="image" />}
               <p image={image} className="clip">
                 {name}

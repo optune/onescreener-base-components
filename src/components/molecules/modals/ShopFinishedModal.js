@@ -17,49 +17,83 @@ import {
   Header,
 } from './common/Components'
 
+const InfoColumn = ({ label = ' ', value = ' ', marginTop, third, fullwidth }) => (
+  <div
+    className={`info-column column  ${marginTop && 'marginTop'} ${third && 'third'} ${
+      fullwidth && 'fullwidth'
+    } left`}
+  >
+    <Text as="div" className="label">
+      {label}
+    </Text>
+    <div className="value">{value}</div>
+  </div>
+  // <Column {...other} className="shrink info-column">
+  //   <Text left className="hollow label">
+  //     {label}
+  //   </Text>
+  //   <div className="value">{value}</div>
+  // </Column>
+)
+
 const SuccessMessage = ({ order }) => {
   console.log({ order })
   return (
     <Fragment>
-      <div className="row">
+      <div className="row marginBottom">
         <div className="column">
-          <StyledTitle left>{order?.product.message}</StyledTitle>{' '}
+          <Text className="bangers" fontSize="4rem" margin="0">
+            {order?.product.message}
+          </Text>{' '}
         </div>
       </div>
-      <div className="row">
+      <div className="row ">
         <div className="column  left">
-          <Text>Order ID: {order?._id}</Text>
+          <InfoColumn label={'Order ID'} value={order?._id} third />
         </div>
       </div>
 
-      <div className="column third left">
-        <Text>Quantity: {order?.details.quantity}</Text>
+      <div className="row marginTop">
+        <Text className="bold" fontSize="1.3rem" margin="0 0 5px 0">
+          Order details
+        </Text>
       </div>
-      <div className="column third left">
-        <Text>Price: {order?.details.price}</Text>
-      </div>
-      <div className="column third left">
-        <Text>Total: {order?.details.total}</Text>
+
+      <div className="row ">
+        <InfoColumn label={'Quantity'} value={order?.details.quantity} third />
+        <InfoColumn label={'Price'} value={`$ ${order?.details.price}`} third />
+        <InfoColumn label={'Total'} value={`$ ${order?.details.total}`} third />
       </div>
 
       {order?.product?.isPhysical ? (
-        <div className="row">
-          <div className="column third left">
-            <Text>Your message: {order?.details.clientNote}</Text>
-          </div>
+        <div className="row  marginBottom">
+          <InfoColumn
+            label={'Your message'}
+            value={order?.details.clientNote || ''}
+            fullwidth
+            marginTop
+          />
         </div>
       ) : (
-        <div className="row">
+        <div className="row marginTop marginBottom">
           <div className="column">
-            <StyledButton active onClick={() => window.open(order?.product.downloadLink, '_blank')}>
+            <StyledButton
+              className="fullwidth"
+              active
+              onClick={() => window.open(order?.product.downloadLink, '_blank')}
+            >
               {order?.product.downloadLabel || 'Download link'}
             </StyledButton>
           </div>
         </div>
       )}
-      <Text fontSize="1rem" className="center">
-        You will shortly receive your receipt by e-mail{' '}
-      </Text>
+      <div className="row marginTop">
+        <div className="column">
+          <Text fontSize="1.1rem" className="center info" margin="0">
+            You will shortly receive your receipt by e-mail{' '}
+          </Text>
+        </div>
+      </div>
     </Fragment>
   )
 }
@@ -95,6 +129,7 @@ export const ShopFinishedModal = ({
     const si = document.location.href.indexOf('success=')
     const newUrl = document.location.href.slice(0, si - 1)
     history.replaceState(null, '', newUrl)
+    console.log({ newUrl })
     onClose()
   }
 
@@ -108,15 +143,12 @@ export const ShopFinishedModal = ({
 
         if (!!order) {
           setOrder(order)
-          // setOrderAvailable(true)
         } else {
-          // TODO: make viewd orders unavalible
-          // TODO: MB move success modal out of this one
-          // setOrderAvailable(false)
           setOrder({
             details: {},
             client: {},
             product: {},
+            isEmpty: true,
           })
         }
       })()
@@ -124,7 +156,21 @@ export const ShopFinishedModal = ({
     setSsrDone(true)
   }, [])
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    if (show && (order.isViewed || order.isEmpty)) {
+      setOrder({
+        details: {},
+        client: {},
+        product: {},
+        isEmpty: true,
+      })
+      handleClose()
+    }
+  }, [show, order])
+
+  if (show && (order.isViewed || order.isEmpty)) {
+    return null
+  }
 
   return (
     <Modal

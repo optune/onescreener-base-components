@@ -6,7 +6,7 @@ import SimpleBar from 'simplebar-react'
 import { Button } from '../../../atoms/buttons/Button'
 
 // Media
-import { MediaSmall } from '../../../../style/media.js'
+import { MediaMobile, MediaSmall } from '../../../../style/media.js'
 
 // Styles
 import { BackgroundColor, ForegroundColor, ColorHaiti } from '../../../../style/color'
@@ -68,7 +68,7 @@ export const Header = styled.div`
   width: 100%;
   box-sizing: border-box;
   width: 100%;
-  height: 48px;
+  height: 56px;
   padding: 0 16px;
   display: flex;
   justify-content: flex-start;
@@ -79,6 +79,8 @@ export const Container = styled.div`
   background: ${({ colorBackground }) => colorBackground || 'rgba(255,255,255)'};
   border-radius: 4px;
   position: relative;
+  overflow-y: auto;
+  max-height: 80vh;
 
   &.overflow-y {
     overflow-y: auto;
@@ -116,9 +118,8 @@ export const Container = styled.div`
   }
 
   .price {
-    font-weight: bold;
     font-size: 2rem;
-    text-transform: italic;
+    font-family: Bangers, cursive;
   }
 
   .row {
@@ -139,7 +140,21 @@ export const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 100%;
+
+    &.info-column {
+      &.marginTop {
+        margin-top: 8px;
+      }
+      .label {
+        font-size: 1.2rem;
+        color: ${ForegroundColor.info};
+      }
+      .value {
+        font-size: 1.2rem;
+      }
+    }
 
     &.fullwidth {
       width: 100%;
@@ -155,10 +170,12 @@ export const Container = styled.div`
 
     &.left {
       justify-content: flex-start;
+      align-items: flex-start;
     }
 
     &.right {
       justify-content: flex-end;
+      align-items: flex-end;
     }
   }
 `
@@ -173,10 +190,35 @@ export const CloseButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 32px;
-  height: 32px;
+  width: 18px;
+  height: 18px;
   cursor: pointer;
   z-index: 999;
+`
+
+export const ImageContainer = styled.div`
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    height: 100%;
+    border-radius: 4px;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.05), 0px 1px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  &.small {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
 `
 
 export const TextContainer = styled.div`
@@ -191,7 +233,7 @@ export const TextContainer = styled.div`
   }
 
   &.checkout {
-    padding: 24px 16px 0;
+    padding: 0 16px 0;
   }
 
   & h2,
@@ -218,12 +260,23 @@ export const StyledTitle = styled.h2`
   font-size: 2rem;
   text-align: ${({ left }) => (left ? 'left' : 'center')};
   width: 100%;
+
+  &.bangers {
+    font-family: Bangers, cursive;
+    letter-spacing: 0.05em;
+    line-height: 110%;
+    font-weight: 400;
+  }
+
+  &.no-margin {
+    margin: 0;
+  }
 `
 
 export const Select = styled.select`
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   width: 100%;
-  padding: 5px 0;
+  padding: 10px 0;
   max-width: 60px;
 `
 
@@ -231,13 +284,28 @@ export const Text = styled.p`
   font-size: ${({ fontSize }) => fontSize || '1.5rem'};
   text-align: left;
   width: 100%;
+  margin: ${({ margin }) => `${margin} !important` || 'initial'};
 
   &.center {
     text-align: center;
   }
 
+  &.right {
+    text-align: right;
+  }
+
   &.bold {
     font-weight: bold;
+  }
+
+  &.info {
+    color: ${ForegroundColor.info};
+  }
+
+  &.bangers {
+    font-family: Bangers, cursive;
+    letter-spacing: 0.05em;
+    line-height: 110%;
   }
 `
 
@@ -254,6 +322,16 @@ export const StyledTextContainer = styled(({ isSidePreview, ...other }) => (
   text-align: center;
 `
 
+// const getBackgroundColor = ({ secondary,  disabled,  }) =>
+//   (disabled && BackgroundColor.disabled) ||
+//   (secondary && BackgroundColor.secondary) ||
+//   BackgroundColor.accent
+
+// const getForegroundColor = ({ secondary,  disabled, }) =>
+//   (disabled && ForegroundColor.disabled) ||
+//   (secondary && ForegroundColor.secondary) ||
+//   ForegroundColor.accent
+
 export const StyledButtonContainer = styled.div`
   position: sticky;
   bottom: 0;
@@ -263,25 +341,33 @@ export const StyledButtonContainer = styled.div`
   justify-content: center;
   align-items: center;
 
+  button {
+    @media ${MediaMobile} {
+      width: 90%;
+    }
+  }
   &.gradient {
     background: linear-gradient(to top, white, 75%, transparent);
   }
 `
 
+// ${({ active }) =>
+// active &&
+// css`
+//   color: ${ForegroundColor.accent};
+//   background-color: ${BackgroundColor.selected};
+// `}
+
+// &:hover {
+// color: ${ForegroundColor.accent};
+// background-color: ${BackgroundColor.selected};
+// }
+
 export const StyledButton = styled(Button)`
   justify-self: flex-end;
   margin: 1rem auto 1rem;
-  background-color: ${ForegroundColor.accent};
-  color: ${ColorHaiti} !important;
 
-  ${({ active }) =>
-    active &&
-    css`
-      color: ${ForegroundColor.accent} !important;
-      background-color: ${BackgroundColor.selected} !important;
-    `}
-  &:hover {
-    color: ${ForegroundColor.accent} !important;
-    background-color: ${BackgroundColor.selected} !important;
+  &.fullwidth {
+    width: 100%;
   }
 `

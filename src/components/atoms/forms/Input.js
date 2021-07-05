@@ -104,9 +104,23 @@ const InputComponent = styled.input`
   }
 `
 
-export const Input = ({ label, prefix, dataCyInput, onBlur, onFocus, onClick, as, ...other }) => (
+export const Input = ({
+  label,
+  prefix,
+  dataCyInput,
+  onBlur,
+  onFocus,
+  onClick,
+  as,
+  required,
+  ...other
+}) => (
   <InputWrapper prefix={prefix} {...other}>
-    {label && <InputLabel>{label}</InputLabel>}
+    {label && (
+      <InputLabel>
+        {label} {required && '(*)'}
+      </InputLabel>
+    )}
     <div className="input-row">
       {prefix > '' && (
         <input className="prefix" as="div" disabled contentEditable={false} value={prefix} />
