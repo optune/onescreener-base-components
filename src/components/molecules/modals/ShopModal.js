@@ -10,10 +10,11 @@ import {
   Container,
   CloseButton,
   TextContainer,
+  ImageContainer,
   StyledButton,
   StyledButtonContainer,
-  StyledTextContainer,
   StyledTitle,
+  Header,
   Text,
   Select,
 } from './common/Components'
@@ -23,7 +24,7 @@ import { InputField } from '../../atoms/forms/InputField'
 const InfoForm = ({
   name,
   image,
-  price,
+  maxQuantity,
   isPhysical,
   description,
   quantity,
@@ -32,22 +33,50 @@ const InfoForm = ({
 }) => {
   return (
     <Fragment>
-      <StyledTitle left>{name}</StyledTitle>
-      <Text>Image TBA: {image?.url}</Text>
+      <div className="row marginBottom">
+        <div className="column left">
+          <StyledTitle as="div" className="bangers" left>
+            {name}
+          </StyledTitle>
+        </div>
+        {maxQuantity > 0 && (
+          <div className="column third right ">
+            <Text as="div" className="bangers right">
+              Stock: {maxQuantity}
+            </Text>
+          </div>
+        )}
+      </div>
+      {/* <Text>Image TBA: {image?.url}</Text> */}
+      <ImageContainer>
+        <img
+          src={
+            image?.url ||
+            'https://res.cloudinary.com/optune-me/image/upload/v1625334995/onescreener-v2/app/product-default.png'
+          }
+          alt="product"
+        />
+      </ImageContainer>
+      {/* https://res.cloudinary.com/optune-me/image/upload/v1625334995/onescreener-v2/app/product-default.png */}
       <div className="row marginTop marginBottom">
         <div className="column third left">
           {isPhysical && (
             <Select onChange={onSelectQuantity} value={quantity}>
-              <option value={1}>1x</option>
-              <option value={2}>2x</option>
-              <option value={3}>3x</option>
-              <option value={4}>4x</option>
+              {[1, 2, 3, 4].map((n) => {
+                let la = +maxQuantity - +n
+                console.log({ la })
+                if (la >= 0) {
+                  return <option key={n} value={n}>{`${n}x`}</option>
+                }
+                return null
+              })}
             </Select>
           )}
         </div>
         <div className="column half right price">{actualPrice}$</div>
       </div>
-      <Text left className="bold">
+
+      <Text left className="bangers" fontSize="1rem">
         {description}
       </Text>
     </Fragment>
@@ -55,32 +84,51 @@ const InfoForm = ({
 }
 
 const CheckoutForm = ({
-  name,
-  image,
-  price,
+  actualPrice,
   description,
-  isPhysical,
-  quantity,
-  onSelectQuantity,
-  note,
   formData,
   handleFormChange,
-  actualPrice,
+  image,
+  isPhysical,
+  maxQuantity,
+  name,
+  note,
+  onEmailTouch,
+  onSelectQuantity,
+  onValidateEmail,
+  price,
+  quantity,
 }) => {
   return (
     <Fragment>
       <div className="checkout header"></div>
-      <StyledTitle left>{name}</StyledTitle>
-      <Text>Image TBA: {image?.url}</Text>
+      <div className="row">
+        <ImageContainer className="small">
+          <img
+            src={
+              image?.url ||
+              'https://res.cloudinary.com/optune-me/image/upload/v1625334995/onescreener-v2/app/product-default.png'
+            }
+            alt="product"
+          />
+        </ImageContainer>
+        <StyledTitle className="bangers no-margin" left>
+          {name}
+        </StyledTitle>
+      </div>
 
       <div className="row marginTop marginBottom">
         <div className="column third left">
           {isPhysical && (
             <Select onChange={onSelectQuantity} value={quantity}>
-              <option value={1}>1x</option>
-              <option value={2}>2x</option>
-              <option value={3}>3x</option>
-              <option value={4}>4x</option>
+              {[1, 2, 3, 4].map((n) => {
+                let la = +maxQuantity - +n
+                console.log({ la })
+                if (la >= 0) {
+                  return <option key={n} value={n}>{`${n}x`}</option>
+                }
+                return null
+              })}
             </Select>
           )}
         </div>
@@ -100,6 +148,7 @@ const CheckoutForm = ({
             onBlur={handleFormChange}
             placeholder="Joe Doe"
             label="Name"
+            required
             // small={true}
           />
         </div>
@@ -114,9 +163,11 @@ const CheckoutForm = ({
             error={false}
             value={formData.email}
             onChange={handleFormChange}
-            onBlur={handleFormChange}
+            onFocus={onEmailTouch}
+            onBlur={onValidateEmail}
             placeholder="youremail@example.com"
             label="Email"
+            required
             // small={true}
           />
         </div>
@@ -132,7 +183,6 @@ const CheckoutForm = ({
               error={false}
               value={formData.clientNote}
               onChange={handleFormChange}
-              onBlur={handleFormChange}
               placeholder={'Add message'}
               label={note}
               // small={true}
@@ -155,6 +205,7 @@ const CheckoutForm = ({
                 onBlur={handleFormChange}
                 placeholder={'Enter street name and number'}
                 label={'Address'}
+                required
                 // small={true}
               />
             </div>
@@ -173,6 +224,7 @@ const CheckoutForm = ({
                 onBlur={handleFormChange}
                 placeholder={'Enter the city you live in'}
                 label={'City'}
+                required
                 // small={true}
               />
             </div>
@@ -191,6 +243,7 @@ const CheckoutForm = ({
                 onBlur={handleFormChange}
                 placeholder={'Zip'}
                 label={'Zip code'}
+                required
                 // small={true}
               />
             </div>
@@ -208,8 +261,6 @@ export const ShopModal = ({
   onClose,
   shopItem,
   show,
-  // TODO: should be open thank you page?
-  accountId,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
 
@@ -225,19 +276,59 @@ export const ShopModal = ({
     street: '',
   }
   const [formData, setFormData] = useState(initialFormData)
+  const [validEmail, setValidEmail] = useState(false)
+  const [emailTouched, setEmailTouched] = useState(false)
 
-  // TODO: add fields for address
   const { name, image, price, description, note, maxQuantity, isPhysical } = shopItem || {
     checkout: {},
   }
 
-  console.log({ MODAL: shopItem })
+  console.log({ MODAL_SHOP_ITEM: shopItem })
 
   const actualPrice = +price * +quantity
+
+  const disabled =
+    step === 2 &&
+    (formData.email === '' ||
+      !validEmail ||
+      emailTouched ||
+      formData.clientName === '' ||
+      (isPhysical ? !(formData.city > '' && formData.zip > '' && formData.street > '') : false))
+
+  console.log({ disabled })
 
   const handleQuantityChange = (e) => setQuantity(e.target.value)
 
   const handleFormChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
+
+  const onEmailTouch = () => setEmailTouched(true)
+
+  const onValidateEmail = (e) => {
+    let email = e.target.value
+
+    setEmailTouched(false)
+
+    if (!email) {
+      setValidEmail(false)
+      return
+    }
+
+    let parts = email.split('@')
+
+    if (parts.length > 2 || !parts[1].includes('.') || parts[0] === '' || parts[1] === '') {
+      setValidEmail(false)
+      return
+    }
+
+    let endParts = parts[1].split('.')
+
+    if (endParts.length > 2 || endParts[0] === '' || endParts[1] === '') {
+      setValidEmail(false)
+      return
+    }
+
+    setValidEmail(true)
+  }
 
   useEffect(() => {
     setSsrDone(true)
@@ -256,79 +347,87 @@ export const ShopModal = ({
       isPreviewMobile={isPreviewMobile}
       show={ssrDone && show}
       isSidePreview={isSidePreview}
-      width="60%"
-      // TODO: maxwidth
+      width="45%"
     >
-      {/* // TODO: fix overflow y */}
       <Container isSidePreview={isSidePreview} className={isPhysical && step === 2 && 'overflow-y'}>
         <CloseButton onClick={onClose}>
           <CloseDarkIcon className="close-icon" />
         </CloseButton>
+
+        <Header>
+          <Text className="bold" fontSize="1.2rem">
+            {step === 1 ? 'Shop' : 'Checkout'}
+          </Text>
+        </Header>
         <TextContainer className="checkout">
           {step === 1 && (
             <InfoForm
               actualPrice={actualPrice}
-              name={name}
-              image={image}
-              price={price}
               description={description}
+              image={image}
               isPhysical={isPhysical}
-              quantity={quantity}
+              maxQuantity={maxQuantity}
+              name={name}
               onSelectQuantity={handleQuantityChange}
+              price={price}
+              quantity={quantity}
             />
           )}
           {step === 2 && (
             <CheckoutForm
               actualPrice={actualPrice}
-              name={name}
-              image={image}
-              price={price}
               description={description}
-              quantity={quantity}
-              onSelectQuantity={handleQuantityChange}
               formData={formData}
-              isPhysical={isPhysical}
               handleFormChange={handleFormChange}
+              image={image}
+              isPhysical={isPhysical}
+              name={name}
+              maxQuantity={maxQuantity}
               note={note}
+              onEmailTouch={onEmailTouch}
+              onSelectQuantity={handleQuantityChange}
+              onValidateEmail={onValidateEmail}
+              price={price}
+              quantity={quantity}
             />
           )}
         </TextContainer>
 
         <StyledButtonContainer className="gradient">
           <StyledButton
-            active
-            // TODO: secondary
-            // TODO: disabled
+            // active={!disabled}
+            disabled={disabled}
             onClick={
               step === 1
                 ? () => {
                     setStep(2)
                   }
                 : () => {
-                    onBuyItem?.({
-                      // TODO: sort out all fields
-                      shopItem,
-                      order: {
-                        details: {
-                          price,
-                          quantity,
-                          total: actualPrice,
-                          clientNote: formData.clientNote,
+                    !disabled &&
+                      onBuyItem?.({
+                        // TODO: sort out all fields
+                        shopItem,
+                        order: {
+                          details: {
+                            price,
+                            quantity,
+                            total: actualPrice,
+                            clientNote: formData.clientNote,
+                          },
+                          status: 'UNPAID',
+                          client: {
+                            email: formData.email,
+                            name: formData.clientName,
+                            city: formData.city || null,
+                            street: formData.street || null,
+                            zip: formData.zip || null,
+                          },
+                          product: {
+                            name,
+                            isPhysical,
+                          },
                         },
-                        status: 'UNPAID',
-                        client: {
-                          email: formData.email,
-                          name: formData.clientName,
-                          city: formData.city || null,
-                          street: formData.street || null,
-                          zip: formData.zip || null,
-                        },
-                        product: {
-                          name,
-                          isPhysical,
-                        },
-                      },
-                    })
+                      })
                   }
             }
           >
