@@ -27,7 +27,6 @@ const Container = styled.div`
     width: 100%;
     max-width: 640px;
     min-height: ${({ isSidePreview }) => (isSidePreview ? '32px' : '50px')};
-
     height: auto;
     font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '1rem')};
     font-weight: 600;
@@ -107,11 +106,11 @@ const Container = styled.div`
 
     .image {
       grid-column: ${({ image }) => (image ? '1/1' : null)};
-      height: ${({ isSidePreview }) => (isSidePreview ? '41px' : '82px')};
-      width: ${({ isSidePreview }) => (isSidePreview ? '41px' : '82px')};
-      margin-top: 8px;
+      flex: 1;
+
+      height: ${({ isSidePreview }) => (isSidePreview ? '26px' : '42px')};
+      width: ${({ isSidePreview }) => (isSidePreview ? '26px' : '82px')};
       margin-left: 8px;
-      margin-bottom: 8px;
       border-radius: 4px;
       object-fit: cover;
     }
