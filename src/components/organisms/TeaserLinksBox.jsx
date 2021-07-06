@@ -113,6 +113,7 @@ const Container = styled.div`
       margin-left: 8px;
       margin-bottom: 8px;
       border-radius: 4px;
+      object-fit: cover;
     }
 
     @media ${MediaSmall} {
