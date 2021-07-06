@@ -37,6 +37,7 @@ export const ForegroundColor = {
   disabled: ColorLightGrey,
   hover: ColorBlue,
   error: ColorMonza,
+  info: ColorSecondary40,
   success: ColorHarlequin,
   secondary: ColorSecondary10,
   secondary: ColorStormGray,

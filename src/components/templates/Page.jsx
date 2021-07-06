@@ -133,6 +133,7 @@ export const Page = ({
   onLinksSectionClick,
   onLoadOrder,
   onLogoSectionClick,
+  onLoadShopItem,
   onUpgrade,
   page,
   pageUrl,
@@ -147,6 +148,26 @@ export const Page = ({
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
     setSsrDone(true)
+
+    if (!isSidePreview) {
+      let link = document.createElement('link')
+
+      // Google API
+      link.rel = 'preconnect'
+      link.href = 'https://fonts.googleapis.com'
+      document.head.appendChild(link)
+
+      // Gstatic
+      link.href = 'https://fonts.gstatic.com'
+      link.crossOrigin = true
+      document.head.appendChild(link)
+
+      // Font Bangers
+      link.rel = 'stylesheet'
+      link.href = 'https://fonts.googleapis.com/css2?family=Bangers&display=swap'
+      link.crossOrigin = false
+      document.head.appendChild(link)
+    }
   }, [])
   const getUrl = getImageUrl(ssrDone)
 
@@ -250,6 +271,7 @@ export const Page = ({
               links={links}
               modalShop={modalShop}
               onContentSectionClick={onContentSectionClick}
+              onLoadShopItem={onLoadShopItem}
               pageUrl={pageUrl}
               setModalShop={setModalShop}
               showRedirectOverlay={showRedirectOverlay}
@@ -259,26 +281,30 @@ export const Page = ({
               visitorSession={visitorSession}
             />
 
-            <ShopModal
-              isSidePreview={isSidePreview}
-              isPreviewMobile={isPreviewMobile}
-              onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
-              isOrderSuccess={isOrderSuccess}
-              show={modalShop.show}
-              onBuyItem={onBuyItem}
-              onLoadOrder={onLoadOrder}
-              shopItem={modalShop.item}
-            />
+            {!isSidePreview && (
+              <Fragment>
+                <ShopModal
+                  isSidePreview={isSidePreview}
+                  isPreviewMobile={isPreviewMobile}
+                  onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
+                  isOrderSuccess={isOrderSuccess}
+                  show={modalShop.show}
+                  onBuyItem={onBuyItem}
+                  onLoadOrder={onLoadOrder}
+                  shopItem={modalShop.item}
+                />
 
-            <ShopFinishedModal
-              isSidePreview={isSidePreview}
-              isPreviewMobile={isPreviewMobile}
-              onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
-              isOrderSuccess={isOrderSuccess}
-              show={modalShop.isOrderSuccess}
-              onLoadOrder={onLoadOrder}
-              shopItem={modalShop.item}
-            />
+                <ShopFinishedModal
+                  isSidePreview={isSidePreview}
+                  isPreviewMobile={isPreviewMobile}
+                  onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
+                  isOrderSuccess={isOrderSuccess}
+                  show={modalShop.isOrderSuccess}
+                  onLoadOrder={onLoadOrder}
+                  shopItem={modalShop.item}
+                />
+              </Fragment>
+            )}
 
             {/* Links */}
             {links.list.length > 0 && (

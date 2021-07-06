@@ -15,7 +15,7 @@ export default createGlobalStyle`
       font-size: 10px;
     }
   }
-
+  
   body {
     min-height: 100%;
     padding: 0;
