@@ -65,7 +65,7 @@ const InfoForm = ({
               {[1, 2, 3, 4].map((n) => {
                 let la = +maxQuantity - +n
                 console.log({ la })
-                if (la >= 0) {
+                if (maxQuantity === 0 || la >= 0) {
                   return <option key={n} value={n}>{`${n}x`}</option>
                 }
                 return null
@@ -124,7 +124,7 @@ const CheckoutForm = ({
               {[1, 2, 3, 4].map((n) => {
                 let la = +maxQuantity - +n
                 console.log({ la })
-                if (la >= 0) {
+                if (maxQuantity === 0 || la >= 0) {
                   return <option key={n} value={n}>{`${n}x`}</option>
                 }
                 return null
