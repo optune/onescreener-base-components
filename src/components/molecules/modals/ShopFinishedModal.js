@@ -65,11 +65,11 @@ const SuccessMessage = ({ order }) => {
         <InfoColumn label={'Total'} value={`$ ${order?.details.total}`} third />
       </div>
 
-      {order?.product?.isPhysical ? (
+      {order?.product?.isPhysical && order?.details?.clientNote > '' ? (
         <div className="row  marginBottom">
           <InfoColumn
             label={'Your message'}
-            value={order?.details.clientNote || ''}
+            value={order?.details.clientNote || '-'}
             fullwidth
             marginTop
           />
