@@ -30,11 +30,13 @@ const StyledModalContent = styled.div`
   position: relative;
   width: ${({ isSidePreview, isPreviewMobile, width }) =>
     isSidePreview && isPreviewMobile ? '100%' : isPreviewMobile ? '334px' : width || '50%'};
-  height: ${({ isSidePreview, isPreviewMobile }) =>
-    isSidePreview && isPreviewMobile ? '100%' : isPreviewMobile ? '520px' : '80%'};
+  height: ${({ isSidePreview, isPreviewMobile, height }) =>
+    isSidePreview && isPreviewMobile ? '100%' : isPreviewMobile ? '520px' : height || '80%'};
   margin: ${({ isSidePreview, isPreviewMobile }) =>
       isSidePreview && isPreviewMobile ? '0' : isPreviewMobile ? '75px' : 'calc(100vh / 10)'}
     auto;
+  max-height: ${({ maxHeight }) => maxHeight || 'unset'};
+
   padding: ${({ isSidePreview, isPreviewMobile }) =>
     isSidePreview && isPreviewMobile ? '50px 0 0' : '0'};
   background: ${({ isPreviewMobile }) => (isPreviewMobile ? 'rgba(0,0,0, 0.50)' : 'transparent')};
@@ -44,11 +46,19 @@ const StyledModalContent = styled.div`
   @media ${MediaSmall} {
     margin: 0;
     width: 100%;
-    height: 100%;
+    height: ${({ height }) => height || '100%'};
   }
 `
 
-export const Modal = ({ children, show, isPreviewMobile, isSidePreview, width }) => {
+export const Modal = ({
+  children,
+  show,
+  isPreviewMobile,
+  isSidePreview,
+  width,
+  height,
+  maxHeight,
+}) => {
   return (
     <StyledModal show={show} isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview}>
       <StyledModalContent
@@ -56,6 +66,8 @@ export const Modal = ({ children, show, isPreviewMobile, isSidePreview, width })
         isPreviewMobile={isPreviewMobile}
         isSidePreview={isSidePreview}
         width={width}
+        height={height}
+        maxHeight={maxHeight}
       >
         {children}
       </StyledModalContent>
