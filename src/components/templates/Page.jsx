@@ -191,7 +191,7 @@ export const Page = ({
   let PageComponent = null
 
   if (page) {
-    const { background, logo, content, design, selectedThemeId } = page
+    const { background, logo, content, design, selectedThemeId, stripe } = page
     const { links } = page || { links: { list: [] } }
     // const domainName = page.domainName
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
@@ -273,6 +273,7 @@ export const Page = ({
               onContentSectionClick={onContentSectionClick}
               onLoadShopItem={onLoadShopItem}
               pageUrl={pageUrl}
+              shopEnabled={stripe.shopEnabled}
               setModalShop={setModalShop}
               showRedirectOverlay={showRedirectOverlay}
               showStatistics={showStatistics}
