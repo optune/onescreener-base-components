@@ -505,6 +505,7 @@ export const ContentBox = ({
   setModalShop,
   showRedirectOverlay,
   showStatistics,
+  shopEnabled,
   statisticsPeriod,
   trackingVisitorEvents,
   visitorSession,
@@ -624,6 +625,7 @@ export const ContentBox = ({
           modalShop={modalShop}
           onLoadShopItem={onLoadShopItem}
           setModalShop={setModalShop}
+          shopEnabled={shopEnabled}
           showStatistics={showStatistics}
           statisticsPeriod={statisticsPeriod}
           teaserLinks={teaserLinks.list}

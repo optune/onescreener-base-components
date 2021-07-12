@@ -49,13 +49,7 @@ const InfoForm = ({
       </div>
       {/* <Text>Image TBA: {image?.url}</Text> */}
       <ImageContainer>
-        <img
-          src={
-            image?.url ||
-            'https://res.cloudinary.com/optune-me/image/upload/v1625334995/onescreener-v2/app/product-default.png'
-          }
-          alt="product"
-        />
+        <img src={image?.file?.url || ''} alt="product" />
       </ImageContainer>
       {/* https://res.cloudinary.com/optune-me/image/upload/v1625334995/onescreener-v2/app/product-default.png */}
       <div className="row marginTop marginBottom">
@@ -106,7 +100,7 @@ const CheckoutForm = ({
         <ImageContainer className="small">
           <img
             src={
-              image?.url ||
+              image?.file?.url ||
               'https://res.cloudinary.com/optune-me/image/upload/v1625334995/onescreener-v2/app/product-default.png'
             }
             alt="product"
@@ -348,6 +342,8 @@ export const ShopModal = ({
       show={ssrDone && show}
       isSidePreview={isSidePreview}
       width="45%"
+      height="auto"
+      maxHeight="80%"
     >
       <Container isSidePreview={isSidePreview} className={isPhysical && step === 2 && 'overflow-y'}>
         <CloseButton onClick={onClose}>

@@ -153,6 +153,7 @@ export const TeaserLinksBox = ({
   modalShop,
   onLoadShopItem,
   setModalShop,
+  shopEnabled,
   showStatistics,
   statisticsPeriod,
   teaserLinks,
@@ -162,6 +163,7 @@ export const TeaserLinksBox = ({
   const [pagination, setPagination] = useState({ start: 0, end: 8 })
   const { start, end } = pagination
 
+  console.log({ boxEnmabe: shopEnabled })
   useEffect(() => {
     if (start === 0 && teaserLinks.length > LINKS_LIMIT) {
       setPagination({ start: 0, end: 6 })
@@ -199,72 +201,74 @@ export const TeaserLinksBox = ({
           Show previous
         </div>
       )}
-      {teaserLinks.map(({ _id, url, name, image, isShop, shop }, index) => {
-        if (isShop) console.log({ isShop, shop, name, image })
+      {teaserLinks
+        .filter(({ isShop }) => (isShop ? shopEnabled : true))
+        .map(({ _id, url, name, image, isShop, shop }, index) => {
+          if (isShop) console.log({ isShop, shop, name, image })
 
-        const isLink = !isShop
-        const soldOut = shop?.maxQuantity === -1
+          const isLink = !isShop
+          const soldOut = shop?.maxQuantity === -1
 
-        return (
-          index >= start &&
-          index < end - paginationCorrection && (
-            <TeaserLink
-              as={isLink ? 'a' : 'div'}
-              key={`${name}-${index}`}
-              href={url}
-              image={image}
-              className={`teaser-link ${soldOut && 'disabled'}`}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => {
-                trackingVisitorEvents({
-                  visitorSession,
-                  domainName,
-                  category: {
-                    teaserLinks: {
-                      event: {
-                        name,
-                        url,
+          return (
+            index >= start &&
+            index < end - paginationCorrection && (
+              <TeaserLink
+                as={isLink ? 'a' : 'div'}
+                key={`${name}-${index}`}
+                href={url}
+                image={image}
+                className={`teaser-link ${soldOut && 'disabled'}`}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => {
+                  trackingVisitorEvents({
+                    visitorSession,
+                    domainName,
+                    category: {
+                      teaserLinks: {
+                        event: {
+                          name,
+                          url,
+                        },
                       },
                     },
-                  },
-                }).then((r) => console.log({ r }))
+                  }).then((r) => console.log({ r }))
 
-                if (!isSidePreview && isShop) {
-                  onLoadShopItem?.({ itemId: _id }).then((item) => {
-                    if (item.shop.maxQuantity > -1) {
-                      setModalShop({
-                        show: true,
-                        item: {
-                          _id: item._id,
-                          name: item.name,
-                          image: item.image,
-                          ...item.shop,
-                        },
-                      })
-                    }
-                  })
-                }
-              }}
-            >
-              {soldOut && (
-                <div className="sold-out">
-                  Sold <br /> out
-                </div>
-              )}
-              {showStatistics && (
-                <StatisticsOverlay>
-                  <div>{getLinkClicks({ name, url })}</div>
-                </StatisticsOverlay>
-              )}
-              {image && <img image={image} src={image.url} alt={name} className="image" />}
-              <p image={image} className="clip">
-                {name}
-              </p>
-            </TeaserLink>
+                  if (!isSidePreview && isShop) {
+                    onLoadShopItem?.({ itemId: _id }).then((item) => {
+                      if (item.shop.maxQuantity > -1) {
+                        setModalShop({
+                          show: true,
+                          item: {
+                            _id: item._id,
+                            name: item.name,
+                            image: item.image,
+                            ...item.shop,
+                          },
+                        })
+                      }
+                    })
+                  }
+                }}
+              >
+                {soldOut && (
+                  <div className="sold-out">
+                    Sold <br /> out
+                  </div>
+                )}
+                {showStatistics && (
+                  <StatisticsOverlay>
+                    <div>{getLinkClicks({ name, url })}</div>
+                  </StatisticsOverlay>
+                )}
+                {image && <img image={image} src={image.url} alt={name} className="image" />}
+                <p image={image} className="clip">
+                  {name}
+                </p>
+              </TeaserLink>
+            )
           )
-        )
-      })}
+        })}
       {nextPageExists && (
         <div className="teaser-link" onClick={paginationNext}>
           Show more
