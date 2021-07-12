@@ -24,7 +24,7 @@ const Container = styled.div`
 
   .teaser-link {
     position: relative;
-    width: 100%;
+    width: 90%;
     max-width: 640px;
     min-height: ${({ isSidePreview }) => (isSidePreview ? '32px' : '50px')};
     height: auto;
@@ -99,12 +99,11 @@ const Container = styled.div`
     }
 
     .clip {
-      grid-column: ${({ image }) => (image ? '2/2' : '1/1')};
-      justify-self: ${({ image }) => (image ? 'flex-start' : 'center')};
+      justify-self: center;
       align-self: center;
       display: flex;
       position: absolute;
-
+      max-width: 300px;
       padding: 0 20px;
       line-height: ${({ isSidePreview }) => (isSidePreview ? '12px' : '19px')};
       max-height: 100%;
@@ -112,6 +111,10 @@ const Container = styled.div`
       overflow-wrap: break-word;
       white-space: normal;
       word-break: break-word;
+
+      @media ${MediaSmall} {
+        max-width: 210px;
+      }
     }
 
     .image {
@@ -119,8 +122,9 @@ const Container = styled.div`
       flex: 1;
 
       height: ${({ isSidePreview }) => (isSidePreview ? '26px' : '42px')};
-      width: ${({ isSidePreview }) => (isSidePreview ? '26px' : '82px')};
+      width: ${({ isSidePreview }) => (isSidePreview ? '26px' : '42px')};
       margin-left: 8px;
+      margin-right: 8px;
       border-radius: 4px;
       object-fit: cover;
     }
