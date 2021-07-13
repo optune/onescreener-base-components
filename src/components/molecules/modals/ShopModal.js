@@ -342,6 +342,7 @@ export const ShopModal = ({
       show={ssrDone && show}
       isSidePreview={isSidePreview}
       width="45%"
+      maxWidth="365px"
       height="auto"
       maxHeight="80%"
     >

@@ -149,25 +149,25 @@ export const Page = ({
   useEffect(() => {
     setSsrDone(true)
 
-    if (!isSidePreview) {
-      let link = document.createElement('link')
+    // if (!isSidePreview) {
+    //   let link = document.createElement('link')
 
-      // Google API
-      link.rel = 'preconnect'
-      link.href = 'https://fonts.googleapis.com'
-      document.head.appendChild(link)
+    //   // Google API
+    //   link.rel = 'preconnect'
+    //   link.href = 'https://fonts.googleapis.com'
+    //   document.head.appendChild(link)
 
-      // Gstatic
-      link.href = 'https://fonts.gstatic.com'
-      link.crossOrigin = true
-      document.head.appendChild(link)
+    //   // Gstatic
+    //   link.href = 'https://fonts.gstatic.com'
+    //   link.crossOrigin = true
+    //   document.head.appendChild(link)
 
-      // Font Bangers
-      link.rel = 'stylesheet'
-      link.href = 'https://fonts.googleapis.com/css2?family=Bangers&display=swap'
-      link.crossOrigin = false
-      document.head.appendChild(link)
-    }
+    //   // Font Bangers
+    //   link.rel = 'stylesheet'
+    //   link.href = 'https://fonts.googleapis.com/css2?family=Bangers&display=swap'
+    //   link.crossOrigin = false
+    //   document.head.appendChild(link)
+    // }
   }, [])
   const getUrl = getImageUrl(ssrDone)
 
