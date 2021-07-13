@@ -203,8 +203,8 @@ export const TeaserLinksBox = ({
       )}
       {teaserLinks
         .filter(({ isShop }) => (isShop ? shopEnabled : true))
-        .map(({ _id, url, name, image, isShop, shop }, index) => {
-          if (isShop) console.log({ isShop, shop, name, image })
+        .map(({ _id, url, name, images = [], isShop, shop }, index) => {
+          if (isShop) console.log({ isShop, shop, name, images })
 
           const isLink = !isShop
           const soldOut = shop?.maxQuantity === -1
@@ -216,7 +216,7 @@ export const TeaserLinksBox = ({
                 as={isLink ? 'a' : 'div'}
                 key={`${name}-${index}`}
                 href={url}
-                image={image}
+                image={images?.[0]}
                 className={`teaser-link ${soldOut && 'disabled'}`}
                 target="_blank"
                 rel="noreferrer"
@@ -242,7 +242,7 @@ export const TeaserLinksBox = ({
                           item: {
                             _id: item._id,
                             name: item.name,
-                            image: item.image,
+                            image: item.images?.[0], // TODO: remap in ShopModal after adding multiple images
                             ...item.shop,
                           },
                         })
@@ -261,8 +261,10 @@ export const TeaserLinksBox = ({
                     <div>{getLinkClicks({ name, url })}</div>
                   </StatisticsOverlay>
                 )}
-                {image && <img image={image} src={image.url} alt={name} className="image" />}
-                <p image={image} className="clip">
+                {images?.length > 0 && (
+                  <img image={images?.[0]} src={images?.[0]?.url} alt={name} className="image" />
+                )}
+                <p image={images?.[0]} className="clip">
                   {name}
                 </p>
               </TeaserLink>

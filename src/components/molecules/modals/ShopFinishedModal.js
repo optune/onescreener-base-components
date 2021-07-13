@@ -178,6 +178,7 @@ export const ShopFinishedModal = ({
       show={ssrDone && show}
       isSidePreview={isSidePreview}
       width="60%"
+      maxWidth="385px"
     >
       <Container isSidePreview={isSidePreview}>
         <CloseButton onClick={handleClose}>
