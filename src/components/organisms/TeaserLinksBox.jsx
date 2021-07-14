@@ -230,9 +230,10 @@ export const TeaserLinksBox = ({
                           name,
                           url,
                         },
+
                       },
                     },
-                  }).then((r) => console.log({ r }))
+                  }).then((r) => r)
 
                   if (!isSidePreview && isShop) {
                     onLoadShopItem?.({ itemId: _id }).then((item) => {

@@ -34,7 +34,6 @@ export const Links = ({
   pageUrl,
   setModalData,
   trackingVisitorEvents,
-  visitorSession,
   domainName,
 }) => {
   const color =
@@ -82,7 +81,6 @@ export const Links = ({
       {mappedLinks.map((link) => (
         <PlatformLink
           trackingVisitorEvents={trackingVisitorEvents}
-          visitorSession={visitorSession}
           domainName={domainName}
           border={links.border}
           circle={links.circle}

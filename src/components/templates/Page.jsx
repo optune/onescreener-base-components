@@ -372,7 +372,6 @@ export const Page = ({
                     pageUrl,
                     setModalData,
                     trackingVisitorEvents,
-                    visitorSession,
                     domainName,
                   })}
                 </LinksBox>
