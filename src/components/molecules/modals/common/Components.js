@@ -36,6 +36,7 @@ const StyledModalContent = styled.div`
       isSidePreview && isPreviewMobile ? '0' : isPreviewMobile ? '75px' : 'calc(100vh / 10)'}
     auto;
   max-height: ${({ maxHeight }) => maxHeight || 'unset'};
+  max-width: ${({ maxWidth }) => maxWidth || 'unset'};
 
   padding: ${({ isSidePreview, isPreviewMobile }) =>
     isSidePreview && isPreviewMobile ? '50px 0 0' : '0'};
@@ -46,6 +47,7 @@ const StyledModalContent = styled.div`
   @media ${MediaSmall} {
     margin: 0;
     width: 100%;
+    max-width: unset;
     height: ${({ height }) => height || '100%'};
   }
 `
@@ -56,6 +58,7 @@ export const Modal = ({
   isPreviewMobile,
   isSidePreview,
   width,
+  maxWidth,
   height,
   maxHeight,
 }) => {
@@ -68,6 +71,7 @@ export const Modal = ({
         width={width}
         height={height}
         maxHeight={maxHeight}
+        maxWidth={maxWidth}
       >
         {children}
       </StyledModalContent>
@@ -131,7 +135,8 @@ export const Container = styled.div`
 
   .price {
     font-size: 2rem;
-    font-family: Bangers, cursive;
+    // font-family: Bangers, cursive;
+    font-family: 'CeraPRO', Helvetica, sans-serif;
   }
 
   .row {
@@ -274,10 +279,11 @@ export const StyledTitle = styled.h2`
   width: 100%;
 
   &.bangers {
-    font-family: Bangers, cursive;
-    letter-spacing: 0.05em;
-    line-height: 110%;
-    font-weight: 400;
+    font-family: 'CeraPRO', Helvetica, sans-serif;
+    // font-family: Bangers, cursive;
+    // letter-spacing: 0.05em;
+    // line-height: 110%;
+    // font-weight: 400;
   }
 
   &.no-margin {
@@ -315,9 +321,10 @@ export const Text = styled.p`
   }
 
   &.bangers {
-    font-family: Bangers, cursive;
-    letter-spacing: 0.05em;
-    line-height: 110%;
+    font-family: 'CeraPRO', Helvetica, sans-serif;
+    //   font-family: Bangers, cursive;
+    //   letter-spacing: 0.05em;
+    //   line-height: 110%;
   }
 `
 
