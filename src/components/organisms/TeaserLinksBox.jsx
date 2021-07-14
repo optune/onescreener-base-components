@@ -236,7 +236,6 @@ export const TeaserLinksBox = ({
                           name,
                           url,
                         },
-
                       },
                     },
                   }).then((r) => r)
@@ -266,7 +265,7 @@ export const TeaserLinksBox = ({
 
                 {images?.length > 0 && (
                   <img
-                    image={images?.[0]}
+                    image={!!images?.[0] ? 1 : undefined}
                     src={getImageUrl({
                       image: images?.[0],
                       maxWidth: isSidePreview ? 26 : 82,
@@ -276,7 +275,7 @@ export const TeaserLinksBox = ({
                     className="image"
                   />
                 )}
-                <p image={images?.[0]} className="clip">
+                <p image={!!images?.[0] ? 1 : undefined} className="clip">
                   {name}
                 </p>
                 {showStatistics && (
