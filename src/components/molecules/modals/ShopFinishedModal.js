@@ -37,7 +37,6 @@ const InfoColumn = ({ label = ' ', value = ' ', marginTop, third, fullwidth }) =
 )
 
 const SuccessMessage = ({ order }) => {
-  console.log({ order })
   return (
     <Fragment>
       <div className="row marginBottom">
@@ -129,14 +128,10 @@ export const ShopFinishedModal = ({
     const si = document.location.href.indexOf('success=')
     const newUrl = document.location.href.slice(0, si - 1)
     history.replaceState(null, '', newUrl)
-    console.log({ newUrl })
     onClose()
   }
 
-  console.log({ shopItem })
-
   useEffect(() => {
-    // setOrderAvailable(true)
     if (isOrderSuccess) {
       ;(async () => {
         const order = await onLoadOrder?.()

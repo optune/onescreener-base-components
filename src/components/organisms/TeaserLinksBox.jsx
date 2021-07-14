@@ -163,7 +163,6 @@ export const TeaserLinksBox = ({
   const [pagination, setPagination] = useState({ start: 0, end: 8 })
   const { start, end } = pagination
 
-  console.log({ boxEnmabe: shopEnabled })
   useEffect(() => {
     if (start === 0 && teaserLinks.length > LINKS_LIMIT) {
       setPagination({ start: 0, end: 6 })
@@ -204,8 +203,6 @@ export const TeaserLinksBox = ({
       {teaserLinks
         .filter(({ isShop }) => (isShop ? shopEnabled : true))
         .map(({ _id, url, name, images = [], isShop, shop }, index) => {
-          if (isShop) console.log({ isShop, shop, name, images })
-
           const isLink = !isShop
           const soldOut = shop?.maxQuantity === -1
 
@@ -232,7 +229,7 @@ export const TeaserLinksBox = ({
                         },
                       },
                     },
-                  }).then((r) => console.log({ r }))
+                  }).then((r) => r)
 
                   if (!isSidePreview && isShop) {
                     onLoadShopItem?.({ itemId: _id }).then((item) => {
