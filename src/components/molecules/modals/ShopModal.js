@@ -336,7 +336,7 @@ export const ShopModal = ({
       width="45%"
       maxWidth="365px"
       height="auto"
-      maxHeight="80%"
+      className="checkout"
     >
       <Container isSidePreview={isSidePreview} className={isPhysical && step === 2 && 'overflow-y'}>
         <CloseButton onClick={onClose}>

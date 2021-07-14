@@ -74,17 +74,19 @@ const SuccessMessage = ({ order }) => {
           />
         </div>
       ) : (
-        <div className="row marginTop marginBottom">
-          <div className="column">
-            <StyledButton
-              className="fullwidth"
-              active
-              onClick={() => window.open(order?.product.downloadLink, '_blank')}
-            >
-              {order?.product.downloadLabel || 'Download link'}
-            </StyledButton>
+        !order?.product?.isPhysical && (
+          <div className="row marginTop marginBottom">
+            <div className="column">
+              <StyledButton
+                className="fullwidth"
+                active
+                onClick={() => window.open(order?.product.downloadLink, '_blank')}
+              >
+                {order?.product.downloadLabel || 'Download link'}
+              </StyledButton>
+            </div>
           </div>
-        </div>
+        )
       )}
       <div className="row marginTop">
         <div className="column">

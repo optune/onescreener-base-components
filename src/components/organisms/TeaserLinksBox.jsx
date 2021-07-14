@@ -129,25 +129,30 @@ const Container = styled.div`
       }
     }
 
-    .image {
-      grid-column: ${({ image }) => (image ? '1/1' : null)};
-      flex: 1;
-
+    .image-container {
+      position: absolute;
+      top: 50%;
+      left: 5px;
+      transform: translateY(-50%);
       height: ${({ isSidePreview }) => (isSidePreview ? '26px' : '42px')};
       width: ${({ isSidePreview }) => (isSidePreview ? '26px' : '42px')};
-      margin: 4px;
-      border-radius: 4px;
-      object-fit: cover;
-    }
 
-    .sold-out {
-      position: absolute;
-      text-transform: uppercase;
-      font-size: ${({ isSidePreview }) => (isSidePreview ? '10px' : '12px')};
-      color: red;
-      top: 50%;
-      left: 10px;
-      transform: translateY(-50%);
+      .image {
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        object-fit: cover;
+      }
+
+      .sold-out {
+        position: absolute;
+        text-transform: uppercase;
+        font-size: ${({ isSidePreview }) => (isSidePreview ? '8px' : '12px')};
+        color: red;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
 
     @media ${MediaSmall} {
@@ -264,24 +269,26 @@ export const TeaserLinksBox = ({
                   }
                 }}
               >
-                {soldOut && (
-                  <div className="sold-out">
-                    Sold <br /> out
-                  </div>
-                )}
+                <div className="image-container">
+                  {soldOut && (
+                    <div className="sold-out">
+                      Sold <br /> out
+                    </div>
+                  )}
 
-                {images?.length > 0 && (
-                  <img
-                    image={!!images?.[0] ? 1 : undefined}
-                    src={getImageUrl({
-                      image: images?.[0],
-                      maxWidth: isSidePreview ? 26 : 82,
-                      maxHeight: isSidePreview ? 26 : 82,
-                    })}
-                    alt={name}
-                    className="image"
-                  />
-                )}
+                  {images?.length > 0 && (
+                    <img
+                      image={!!images?.[0] ? 1 : undefined}
+                      src={getImageUrl({
+                        image: images?.[0],
+                        maxWidth: isSidePreview ? 26 : 82,
+                        maxHeight: isSidePreview ? 26 : 82,
+                      })}
+                      alt={name}
+                      className="image"
+                    />
+                  )}
+                </div>
                 <p image={!!images?.[0] ? 1 : undefined} className="clip">
                   {name}
                 </p>
