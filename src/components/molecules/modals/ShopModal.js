@@ -272,7 +272,6 @@ export const ShopModal = ({
 
   const actualPrice = +price * +quantity
 
-  console.log({ step })
   const disabled =
     step === 2 &&
     (formData.email === '' ||
