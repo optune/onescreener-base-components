@@ -23,7 +23,7 @@ import { InputField } from '../../atoms/forms/InputField'
 
 const InfoForm = ({
   name,
-  image,
+  imageUrl,
   maxQuantity,
   isPhysical,
   description,
@@ -49,19 +49,17 @@ const InfoForm = ({
       </div>
       {/* <Text>Image TBA: {image?.url}</Text> */}
       <ImageContainer>
-        <img src={image?.file?.url || ''} alt="product" />
+        <img src={imageUrl || ''} alt="product" />
       </ImageContainer>
-      {/* https://res.cloudinary.com/optune-me/image/upload/v1625334995/onescreener-v2/app/product-default.png */}
       <div className="row marginTop marginBottom">
         <div className="column third left">
           {isPhysical && (
             <Select onChange={onSelectQuantity} value={quantity}>
               {[1, 2, 3, 4].map((n) => {
                 let la = +maxQuantity - +n
-                console.log({ la })
-                if (maxQuantity === 0 || la >= 0) {
+                if (maxQuantity === 0 || la >= 0)
                   return <option key={n} value={n}>{`${n}x`}</option>
-                }
+
                 return null
               })}
             </Select>
@@ -82,7 +80,7 @@ const CheckoutForm = ({
   description,
   formData,
   handleFormChange,
-  image,
+  imageUrl,
   isPhysical,
   maxQuantity,
   name,
@@ -98,13 +96,7 @@ const CheckoutForm = ({
       <div className="checkout header"></div>
       <div className="row">
         <ImageContainer className="small">
-          <img
-            src={
-              image?.file?.url ||
-              'https://res.cloudinary.com/optune-me/image/upload/v1625334995/onescreener-v2/app/product-default.png'
-            }
-            alt="product"
-          />
+          <img src={imageUrl || ''} alt="product" />
         </ImageContainer>
         <StyledTitle className="bangers no-margin" left>
           {name}
@@ -117,10 +109,9 @@ const CheckoutForm = ({
             <Select onChange={onSelectQuantity} value={quantity}>
               {[1, 2, 3, 4].map((n) => {
                 let la = +maxQuantity - +n
-                console.log({ la })
-                if (maxQuantity === 0 || la >= 0) {
+                if (maxQuantity === 0 || la >= 0)
                   return <option key={n} value={n}>{`${n}x`}</option>
-                }
+
                 return null
               })}
             </Select>
@@ -249,6 +240,7 @@ const CheckoutForm = ({
 }
 
 export const ShopModal = ({
+  getImageUrl,
   isPreviewMobile,
   isSidePreview,
   onBuyItem,
@@ -272,12 +264,11 @@ export const ShopModal = ({
   const [formData, setFormData] = useState(initialFormData)
   const [validEmail, setValidEmail] = useState(false)
   const [emailTouched, setEmailTouched] = useState(false)
+  const [buttonDisabled, setButtonDisabled] = useState(false)
 
   const { name, image, price, description, note, maxQuantity, isPhysical } = shopItem || {
     checkout: {},
   }
-
-  console.log({ MODAL_SHOP_ITEM: shopItem })
 
   const actualPrice = +price * +quantity
 
@@ -288,8 +279,6 @@ export const ShopModal = ({
       emailTouched ||
       formData.clientName === '' ||
       (isPhysical ? !(formData.city > '' && formData.zip > '' && formData.street > '') : false))
-
-  console.log({ disabled })
 
   const handleQuantityChange = (e) => setQuantity(e.target.value)
 
@@ -323,6 +312,9 @@ export const ShopModal = ({
 
     setValidEmail(true)
   }
+
+  const handleEnableButton = () => setButtonDisabled(false)
+  const handleDisableButton = () => setButtonDisabled(true)
 
   useEffect(() => {
     setSsrDone(true)
@@ -361,7 +353,7 @@ export const ShopModal = ({
             <InfoForm
               actualPrice={actualPrice}
               description={description}
-              image={image}
+              imageUrl={!!image?.file && getImageUrl({ image: image.file })}
               isPhysical={isPhysical}
               maxQuantity={maxQuantity}
               name={name}
@@ -376,7 +368,9 @@ export const ShopModal = ({
               description={description}
               formData={formData}
               handleFormChange={handleFormChange}
-              image={image}
+              imageUrl={
+                !!image?.file && getImageUrl({ image: image.file, maxWidth: 50, maxHeight: 50 })
+              }
               isPhysical={isPhysical}
               name={name}
               maxQuantity={maxQuantity}
@@ -393,7 +387,7 @@ export const ShopModal = ({
         <StyledButtonContainer className="gradient">
           <StyledButton
             // active={!disabled}
-            disabled={disabled}
+            disabled={disabled || buttonDisabled}
             onClick={
               step === 1
                 ? () => {
@@ -402,7 +396,6 @@ export const ShopModal = ({
                 : () => {
                     !disabled &&
                       onBuyItem?.({
-                        // TODO: sort out all fields
                         shopItem,
                         order: {
                           details: {
@@ -424,12 +417,15 @@ export const ShopModal = ({
                             isPhysical,
                           },
                         },
+                        enableButton: handleEnableButton,
+                        disableButton: handleDisableButton,
                       })
                   }
             }
           >
             {step === 1 && 'Checkout'}
-            {step === 2 && `Buy for $ ${actualPrice}`}
+            {step === 2 &&
+              (buttonDisabled ? 'Redirecting to checkout...' : `Buy for $ ${actualPrice}`)}
           </StyledButton>
         </StyledButtonContainer>
       </Container>
