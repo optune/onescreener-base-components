@@ -22,12 +22,13 @@ const CoverImage = styled.img`
   object-fit: ${({ fullscreen }) => (fullscreen ? 'cover' : 'contain')};
 `
 
-export const CoverBox = ({ cover }) =>
+export const CoverBox = ({ cover, getImageUrl }) =>
   (cover && !!cover.image?.url && (
     <Cover>
       <CoverLink href={cover.url || ''} target="__blank">
         <CoverImage
-          src={cover.image.url || ''}
+          src={getImageUrl({ image: cover.image }) || ''}
+          // src={cover.image.url || ''}
           alt="image"
           fullscreen={cover.fullscreen || false}
         />

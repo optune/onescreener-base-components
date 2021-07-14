@@ -264,6 +264,7 @@ export const Page = ({
               content={content}
               design={isThemeSelected && design}
               domainName={domainName}
+              getImageUrl={getUrl}
               isPreviewMobile={isPreviewMobile}
               isPreviewMobileReady={isPreviewMobileReady}
               isProPlanRequired={isProPlanRequired}
@@ -273,8 +274,8 @@ export const Page = ({
               onContentSectionClick={onContentSectionClick}
               onLoadShopItem={onLoadShopItem}
               pageUrl={pageUrl}
-              shopEnabled={stripe.shopEnabled}
               setModalShop={setModalShop}
+              shopEnabled={stripe.shopEnabled}
               showRedirectOverlay={showRedirectOverlay}
               showStatistics={showStatistics}
               statisticsPeriod={statisticsPeriod}
@@ -285,6 +286,7 @@ export const Page = ({
             {!isSidePreview && (
               <Fragment>
                 <ShopModal
+                  getImageUrl={getUrl}
                   isSidePreview={isSidePreview}
                   isPreviewMobile={isPreviewMobile}
                   onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
