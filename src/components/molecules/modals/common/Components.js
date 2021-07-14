@@ -49,11 +49,17 @@ const StyledModalContent = styled.div`
     width: 100%;
     max-width: unset;
     height: ${({ height }) => height || '100%'};
+
+    &.checkout {
+      height: auto;
+      max-height: 100%;
+    }
   }
 `
 
 export const Modal = ({
   children,
+  className,
   show,
   isPreviewMobile,
   isSidePreview,
@@ -72,6 +78,7 @@ export const Modal = ({
         height={height}
         maxHeight={maxHeight}
         maxWidth={maxWidth}
+        className={className}
       >
         {children}
       </StyledModalContent>
@@ -96,7 +103,7 @@ export const Container = styled.div`
   border-radius: 4px;
   position: relative;
   overflow-y: auto;
-  max-height: 80vh;
+  max-height: 90vh;
 
   &.overflow-y {
     overflow-y: auto;
