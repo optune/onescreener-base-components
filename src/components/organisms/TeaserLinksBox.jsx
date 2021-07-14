@@ -107,19 +107,26 @@ const Container = styled.div`
     }
 
     .clip {
-      grid-column: ${({ image }) => (image ? '2/2' : '1/1')};
-      justify-self: ${({ image }) => (image ? 'flex-start' : 'center')};
+      grid-column: ${({ image }) => (image > '' ? '2/2' : '1/1')};
+      justify-self: ${({ image }) => (image > '' ? 'flex-start' : 'center')};
       align-self: center;
       display: flex;
       position: absolute;
 
       padding: 0 20px;
       line-height: ${({ isSidePreview }) => (isSidePreview ? '12px' : '19px')};
+      max-width: ${({ isSidePreview }) => isSidePreview && '240px'};
       max-height: 100%;
       overflow: hidden;
       overflow-wrap: break-word;
       white-space: normal;
       word-break: break-word;
+
+      @media ${MediaSmall} {
+        max-width: 240px;
+        align-self: center;
+        justify-self: center;
+      }
     }
 
     .image {
@@ -127,8 +134,8 @@ const Container = styled.div`
       flex: 1;
 
       height: ${({ isSidePreview }) => (isSidePreview ? '26px' : '42px')};
-      width: ${({ isSidePreview }) => (isSidePreview ? '26px' : '82px')};
-      margin-left: 8px;
+      width: ${({ isSidePreview }) => (isSidePreview ? '26px' : '42px')};
+      margin: 4px;
       border-radius: 4px;
       object-fit: cover;
     }
@@ -236,7 +243,6 @@ export const TeaserLinksBox = ({
                           name,
                           url,
                         },
-
                       },
                     },
                   }).then((r) => r)
