@@ -1,11 +1,19 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+
+// API
 import { filterTime, getFromDate } from '../../api'
 
-import { MediaSmall } from '../../style/media'
-import { RGBToHex } from '../../utils/convertRGBtoHEX'
+// Atomsa
 import { StatisticsOverlay } from '../atoms/StatisticsOverlay'
+
+// Styles
+import { MediaSmall } from '../../style/media'
+
+// Utils
+import { RGBToHex } from '../../utils/convertRGBtoHEX'
+import { getImageUrl } from '../../utils/getImageUrl'
 
 const LINKS_LIMIT = 7
 const STEP = LINKS_LIMIT - 1
@@ -148,6 +156,7 @@ export const TeaserLinksBox = ({
   color,
   colorBackground,
   domainName,
+  getImageUrl,
   isProPlanRequired,
   isSidePreview,
   modalShop,
@@ -259,7 +268,16 @@ export const TeaserLinksBox = ({
                   </StatisticsOverlay>
                 )}
                 {images?.length > 0 && (
-                  <img image={images?.[0]} src={images?.[0]?.url} alt={name} className="image" />
+                  <img
+                    image={images?.[0]}
+                    src={getImageUrl({
+                      image: images?.[0],
+                      maxWidth: isSidePreview ? 26 : 82,
+                      maxHeight: isSidePreview ? 26 : 82,
+                    })}
+                    alt={name}
+                    className="image"
+                  />
                 )}
                 <p image={images?.[0]} className="clip">
                   {name}

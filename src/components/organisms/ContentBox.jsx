@@ -493,6 +493,7 @@ export const ContentBox = ({
   content,
   design,
   domainName,
+  getImageUrl,
   isPreviewMobile,
   isPreviewMobileReady,
   isProPlanRequired,
@@ -588,7 +589,7 @@ export const ContentBox = ({
   let Content
   switch (type) {
     case 'COVER':
-      Content = <CoverBox cover={cover} />
+      Content = <CoverBox cover={cover} getImageUrl={getImageUrl} />
       break
     case 'GIGS':
       Content = (
@@ -620,6 +621,7 @@ export const ContentBox = ({
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
           domainName={domainName}
+          getImageUrl={getImageUrl}
           isProPlanRequired={isProPlanRequired}
           isSidePreview={isSidePreview}
           modalShop={modalShop}
