@@ -10,6 +10,14 @@ const transformation = {
   ssrSocial: () => `q_auto:best,f_auto,c_fit,w_300,h_300`,
 }
 
+const getImagePath = (image) => {
+  const imageParts = image.url.split('/')
+  const imageSeparatorIndex = imageParts.findIndex((part) => part === 'upload') + 1
+  const imagePath = imageParts.slice(imageSeparatorIndex)
+
+  return imagePath
+}
+
 export const getImageUrl = (isClient, isSocial) => ({
   fullscreen,
   image,
@@ -28,9 +36,7 @@ export const getImageUrl = (isClient, isSocial) => ({
   }
 
   if (image?.url > '') {
-    const imageParts = image.url.split('/')
-    const imageSeparatorIndex = imageParts.findIndex((part) => part === 'upload') + 1
-    const imagePath = imageParts.slice(imageSeparatorIndex)
+    const imagePath = getImagePath(image)
 
     let imageTransformation = ''
     if (isClient) {
