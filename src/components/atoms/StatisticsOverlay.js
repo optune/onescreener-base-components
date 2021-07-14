@@ -7,7 +7,7 @@ export const StatisticsOverlay = styled.div`
   bottom: 0;
   right: 0;
 
-  background-color: rgba(180, 180, 180, 0.9);
+  background-color: rgba(180, 180, 180, 0.65);
   display: flex;
   justify-content: center;
   align-items: center;
