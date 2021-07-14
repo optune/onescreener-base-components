@@ -489,21 +489,26 @@ const getContentPosition = ({ content }) => {
 }
 
 export const ContentBox = ({
-  design,
+  analyticsLivePage,
   content,
-  links,
+  design,
+  domainName,
   isPreviewMobile,
   isPreviewMobileReady,
-  isSidePreview,
-  showRedirectOverlay,
-  analyticsLivePage,
   isProPlanRequired,
-  statisticsPeriod,
-  showStatistics,
-  pageUrl,
+  isSidePreview,
+  links,
+  modalShop,
   onContentSectionClick,
+  onLoadShopItem,
+  pageUrl,
+  setModalShop,
+  showRedirectOverlay,
+  showStatistics,
+  shopEnabled,
+  statisticsPeriod,
   trackingVisitorEvents,
-  domainName,
+  visitorSession,
 }) => {
   /*
    * Get content values
@@ -611,16 +616,21 @@ export const ContentBox = ({
     case 'TEASER_LINKS':
       Content = (
         <TeaserLinksBox
-          teaserLinks={teaserLinks.list}
-          isSidePreview={isSidePreview}
+          analyticsLivePage={analyticsLivePage}
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
-          analyticsLivePage={analyticsLivePage}
-          isProPlanRequired={isProPlanRequired}
-          statisticsPeriod={statisticsPeriod}
-          showStatistics={showStatistics}
-          trackingVisitorEvents={trackingVisitorEvents}
           domainName={domainName}
+          isProPlanRequired={isProPlanRequired}
+          isSidePreview={isSidePreview}
+          modalShop={modalShop}
+          onLoadShopItem={onLoadShopItem}
+          setModalShop={setModalShop}
+          shopEnabled={shopEnabled}
+          showStatistics={showStatistics}
+          statisticsPeriod={statisticsPeriod}
+          teaserLinks={teaserLinks.list}
+          trackingVisitorEvents={trackingVisitorEvents}
+          visitorSession={visitorSession}
         />
       )
       break

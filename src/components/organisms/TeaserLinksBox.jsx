@@ -17,7 +17,7 @@ const Container = styled.div`
   left: 0;
   right: 0;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   margin: 0;
@@ -26,16 +26,17 @@ const Container = styled.div`
     position: relative;
     width: 100%;
     max-width: 640px;
-    min-height: ${({ isSidePreview }) => (isSidePreview ? '32px' : '40px')};
-
+    min-height: ${({ isSidePreview }) => (isSidePreview ? '32px' : '50px')};
     height: auto;
     font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '1rem')};
     font-weight: 600;
     color: ${({ color }) => (color ? color : '#0a1c3b')};
     text-shadow: 1px 1px 1px rgba(46, 49, 49, 0.3);
 
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: ${({ image }) => (image ? '90px auto' : 'auto')};
+    grid-row-gap: 0;
+
     align-items: center;
     text-align: center;
     text-decoration: none;
@@ -87,7 +88,23 @@ const Container = styled.div`
       margin-bottom: 10px;
     }
 
+    &.disabled {
+      cursor: auto;
+      pointer-events: none;
+      opacity: 0.5;
+
+      &::after {
+        content: unset;
+      }
+    }
+
     .clip {
+      grid-column: ${({ image }) => (image ? '2/2' : '1/1')};
+      justify-self: ${({ image }) => (image ? 'flex-start' : 'center')};
+      align-self: center;
+      display: flex;
+      position: absolute;
+
       padding: 0 20px;
       line-height: ${({ isSidePreview }) => (isSidePreview ? '12px' : '19px')};
       max-height: 100%;
@@ -97,27 +114,56 @@ const Container = styled.div`
       word-break: break-word;
     }
 
+    .image {
+      grid-column: ${({ image }) => (image ? '1/1' : null)};
+      flex: 1;
+
+      height: ${({ isSidePreview }) => (isSidePreview ? '26px' : '42px')};
+      width: ${({ isSidePreview }) => (isSidePreview ? '26px' : '82px')};
+      margin-left: 8px;
+      border-radius: 4px;
+      object-fit: cover;
+    }
+
+    .sold-out {
+      position: absolute;
+      text-transform: uppercase;
+      font-size: ${({ isSidePreview }) => (isSidePreview ? '10px' : '12px')};
+      color: red;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+    }
+
     @media ${MediaSmall} {
       font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '16px')};
     }
   }
 `
 
+const TeaserLink = styled.a``
+
 export const TeaserLinksBox = ({
-  teaserLinks,
-  isSidePreview,
-  colorBackground,
-  color,
   analyticsLivePage,
-  isProPlanRequired,
-  statisticsPeriod,
-  showStatistics,
-  trackingVisitorEvents,
+  color,
+  colorBackground,
   domainName,
+  isProPlanRequired,
+  isSidePreview,
+  modalShop,
+  onLoadShopItem,
+  setModalShop,
+  shopEnabled,
+  showStatistics,
+  statisticsPeriod,
+  teaserLinks,
+  trackingVisitorEvents,
+  visitorSession,
 }) => {
   const [pagination, setPagination] = useState({ start: 0, end: 8 })
   const { start, end } = pagination
 
+  console.log({ boxEnmabe: shopEnabled })
   useEffect(() => {
     if (start === 0 && teaserLinks.length > LINKS_LIMIT) {
       setPagination({ start: 0, end: 6 })
@@ -155,40 +201,75 @@ export const TeaserLinksBox = ({
           Show previous
         </div>
       )}
-      {teaserLinks.map(
-        ({ url, name }, index) =>
-          index >= start &&
-          index < end - paginationCorrection && (
-            <a
-              key={`${name}-${index}`}
-              href={url}
-              target="_blank"
-              rel="noreferrer"
-              className="teaser-link"
-              onClick={() => {
-                trackingVisitorEvents({
-                  domainName,
-                  category: {
-                    teaserLinks: {
-                      event: {
-                        name,
-                        url,
+      {teaserLinks
+        .filter(({ isShop }) => (isShop ? shopEnabled : true))
+        .map(({ _id, url, name, image, isShop, shop }, index) => {
+          if (isShop) console.log({ isShop, shop, name, image })
+
+          const isLink = !isShop
+          const soldOut = shop?.maxQuantity === -1
+
+          return (
+            index >= start &&
+            index < end - paginationCorrection && (
+              <TeaserLink
+                as={isLink ? 'a' : 'div'}
+                key={`${name}-${index}`}
+                href={url}
+                image={image}
+                className={`teaser-link ${soldOut && 'disabled'}`}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => {
+                  trackingVisitorEvents({
+                    visitorSession,
+                    domainName,
+                    category: {
+                      teaserLinks: {
+                        event: {
+                          name,
+                          url,
+                        },
+
                       },
                     },
-                  },
-                }).then((r) => console.log({ r }))
-              }}
-            >
-              {showStatistics && (
-                <StatisticsOverlay>
-                  <div>{getLinkClicks({ name, url })}</div>
-                </StatisticsOverlay>
-              )}
+                  }).then((r) => r)
 
-              <p className="clip">{name}</p>
-            </a>
+                  if (!isSidePreview && isShop) {
+                    onLoadShopItem?.({ itemId: _id }).then((item) => {
+                      if (item.shop.maxQuantity > -1) {
+                        setModalShop({
+                          show: true,
+                          item: {
+                            _id: item._id,
+                            name: item.name,
+                            image: item.image,
+                            ...item.shop,
+                          },
+                        })
+                      }
+                    })
+                  }
+                }}
+              >
+                {soldOut && (
+                  <div className="sold-out">
+                    Sold <br /> out
+                  </div>
+                )}
+                {showStatistics && (
+                  <StatisticsOverlay>
+                    <div>{getLinkClicks({ name, url })}</div>
+                  </StatisticsOverlay>
+                )}
+                {image && <img image={image} src={image.url} alt={name} className="image" />}
+                <p image={image} className="clip">
+                  {name}
+                </p>
+              </TeaserLink>
+            )
           )
-      )}
+        })}
       {nextPageExists && (
         <div className="teaser-link" onClick={paginationNext}>
           Show more

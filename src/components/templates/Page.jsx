@@ -9,7 +9,8 @@ import { BackLink } from '../atoms/BackLink'
 
 // Molecules
 import { Links } from '../molecules/links/Links.jsx'
-import { TextModal } from '../molecules/TextModal'
+import { TextModal } from '../molecules/modals/TextModal'
+import { ShopModal } from '../molecules/modals/ShopModal.js'
 
 // Background
 import { Background } from '../atoms/Background.jsx'
@@ -26,6 +27,7 @@ import { getImageUrl } from '../../utils/getImageUrl.js'
 // Global Styles
 import GlobalStyle from '../../style/global.js'
 import { UpgradeOverlay } from '../molecules/UpgradeOverlay.js'
+import { ShopFinishedModal } from '../molecules/modals/ShopFinishedModal.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -116,31 +118,56 @@ const BlockedOverlay = styled.p`
 `
 
 export const Page = ({
+  analyticsLivePage,
+  domainName,
+  hasPro,
+  isInstagramBrowser,
+  isOrderSuccess,
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
-  isInstagramBrowser,
   Modal,
-  hasPro,
   noBacklink,
-  page,
-  pageUrl,
-  userName,
-  analyticsLivePage,
-  statisticsPeriod,
-  showStatistics,
-  showUpgradeOverlay,
-  onUpgrade,
-  ProTag,
-  onLogoSectionClick,
+  onBuyItem,
   onContentSectionClick,
   onLinksSectionClick,
+  onLoadOrder,
+  onLogoSectionClick,
+  onLoadShopItem,
+  onUpgrade,
+  page,
+  pageUrl,
+  ProTag,
+  showStatistics,
+  showUpgradeOverlay,
+  statisticsPeriod,
   trackingVisitorEvents,
-  domainName,
+  userName,
+  visitorSession,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
     setSsrDone(true)
+
+    // if (!isSidePreview) {
+    //   let link = document.createElement('link')
+
+    //   // Google API
+    //   link.rel = 'preconnect'
+    //   link.href = 'https://fonts.googleapis.com'
+    //   document.head.appendChild(link)
+
+    //   // Gstatic
+    //   link.href = 'https://fonts.gstatic.com'
+    //   link.crossOrigin = true
+    //   document.head.appendChild(link)
+
+    //   // Font Bangers
+    //   link.rel = 'stylesheet'
+    //   link.href = 'https://fonts.googleapis.com/css2?family=Bangers&display=swap'
+    //   link.crossOrigin = false
+    //   document.head.appendChild(link)
+    // }
   }, [])
   const getUrl = getImageUrl(ssrDone)
 
@@ -156,10 +183,15 @@ export const Page = ({
     onAction: null,
   })
 
+  const [modalShop, setModalShop] = useState({
+    show: false,
+    isOrderSuccess,
+  })
+
   let PageComponent = null
 
   if (page) {
-    const { background, logo, content, design, selectedThemeId } = page
+    const { background, logo, content, design, selectedThemeId, stripe } = page
     const { links } = page || { links: { list: [] } }
     // const domainName = page.domainName
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
@@ -228,22 +260,52 @@ export const Page = ({
 
             {/* Content */}
             <ContentBox
-              design={isThemeSelected && design}
+              analyticsLivePage={analyticsLivePage}
               content={content}
-              links={links}
+              design={isThemeSelected && design}
+              domainName={domainName}
               isPreviewMobile={isPreviewMobile}
               isPreviewMobileReady={isPreviewMobileReady}
-              isSidePreview={isSidePreview}
-              showRedirectOverlay={showRedirectOverlay}
               isProPlanRequired={isProPlanRequired}
-              analyticsLivePage={analyticsLivePage}
-              statisticsPeriod={statisticsPeriod}
-              showStatistics={showStatistics}
-              pageUrl={pageUrl}
+              isSidePreview={isSidePreview}
+              links={links}
+              modalShop={modalShop}
               onContentSectionClick={onContentSectionClick}
+              onLoadShopItem={onLoadShopItem}
+              pageUrl={pageUrl}
+              shopEnabled={stripe.shopEnabled}
+              setModalShop={setModalShop}
+              showRedirectOverlay={showRedirectOverlay}
+              showStatistics={showStatistics}
+              statisticsPeriod={statisticsPeriod}
               trackingVisitorEvents={trackingVisitorEvents}
-              domainName={domainName}
+              visitorSession={visitorSession}
             />
+
+            {!isSidePreview && (
+              <Fragment>
+                <ShopModal
+                  isSidePreview={isSidePreview}
+                  isPreviewMobile={isPreviewMobile}
+                  onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
+                  isOrderSuccess={isOrderSuccess}
+                  show={modalShop.show}
+                  onBuyItem={onBuyItem}
+                  onLoadOrder={onLoadOrder}
+                  shopItem={modalShop.item}
+                />
+
+                <ShopFinishedModal
+                  isSidePreview={isSidePreview}
+                  isPreviewMobile={isPreviewMobile}
+                  onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
+                  isOrderSuccess={isOrderSuccess}
+                  show={modalShop.isOrderSuccess}
+                  onLoadOrder={onLoadOrder}
+                  shopItem={modalShop.item}
+                />
+              </Fragment>
+            )}
 
             {/* Links */}
             {links.list.length > 0 && (
