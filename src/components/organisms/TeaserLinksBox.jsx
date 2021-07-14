@@ -263,11 +263,7 @@ export const TeaserLinksBox = ({
                     Sold <br /> out
                   </div>
                 )}
-                {showStatistics && (
-                  <StatisticsOverlay>
-                    <div>{getLinkClicks({ name, url })}</div>
-                  </StatisticsOverlay>
-                )}
+
                 {images?.length > 0 && (
                   <img
                     image={images?.[0]}
@@ -283,6 +279,11 @@ export const TeaserLinksBox = ({
                 <p image={images?.[0]} className="clip">
                   {name}
                 </p>
+                {showStatistics && (
+                  <StatisticsOverlay>
+                    <div>{getLinkClicks({ name, url })}</div>
+                  </StatisticsOverlay>
+                )}
               </TeaserLink>
             )
           )
