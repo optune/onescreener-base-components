@@ -20,6 +20,7 @@ import {
 } from './common/Components'
 
 import { InputField } from '../../atoms/forms/InputField'
+import { debounce } from '../../../utils/debounce'
 
 const InfoForm = ({
   name,
@@ -280,14 +281,8 @@ export const ShopModal = ({
       formData.clientName === '' ||
       (isPhysical ? !(formData.city > '' && formData.zip > '' && formData.street > '') : false))
 
-  const handleQuantityChange = (e) => setQuantity(e.target.value)
-
-  const handleFormChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
-
-  const onEmailTouch = () => setEmailTouched(true)
-
-  const onValidateEmail = (e) => {
-    let email = e.target.value
+  const onValidateEmail = () => {
+    let email = formData.email
 
     setEmailTouched(false)
 
@@ -297,6 +292,11 @@ export const ShopModal = ({
     }
 
     let parts = email.split('@')
+
+    if (parts.length !== 2) {
+      setValidEmail(false)
+      return
+    }
 
     if (parts.length > 2 || !parts[1].includes('.') || parts[0] === '' || parts[1] === '') {
       setValidEmail(false)
@@ -312,6 +312,20 @@ export const ShopModal = ({
 
     setValidEmail(true)
   }
+
+  const _onValidateEmail = debounce(onValidateEmail, 700)
+
+  const handleQuantityChange = (e) => setQuantity(e.target.value)
+
+  const handleFormChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+    if (e.target.name === 'email') {
+      setValidEmail(false)
+      _onValidateEmail()
+    }
+  }
+
+  const onEmailTouch = () => setEmailTouched(true)
 
   const handleEnableButton = () => setButtonDisabled(false)
   const handleDisableButton = () => setButtonDisabled(true)
@@ -377,7 +391,7 @@ export const ShopModal = ({
               note={note}
               onEmailTouch={onEmailTouch}
               onSelectQuantity={handleQuantityChange}
-              onValidateEmail={onValidateEmail}
+              onValidateEmail={_onValidateEmail}
               price={price}
               quantity={quantity}
             />
