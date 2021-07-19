@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import RPlayer from 'react-player'
 
@@ -34,6 +34,22 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
 `
+const getControls = ({ url, format, autoPlay, theme, isDeezer, isSidePreview }) => {
+  const props = {
+    playing: false,
+    width: '100%',
+    height: '100%',
+    controls: true,
+  }
+
+  if (!!url) props.url = url
+  if (!!format) props.format = format
+  if (!!autoPlay) props.autoPlay = String(autoPlay) === 'true'
+  if (!!theme) props.theme = theme
+  if (!!isSidePreview && isDeezer) props.isSidePreview = isSidePreview
+
+  return props
+}
 
 export const MediaBox = ({ media, isPreviewMobile, isSidePreview }) => {
   const [ssrDone, setSsrDone] = useState(false)
@@ -43,6 +59,7 @@ export const MediaBox = ({ media, isPreviewMobile, isSidePreview }) => {
 
   let Player = ssrDone && media?.url && ReactPlayer
   let url = media?.url || ''
+  let isDeezer = false
 
   let format, autoplay, theme
   if (media?.deezer) {
@@ -57,6 +74,7 @@ export const MediaBox = ({ media, isPreviewMobile, isSidePreview }) => {
     Player = ApplePlayer
   } else if (media?.url?.indexOf('deezer') !== -1) {
     Player = DeezerPlayer
+    isDeezer = true
   }
 
   let PlayerWrapper =
@@ -68,34 +86,42 @@ export const MediaBox = ({ media, isPreviewMobile, isSidePreview }) => {
       AutoPlayerFit) ||
     Wrapper
 
+  const playerProps = useMemo(
+    () => getControls({ url, format, autoPlay: autoplay, theme, isDeezer, isSidePreview }),
+    [url, format, autoplay, theme, isSidePreview]
+  )
+
+  console.log({ playerProps })
   return media?.fullscreen
     ? Player && (
         <Fullscreen>
           <Player
-            url={url}
-            playing={false}
-            width="100%"
-            height="100%"
-            format={format}
-            autoplay={autoplay}
-            theme={theme}
-            controls={true}
-            isSidePreview={isSidePreview}
+            {...playerProps}
+            // url={url}
+            // playing={false}
+            // width="100%"
+            // height="100%"
+            // format={format}
+            // autoPlay={autoplay}
+            // theme={theme}
+            // controls={true}
+            // isSidePreview={isSidePreview}
           />
         </Fullscreen>
       )
     : Player && (
         <PlayerWrapper isPreviewMobile={isPreviewMobile}>
           <Player
-            url={url}
-            playing={false}
-            width="100%"
-            height="100%"
-            format={format}
-            autoplay={autoplay}
-            theme={theme}
-            controls={true}
-            isSidePreview={isSidePreview}
+            {...playerProps}
+            // url={url}
+            // playing={false}
+            // width="100%"
+            // height="100%"
+            // format={format}
+            // autoPlay={autoplay}
+            // theme={theme}
+            // controls={true}
+            // isSidePreview={isSidePreview}
           />
         </PlayerWrapper>
       )
