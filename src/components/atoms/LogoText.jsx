@@ -9,11 +9,11 @@ import { MediaMobile } from '../../style/media'
 
 const LogoSize = {
   Desktop: {
-    XS: '13%',
-    S: '20%',
-    M: '27%',
-    L: '33%',
-    XL: '41%',
+    XS: '11%',
+    S: '17%',
+    M: '22.95%',
+    L: '28.05%',
+    XL: '34.85%',
   },
   Mobile: {
     XS: '33.333%',
