@@ -30,11 +30,11 @@ const LogoSize = {
 
 const LogoSizeMinWidth = {
   Desktop: {
-    XS: '30%',
-    S: '35%',
-    M: '45%',
-    L: '60%',
-    XL: '80%',
+    XS: '20%',
+    S: '25%',
+    M: '30%',
+    L: '45%',
+    XL: '60%',
   },
   Mobile: {
     XS: '40%',
@@ -47,11 +47,11 @@ const LogoSizeMinWidth = {
 
 const LogoSizeMaxHeight = {
   Desktop: {
-    XS: '10%',
-    S: '12%',
-    M: '14%',
-    L: '18%',
-    XL: '20%',
+    XS: '8.5%',
+    S: '9.5%',
+    M: '11%',
+    L: '15%',
+    XL: '17%',
   },
   Mobile: {
     XS: '10%',
@@ -64,11 +64,11 @@ const LogoSizeMaxHeight = {
 
 const LogoSizeMaxHeightSidePreview = {
   Desktop: {
-    XS: '7%',
-    S: '9%',
-    M: '10%',
-    L: '12%',
-    XL: '14%',
+    XS: '3%',
+    S: '4%',
+    M: '5%',
+    L: '6%',
+    XL: '7%',
   },
   Mobile: {
     XS: '10%',
