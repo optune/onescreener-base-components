@@ -106,6 +106,16 @@ const Container = styled.div`
       }
     }
 
+    &.long {
+      p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+    }
+
     .clip {
       grid-column: ${({ image }) => (image > '' ? '2/2' : '1/1')};
       justify-self: ${({ image }) => (image > '' ? 'flex-start' : 'center')};
@@ -235,7 +245,7 @@ export const TeaserLinksBox = ({
                 key={`${name}-${index}`}
                 href={url}
                 image={images?.[0]}
-                className={`teaser-link ${soldOut && 'disabled'}`}
+                className={`teaser-link ${soldOut && 'disabled'} ${name.length > 50 && 'long'}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => {
