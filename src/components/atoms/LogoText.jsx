@@ -30,11 +30,11 @@ const LogoSize = {
 
 const LogoSizeMinWidth = {
   Desktop: {
-    XS: '20%',
-    S: '25%',
-    M: '30%',
-    L: '45%',
-    XL: '60%',
+    XS: '17%',
+    S: '22%',
+    M: '27%',
+    L: '32%',
+    XL: '37%',
   },
   Mobile: {
     XS: '40%',
