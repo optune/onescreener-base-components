@@ -9,11 +9,11 @@ import { MediaMobile } from '../../style/media'
 
 const LogoSize = {
   Desktop: {
-    XS: '13%',
-    S: '20%',
-    M: '27%',
-    L: '33%',
-    XL: '41%',
+    XS: '11%',
+    S: '17%',
+    M: '22.95%',
+    L: '28.05%',
+    XL: '34.85%',
   },
   Mobile: {
     XS: '33.333%',
@@ -30,11 +30,11 @@ const LogoSize = {
 
 const LogoSizeMinWidth = {
   Desktop: {
-    XS: '30%',
-    S: '35%',
-    M: '45%',
-    L: '60%',
-    XL: '80%',
+    XS: '17%',
+    S: '22%',
+    M: '27%',
+    L: '32%',
+    XL: '37%',
   },
   Mobile: {
     XS: '40%',
@@ -47,11 +47,11 @@ const LogoSizeMinWidth = {
 
 const LogoSizeMaxHeight = {
   Desktop: {
-    XS: '10%',
-    S: '12%',
-    M: '14%',
-    L: '18%',
-    XL: '20%',
+    XS: '8.5%',
+    S: '9.5%',
+    M: '11%',
+    L: '15%',
+    XL: '17%',
   },
   Mobile: {
     XS: '10%',
@@ -64,11 +64,11 @@ const LogoSizeMaxHeight = {
 
 const LogoSizeMaxHeightSidePreview = {
   Desktop: {
-    XS: '7%',
-    S: '9%',
-    M: '10%',
-    L: '12%',
-    XL: '14%',
+    XS: '3%',
+    S: '4%',
+    M: '5%',
+    L: '6%',
+    XL: '7%',
   },
   Mobile: {
     XS: '10%',

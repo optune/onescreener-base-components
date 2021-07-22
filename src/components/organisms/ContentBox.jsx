@@ -456,12 +456,12 @@ const Container = styled.div`
     width: ${({ isSidePreview }) => (isSidePreview ? null : '100%')};
     margin: 0px 10px;
 
-    ${({ isLegacyMobile }) =>
+    ${({ isLegacyMobile, isTeaserLinks }) =>
       isLegacyMobile &&
       css`
         height: 100%;
         width: 100%;
-        margin: 0;
+        ${!isTeaserLinks && 'margin: 0;'}
       `}
   }
 
@@ -577,7 +577,7 @@ export const ContentBox = ({
       ? undefined
       : getArea({
           position: isTeaserLinks ? '2/1' : positionMobile,
-          span: isTeaserLinks ? '2/2' : spanMobile,
+          span: isTeaserLinks ? '1/2' : spanMobile,
         })
   const { border, circle, square } = links
 
