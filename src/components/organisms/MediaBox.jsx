@@ -91,21 +91,11 @@ export const MediaBox = ({ media, isPreviewMobile, isSidePreview }) => {
     [url, format, autoplay, theme, isSidePreview]
   )
 
-  console.log({ playerProps })
   return media?.fullscreen
     ? Player && (
         <Fullscreen>
           <Player
             {...playerProps}
-            // url={url}
-            // playing={false}
-            // width="100%"
-            // height="100%"
-            // format={format}
-            // autoPlay={autoplay}
-            // theme={theme}
-            // controls={true}
-            // isSidePreview={isSidePreview}
           />
         </Fullscreen>
       )
@@ -113,15 +103,6 @@ export const MediaBox = ({ media, isPreviewMobile, isSidePreview }) => {
         <PlayerWrapper isPreviewMobile={isPreviewMobile}>
           <Player
             {...playerProps}
-            // url={url}
-            // playing={false}
-            // width="100%"
-            // height="100%"
-            // format={format}
-            // autoPlay={autoplay}
-            // theme={theme}
-            // controls={true}
-            // isSidePreview={isSidePreview}
           />
         </PlayerWrapper>
       )
