@@ -19,22 +19,11 @@ const TextContainer = styled.div`
 
   display: flex;
   justify-content: ${({ alignHorizontal = 'CENTER_LEFT' }) => HorizontalAlignment[alignHorizontal]};
-
-  ${({ isLogo }) =>
-    !isLogo &&
-    css`
-      overflow-y: scroll;
-      -ms-overflow-style: none; /* Internet Explorer 10+ */
-      scrollbar-width: none; /* Firefox */
-      ::-webkit-scrollbar {
-        display: none; /* Safari and Chrome */
-      }
-    `}
 `
 
 const TextContent = styled.div`
   padding: ${({ padding, isMobileView, isSidePreview }) =>
-    padding || ((isMobileView || isSidePreview) && '1em 1em') || '1em 1em'};
+    padding || ((isMobileView || isSidePreview) && '1em 1em') || '1em 2em'};
   background-color: ${({ colorBackground }) => colorBackground || 'transparent'};
 
   ${({ isLogo }) =>
@@ -74,7 +63,7 @@ const DEFAULTS = {
   maxFontSize: 100,
 
   // the minimum font size in pixel.
-  minFontSize: 8,
+  minFontSize: 1,
 
   // avoid line breaks
   includeWidth: false,
