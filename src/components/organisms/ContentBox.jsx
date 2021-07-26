@@ -365,9 +365,7 @@ ${({ isSidePreview, linksPosition, contentPosition, isPreviewMobile }) =>
   css`
     bottom: ${linksPosition.includes('BOTTOM') &&
     contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM') &&
-    isSidePreview &&
-    !isPreviewMobile &&
-    '2.4rem'};
+    (isSidePreview ? '3.1rem' : '6.4rem')};
     left: ${linksPosition.includes('LEFT') &&
     contentPosition.classnameDesktop.toUpperCase().includes('LEFT') &&
     isSidePreview &&
@@ -380,17 +378,6 @@ ${({ isSidePreview, linksPosition, contentPosition, isPreviewMobile }) =>
     '2.4rem'};
   `}
 
-
-  /* ${({ contentPosition, isPreviewMobile, isTeaserLinks }) =>
-    !isTeaserLinks &&
-    contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') &&
-    css`
-      ${isPreviewMobile && 'bottom: .4rem;'}
-
-      @media ${MediaMobile} {
-        bottom: 6.2rem;
-      }
-    `} */
 
   ${stylesContentDesktop}
 
