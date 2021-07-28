@@ -364,33 +364,26 @@ z-index: 99;
 ${({ isSidePreview, linksPosition, contentPosition, isPreviewMobile }) =>
   css`
     bottom: ${linksPosition.includes('BOTTOM') &&
-    contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM') &&
-    isSidePreview &&
-    !isPreviewMobile &&
-    '2.4rem'};
+    (isPreviewMobile
+      ? contentPosition.classnameMobile.toUpperCase().includes('BOTTOM')
+      : contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM')) &&
+    (isSidePreview ? '3.1rem' : '6.4rem')};
     left: ${linksPosition.includes('LEFT') &&
-    contentPosition.classnameDesktop.toUpperCase().includes('LEFT') &&
+    (isPreviewMobile
+      ? contentPosition.classnameMobile.toUpperCase().includes('LEFT')
+      : contentPosition.classnameDesktop.toUpperCase().includes('LEFT')) &&
     isSidePreview &&
     !isPreviewMobile &&
-    '2.4rem'};
+    '2.8rem'};
     right: ${linksPosition.includes('RIGHT') &&
-    contentPosition.classnameDesktop.toUpperCase().includes('RIGHT') &&
+    (isPreviewMobile
+      ? contentPosition.classnameMobile.toUpperCase().includes('RIGHT')
+      : contentPosition.classnameDesktop.toUpperCase().includes('RIGHT')) &&
     isSidePreview &&
     !isPreviewMobile &&
-    '2.4rem'};
+    '2.8rem'};
   `}
 
-
-  /* ${({ contentPosition, isPreviewMobile, isTeaserLinks }) =>
-    !isTeaserLinks &&
-    contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') &&
-    css`
-      ${isPreviewMobile && 'bottom: .4rem;'}
-
-      @media ${MediaMobile} {
-        bottom: 6.2rem;
-      }
-    `} */
 
   ${stylesContentDesktop}
 

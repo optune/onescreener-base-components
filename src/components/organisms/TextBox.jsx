@@ -42,15 +42,6 @@ const Text = styled.div`
     line-height: 1.4;
     margin: 0 0 0.1em;
     padding: 0;
-
-${({ isSidePreview }) =>
-  !isSidePreview &&
-  css`
-    @media ${MediaMobile} {
-      font-size: 1.2em !important;
-    }
-  `}
-    
   }
   & a {
     word-break: ${({ wordWrap }) => (wordWrap ? 'break-word' : 'normal')};
@@ -99,12 +90,7 @@ export const TextBox = ({
 }) => {
   return (
     <TextBackground>
-      <Text
-        colorPrimary={color}
-        colorAccent={colorAccent}
-        wordWrap={wordWrap}
-        isSidePreview={isSidePreview}
-      >
+      <Text colorPrimary={color} colorAccent={colorAccent} wordWrap={wordWrap}>
         <AutoTextFit
           colorBackground={colorBackground}
           includeWidth={!wordWrap}
