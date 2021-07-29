@@ -361,14 +361,16 @@ display: flex;
 z-index: 99;
 /* bottom: 5.2rem; */
 
-${({ isSidePreview, linksPosition, contentPosition, isPreviewMobile }) =>
+${({ isSidePreview, isTeaserLinks, linksPosition, contentPosition, isPreviewMobile }) =>
   css`
     bottom: ${linksPosition.includes('BOTTOM') &&
+    !isTeaserLinks &&
     (isPreviewMobile
       ? contentPosition.classnameMobile.toUpperCase().includes('BOTTOM')
       : contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM')) &&
     (isSidePreview ? '3.1rem' : '6.4rem')};
     left: ${linksPosition.includes('LEFT') &&
+    !isTeaserLinks &&
     (isPreviewMobile
       ? contentPosition.classnameMobile.toUpperCase().includes('LEFT')
       : contentPosition.classnameDesktop.toUpperCase().includes('LEFT')) &&
@@ -376,6 +378,7 @@ ${({ isSidePreview, linksPosition, contentPosition, isPreviewMobile }) =>
     !isPreviewMobile &&
     '2.8rem'};
     right: ${linksPosition.includes('RIGHT') &&
+    !isTeaserLinks &&
     (isPreviewMobile
       ? contentPosition.classnameMobile.toUpperCase().includes('RIGHT')
       : contentPosition.classnameDesktop.toUpperCase().includes('RIGHT')) &&
