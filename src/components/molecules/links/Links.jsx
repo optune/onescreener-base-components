@@ -76,8 +76,6 @@ export const Links = ({
     return clicks
   }
 
-  console.log({ mappedLinks })
-
   return (
     <Fragment>
       {mappedLinks.map((link) => (
