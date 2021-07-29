@@ -76,6 +76,8 @@ export const Links = ({
     return clicks
   }
 
+  console.log({ mappedLinks })
+
   return (
     <Fragment>
       {mappedLinks.map((link) => (
@@ -109,9 +111,7 @@ export const Links = ({
           text={link.text}
           url={
             // TODO: refactor, use real email field maybe
-            !link.email && (link.url?.includes('@') || link?.username?.includes('@'))
-              ? `mailto:${link.username}`
-              : link.url
+            link.platform === 'MAIL' ? `mailto:${link.url}` : link.url
           }
         />
       ))}
