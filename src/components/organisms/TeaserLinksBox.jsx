@@ -139,6 +139,10 @@ const Container = styled.div`
       }
     }
 
+    p.has-image {
+      padding: ${({ isSidePreview }) => (isSidePreview ? '0 25px' : '0 50px')};
+    }
+
     .image-container {
       position: absolute;
       top: 50%;
@@ -236,6 +240,7 @@ export const TeaserLinksBox = ({
         .map(({ _id, url, name, images = [], isShop, shop }, index) => {
           const isLink = !isShop
           const soldOut = shop?.maxQuantity === -1
+          const hasImage = !!images?.[0]
 
           return (
             index >= start &&
@@ -288,7 +293,7 @@ export const TeaserLinksBox = ({
 
                   {images?.length > 0 && (
                     <img
-                      image={!!images?.[0] ? 1 : undefined}
+                      image={hasImage ? 1 : undefined}
                       src={getImageUrl({
                         image: images?.[0],
                         maxWidth: isSidePreview ? 26 : 82,
@@ -299,7 +304,7 @@ export const TeaserLinksBox = ({
                     />
                   )}
                 </div>
-                <p image={!!images?.[0] ? 1 : undefined} className="clip">
+                <p image={hasImage ? 1 : undefined} className={`clip ${hasImage && 'has-image'}`}>
                   {name}
                 </p>
                 {showStatistics && (
