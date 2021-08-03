@@ -435,7 +435,7 @@ const Container = styled.div`
   ${({ isSidePreview, isTeaserLinks, isGigs }) =>
     (isTeaserLinks || isGigs) &&
     css`
-      min-width: ${({ isSidePreview }) => (isSidePreview ? '250px' : '300px')};
+      min-width: ${({ isSidePreview }) => (isSidePreview ? '255px' : '315px')};
     `}
 
 

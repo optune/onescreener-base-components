@@ -271,7 +271,7 @@ export const ShopModal = ({
     checkout: {},
   }
 
-  const actualPrice = +price * +quantity
+  const actualPrice = +parseFloat(+price * +quantity).toFixed(2)
 
   const disabled =
     step === 2 &&
