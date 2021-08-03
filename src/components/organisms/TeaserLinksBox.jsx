@@ -140,7 +140,7 @@ const Container = styled.div`
     }
 
     p.has-image {
-      padding: ${({ isSidePreview }) => (isSidePreview ? '0 25px' : '0 50px')};
+      padding: ${({ isSidePreview }) => (isSidePreview ? '0 31px' : '0 50px')};
     }
 
     .image-container {
