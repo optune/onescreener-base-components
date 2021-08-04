@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment, useState, useEffect } from 'react'
 
+// API
+import { CurrencySign } from '../../../api'
+
 // Styles
 import { CloseDarkIcon } from '../../icons/CloseIcon'
 
@@ -60,8 +63,16 @@ const SuccessMessage = ({ order }) => {
 
       <div className="row ">
         <InfoColumn label={'Quantity'} value={order?.details.quantity} third />
-        <InfoColumn label={'Price'} value={`$ ${order?.details.price}`} third />
-        <InfoColumn label={'Total'} value={`$ ${order?.details.total}`} third />
+        <InfoColumn
+          label={'Price'}
+          value={`${CurrencySign[order?.details.currency] || '$'} ${order?.details.price}`}
+          third
+        />
+        <InfoColumn
+          label={'Total'}
+          value={`${CurrencySign[order?.details.currency] || '$'} ${order?.details.total}`}
+          third
+        />
       </div>
 
       {order?.product?.isPhysical && order?.details?.clientNote > '' ? (
@@ -109,19 +120,18 @@ export const ShopFinishedModal = ({
   show,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
-  const [orderAvailable, setOrderAvailable] = useState(true)
 
   const initialOrder = {
     client: {},
     details: {
-      clientNote: 'Default niote',
+      clientNote: '',
     },
     product: {
-      name: 'Default name',
+      name: '',
       isPhysical: true,
       downloadLink: '#',
       downloadLabel: '#',
-      message: 'Default thanks!',
+      message: '',
     },
   }
   const [order, setOrder] = useState(initialOrder)
