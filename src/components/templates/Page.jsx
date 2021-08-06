@@ -147,12 +147,7 @@ export const Page = ({
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   useEffect(() => {
-    if (!isSidePreview && window.location.hash.includes('refresh')) {
-      window.location.hash = ''
-      window.location.reload()
-    } else {
-      setSsrDone(true)
-    }
+    setSsrDone(true)
 
     // if (!isSidePreview) {
     //   let link = document.createElement('link')
