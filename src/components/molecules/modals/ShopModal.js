@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment, useState, useEffect } from 'react'
 
+// API
+import { CurrencySign } from '../../../api'
+
 // Styles
 import { CloseDarkIcon } from '../../icons/CloseIcon'
 
@@ -26,6 +29,7 @@ const InfoForm = ({
   name,
   imageUrl,
   maxQuantity,
+  currency,
   isPhysical,
   description,
   quantity,
@@ -66,7 +70,9 @@ const InfoForm = ({
             </Select>
           )}
         </div>
-        <div className="column half right price">{actualPrice}$</div>
+        <div className="column half right price">
+          {actualPrice} {currency}
+        </div>
       </div>
 
       <Text left className="bangers" fontSize="1rem">
@@ -90,6 +96,7 @@ const CheckoutForm = ({
   onSelectQuantity,
   onValidateEmail,
   price,
+  currency,
   quantity,
 }) => {
   return (
@@ -118,7 +125,9 @@ const CheckoutForm = ({
             </Select>
           )}
         </div>
-        <div className="column half right price">{actualPrice}$</div>
+        <div className="column half right price">
+          {actualPrice} {currency}
+        </div>
       </div>
 
       <div className="row">
@@ -267,10 +276,11 @@ export const ShopModal = ({
   const [emailTouched, setEmailTouched] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
 
-  const { name, image, price, description, note, maxQuantity, isPhysical } = shopItem || {
+  const { name, image, price, currency, description, note, maxQuantity, isPhysical } = shopItem || {
     checkout: {},
   }
 
+  const currencySign = CurrencySign[currency] || '$'
   const actualPrice = +parseFloat(+price * +quantity).toFixed(2)
 
   const disabled =
@@ -367,6 +377,7 @@ export const ShopModal = ({
             <InfoForm
               actualPrice={actualPrice}
               description={description}
+              currency={currencySign}
               imageUrl={!!image?.file && getImageUrl({ image: image.file })}
               isPhysical={isPhysical}
               maxQuantity={maxQuantity}
@@ -380,6 +391,7 @@ export const ShopModal = ({
             <CheckoutForm
               actualPrice={actualPrice}
               description={description}
+              currency={currencySign}
               formData={formData}
               handleFormChange={handleFormChange}
               imageUrl={
@@ -414,6 +426,7 @@ export const ShopModal = ({
                         order: {
                           details: {
                             price,
+                            currency,
                             quantity,
                             total: actualPrice,
                             clientNote: formData.clientNote,
@@ -439,7 +452,9 @@ export const ShopModal = ({
           >
             {step === 1 && 'Checkout'}
             {step === 2 &&
-              (buttonDisabled ? 'Redirecting to checkout...' : `Buy for $ ${actualPrice}`)}
+              (buttonDisabled
+                ? 'Redirecting to checkout...'
+                : `Buy for ${currencySign} ${actualPrice}`)}
           </StyledButton>
         </StyledButtonContainer>
       </Container>
