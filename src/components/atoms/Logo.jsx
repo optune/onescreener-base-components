@@ -1,23 +1,41 @@
 /* eslint-disable react/prop-types */
 
-import React from 'react'
+import React, { memo } from 'react'
 import styled, { css } from 'styled-components'
 
-const LogoSizeLandscape = {
-  XS: '8.333%',
-  S: '16.666%',
-  M: '33.333%',
-  L: '50%',
-  XL: '66.666%',
+import { MediaSmall, MediaSmallMobile } from '../../style/media'
+
+/*
+ * Logo Image
+ */
+
+const LogoSizeImage = {
+  XS: '10%',
+  S: '14%',
+  M: '18%',
+  L: '21%',
+  XL: '25%',
 }
 
-const LogoSizePortrait = {
-  XS: '16.666%',
-  S: '33.333%',
-  M: '50%',
-  L: '66.666%',
-  XL: 'calc(100% - 2rem)',
+const LogoSizeImageTL = {
+  XS: '9%',
+  S: '11%',
+  M: '13%',
+  L: '15%',
+  XL: '18%',
 }
+
+const LogoSizeImageSidePreviewTL = {
+  XS: '5%',
+  S: '6%',
+  M: '8%',
+  L: '10%',
+  XL: '13%',
+}
+
+/*
+ * Image Size
+ */
 
 const LogoSizeMax = {
   XS: 17,
@@ -30,47 +48,74 @@ const LogoSizeMax = {
 const LogoImage = styled.img`
   display: flex;
   object-fit: contain;
-  margin: 1rem;
-  max-width: unset;
-  max-height: ${({ isTeaserLinks, isPreviewMobile }) =>
-    isTeaserLinks ? (isPreviewMobile ? '14%' : '11%') : 'unset'};
+  margin: ${({ isSidePreview }) => (isSidePreview ? '0.5rem' : '1rem')};
 
-  @media screen and (orientation: portrait) {
-    ${({ orientation, size }) =>
-      orientation === 'LANDSCAPE'
-        ? css`
-            width: ${LogoSizePortrait[size]};
-          `
-        : css`
-            width: ${LogoSizePortrait[size]};
-          `}
+  ${({ isPreviewMobile, isSidePreview, isTeaserLinks, size }) =>
+    css`
+      height: ${isTeaserLinks
+        ? isSidePreview
+          ? LogoSizeImageSidePreviewTL[size]
+          : LogoSizeImageTL[size]
+        : LogoSizeImage[size]};
+      width: ${isTeaserLinks
+        ? isSidePreview
+          ? LogoSizeImageSidePreviewTL[size]
+          : LogoSizeImageTL[size]
+        : LogoSizeImage[size]};
+
+      ${isPreviewMobile && `width: 100%;`}
+    `}
+  
+  @media ${MediaSmall} {
+    width: 100%;
   }
 
-  @media screen and (orientation: landscape) {
-    ${({ isPreviewMobile, orientation, size }) =>
-      (isPreviewMobile &&
-        css`
-          width: ${LogoSizePortrait[size]};
-        `) ||
-      (orientation === 'LANDSCAPE' &&
-        css`
-          width: ${LogoSizeLandscape[size]};
-        `) ||
-      css`
-        height: ${LogoSizeLandscape[size]};
-      `}
-  }
+  ${({ isSidePreview, isTeaserLinks }) =>
+    !isSidePreview &&
+    isTeaserLinks &&
+    css`
+      @media ${MediaSmallMobile} {
+        height: 10%;
+      }
+    `}
 `
 
-export const Logo = ({ design, logo, getImageUrl, isPreviewMobile, isTeaserLinks }) => (
-  <LogoImage
-    isPreviewMobile={isPreviewMobile}
-    orientation={logo.image.orientation}
-    src={getImageUrl({
-      image: logo.image,
-      maxWidth: LogoSizeMax[logo.size],
-    })}
-    size={logo.size}
-    isTeaserLinks={isTeaserLinks}
-  />
-)
+const areEqual = (prevProps, nextProps) => {
+  return (
+    prevProps.isPreviewMobile === nextProps.isPreviewMobile &&
+    prevProps.isTeaserLinks === nextProps.isTeaserLinks &&
+    prevProps.logo.type === nextProps.logo.type &&
+    prevProps.logo.isDifferentPositions === nextProps.logo.isDifferentPositions &&
+    prevProps.logo.position === nextProps.logo.position &&
+    prevProps.logo.positionDesktop === nextProps.logo.positionDesktop &&
+    prevProps.logo.positionMobile === nextProps.logo.positionMobile &&
+    prevProps.logo.size === nextProps.logo.size &&
+    prevProps.logo.image?.height === nextProps.logo.image?.height &&
+    prevProps.logo.image?.orientation === nextProps.logo.image?.orientation &&
+    prevProps.logo.image?.public_id === nextProps.logo.image?.public_id &&
+    prevProps.logo.image?.url === nextProps.logo.image?.url &&
+    prevProps.logo.image?.width === nextProps.logo.image?.width &&
+    prevProps.logo.text.color === nextProps.logo.text.color &&
+    prevProps.logo.text.font === nextProps.logo.text.font &&
+    prevProps.logo.text.fontURL === nextProps.logo.text.fontURL &&
+    prevProps.logo.text.shadowColor === nextProps.logo.text.shadowColor &&
+    prevProps.logo.text.shadowSize === nextProps.logo.text.shadowSize &&
+    prevProps.logo.text.title === nextProps.logo.text.title
+  )
+}
+
+export const Logo = memo(({ logo, getImageUrl, isPreviewMobile, isTeaserLinks, isSidePreview }) => {
+  return (
+    <LogoImage
+      isPreviewMobile={isPreviewMobile}
+      orientation={logo.image.orientation}
+      src={getImageUrl({
+        image: logo.image,
+        maxWidth: LogoSizeMax[logo.size],
+      })}
+      size={logo.size}
+      isTeaserLinks={isTeaserLinks}
+      isSidePreview={isSidePreview}
+    />
+  )
+}, areEqual)
