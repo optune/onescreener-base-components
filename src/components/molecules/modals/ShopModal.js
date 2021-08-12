@@ -101,8 +101,6 @@ const CheckoutForm = ({
   quantity,
   validEmail,
 }) => {
-  console.log({ touched: emailTouched && formData.email > '', error: !validEmail })
-
   return (
     <Fragment>
       <div className="checkout header"></div>
