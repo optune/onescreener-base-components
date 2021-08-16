@@ -59,7 +59,7 @@ const InputWrapper = styled.div`
 `
 
 export const InputLabel = styled.h5`
-  color: ${ColorSecondary30};
+  color: ${({ error }) => (error ? ForegroundColor.error : ColorSecondary30)};
   font-size: 13px;
   margin: 0 0 5px 2px;
   font-weight: 500;
@@ -111,14 +111,25 @@ export const Input = ({
   onBlur,
   onFocus,
   onClick,
+  onChange,
   as,
   required,
+  error,
+  errorMessage,
+
   ...other
 }) => (
   <InputWrapper prefix={prefix} {...other}>
     {label && (
-      <InputLabel>
-        {label} {required && '(*)'}
+      <InputLabel error={error}>
+        {label}
+        {required && ' (*)'}
+        {!!error && errorMessage > '' && (
+          <span>
+            {' - '}
+            {errorMessage}
+          </span>
+        )}
       </InputLabel>
     )}
     <div className="input-row">
@@ -130,8 +141,10 @@ export const Input = ({
         onBlur={onBlur}
         onFocus={onFocus}
         onClick={onClick}
+        onChange={onChange}
         as={as}
         prefix={prefix}
+        error={error}
         {...other}
       />
     </div>

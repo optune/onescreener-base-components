@@ -17,6 +17,6 @@ const Field = styled.div`
 
 export const InputField = ({ margin, value, isResizable, error, touched, ...other }) => (
   <Field>
-    <Input margin={margin} value={value} error={error && touched} valid={!error} {...other} />
+    <Input margin={margin} value={value} error={error} valid={!error} {...other} />
   </Field>
 )
