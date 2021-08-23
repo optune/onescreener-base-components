@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, useCallback } from 'react'
 
 // API
 import { CurrencySign } from '../../../api'
@@ -84,7 +84,9 @@ const InfoForm = ({
 
 const CheckoutForm = ({
   actualPrice,
+  currency,
   description,
+  emailTouched,
   formData,
   handleFormChange,
   imageUrl,
@@ -96,8 +98,8 @@ const CheckoutForm = ({
   onSelectQuantity,
   onValidateEmail,
   price,
-  currency,
   quantity,
+  validEmail,
 }) => {
   return (
     <Fragment>
@@ -154,12 +156,13 @@ const CheckoutForm = ({
             fullwidth
             name="email"
             type="email"
-            touched={false}
-            error={false}
+            touched={emailTouched || formData.email > ''}
+            error={!validEmail && formData.email > ''}
+            errorMessage="Email is not valid"
             value={formData.email}
             onChange={handleFormChange}
             onFocus={onEmailTouch}
-            onBlur={onValidateEmail}
+            onBlur={(e) => onValidateEmail(e.target.value)}
             placeholder="youremail@example.com"
             label="Email"
             required
@@ -249,6 +252,8 @@ const CheckoutForm = ({
   )
 }
 
+const regexEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+
 export const ShopModal = ({
   getImageUrl,
   isPreviewMobile,
@@ -272,7 +277,7 @@ export const ShopModal = ({
     street: '',
   }
   const [formData, setFormData] = useState(initialFormData)
-  const [validEmail, setValidEmail] = useState(false)
+  const [validEmail, setValidEmail] = useState(true)
   const [emailTouched, setEmailTouched] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
 
@@ -291,51 +296,37 @@ export const ShopModal = ({
       formData.clientName === '' ||
       (isPhysical ? !(formData.city > '' && formData.zip > '' && formData.street > '') : false))
 
-  const onValidateEmail = () => {
-    let email = formData.email
-
+  const onValidateEmail = (email) => {
     setEmailTouched(false)
 
-    if (!email) {
-      setValidEmail(false)
-      return
-    }
+    const isValid = email.match(regexEmail)
 
-    let parts = email.split('@')
-
-    if (parts.length !== 2) {
-      setValidEmail(false)
-      return
-    }
-
-    if (parts.length > 2 || !parts[1].includes('.') || parts[0] === '' || parts[1] === '') {
-      setValidEmail(false)
-      return
-    }
-
-    let endParts = parts[1].split('.')
-
-    if (endParts.length > 2 || endParts[0] === '' || endParts[1] === '') {
+    if (!isValid) {
       setValidEmail(false)
       return
     }
 
     setValidEmail(true)
+    return
   }
 
-  const _onValidateEmail = debounce(onValidateEmail, 700)
+  const _onValidateEmail = debounce(onValidateEmail, 650)
 
   const handleQuantityChange = (e) => setQuantity(e.target.value)
 
   const handleFormChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
     if (e.target.name === 'email') {
-      setValidEmail(false)
-      _onValidateEmail()
+      setEmailTouched(true)
+      setValidEmail(true)
+      _onValidateEmail(e.target.value)
     }
   }
 
-  const onEmailTouch = () => setEmailTouched(true)
+  const onEmailTouch = () => {
+    setValidEmail(true)
+    setEmailTouched(true)
+  }
 
   const handleEnableButton = () => setButtonDisabled(false)
   const handleDisableButton = () => setButtonDisabled(true)
@@ -390,22 +381,24 @@ export const ShopModal = ({
           {step === 2 && (
             <CheckoutForm
               actualPrice={actualPrice}
-              description={description}
               currency={currencySign}
+              description={description}
+              emailTouched={emailTouched}
               formData={formData}
               handleFormChange={handleFormChange}
               imageUrl={
                 !!image?.file && getImageUrl({ image: image.file, maxWidth: 50, maxHeight: 50 })
               }
               isPhysical={isPhysical}
-              name={name}
               maxQuantity={maxQuantity}
+              name={name}
               note={note}
               onEmailTouch={onEmailTouch}
               onSelectQuantity={handleQuantityChange}
-              onValidateEmail={_onValidateEmail}
+              onValidateEmail={onValidateEmail}
               price={price}
               quantity={quantity}
+              validEmail={validEmail}
             />
           )}
         </TextContainer>

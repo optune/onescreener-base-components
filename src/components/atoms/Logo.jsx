@@ -95,12 +95,12 @@ const areEqual = (prevProps, nextProps) => {
     prevProps.logo.image?.public_id === nextProps.logo.image?.public_id &&
     prevProps.logo.image?.url === nextProps.logo.image?.url &&
     prevProps.logo.image?.width === nextProps.logo.image?.width &&
-    prevProps.logo.text.color === nextProps.logo.text.color &&
-    prevProps.logo.text.font === nextProps.logo.text.font &&
-    prevProps.logo.text.fontURL === nextProps.logo.text.fontURL &&
-    prevProps.logo.text.shadowColor === nextProps.logo.text.shadowColor &&
-    prevProps.logo.text.shadowSize === nextProps.logo.text.shadowSize &&
-    prevProps.logo.text.title === nextProps.logo.text.title
+    prevProps.logo.text?.color === nextProps.logo.text?.color &&
+    prevProps.logo.text?.font === nextProps.logo.text?.font &&
+    prevProps.logo.text?.fontURL === nextProps.logo.text?.fontURL &&
+    prevProps.logo.text?.shadowColor === nextProps.logo.text?.shadowColor &&
+    prevProps.logo.text?.shadowSize === nextProps.logo.text?.shadowSize &&
+    prevProps.logo.text?.title === nextProps.logo.text?.title
   )
 }
 
