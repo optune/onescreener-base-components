@@ -220,27 +220,70 @@ export const CloseButton = styled.div`
   z-index: 999;
 `
 
-export const ImageContainer = styled.div`
+export const ImageBackground = styled.div`
+  position: absolute;
+  top: 0;
+  border-radius: 4px;
+  height: 100%;
   width: 100%;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
+    url(${({ imageUrl }) => imageUrl || ''});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(0.5px);
+`
 
-  img {
-    height: 100%;
+export const ImageRow = styled.div`
+  position: relative;
+  width: 100%;
+  height: 285px;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  .scroll {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: ${({ center }) => (center ? '0' : 'unset')};
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image-box {
+    position: relative;
+    height: 260px;
+    width: 160px;
     border-radius: 4px;
-    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.05), 0px 1px 4px rgba(0, 0, 0, 0.1);
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    img {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      border-radius: 4px;
+      object-fit: contain;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15), 0px 2px 8px rgba(0, 0, 0, 0.08);
+    }
   }
 
   &.small {
     height: 50px;
     width: 50px;
     margin-right: 10px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15), 0px 2px 4px rgba(0, 0, 0, 0.08);
 
     img {
+      position: relative;
       width: 100%;
+      height: 100%;
       object-fit: cover;
+      border-radius: 4px;
     }
   }
 `

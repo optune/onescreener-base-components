@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment, useState, useEffect, useCallback } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 
 // API
 import { CurrencySign } from '../../../api'
@@ -13,13 +13,14 @@ import {
   Container,
   CloseButton,
   TextContainer,
-  ImageContainer,
+  ImageRow,
   StyledButton,
   StyledButtonContainer,
   StyledTitle,
   Header,
   Text,
   Select,
+  ImageBackground,
 } from './common/Components'
 
 import { InputField } from '../../atoms/forms/InputField'
@@ -27,7 +28,8 @@ import { debounce } from '../../../utils/debounce'
 
 const InfoForm = ({
   name,
-  imageUrl,
+  images,
+  getImageUrl,
   maxQuantity,
   currency,
   isPhysical,
@@ -52,10 +54,18 @@ const InfoForm = ({
           </div>
         )}
       </div>
-      {/* <Text>Image TBA: {image?.url}</Text> */}
-      <ImageContainer>
-        <img src={imageUrl || ''} alt="product" />
-      </ImageContainer>
+      <ImageRow center={images?.length <= 2}>
+        <div className="scroll">
+          {images?.map((i, index) => {
+            return (
+              <div key={i.file.public_id} className="image-box">
+                <ImageBackground imageUrl={getImageUrl({ image: i.file })} />
+                <img src={getImageUrl({ image: i.file }) || ''} alt={`product image ${index}`} />
+              </div>
+            )
+          })}
+        </div>
+      </ImageRow>
       <div className="row marginTop marginBottom">
         <div className="column third left">
           {isPhysical && (
@@ -105,9 +115,9 @@ const CheckoutForm = ({
     <Fragment>
       <div className="checkout header"></div>
       <div className="row">
-        <ImageContainer className="small">
+        <ImageRow className="small">
           <img src={imageUrl || ''} alt="product" />
-        </ImageContainer>
+        </ImageRow>
         <StyledTitle className="bangers no-margin" left>
           {name}
         </StyledTitle>
@@ -281,7 +291,16 @@ export const ShopModal = ({
   const [emailTouched, setEmailTouched] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
 
-  const { name, image, price, currency, description, note, maxQuantity, isPhysical } = shopItem || {
+  const {
+    name,
+    images,
+    price,
+    currency,
+    description,
+    note,
+    maxQuantity,
+    isPhysical,
+  } = shopItem || {
     checkout: {},
   }
 
@@ -369,7 +388,9 @@ export const ShopModal = ({
               actualPrice={actualPrice}
               description={description}
               currency={currencySign}
-              imageUrl={!!image?.file && getImageUrl({ image: image.file })}
+              imageUrl={!!images?.[0]?.file && getImageUrl({ image: images[0].file })}
+              images={images}
+              getImageUrl={getImageUrl}
               isPhysical={isPhysical}
               maxQuantity={maxQuantity}
               name={name}
@@ -387,7 +408,8 @@ export const ShopModal = ({
               formData={formData}
               handleFormChange={handleFormChange}
               imageUrl={
-                !!image?.file && getImageUrl({ image: image.file, maxWidth: 50, maxHeight: 50 })
+                !!images?.[0]?.file &&
+                getImageUrl({ image: images[0].file, maxWidth: 50, maxHeight: 50 })
               }
               isPhysical={isPhysical}
               maxQuantity={maxQuantity}
