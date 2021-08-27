@@ -267,45 +267,25 @@ export const TeaserLinksBox = ({
    *
    */
 
-  // const getShopAmount = () => {
-  //   console.log({ start: pagination.start, end: pagination.end })
-  //   console.log({ array: teaserLinks.slice(pagination.start, pagination.end) })
-
-  //   const a = teaserLinks
-  //     .slice(pagination.start, pagination.end)
-  //     .reduce(
-  //       (accumulator, currentValue) => (currentValue.isShop ? accumulator + 1 : accumulator),
-  //       0
-  //     )
-  //   console.log({ amount: a })
-  //   console.log('____________________')
-  //   return a
-  // }
-
   useEffect(() => {
     let teaserLinksFiltered = teaserLinks.filter(({ isShop }) => (isShop ? shopEnabled : true))
     let value = teaserLinksFiltered.reduce((acc, curr) => acc + (curr.isShop ? 2 : 1), 0)
     let actualList = [teaserLinksFiltered]
 
-    console.log({ value })
     if (value > LINKS_LIMIT) {
       let pageValue = 0
       let pageIndex = 0
 
       actualList = [[]]
-      console.log({ actualList })
 
       for (let i = 0; i < teaserLinksFiltered.length; i++) {
-        // teaserLinks.forEach((tl, index) => {
         /* Calculate values */
-        let tl = teaserLinksFiltered[i]
 
+        let tl = teaserLinksFiltered[i]
         let tlValue = tl.isShop ? 2 : 1
         pageValue += tlValue
         let nextLinkValue = (teaserLinksFiltered?.[i + 1]?.isShop ? 2 : 1) || 0
         let nextValue = pageValue + nextLinkValue
-
-        console.log({ i, tlValue, pageValue, nextValue })
 
         /* Check if there is space for one more link */
 
@@ -316,54 +296,20 @@ export const TeaserLinksBox = ({
           actualList[pageIndex].push({ isBack: true })
           pageValue = 1
           i--
-          console.log('new page')
           continue
         }
 
         actualList[pageIndex].push(tl)
-
-        console.log('adding new')
       }
     }
 
-    console.log({ actualList })
     setPagination(0)
     setList(actualList)
-
-    // // const shopAmount = getShopAmount()
-
-    // // const limit = LINKS_LIMIT - shopAmount
-    // const limit = LINKS_LIMIT
-
-    // if (start === 0 && teaserLinks.length > limit) {
-    //   setPagination({ start: 0, end: limit - 1 })
-    // } else if (teaserLinks.length <= limit) {
-    //   setPagination({ start: 0, end: limit + 1 })
-    // }
   }, [teaserLinks])
 
-  const paginationBack = () => {
-    setPagination(pagination - 1 < 0 ? 0 : pagination - 1)
-    // const shopAmount = getShopAmount()
-    // const step = STEP - shopAmount
-    // const step = STEP
-    // console.log({ shopAmountBACK: shopAmount, step })
-    // setPagination({ start: start - step, end: end - step })
-  }
-  const paginationNext = () => {
-    setPagination(pagination + 1)
-    // const shopAmount = getShopAmount()
-    // const step = STEP - shopAmount
-    // const step = STEP
-    // console.log({ shopAmountFORWARD: shopAmount, step })
-    // setPagination({ start: start + step, end: end + step })
-  }
+  const paginationBack = () => setPagination(pagination - 1 < 0 ? 0 : pagination - 1)
 
-  // const previousPageExists = start !== 0
-  const previousPageExists = false
-  // const nextPageExists = teaserLinks.length - end > 0
-  const nextPageExists = false
-  const paginationCorrection = previousPageExists && nextPageExists ? 1 : 0
+  const paginationNext = () => setPagination(pagination + 1)
 
   const getLinkClicks = ({ name, url }) => {
     if (isProPlanRequired) return '?'
@@ -380,26 +326,19 @@ export const TeaserLinksBox = ({
     return clicks
   }
 
-  console.log({ listP: list?.[pagination], pagination })
-
   return (
     <Container isSidePreview={isSidePreview} color={color} colorBackground={colorBackground}>
-      {previousPageExists && (
-        <div className="teaser-link" onClick={paginationBack}>
-          Show previous
-        </div>
-      )}
       {list?.[pagination].map(
         ({ _id, url, name, images = [], isShop, shop, isBack, isForward }, index) => {
           if (isBack)
             return (
-              <div className="teaser-link" onClick={paginationBack}>
+              <div key="back-button" className="teaser-link" onClick={paginationBack}>
                 Show previous
               </div>
             )
           if (isForward)
             return (
-              <div className="teaser-link" onClick={paginationNext}>
+              <div key="forward-button" className="teaser-link" onClick={paginationNext}>
                 Show more
               </div>
             )
@@ -409,8 +348,6 @@ export const TeaserLinksBox = ({
           const hasImage = !!images?.[0]
 
           return (
-            // index >= start &&
-            // index < end - paginationCorrection && (
             <TeaserLink
               as={isLink ? 'a' : 'div'}
               key={`${name}-${index}`}
@@ -490,11 +427,6 @@ export const TeaserLinksBox = ({
             </TeaserLink>
           )
         }
-      )}
-      {nextPageExists && (
-        <div className="teaser-link" onClick={paginationNext}>
-          Show more
-        </div>
       )}
     </Container>
   )
