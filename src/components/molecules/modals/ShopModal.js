@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, useMemo } from 'react'
+import ImageViewer from 'react-images-viewer'
 
 // API
 import { CurrencySign } from '../../../api'
@@ -38,8 +39,48 @@ const InfoForm = ({
   onSelectQuantity,
   actualPrice,
 }) => {
+  const [currentImage, setCurrentImage] = useState(0)
+  const [viewerIsOpen, setViewerIsOpen] = useState(false)
+
+  const handleOpen = (index) => () => {
+    setCurrentImage(index)
+    setViewerIsOpen(true)
+  }
+  const handleClose = () => setViewerIsOpen(false)
+
+  const handleNext = () => setCurrentImage(currentImage + 1)
+  const handlePrevious = () => setCurrentImage(currentImage - 1)
+
+  const imgs = useMemo(
+    () =>
+      images?.map(({ file }) => ({
+        src: getImageUrl({ image: file, maxHeight: 1024, maxWidth: 1024 }),
+        thumbnail: getImageUrl({ image: file, maxHeight: 300, maxWidth: 300 }),
+        srcSet: [
+          getImageUrl({ image: file, maxHeight: 1024, maxWidth: 1024 }),
+          getImageUrl({ image: file, maxHeight: 800, maxWidth: 800 }),
+          getImageUrl({ image: file, maxHeight: 500, maxWidth: 500 }),
+          getImageUrl({ image: file, maxHeight: 300, maxWidth: 300 }),
+        ],
+      })),
+    [images]
+  )
+
+  console.log({ imgs, viewerIsOpen })
+
   return (
     <Fragment>
+      {!!imgs && (
+        <ImageViewer
+          imgs={imgs}
+          currImg={currentImage}
+          isOpen={viewerIsOpen}
+          onClickPrev={handleNext}
+          onClickNext={handlePrevious}
+          onClose={handleClose}
+        />
+      )}
+
       <div className="row marginBottom">
         <div className="column left">
           <StyledTitle as="div" className="bangers" left>
@@ -58,7 +99,7 @@ const InfoForm = ({
         <div className="scroll">
           {images?.map((i, index) => {
             return (
-              <div key={i.file.public_id} className="image-box">
+              <div key={i.file.public_id} className="image-box" onClick={handleOpen(index)}>
                 <ImageBackground imageUrl={getImageUrl({ image: i.file })} />
                 <img src={getImageUrl({ image: i.file }) || ''} alt={`product image ${index}`} />
               </div>
