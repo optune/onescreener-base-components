@@ -218,7 +218,6 @@ export const TeaserLinksBox = ({
   getImageUrl,
   isProPlanRequired,
   isSidePreview,
-  modalShop,
   onLoadShopItem,
   setModalShop,
   shopEnabled,
@@ -230,10 +229,9 @@ export const TeaserLinksBox = ({
 }) => {
   const [list, setList] = useState(null)
   const [pagination, setPagination] = useState(0)
-  // const { start, end } = pagination
 
   /*
-   * *** Image algo example ***
+   * IMAGE ALGO EXAMPLE
    *
    * Max value per page: 7
    *
