@@ -100,7 +100,7 @@ const InfoForm = ({
           {images?.map((i, index) => {
             return (
               <div key={i.file.public_id} className="image-box" onClick={handleOpen(index)}>
-                <ImageBackground imageUrl={getImageUrl({ image: i.file })} />
+                <ImageBackground imageUrl={getImageUrl({ image: i.file, blur: 700 })} />
                 <img src={getImageUrl({ image: i.file }) || ''} alt={`product image ${index}`} />
               </div>
             )
