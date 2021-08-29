@@ -257,6 +257,7 @@ export const ImageRow = styled.div`
     height: 160px;
     width: 160px;
     border-radius: 4px;
+    cursor: pointer;
 
     &:not(:last-child) {
       margin-right: 10px;
@@ -273,8 +274,10 @@ export const ImageRow = styled.div`
   }
 
   &.small {
-    height: 50px;
+    min-height: 50px;
+    min-width: 50px;
     width: 50px;
+    height: 50px;
     margin-right: 10px;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15), 0px 2px 4px rgba(0, 0, 0, 0.08);
 
@@ -324,7 +327,7 @@ export const TextContainer = styled.div`
 
 export const StyledTitle = styled.h2`
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.5rem;
   text-align: ${({ left }) => (left ? 'left' : 'center')};
   width: 100%;
 
