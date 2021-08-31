@@ -231,13 +231,13 @@ export const ImageBackground = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(0.5px);
+  // filter: blur(0.5px);
 `
 
 export const ImageRow = styled.div`
   position: relative;
   width: 100%;
-  height: 285px;
+  height: 185px;
   overflow-x: auto;
   overflow-y: hidden;
 
@@ -254,7 +254,7 @@ export const ImageRow = styled.div`
 
   .image-box {
     position: relative;
-    height: 260px;
+    height: 160px;
     width: 160px;
     border-radius: 4px;
 

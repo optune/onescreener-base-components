@@ -3,11 +3,15 @@
 const CLOUDINARY_URL = 'https://res.cloudinary.com/optune-me/image/upload'
 
 const transformation = {
-  client: ({ width, height, fullscreen = false }) =>
-    `q_auto:best,f_auto,c_fit${width ? `,w_${width}` : ''}${height ? `,h_${height}` : ''}`,
-  ssr: ({ isBackgroundSelected = false, fullscreen = false }) =>
-    `q_auto:eco,f_auto,c_fit,w_1000,h_1000,e_pixelate:${isBackgroundSelected ? 1 : 3}`,
-  ssrSocial: () => `q_auto:best,f_auto,c_fit,w_300,h_300`,
+  client: ({ width, height, fullscreen = false, blur }) =>
+    `q_auto:best,f_auto,c_fit${width ? `,w_${width}` : ''}${height ? `,h_${height}` : ''}${
+      blur ? `,e_blur:${blur}` : ''
+    }`,
+  ssr: ({ isBackgroundSelected = false, fullscreen = false, blur }) =>
+    `q_auto:eco,f_auto,c_fit,w_1000,h_1000,e_pixelate:${isBackgroundSelected ? 1 : 3}${
+      blur ? `,e_blur:${blur}` : ''
+    }`,
+  ssrSocial: ({ blur }) => `q_auto:best,f_auto,c_fit,w_300,h_300${blur ? `,e_blur:${blur}` : ''}`,
 }
 
 const getImagePath = (image) => {
@@ -23,6 +27,7 @@ export const getImageUrl = (isClient, isSocial) => ({
   image,
   maxHeight = 100,
   maxWidth = 100,
+  blur,
   isBackgroundSelected,
   selectedBackgroundUrl,
 }) => {
@@ -47,15 +52,16 @@ export const getImageUrl = (isClient, isSocial) => ({
       const width = imageWidth > imageHeight ? imageWidth : undefined
       const height = imageWidth < imageHeight ? imageHeight : undefined
 
-      imageTransformation = transformation.client({ width, height, fullscreen })
+      imageTransformation = transformation.client({ width, height, fullscreen, blur })
     } else if (isSocial) {
-      imageTransformation = transformation.ssrSocial()
+      imageTransformation = transformation.ssrSocial({ blur })
     } else {
       imageTransformation = transformation.ssr({
         isBackgroundSelected,
         fullscreen,
         width: 800,
         height: 800,
+        blur,
       })
     }
 
