@@ -8,9 +8,9 @@ const transformation = {
       blur ? `,e_blur:${blur}` : ''
     }`,
   ssr: ({ isBackgroundSelected = false, fullscreen = false, blur }) =>
-    `q_auto:eco,f_auto,c_fit,w_1000,h_1000,e_pixelate:${isBackgroundSelected ? 1 : 3}${
-      blur ? `,e_blur:${blur}` : ''
-    }`,
+    `q_auto:eco,f_auto,c_fit,w_${isBackgroundSelected ? 100 : 1000},h_${
+      isBackgroundSelected ? 200 : 1000
+    },e_pixelate:${isBackgroundSelected ? 1 : 3}${blur ? `,e_blur:${blur}` : ''}`,
   ssrSocial: ({ blur }) => `q_auto:best,f_auto,c_fit,w_300,h_300${blur ? `,e_blur:${blur}` : ''}`,
 }
 

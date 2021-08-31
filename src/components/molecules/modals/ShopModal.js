@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, useMemo } from 'react'
+import ImageViewer from 'react-images-viewer'
 
 // API
 import { CurrencySign } from '../../../api'
@@ -23,7 +24,12 @@ import {
   ImageBackground,
 } from './common/Components'
 
+// Atoms
 import { InputField } from '../../atoms/forms/InputField'
+
+// Components
+import { ComponentLoading } from '../loaders/ComponentLoading'
+
 import { debounce } from '../../../utils/debounce'
 
 const InfoForm = ({
@@ -38,8 +44,42 @@ const InfoForm = ({
   onSelectQuantity,
   actualPrice,
 }) => {
+  const [currentImage, setCurrentImage] = useState(0)
+  const [viewerIsOpen, setViewerIsOpen] = useState(false)
+
+  const handleOpen = (index) => () => {
+    setCurrentImage(index)
+    setViewerIsOpen(true)
+  }
+  const handleClose = () => setViewerIsOpen(false)
+
+  const handleNext = () => setCurrentImage(currentImage + 1)
+  const handlePrevious = () => setCurrentImage(currentImage - 1)
+
+  const imgs = useMemo(
+    () =>
+      images?.map(({ file }) => ({
+        srcSet: [
+          `${getImageUrl({ image: file, maxWidth: 170, maxHeight: 170 })} 1000w`,
+          `${getImageUrl({ image: file, maxWidth: 75, maxHeight: 75 })} 450w`,
+        ],
+        src: getImageUrl({ image: file }),
+      })),
+    [images]
+  )
+
   return (
     <Fragment>
+      <ImageViewer
+        imgs={imgs || []}
+        currImg={currentImage}
+        isOpen={viewerIsOpen}
+        onClickPrev={handlePrevious}
+        onClickNext={handleNext}
+        onClose={handleClose}
+        spinner={ComponentLoading}
+      />
+
       <div className="row marginBottom">
         <div className="column left">
           <StyledTitle as="div" className="bangers" left>
@@ -58,9 +98,14 @@ const InfoForm = ({
         <div className="scroll">
           {images?.map((i, index) => {
             return (
-              <div key={i.file.public_id} className="image-box">
-                <ImageBackground imageUrl={getImageUrl({ image: i.file, blur: 700 })} />
-                <img src={getImageUrl({ image: i.file }) || ''} alt={`product image ${index}`} />
+              <div key={i.file.public_id} className="image-box" onClick={handleOpen(index)}>
+                <ImageBackground
+                  imageUrl={getImageUrl({ image: i.file, maxWidth: 5, maxHeight: 5, blur: 700 })}
+                />
+                <img
+                  src={getImageUrl({ image: i.file, maxWidth: 20, maxHeight: 20 }) || ''}
+                  alt={`product image ${index}`}
+                />
               </div>
             )
           })}
@@ -113,7 +158,7 @@ const CheckoutForm = ({
 }) => {
   return (
     <Fragment>
-      <div className="checkout header"></div>
+      {/* <div className="checkout header"></div> */}
       <div className="row">
         <ImageRow className="small">
           <img src={imageUrl || ''} alt="product" />

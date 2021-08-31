@@ -44,9 +44,9 @@ const SuccessMessage = ({ order }) => {
     <Fragment>
       <div className="row marginBottom">
         <div className="column">
-          <Text className="bangers" fontSize="4rem" margin="0">
+          <Text className="bangers" fontSize="2.4rem" margin="0">
             {order?.product.message}
-          </Text>{' '}
+          </Text>
         </div>
       </div>
       <div className="row ">
@@ -185,6 +185,7 @@ export const ShopFinishedModal = ({
       show={ssrDone && show}
       isSidePreview={isSidePreview}
       width="60%"
+      height="90%"
       maxWidth="385px"
     >
       <Container isSidePreview={isSidePreview}>
