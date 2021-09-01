@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
+import classNames from 'classnames'
 
 // API
 import { filterTime, getFromDate } from '../../api'
 
-// Atomsa
+// Atoms
 import { StatisticsOverlay } from '../atoms/StatisticsOverlay'
+import { CartIcon } from '../icons/shop/CartIcon'
 
 // Styles
 import { MediaSmall } from '../../style/media'
@@ -16,7 +18,6 @@ import { RGBToHex } from '../../utils/convertRGBtoHEX'
 import { getImageUrl } from '../../utils/getImageUrl'
 
 const LINKS_LIMIT = 7
-const STEP = LINKS_LIMIT - 1
 
 const Container = styled.div`
   position: absolute;
@@ -36,7 +37,7 @@ const Container = styled.div`
     max-width: 640px;
     min-height: ${({ isSidePreview }) => (isSidePreview ? '32px' : '50px')};
     height: auto;
-    font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '1rem')};
+    font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '16px')};
     font-weight: 600;
     color: ${({ color }) => (color ? color : '#0a1c3b')};
     text-shadow: 1px 1px 1px rgba(46, 49, 49, 0.3);
@@ -57,6 +58,21 @@ const Container = styled.div`
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 0px 2px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     transition: all 0.3s ease-out;
+
+    &.shop {
+      min-height: ${({ isSidePreview }) => (isSidePreview ? '60px' : '100px')};
+      font-size: ${({ isSidePreview }) => (isSidePreview ? '16px' : '19px')};
+
+      .image-container {
+        height: ${({ isSidePreview }) => (isSidePreview ? '42px' : '85px')};
+        width: ${({ isSidePreview }) => (isSidePreview ? '42px' : '85px')};
+      }
+
+      p.has-image {
+        padding: ${({ isSidePreview }) => (isSidePreview ? '0 31px 0 50px' : '0 40px 0 100px')};
+        line-height: 1.2;
+      }
+    }
 
     &::after {
       content: '';
@@ -99,7 +115,7 @@ const Container = styled.div`
     &.disabled {
       cursor: auto;
       pointer-events: none;
-      opacity: 0.5;
+      opacity: 0.75;
 
       &::after {
         content: unset;
@@ -161,7 +177,7 @@ const Container = styled.div`
       .sold-out {
         position: absolute;
         text-transform: uppercase;
-        font-size: ${({ isSidePreview }) => (isSidePreview ? '8px' : '12px')};
+        font-size: ${({ isSidePreview }) => (isSidePreview ? '10px' : '16px')};
         color: red;
         top: 50%;
         left: 50%;
@@ -169,8 +185,25 @@ const Container = styled.div`
       }
     }
 
-    @media ${MediaSmall} {
-      font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '16px')};
+    .icon-container {
+      position: absolute;
+      top: 50%;
+      right: 5px;
+      transform: translateY(-50%);
+      height: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
+      width: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
+
+      svg.icon {
+        height: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
+        width: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
+
+        rect {
+          fill: white;
+        }
+        path {
+          fill: none;
+        }
+      }
     }
   }
 `
@@ -185,7 +218,6 @@ export const TeaserLinksBox = ({
   getImageUrl,
   isProPlanRequired,
   isSidePreview,
-  modalShop,
   onLoadShopItem,
   setModalShop,
   shopEnabled,
@@ -195,23 +227,87 @@ export const TeaserLinksBox = ({
   trackingVisitorEvents,
   visitorSession,
 }) => {
-  const [pagination, setPagination] = useState({ start: 0, end: 8 })
-  const { start, end } = pagination
+  const [list, setList] = useState(null)
+  const [pagination, setPagination] = useState(0)
+
+  /*
+   * IMAGE ALGO EXAMPLE
+   *
+   * Max value per page: 7
+   *
+   * - => Regular link, value: 1
+   * = => Shop link, value: 2
+   * < => Back button, value: 1
+   * > => Forward button, value: 1
+   * ------ => Page break
+   *
+   *
+   * Example case: 15 value, 10 Teaser links
+   *
+   * 1. = 2
+   * 2. = 2
+   * 3. - 1
+   * > - 1
+   * ------
+   * < - 1
+   * 4. = 2
+   * 5. = 2
+   * 6. - 1
+   * > - 1
+   * ------
+   * < - 1
+   * 7. - 1
+   * 8. - 1
+   * 9. - 1
+   * 10. = 2
+   *
+   * [ [1,2,3,>], [<,4,5,6,>], [<,7,8,9,10] ] => Teaser links list structure
+   *
+   */
 
   useEffect(() => {
-    if (start === 0 && teaserLinks.length > LINKS_LIMIT) {
-      setPagination({ start: 0, end: 6 })
-    } else if (teaserLinks.length <= LINKS_LIMIT) {
-      setPagination({ start: 0, end: 8 })
+    let teaserLinksFiltered = teaserLinks.filter(({ isShop }) => (isShop ? shopEnabled : true))
+    let value = teaserLinksFiltered.reduce((acc, curr) => acc + (curr.isShop ? 2 : 1), 0)
+    let actualList = [teaserLinksFiltered]
+
+    if (value > LINKS_LIMIT) {
+      let pageValue = 0
+      let pageIndex = 0
+
+      actualList = [[]]
+
+      for (let i = 0; i < teaserLinksFiltered.length; i++) {
+        /* Calculate values */
+
+        let tl = teaserLinksFiltered[i]
+        let tlValue = tl.isShop ? 2 : 1
+        pageValue += tlValue
+        let nextLinkValue = (teaserLinksFiltered?.[i + 1]?.isShop ? 2 : 1) || 0
+        let nextValue = pageValue + nextLinkValue
+
+        /* Check if there is space for one more link */
+
+        if (pageValue >= LINKS_LIMIT && nextValue > LINKS_LIMIT) {
+          actualList[pageIndex].push({ isForward: true })
+          actualList.push([])
+          pageIndex += 1
+          actualList[pageIndex].push({ isBack: true })
+          pageValue = 1
+          i--
+          continue
+        }
+
+        actualList[pageIndex].push(tl)
+      }
     }
+
+    setPagination(0)
+    setList(actualList)
   }, [teaserLinks])
 
-  const paginationBack = () => setPagination({ start: start - STEP, end: end - STEP })
-  const paginationNext = () => setPagination({ start: start + STEP, end: end + STEP })
+  const paginationBack = () => setPagination(pagination - 1 < 0 ? 0 : pagination - 1)
 
-  const previousPageExists = start !== 0
-  const nextPageExists = teaserLinks.length - end > 0
-  const paginationCorrection = previousPageExists && nextPageExists ? 1 : 0
+  const paginationNext = () => setPagination(pagination + 1)
 
   const getLinkClicks = ({ name, url }) => {
     if (isProPlanRequired) return '?'
@@ -230,96 +326,105 @@ export const TeaserLinksBox = ({
 
   return (
     <Container isSidePreview={isSidePreview} color={color} colorBackground={colorBackground}>
-      {previousPageExists && (
-        <div className="teaser-link" onClick={paginationBack}>
-          Show previous
-        </div>
-      )}
-      {teaserLinks
-        .filter(({ isShop }) => (isShop ? shopEnabled : true))
-        .map(({ _id, url, name, images = [], isShop, shop }, index) => {
+      {list?.[pagination].map(
+        ({ _id, url, name, images = [], isShop, shop, isBack, isForward }, index) => {
+          if (isBack)
+            return (
+              <div key="back-button" className="teaser-link" onClick={paginationBack}>
+                Show previous
+              </div>
+            )
+          if (isForward)
+            return (
+              <div key="forward-button" className="teaser-link" onClick={paginationNext}>
+                Show more
+              </div>
+            )
+
           const isLink = !isShop
           const soldOut = shop?.maxQuantity === -1
           const hasImage = !!images?.[0]
 
           return (
-            index >= start &&
-            index < end - paginationCorrection && (
-              <TeaserLink
-                as={isLink ? 'a' : 'div'}
-                key={`${name}-${index}`}
-                href={url}
-                image={images?.[0]}
-                className={`teaser-link ${soldOut && 'disabled'} ${name.length > 50 && 'long'}`}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => {
-                  trackingVisitorEvents({
-                    visitorSession,
-                    domainName,
-                    category: {
-                      teaserLinks: {
-                        event: {
-                          name,
-                          url,
-                        },
+            <TeaserLink
+              as={isLink ? 'a' : 'div'}
+              key={`${name}-${index}`}
+              href={url}
+              image={images?.[0]}
+              className={classNames('teaser-link', {
+                disabled: soldOut,
+                long: name.length > 50,
+                shop: isShop,
+              })}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => {
+                trackingVisitorEvents({
+                  visitorSession,
+                  domainName,
+                  category: {
+                    teaserLinks: {
+                      event: {
+                        name,
+                        url,
                       },
                     },
-                  }).then((r) => r)
+                  },
+                }).then((r) => r)
 
-                  if (!isSidePreview && isShop) {
-                    onLoadShopItem?.({ itemId: _id }).then((item) => {
-                      if (item.shop.maxQuantity > -1) {
-                        setModalShop({
-                          show: true,
-                          item: {
-                            _id: item._id,
-                            name: item.name,
-                            image: item.images?.[0], // TODO: remap in ShopModal after adding multiple images
-                            ...item.shop,
-                          },
-                        })
-                      }
-                    })
-                  }
-                }}
-              >
-                <div className="image-container">
-                  {soldOut && (
-                    <div className="sold-out">
-                      Sold <br /> out
-                    </div>
-                  )}
-
-                  {images?.length > 0 && (
-                    <img
-                      image={hasImage ? 1 : undefined}
-                      src={getImageUrl({
-                        image: images?.[0],
-                        maxWidth: isSidePreview ? 26 : 82,
-                        maxHeight: isSidePreview ? 26 : 82,
-                      })}
-                      alt={name}
-                      className="image"
-                    />
-                  )}
-                </div>
-                <p image={hasImage ? 1 : undefined} className={`clip ${hasImage && 'has-image'}`}>
-                  {name}
-                </p>
-                {showStatistics && (
-                  <StatisticsOverlay>
-                    <div>{getLinkClicks({ name, url })}</div>
-                  </StatisticsOverlay>
+                if (!isSidePreview && isShop) {
+                  onLoadShopItem?.({ itemId: _id }).then((item) => {
+                    if (item.shop.maxQuantity > -1) {
+                      setModalShop({
+                        show: true,
+                        item: {
+                          _id: item._id,
+                          name: item.name,
+                          images: item.images,
+                          ...item.shop,
+                        },
+                      })
+                    }
+                  })
+                }
+              }}
+            >
+              <div className="image-container">
+                {soldOut && (
+                  <div className="sold-out">
+                    Sold <br /> out
+                  </div>
                 )}
-              </TeaserLink>
-            )
+
+                {images?.length > 0 && (
+                  <img
+                    image={hasImage ? 1 : undefined}
+                    src={getImageUrl({
+                      image: images?.[0],
+                      maxWidth: 10,
+                      maxHeight: 10,
+                    })}
+                    alt={name}
+                    className="image"
+                  />
+                )}
+              </div>
+              <p image={hasImage ? 1 : undefined} className={`clip ${hasImage && 'has-image'}`}>
+                {name}
+              </p>
+              {isShop && (
+                <div className="icon-container">
+                  <CartIcon />
+                </div>
+              )}
+              {showStatistics && (
+                <StatisticsOverlay>
+                  <div>{getLinkClicks({ name, url })}</div>
+                </StatisticsOverlay>
+              )}
+            </TeaserLink>
           )
-        })}
-      {nextPageExists && (
-        <div className="teaser-link" onClick={paginationNext}>
-          Show more
-        </div>
+        }
       )}
     </Container>
   )
