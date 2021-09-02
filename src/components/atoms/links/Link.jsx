@@ -142,7 +142,7 @@ position: relative;
     `}
 
   @media ${MediaMobile} {
-    margin: ${({ size, margin }) => margin || (size === 'L' && '1px') || '5px'};
+    margin: ${({ size, margin }) => margin || (size === 'L' && '1px') || '3px'};
 
     & .icon {
       width: ${({ size }) => IconSize.Mobile[size]};
