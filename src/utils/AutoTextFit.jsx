@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { Component, createRef } from 'react'
+import React, { Component, createRef, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import { MediaMobile } from '../style/media.js'
@@ -14,7 +14,7 @@ const TextContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  opacity: ${({ show }) => (show ? 1 : 0.1)};
+  opacity: ${({ show }) => (show ? 1 : 0)};
   transition: opacity 0.3s;
 
   display: flex;
@@ -55,20 +55,6 @@ const TextContent = styled.div`
   }
 `
 
-const DEFAULTS = {
-  // amount of increasing or decreasing the fontsize
-  step: 0.5,
-
-  // the maximum font size in pixel.
-  maxFontSize: 100,
-
-  // the minimum font size in pixel.
-  minFontSize: 1,
-
-  // avoid line breaks
-  includeWidth: false,
-}
-
 const childrenFit = ({ element }) =>
   ![...element.children].some((ch) => {
     let pPadding = parseInt(window.getComputedStyle(element).padding)
@@ -78,8 +64,8 @@ const childrenFit = ({ element }) =>
     const isInBound = pWidth - pPadding * 2 < cWidth
     return isInBound
   })
-
 const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth, isLogo }) => {
+  if (!element) return
   const style = window.getComputedStyle(element)
   let fontSize = parseInt(style.fontSize)
   let fontSizeCandidate = maxFontSize
@@ -144,140 +130,123 @@ const updateFontSize = (element, { maxFontSize, minFontSize, step, includeWidth,
   return
 }
 
-// TODO: rewrite component as functional
-export class AutoTextFit extends Component {
-  constructor(props) {
-    super(props)
+export const AutoTextFit = ({
+  // amount of increasing or decreasing the fontsize
+  step = 0.5,
 
-    this.state = {
-      ssrDone: false,
-      resized: true,
-    }
+  // the maximum font size in pixel.
+  maxFontSize = 100,
 
-    this.setNewWindowSize = this.setNewWindowSize.bind(this)
-    this.TextRef = createRef()
-    this.resizeObserver = null
+  // the minimum font size in pixel.
+  minFontSize = 1,
+
+  // avoid line breaks
+  includeWidth = false,
+  isLogo,
+  isMobileView,
+  textValue,
+  alignHorizontal,
+  adjustWidth,
+  children,
+  colorBackground,
+  padding,
+  isSidePreview,
+}) => {
+  const [ssrDone, setSsrDone] = useState(false)
+  const [resized, setResized] = useState(false)
+
+  const TextRef = useRef(null)
+  let resizeObserver = null
+
+  const options = {
+    maxFontSize,
+    minFontSize,
+    step,
+    includeWidth,
+    isLogo,
   }
 
-  setNewWindowSize() {
-    this.setState({ resized: false })
-  }
+  const setNewWindowSize = () => setResized(false)
 
-  componentDidMount() {
+  useEffect(() => {
     // Add window resize listener
-    window.addEventListener('resize', this.setNewWindowSize)
+    window.addEventListener('resize', setNewWindowSize)
 
     // Listen to parent element dimensions' change
-    const { maxFontSize, minFontSize, step, includeWidth, isLogo } = this.props
-    const options = { maxFontSize, minFontSize, step, includeWidth, isLogo }
-    const element = this.TextRef.current
-
-    this.resizeObserver = new ResizeObserver(() => {
+    resizeObserver = new ResizeObserver(() => {
+      const element = TextRef?.current
       updateFontSize(element, options)
     })
 
-    this.resizeObserver.observe(element.parentElement)
+    const element = TextRef?.current
+    resizeObserver.observe(element?.parentElement)
 
-    this.setState({ ssrDone: true, resized: false })
-
-    setTimeout(() => {
-      // TODO: fix the real problem with logo font not being updated after first render
-      updateFontSize(element, options) // !HACKS
-    }, 1000)
-  }
-
-  componentDidUpdate(prevProps) {
-    const { ssrDone, resized } = this.state
-    const shouldResize =
-      this.props.isMobileView !== prevProps.isMobileView ||
-      this.props.textValue !== prevProps.textValue ||
-      this.props.includeWidth !== prevProps.includeWidth ||
-      !ssrDone ||
-      !resized
-
-    if (resized && shouldResize) {
-      this.setState({ resized: false })
+    if (isSidePreview) {
+      setTimeout(() => {
+        if (!ssrDone) {
+          // HACKS: virtual replacement for 'load' - sometimes on migrating/building 'load' event listener doesn't fire off
+          setSsrDone(true)
+        }
+      }, 1500)
     }
 
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        // Update size only once DOM is loaded and take the calculated Ref
+        setSsrDone(true)
+        const element = TextRef?.current
+        updateFontSize(element, options)
+      }, 0)
+    })
+    return () => {
+      if (!!resizeObserver) {
+        resizeObserver.disconnect()
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (resized) {
+      setResized(false)
+    }
+  }, [isMobileView, textValue, includeWidth, isSidePreview])
+
+  useEffect(() => {
     if (ssrDone && !resized) {
-      // Resize text if window size is set or changes
-      const { maxFontSize, minFontSize, step, includeWidth, isLogo } = this.props
-      const options = { maxFontSize, minFontSize, step, includeWidth, isLogo }
-      const element = this.TextRef.current
-
+      // Resize text if window size or props are changed
+      const element = TextRef?.current
       updateFontSize(element, options)
-
-      this.setState({ resized: true })
+      setResized(true)
     }
-  }
+  }, [isMobileView, textValue, includeWidth, ssrDone, resized])
 
-  componentWillUnmount() {
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect()
-    }
-  }
-
-  render() {
-    const {
-      alignHorizontal,
-      adjustWidth,
-      children,
-      colorBackground,
-      padding,
-      includeWidth,
-      isMobileView,
-      isSidePreview,
-      isLogo,
-    } = this.props
-    const { ssrDone, resized } = this.state
-
-    return (
-      <TextContainer
-        id="auto-text-fit-container"
-        show={ssrDone && resized}
-        alignHorizontal={alignHorizontal}
+  return (
+    <TextContainer
+      id="auto-text-fit-container"
+      show={ssrDone && resized}
+      alignHorizontal={alignHorizontal}
+      isLogo={isLogo}
+    >
+      <TextContent
+        adjustWidth={adjustWidth}
+        colorBackground={colorBackground}
+        padding={padding}
+        ref={TextRef}
+        includeWidth={includeWidth}
+        isMobileView={isMobileView}
+        isSidePreview={isSidePreview}
         isLogo={isLogo}
       >
-        <TextContent
-          adjustWidth={adjustWidth}
-          colorBackground={colorBackground}
-          padding={padding}
-          ref={this.TextRef}
-          includeWidth={includeWidth}
-          isMobileView={isMobileView}
-          isSidePreview={isSidePreview}
-          isLogo={isLogo}
-        >
-          {children}
-          {
-            /* Give some space at the end */
-            !isLogo && (
-              <p>
-                <br />
-              </p>
-            )
-          }
-        </TextContent>
-      </TextContainer>
-    )
-  }
+        {children}
+        {
+          /* Give some space at the end */
+          !isLogo && (
+            <p>
+              <br />
+            </p>
+          )
+        }
+      </TextContent>
+    </TextContainer>
+  )
 }
-
-AutoTextFit.propTypes = {
-  alignHorizontal: PropTypes.oneOf(Object.keys(HorizontalAlignment)),
-  adjustWidth: PropTypes.bool,
-  children: PropTypes.node,
-  colorBackground: PropTypes.string,
-  includeWidth: PropTypes.bool,
-  isMobileView: PropTypes.bool,
-  isLogo: PropTypes.bool,
-  isSidePreview: PropTypes.bool,
-  maxFontSize: PropTypes.number,
-  minFontSize: PropTypes.number,
-  onResize: PropTypes.bool,
-  padding: PropTypes.string,
-  step: PropTypes.number,
-  textValue: PropTypes.string, // Triggers resizing on text changed
-}
-
-AutoTextFit.defaultProps = DEFAULTS
