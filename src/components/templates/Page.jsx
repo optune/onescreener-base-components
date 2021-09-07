@@ -28,6 +28,7 @@ import { getImageUrl } from '../../utils/getImageUrl.js'
 import GlobalStyle from '../../style/global.js'
 import { UpgradeOverlay } from '../molecules/UpgradeOverlay.js'
 import { ShopFinishedModal } from '../molecules/modals/ShopFinishedModal.js'
+import { MediaMobile } from '../../style/media'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -36,6 +37,7 @@ const PageContainer = styled.div`
   bottom: 0;
   right: 0;
   z-index: 1;
+  transition: top 0.3s ease-out;
 
   background: ${({ color = '#000000', ssrDone, designColor, preloadImage }) =>
     getBackground({
@@ -65,6 +67,13 @@ const PageContainer = styled.div`
       border-radius: ${({ isPreviewMobile }) => (isPreviewMobile ? '16px' : '6px')};
       transition: border-radius 0.3s ease-out;
     `}
+
+
+    @media ${MediaMobile} {
+      &.cookie-banner-on {
+        top: 40px;
+      }
+    }
 `
 
 const ForegroundContainer = styled.div`
@@ -170,6 +179,38 @@ export const Page = ({
     //   document.head.appendChild(link)
     // }
   }, [])
+
+  /*
+   * Handle pretty cookie banner
+   */
+
+  useEffect(() => {
+    if (ssrDone && !isSidePreview) {
+      window?.addEventListener('load', () => {
+        const cookieBannerOn =
+          window.cookieconsent?.utils?.getCookie?.('cookieconsent_status') === undefined
+
+        if (!cookieBannerOn) return
+
+        const pageContainer = document.getElementsByClassName('page-container')[0]
+        const banner = document.getElementsByClassName('cc-window')[0]
+
+        if (cookieBannerOn) {
+          pageContainer.classList.add('cookie-banner-on')
+          banner.classList.add('cookie-banner-on')
+        }
+
+        const cookieAccept = document.getElementsByClassName('cc-compliance')[0]
+        if (!!cookieAccept) {
+          cookieAccept.addEventListener('click', () => {
+            pageContainer.classList.remove('cookie-banner-on')
+            banner.classList.remove('cookie-banner-on')
+          })
+        }
+      })
+    }
+  }, [ssrDone])
+
   const getUrl = getImageUrl(ssrDone)
 
   const isProPlanRequired = showUpgradeOverlay
@@ -194,7 +235,6 @@ export const Page = ({
   if (page) {
     const { background, logo, content, design, selectedThemeId, stripe } = page
     const { links } = page || { links: { list: [] } }
-    // const domainName = page.domainName
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
     const isBackgroundSelected =
