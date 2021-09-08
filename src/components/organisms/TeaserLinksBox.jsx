@@ -353,7 +353,7 @@ export const TeaserLinksBox = ({
               image={images?.[0]}
               className={classNames('teaser-link', {
                 disabled: soldOut,
-                long: name.length > 50,
+                long: name.length > 45,
                 shop: isShop,
               })}
               target="_blank"
