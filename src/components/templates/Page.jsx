@@ -128,6 +128,7 @@ const BlockedOverlay = styled.p`
 
 export const Page = ({
   analyticsLivePage,
+  artistSlug,
   domainName,
   hasPro,
   isInstagramBrowser,
@@ -277,7 +278,7 @@ export const Page = ({
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
             {!noBacklink && !isSidePreview && (
-              <BackLink isPreviewMobile={isPreviewMobile} isPro={hasPro} />
+              <BackLink artistSlug={artistSlug} isPreviewMobile={isPreviewMobile} isPro={hasPro} />
             )}
 
             {/* Logo */}
