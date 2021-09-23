@@ -160,6 +160,7 @@ export const GigsBox = ({
   gigsList,
   gigsLoading,
   isPreviewMobile,
+  isSidePreview,
   pageUrl,
   square,
 }) => {
@@ -215,6 +216,7 @@ export const GigsBox = ({
           colorBackground={colorBackground}
           includeWidth
           isMobileView={isPreviewMobile}
+          isSidePreview={isSidePreview}
           value={gigs.loading || gigsLoading ? 'Loading events ...' : 'No events found'}
         >
           <GigsTitle
