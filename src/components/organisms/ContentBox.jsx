@@ -598,6 +598,7 @@ export const ContentBox = ({
           gigsList={gigsList}
           gigsLoading={gigsLoading}
           isPreviewMobile={isPreviewMobileReady}
+          isSidePreview={isSidePreview}
           pageUrl={pageUrl}
           square={square}
           {...colors}
