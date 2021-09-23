@@ -218,6 +218,7 @@ export const GigsBox = ({
           isMobileView={isPreviewMobile}
           isSidePreview={isSidePreview}
           value={gigs.loading || gigsLoading ? 'Loading events ...' : 'No events found'}
+          isGigs
         >
           <GigsTitle
             alignHorizontal={alignHorizontal}
