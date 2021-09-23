@@ -145,6 +145,7 @@ export const Page = ({
   onLoadOrder,
   onLogoSectionClick,
   onLoadShopItem,
+  onReferralOpen,
   onUpgrade,
   page,
   pageUrl,
@@ -248,6 +249,7 @@ export const Page = ({
       <Fragment>
         <GlobalStyle />
         <PageContainer
+          id="page-container"
           className="page-container"
           preloadImage={getImageUrl(false)({
             ...background,
@@ -423,9 +425,7 @@ export const Page = ({
             )}
           </ForegroundContainer>
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
-          {!hasPro && !isSidePreview && (
-            <BannerReferral onReferralClick={() => console.log('open sign up')} />
-          )}
+          {!hasPro && !isSidePreview && <BannerReferral onReferralOpen={onReferralOpen} />}
         </PageContainer>
 
         {page.isBlocked && (

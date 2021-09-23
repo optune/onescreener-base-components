@@ -30,6 +30,8 @@ export {
   NotMediaSmall,
 } from './style/media.js'
 
+export { ForegroundColor, BackgroundColor } from './style/color.js'
+
 export { getGigs } from './api/gigs/index.js'
 
 export { renderHtml } from './utils/renderHtml.js'

@@ -65,7 +65,7 @@ const Container = styled.div`
   }
 `
 
-export const BannerReferral = ({ onReferralClick }) => {
+export const BannerReferral = ({ onReferralOpen }) => {
   return (
     <Container>
       <div className="brand">
@@ -78,7 +78,7 @@ export const BannerReferral = ({ onReferralClick }) => {
         </h1>
       </div>
       <div className="referral">
-        <h1 onClick={onReferralClick}>Sign up and get 20% off</h1>
+        <h1 onClick={onReferralOpen}>Sign up and get 20% off</h1>
       </div>
     </Container>
   )
