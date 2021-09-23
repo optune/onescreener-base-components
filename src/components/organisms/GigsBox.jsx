@@ -193,8 +193,6 @@ export const GigsBox = ({
 
   const showGigs = !gigs.loading && !gigsLoading && gigs.data.length > 0
 
-  console.log({ gigs, gigsList, gigsLoading })
-
   // Media Query
   const isSmall = useMediaQuery({ query: MediaSmall })
 
@@ -245,6 +243,7 @@ export const GigsBox = ({
           wordWrap={ssrDone && isSmall}
           adjustWidth
           isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
         >
           {/*
            * Gigs List

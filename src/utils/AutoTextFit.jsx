@@ -151,7 +151,6 @@ export const AutoTextFit = ({
   colorBackground,
   padding,
   isSidePreview,
-  isGigs,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   const [resized, setResized] = useState(false)
@@ -187,7 +186,6 @@ export const AutoTextFit = ({
         if (!ssrDone) {
           // !HACKS: virtual replacement for 'load' - sometimes on migrating/building 'load' event listener doesn't fire off
           setSsrDone(true)
-          console.log('hack ssr done')
         }
       }, 1500)
     }
@@ -195,7 +193,6 @@ export const AutoTextFit = ({
     window.addEventListener('load', () => {
       setTimeout(() => {
         // Update size only once DOM is loaded and take the calculated Ref
-        console.log('loaded ssr done')
         setSsrDone(true)
         const element = TextRef?.current
         updateFontSize(element, options)
@@ -220,13 +217,9 @@ export const AutoTextFit = ({
       const element = TextRef?.current
       updateFontSize(element, options)
       setResized(true)
-      console.log('resized')
     }
   }, [isMobileView, textValue, includeWidth, ssrDone, resized])
 
-  if (isGigs) {
-    console.log({ isSidePreview, isGigs, ssrDone, resized })
-  }
   return (
     <TextContainer
       id="auto-text-fit-container"
