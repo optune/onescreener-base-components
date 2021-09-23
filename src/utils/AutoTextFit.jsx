@@ -230,7 +230,7 @@ export const AutoTextFit = ({
   return (
     <TextContainer
       id="auto-text-fit-container"
-      show={(ssrDone && resized) || (isSidePreview && isGigs)}
+      show={ssrDone && resized}
       alignHorizontal={alignHorizontal}
       isLogo={isLogo}
     >

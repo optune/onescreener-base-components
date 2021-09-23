@@ -193,6 +193,8 @@ export const GigsBox = ({
 
   const showGigs = !gigs.loading && !gigsLoading && gigs.data.length > 0
 
+  console.log({ gigs, gigsList, gigsLoading })
+
   // Media Query
   const isSmall = useMediaQuery({ query: MediaSmall })
 
@@ -218,7 +220,6 @@ export const GigsBox = ({
           isMobileView={isPreviewMobile}
           isSidePreview={isSidePreview}
           value={gigs.loading || gigsLoading ? 'Loading events ...' : 'No events found'}
-          isGigs
         >
           <GigsTitle
             alignHorizontal={alignHorizontal}
