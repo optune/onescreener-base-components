@@ -243,6 +243,7 @@ export const GigsBox = ({
           wordWrap={ssrDone && isSmall}
           adjustWidth
           isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
         >
           {/*
            * Gigs List
