@@ -184,7 +184,7 @@ export const AutoTextFit = ({
     if (isSidePreview) {
       setTimeout(() => {
         if (!ssrDone) {
-          // HACKS: virtual replacement for 'load' - sometimes on migrating/building 'load' event listener doesn't fire off
+          // !HACKS: virtual replacement for 'load' - sometimes on migrating/building 'load' event listener doesn't fire off
           setSsrDone(true)
         }
       }, 1500)
