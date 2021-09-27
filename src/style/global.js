@@ -108,6 +108,11 @@ export default createGlobalStyle`
     font: inherit;
     vertical-align: baseline;
   }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 
   ol, ul {
     list-style: none;
