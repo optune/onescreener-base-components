@@ -425,7 +425,9 @@ export const Page = ({
             )}
           </ForegroundContainer>
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
-          {!hasPro && !isSidePreview && <BannerReferral onReferralOpen={onReferralOpen} />}
+          {!hasPro && !isSidePreview && (
+            <BannerReferral artistSlug={artistSlug} onReferralOpen={onReferralOpen} />
+          )}
         </PageContainer>
 
         {page.isBlocked && (

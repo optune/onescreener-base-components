@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { BackgroundColor } from '../../../style/color'
+import { BackgroundColor, ForegroundColor } from '../../../style/color'
 import { MediaMobile, MediaSmallMobile } from '../../../style/media'
 
 const Container = styled.div`
@@ -10,13 +10,14 @@ const Container = styled.div`
   transform: translateX(-50%);
   z-index: 9999;
   border-radius: 4px 4px 0 0;
+  cursor: pointer;
 
   width: 100%;
   height: 36px;
   max-width: 480px;
 
   background-color: ${BackgroundColor.special};
-  color: ${BackgroundColor.base};
+  color: ${ForegroundColor.special};
   letter-spacing: 0.01em;
 
   display: flex;
@@ -31,7 +32,6 @@ const Container = styled.div`
 
   .brand {
     font-size: 13px;
-    color: #fafafa;
     margin-left: 16px;
   }
 
@@ -44,7 +44,11 @@ const Container = styled.div`
     margin-right: 16px;
 
     h1 {
-      cursor: pointer;
+      background: linear-gradient(0deg, rgba(255, 255, 255, 0.33), rgba(255, 255, 255, 0.33)),
+        linear-gradient(103.91deg, #ff0f00 -8.61%, #cc00ff 109.27%);
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   }
 
@@ -65,20 +69,27 @@ const Container = styled.div`
   }
 `
 
-export const BannerReferral = ({ onReferralOpen }) => {
+export const BannerReferral = ({ onReferralOpen, artistSlug }) => {
   return (
-    <Container>
+    <Container onClick={onReferralOpen}>
       <div className="brand">
         <h1>
-          Made with{' '}
-          <a href="https://www.onescreener.com/" rel="noopener noreferrer" target="_blank">
+          <span>Made with</span>
+          <a
+            onClick={(e) => e.stopPropagation()}
+            href={`https://www.onescreener.com/sign-up?utm_source=livepage&utm_medium=banner&utm_campaign=${
+              artistSlug || 'unknown'
+            }`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             {' '}
             Onescreener
           </a>
         </h1>
       </div>
       <div className="referral">
-        <h1 onClick={onReferralOpen}>Sign up and get 20% off</h1>
+        <h1>Sign up and get 20% off</h1>
       </div>
     </Container>
   )
