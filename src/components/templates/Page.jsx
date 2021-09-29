@@ -403,6 +403,7 @@ export const Page = ({
                   isInstagramBrowser={isInstagramBrowser}
                   showRedirectOverlay={showRedirectOverlay}
                   onLinksSectionClick={onLinksSectionClick}
+                  hasPro={hasPro}
                 >
                   {Links({
                     content,

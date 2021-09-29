@@ -29,6 +29,7 @@ export const BackgroundColor = {
   accent: ColorBlue,
   disabled: ColorWhite,
   base: ColorGrey,
+  disabledDark: ColorSecondary90,
   hover: ColorHaiti,
   secondary: ColorWhite,
   selected: ColorBlue,
@@ -44,8 +45,7 @@ export const ForegroundColor = {
   error: ColorMonza,
   info: ColorSecondary40,
   success: ColorHarlequin,
-  special: ColorSecondary50,
   secondary: ColorSecondary10,
-  secondary: ColorStormGray,
+  subsecondary: ColorSecondary50,
   selected: ColorWhite,
 }

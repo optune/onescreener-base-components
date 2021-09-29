@@ -17,7 +17,7 @@ const Container = styled.div`
   max-width: 480px;
 
   background-color: ${BackgroundColor.special};
-  color: ${ForegroundColor.special};
+  color: ${ForegroundColor.subsecondary};
   letter-spacing: 0.01em;
 
   display: flex;
