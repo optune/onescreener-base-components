@@ -8,7 +8,7 @@ import { SectionOverlay } from '../molecules/SectionOverlay.js'
 const LinksContainer = styled.div`
   position: absolute;
   top: 0;
-  bottom: ${({ isSidePreview }) => (isSidePreview ? '0' : '36px')};
+  bottom: ${({ isSidePreview, hasPro }) => (isSidePreview ? '0' : hasPro ? '20px' : '36px')};
   left: 0;
   right: 0;
   display: flex;
@@ -138,6 +138,7 @@ export const LinksBox = ({
   isInstagramBrowser,
   showRedirectOverlay,
   onLinksSectionClick,
+  hasPro,
 }) => {
   const positionLinks = position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'
 
@@ -154,6 +155,7 @@ export const LinksBox = ({
         />
       )}
       <LinksContainer
+        hasPro={hasPro}
         zIndex={zIndex}
         isSidePreview={isSidePreview}
         isInstagramBrowser={isInstagramBrowser}

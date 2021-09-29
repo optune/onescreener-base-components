@@ -19,6 +19,7 @@ export const ColorSecondary40 = '#53637F'
 export const ColorSecondary50 = '#6D7B95'
 export const ColorSecondary60 = '#8893AA'
 export const ColorSecondary90 = '#DADDE5'
+export const ColorSecondary95 = '#EAECF0'
 export const ColorSecondary150 = '#EFF0F2'
 
 const DEFAULT_DEGREE = 20
@@ -33,7 +34,7 @@ export const BackgroundColor = {
   selected: ColorBlue,
   selectedGradient: (degree = DEFAULT_DEGREE) =>
     `linear-gradient(${degree}deg, ${ColorBlue} 61.46%, rgba(${ColorBlueRGB},0.5) 100%)`,
-  special: ColorSecondary20,
+  special: ColorSecondary95,
 }
 
 export const ForegroundColor = {
@@ -43,6 +44,7 @@ export const ForegroundColor = {
   error: ColorMonza,
   info: ColorSecondary40,
   success: ColorHarlequin,
+  special: ColorSecondary50,
   secondary: ColorSecondary10,
   secondary: ColorStormGray,
   selected: ColorWhite,
