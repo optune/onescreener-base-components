@@ -46,6 +46,7 @@ export const ForegroundColor = {
   info: ColorSecondary40,
   success: ColorHarlequin,
   secondary: ColorSecondary10,
+  secondaryAttention: ColorSecondary30,
   subsecondary: ColorSecondary50,
   selected: ColorWhite,
 }
