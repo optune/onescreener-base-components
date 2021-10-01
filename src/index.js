@@ -20,6 +20,9 @@ export { PlatformLink } from './components/molecules/links/PlatformLink'
 export { PlatformLinks } from './components/molecules/links/PlatformLinks'
 export { Links } from './components/molecules/links/Links'
 
+// Icons
+export { CloseDarkIcon } from './components/icons/CloseIcon.js'
+
 export {
   MediaDesktop,
   MediaSmallDesktop,
@@ -29,6 +32,8 @@ export {
   MediaMobile,
   NotMediaSmall,
 } from './style/media.js'
+
+export { ForegroundColor, BackgroundColor } from './style/color.js'
 
 export { getGigs } from './api/gigs/index.js'
 

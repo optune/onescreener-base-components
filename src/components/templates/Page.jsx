@@ -11,6 +11,7 @@ import { BackLink } from '../atoms/BackLink'
 import { Links } from '../molecules/links/Links.jsx'
 import { TextModal } from '../molecules/modals/TextModal'
 import { ShopModal } from '../molecules/modals/ShopModal.js'
+import { BannerReferral } from '../molecules/banners/BannerReferral.js'
 
 // Background
 import { Background } from '../atoms/Background.jsx'
@@ -144,6 +145,7 @@ export const Page = ({
   onLoadOrder,
   onLogoSectionClick,
   onLoadShopItem,
+  onReferralOpen,
   onUpgrade,
   page,
   pageUrl,
@@ -247,6 +249,7 @@ export const Page = ({
       <Fragment>
         <GlobalStyle />
         <PageContainer
+          id="page-container"
           className="page-container"
           preloadImage={getImageUrl(false)({
             ...background,
@@ -277,7 +280,7 @@ export const Page = ({
           )}
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
-            {!noBacklink && !isSidePreview && (
+            {!noBacklink && !isSidePreview && !!hasPro && (
               <BackLink artistSlug={artistSlug} isPreviewMobile={isPreviewMobile} isPro={hasPro} />
             )}
 
@@ -398,6 +401,7 @@ export const Page = ({
                   isInstagramBrowser={isInstagramBrowser}
                   showRedirectOverlay={showRedirectOverlay}
                   onLinksSectionClick={onLinksSectionClick}
+                  hasPro={hasPro}
                 >
                   {Links({
                     content,
@@ -422,6 +426,9 @@ export const Page = ({
             )}
           </ForegroundContainer>
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
+          {!hasPro && !isSidePreview && (
+            <BannerReferral artistSlug={artistSlug} onReferralOpen={onReferralOpen} />
+          )}
         </PageContainer>
 
         {page.isBlocked && (

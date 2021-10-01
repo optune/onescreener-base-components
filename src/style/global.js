@@ -84,6 +84,10 @@ export default createGlobalStyle`
     font-family: 'CeraPRO', Helvetica, sans-serif;
     line-height: normal;
 
+    &.ReactModal__Body--open {
+      overflow:hidden;
+    }
+
     @media ${MediaSmall} {
       &.noscroll {
         overflow-y: hidden;
@@ -107,6 +111,11 @@ export default createGlobalStyle`
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
+  }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
   }
 
   ol, ul {
