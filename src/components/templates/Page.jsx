@@ -66,6 +66,7 @@ const PageContainer = styled.div`
       // box-shadow: -16px 3px 25px -22px rgba(255, 255, 255, 0.7),
       //   16px 3px 25px -22px rgba(255, 255, 255, 0.7), 0 5px 8px 7px rgba(0, 0, 0, 0.68),
       //   0 0 0 10px black;
+
       box-shadow: -16px 3px 25px -22px rgb(255 255 255 / 70%),
         16px 3px 25px -22px rgb(255 255 255 / 70%), 0 5px 7px 2px rgb(0 0 0 / 68%), 0 0 0 6px black;
       border-radius: ${({ isPreviewMobile }) => (isPreviewMobile ? '16px' : '6px')};
