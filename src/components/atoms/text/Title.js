@@ -4,12 +4,12 @@ import { ForegroundColor } from '../../../style/color'
 import { MediaMobile } from '../../../style/media'
 
 export const Title = styled.h2`
-  font-size: 32px;
-  font-weight: 500;
+  font-size: ${({ bold }) => (bold ? '28px' : '32px')};
+  font-weight: ${({ bold }) => (bold ? '600' : '500')};
   line-height: 105%;
   color: ${ForegroundColor.secondary};
 
   @media ${MediaMobile} {
-    font-size: 24px;
+    font-size: ${({ bold }) => (bold ? '20px' : '24px')};
   }
 `
