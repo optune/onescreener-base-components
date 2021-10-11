@@ -62,9 +62,13 @@ const PageContainer = styled.div`
   ${({ isSidePreview }) =>
     isSidePreview &&
     css`
-      box-shadow: -16px 3px 25px -22px rgba(255, 255, 255, 0.7),
-        16px 3px 25px -22px rgba(255, 255, 255, 0.7), 0 5px 8px 7px rgba(0, 0, 0, 0.68),
-        0 0 0 10px black;
+      /* Old wider shadow */
+      // box-shadow: -16px 3px 25px -22px rgba(255, 255, 255, 0.7),
+      //   16px 3px 25px -22px rgba(255, 255, 255, 0.7), 0 5px 8px 7px rgba(0, 0, 0, 0.68),
+      //   0 0 0 10px black;
+
+      box-shadow: -16px 3px 25px -22px rgb(255 255 255 / 70%),
+        16px 3px 25px -22px rgb(255 255 255 / 70%), 0 5px 7px 2px rgb(0 0 0 / 68%), 0 0 0 6px black;
       border-radius: ${({ isPreviewMobile }) => (isPreviewMobile ? '16px' : '6px')};
       transition: border-radius 0.3s ease-out;
     `}
@@ -235,12 +239,12 @@ export const Page = ({
   let PageComponent = null
 
   if (page) {
-    const { background, logo, content, design, selectedThemeId, stripe } = page
+    const { background, logo, content, design, selectedThemeId, stripe } = page || {}
     const { links } = page || { links: { list: [] } }
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
     const isBackgroundSelected =
-      background.selectedBackgroundId > '' && background.selectedBackgroundId !== 'custom'
+      background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom'
     const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
 
     const showRedirectOverlay = isSidePreview && !showStatistics
