@@ -34,7 +34,7 @@ const isValidUrl = (url) => {
 }
 
 export const DeezerPlayer = ({
-  url,
+  url = '',
   format = 'CLASSIC',
   autoplay = false,
   theme = 'DARK',
