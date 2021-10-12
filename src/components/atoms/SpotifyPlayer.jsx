@@ -8,7 +8,7 @@ const Player = styled.div`
   height: 100%;
 `
 
-export const SpotifyPlayer = ({ url }) => {
+export const SpotifyPlayer = ({ url = '' }) => {
   let trueUrl, temp
 
   if (url.indexOf('open.spotify.com') !== -1) {
