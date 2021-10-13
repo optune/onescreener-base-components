@@ -1,5 +1,5 @@
 // Styles
-export { default as GlobalStyle } from './style/global.js' // global styles
+export { default as GlobalStyle, globalStyles } from './style/global.js' // global styles
 
 // Atoms
 export { Logo } from './components/atoms/Logo.jsx'
@@ -7,9 +7,10 @@ export { SpotifyPlayer } from './components/atoms/SpotifyPlayer.jsx'
 export { ApplePlayer } from './components/atoms/ApplePlayer.jsx'
 export { DeezerPlayer } from './components/atoms/DeezerPlayer.jsx'
 export { BackLink } from './components/atoms/BackLink.jsx'
+export { Title } from './components/atoms/text/Title.js'
+export { Subtitle } from './components/atoms/text/Subtitle.js'
 
 // Molecules
-
 export { UpgradeOverlay } from './components/molecules/UpgradeOverlay'
 
 // Templates
@@ -41,3 +42,6 @@ export { renderHtml } from './utils/renderHtml.js'
 export { getBackground } from './utils/getBackground.js'
 export { getImageUrl } from './utils/getImageUrl.js'
 export { getFavionUrl } from './utils/getFaviconUrl.js'
+
+// Styles
+export { auth0Styles } from './style/modals/auth0.js'
