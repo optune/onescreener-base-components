@@ -10,7 +10,7 @@ const Player = styled.div`
 
 // No implementation of Artist, Song links as Apple is very restrictive and doesn't allow it
 // Also, without sign in it won't allow to listen to full audio (30 seconds max)
-export const ApplePlayer = ({ url }) => {
+export const ApplePlayer = ({ url = '' }) => {
   let trueUrl, temp
 
   if (url.indexOf('music.apple.com') !== -1) {
