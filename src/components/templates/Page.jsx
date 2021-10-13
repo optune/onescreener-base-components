@@ -77,6 +77,11 @@ const PageContainer = styled.div`
     @media ${MediaMobile} {
       &.cookie-banner-on {
         top: 40px;
+
+        /* TODO: maybe use height for pretty transition */
+        .common-modal {
+          position: absolute;
+        }
       }
     }
 `

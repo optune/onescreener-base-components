@@ -69,7 +69,12 @@ export const Modal = ({
   maxHeight,
 }) => {
   return (
-    <StyledModal show={show} isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview}>
+    <StyledModal
+      className="common-modal"
+      show={show}
+      isPreviewMobile={isPreviewMobile}
+      isSidePreview={isSidePreview}
+    >
       <StyledModalContent
         show={show}
         isPreviewMobile={isPreviewMobile}
