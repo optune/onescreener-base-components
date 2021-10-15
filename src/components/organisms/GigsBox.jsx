@@ -126,10 +126,13 @@ const GigVenue = (title, venue) =>
 const GigItem = ({ gig, alignHorizontal, showDay }) => {
   const { title, startDate, venue, website } = gig
 
+  console.log({ gig })
+
   const gigDate = GigDate(startDate, showDay)
   const gigTitle = GigTitle(title, venue)
   const gigVenue = GigVenue(title, venue)
 
+  console.log({ gigDate, gigTitle, gigVenue })
   return (
     <Gig alignHorizontal={alignHorizontal}>
       {gigDate}
@@ -170,6 +173,7 @@ export const GigsBox = ({
     if (!ssrDone) setSsrDone(true)
   }, [ssrDone])
 
+  console.log({ gigsAPI })
   // Gigs State
   const [gigs, setGigs] = useState(
     Array.isArray(gigsList) && gigsList.length > 0
@@ -179,7 +183,7 @@ export const GigsBox = ({
 
   useEffect(() => {
     if (Array.isArray(gigsList) && gigsList.length > 0) {
-      setGigs({ ...gigs, data: gigsList })
+      setGigs({ ...gigs, data: [] })
     }
   }, [gigsList])
 
@@ -191,10 +195,12 @@ export const GigsBox = ({
     }
   }, [gigs.loading])
 
-  const showGigs = !gigs.loading && !gigsLoading && gigs.data.length > 0
+  const showGigs = true || (!gigs.loading && !gigsLoading && gigs.data.length > 0)
 
   // Media Query
   const isSmall = useMediaQuery({ query: MediaSmall })
+
+  console.log({ showGigs, gigs, gigsAPI, gigsAPIDomain, gigsList, gigsLoading })
 
   // Public event page link
   const querySeparator = pageUrl > '' && pageUrl.includes('page=') ? '&' : '?'
