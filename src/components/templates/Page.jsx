@@ -254,8 +254,6 @@ export const Page = ({
 
     const showRedirectOverlay = isSidePreview && !showStatistics
 
-    console.log({ hasPro, page })
-
     PageComponent = (
       <Fragment>
         <GlobalStyle />
