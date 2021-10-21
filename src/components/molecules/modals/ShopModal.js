@@ -30,7 +30,9 @@ import { InputField } from '../../atoms/forms/InputField'
 // Components
 import { ComponentLoading } from '../loaders/ComponentLoading'
 
+// Utils
 import { debounce } from '../../../utils/debounce'
+import { renderHtml } from '../../../utils/renderHtml'
 
 const InfoForm = ({
   name,
@@ -130,8 +132,8 @@ const InfoForm = ({
         </div>
       </div>
 
-      <Text left className="bangers" fontSize="1rem">
-        {description}
+      <Text as="div" left className="bangers" fontSize="1rem">
+        {renderHtml(description)}
       </Text>
     </Fragment>
   )
