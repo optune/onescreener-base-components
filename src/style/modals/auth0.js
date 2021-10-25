@@ -1,9 +1,23 @@
 import { BackgroundColor, ForegroundColor } from '../color'
-import { MediaMobile } from '../media'
+import { MediaMobile, NotMediaSmall } from '../media'
 
 // TODO: try to get rid of "!important" where it's possible
 export const auth0Styles = `
 .auth0-lock {
+
+  &.auth0-lock-opened-in-frame {
+    width: 100%;
+  }
+
+  .auth0-lock-content-body-wrapper {
+    padding-top: 0;
+    min-height: 200px;
+
+    @media ${NotMediaSmall} {
+      overflow-y: hidden;
+    }
+
+  }
  
   /* For loading spinner position  */
 
