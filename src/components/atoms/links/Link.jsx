@@ -104,7 +104,19 @@ position: relative;
     height: ${({ isSidePreview, isPreviewMobile, size }) =>
       isPreviewMobile || isSidePreview ? IconSize.Mobile[size] : IconSize.Desktop[size]};
 
-    & g {
+    &.no-stroke {
+      * {
+        stroke: none;
+      }
+    }
+
+    &.no-fill {
+      * {
+        fill: none;
+      }
+    }
+
+    // & g {
       & path,
       line,
       circle,
@@ -124,7 +136,7 @@ position: relative;
           stroke: none;
         }
       }
-    }
+    // }
   }
 
   ${({ isSidePreview }) =>
@@ -174,7 +186,20 @@ position: relative;
             `
           }
 
-          & .icon g {
+          & .icon  {
+
+            &.no-stroke {
+              * {
+                stroke: none;
+              }
+            }
+        
+            &.no-fill {
+              * {
+                fill: none;
+              }
+            }
+
             & path,
             line,
             circle,
