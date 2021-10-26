@@ -126,6 +126,10 @@ export const Container = styled.div`
     }
   }
 
+  .simplebar-placeholder {
+    height: 0 !important;
+  }
+
   .donate {
     width: 50%;
     height: ${({ isSidePreview }) => (isSidePreview ? '30px' : '60px')};
