@@ -33,7 +33,7 @@ const Container = styled.div`
 
   .teaser-link {
     position: relative;
-    width: 100%;
+    width: 90%;
     max-width: 640px;
     min-height: ${({ isSidePreview }) => (isSidePreview ? '32px' : '50px')};
     height: auto;
@@ -138,7 +138,7 @@ const Container = styled.div`
       align-self: center;
       display: flex;
       position: absolute;
-
+      max-width: 300px;
       padding: 0 20px;
       line-height: ${({ isSidePreview }) => (isSidePreview ? '12px' : '19px')};
       max-width: ${({ isSidePreview }) => isSidePreview && '240px'};

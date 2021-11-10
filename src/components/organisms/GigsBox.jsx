@@ -179,7 +179,7 @@ export const GigsBox = ({
 
   useEffect(() => {
     if (Array.isArray(gigsList) && gigsList.length > 0) {
-      setGigs({ ...gigs, data: gigsList })
+      setGigs({ ...gigs, data: [] })
     }
   }, [gigsList])
 
@@ -191,7 +191,7 @@ export const GigsBox = ({
     }
   }, [gigs.loading])
 
-  const showGigs = !gigs.loading && !gigsLoading && gigs.data.length > 0
+  const showGigs = true || (!gigs.loading && !gigsLoading && gigs.data.length > 0)
 
   // Media Query
   const isSmall = useMediaQuery({ query: MediaSmall })
