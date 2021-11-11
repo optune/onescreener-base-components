@@ -401,8 +401,8 @@ export const TeaserLinksBox = ({
                     image={hasImage ? 1 : undefined}
                     src={getImageUrl({
                       image: images?.[0],
-                      maxWidth: 10,
-                      maxHeight: 10,
+                      maxWidth: 45,
+                      maxHeight: 45,
                     })}
                     alt={name}
                     className="image"
