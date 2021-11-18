@@ -1,0 +1,184 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: $fontFamilyRegular;
+  color: $colorForeground;
+}
+
+h1, .h1 {
+  @include fontBigRegular();
+
+
+  @media #{$small} {
+    font-size: 1.6em;
+  }
+
+
+  &.bold {
+    @include fontBigBold();
+  }
+}
+
+h2, .h2 {
+  font-family: $fontFamilyBold;
+  font-weight: bold;
+  font-size: $fontSizeBig;
+  line-height: 1.2;
+  margin-bottom: 25px;
+  color: $colorForegroundDark;
+
+  &.inline {
+    margin-bottom: 10px;
+  }
+}
+
+h3, .h3 {
+  @include fontMediumRegular();
+  padding-top: 1px;
+
+  &.small {
+    font-size: $fontSizeSmall;
+  }
+}
+
+h4, .h4 {
+  font-family: $fontFamilyRegular;
+  font-size: $fontSizeTiny;
+}
+
+h5, .h5 {
+  font-family: $fontFamilyRegular;
+  font-size: $fontSizeTiny;
+  text-transform: uppercase;
+  color: $colorForegroundLight;
+
+  &.nano {
+    font-size: $fontSizeNano;
+    line-height: 1.4;
+  }
+}
+
+p {
+  font-family: $fontFamilyRegular;
+}
+
+strong, b, .bold {
+  font-family: $fontFamilyBold;
+  font-weight: bold;
+}
+
+.underlined {
+  border-bottom: 2px solid;
+  display: inline-block;
+}
+
+img, picture {
+  object-fit: cover;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+button {
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  /*-webkit-font-smoothing: antialiased;*/
+  outline: 0;
+  font-family: $fontFamilyRegular;
+}
+
+a {
+  cursor: pointer;
+  /* we have more a-tags that should not render special */
+  color: inherit;
+  text-decoration: none;
+}
+
+::-webkit-datetime-edit-day-field:not([aria-valuetext]),
+::-webkit-datetime-edit-month-field:not([aria-valuetext]),
+::-webkit-datetime-edit-year-field:not([aria-valuetext]) {
+  color: #999;
+}
+
+/*
+p, .text {
+  font-size: $fontSizeMedium;
+  line-height: 1.4;
+
+  &.small {
+    font-size: $fontSizeTiny;
+    letter-spacing: -0.35px;
+  }
+}
+*/
+
+
+@mixin inputPlaceholder() {
+    $selector: '';
+    $prefixes: (
+        moz: "::-moz",
+        webkit: "::-webkit",
+        ie: ":-ms"
+    );
+    @each $prop, $value in $prefixes {
+        @if $prop != "moz" {
+            $selector: #{$value}-input-placeholder;
+        } @else {
+            $selector: #{$value}-placeholder;
+        }
+        @if & {
+            &#{$selector} {
+                @content;
+            }
+        } @else {
+            #{$selector} {
+                @content;
+            }
+        }
+    }
+    &::placeholder {
+      @content;
+    }
+}
+@include inputPlaceholder() {
+  opacity: 1.0;
+  color: $colorForegroundFaint;
+  font-weight: normal;
+}
+
+hr {
+  border: 0;
+  height: 2px;
+  background: $colorButton;
+  margin-bottom: 14px;
+}
+
+code {
+  font-family: monospace;
+
+  &.large {
+    font-size: $fontSizeMedium;
+  }
+}
+
+small {
+  font-size: calc(13/15)em;
+}
+
+sub {
+  color: $colorForegroundLight;
+}
+
+figure {
+  margin: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+}

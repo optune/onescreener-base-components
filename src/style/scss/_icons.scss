@@ -1,0 +1,197 @@
+/* =================== */
+/* Icons               */
+/* =================== */
+
+.icon {
+  width: 28px;
+  height: 28px;
+
+  &.huge {
+    width: 170px;
+    height: 170px;
+  }
+  &.big {
+    width: 50px;
+    height: 50px;
+  }
+  &.medium {
+    width: 30px;
+    height: 30px;
+  }
+  &.normal {
+    width: 22px;
+    height: 22px;
+  }
+  &.small {
+    width: 18px;
+    height: 18px;
+  }
+  &.micro {
+    width: 14px;
+    height: 14px;
+  }
+
+  & path,
+  line,
+  circle,
+  polygon,
+  polyline,
+  rect,
+  ellipse {
+    fill: $colorForeground;
+    stroke: $colorForeground;
+    transition: fill 0.3s ease-out, stroke 0.3s ease-out;
+
+    &[fill='none'] {
+      fill: none;
+    }
+
+    &[stroke='none'] {
+      stroke: none;
+    }
+  }
+
+  &.interactive {
+    cursor: pointer;
+
+    &:hover {
+      & path,
+      line,
+      circle,
+      polygon,
+      polyline,
+      rect,
+      ellipse {
+        fill: $colorAccent;
+        stroke: $colorAccent;
+
+        &[fill='none'] {
+          fill: none;
+        }
+        &[stroke='none'] {
+          stroke: none;
+        }
+      }
+    }
+  }
+
+  &.accent {
+    & path,
+    line,
+    circle,
+    polygon,
+    polyline,
+    rect,
+    ellipse {
+      fill: $colorAccent;
+      stroke: $colorAccent;
+
+      &[fill='none'] {
+        fill: none;
+      }
+      &[stroke='none'] {
+        stroke: none;
+      }
+    }
+  }
+
+  &.blue {
+    & path,
+    line,
+    circle,
+    polygon,
+    polyline,
+    rect,
+    ellipse {
+      fill: $colorHavelockBlue;
+      stroke: $colorHavelockBlue;
+
+      &[fill='none'] {
+        fill: none;
+      }
+      &[stroke='none'] {
+        stroke: none;
+      }
+    }
+  }
+
+  &.white {
+    & path,
+    line,
+    circle,
+    polygon,
+    polyline,
+    rect,
+    ellipse {
+      fill: $colorWhite;
+      stroke: $colorWhite;
+
+      &[fill='none'] {
+        fill: none;
+      }
+      &[stroke='none'] {
+        stroke: none;
+      }
+    }
+  }
+
+  &.light {
+    & path,
+    line,
+    circle,
+    polygon,
+    polyline,
+    rect,
+    ellipse {
+      fill: $colorPlaceholder;
+      stroke: $colorPlaceholder;
+
+      &[fill='none'] {
+        fill: none;
+      }
+      &[stroke='none'] {
+        stroke: none;
+      }
+    }
+  }
+
+  &.warning {
+    & path,
+    line,
+    circle,
+    polygon,
+    polyline,
+    rect,
+    ellipse {
+      fill: $colorError;
+      stroke: $colorError;
+
+      &[fill='none'] {
+        fill: none;
+      }
+      &[stroke='none'] {
+        stroke: none;
+      }
+    }
+  }
+
+  &.highlighted {
+    & path,
+    line,
+    circle,
+    polygon,
+    polyline,
+    rect,
+    ellipse {
+      fill: $colorAccent;
+      stroke: $colorAccent;
+
+      &[fill='none'] {
+        fill: none;
+      }
+      &[stroke='none'] {
+        stroke: none;
+      }
+    }
+  }
+}

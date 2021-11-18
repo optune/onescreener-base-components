@@ -1,0 +1,545 @@
+/*
+  copy/pasted animations from animate.css
+  https://github.com/daneden/animate.css/tree/master/source
+*/
+// https://github.com/daneden/animate.css/blob/master/source/fading_entrances/fadeInUp.css
+
+/*
+ * Animation Base Classes
+ */
+
+.animated {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+}
+
+/*
+ * Fading
+ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fadeInUp {
+  animation-name: fadeInUp;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fadeInDown {
+  animation-name: fadeInDown;
+}
+
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+.fadeOutUp {
+  animation-name: fadeOutUp;
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+.fadeOutDown {
+  animation-name: fadeOutDown;
+}
+
+// https://github.com/daneden/animate.css/blob/master/source/fading_entrances/fadeIn.css
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+  animation-duration: 0.3s;
+}
+
+@keyframes fadeInGrow {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    height: auto;
+  }
+}
+
+.fadeInGrow {
+  animation-name: fadeInGrow;
+}
+
+// https://github.com/daneden/animate.css/blob/master/source/fading_exits/fadeOut.css
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.fadeOut {
+  animation-name: fadeOut;
+  animation-duration: 0.3s;
+}
+
+.late-fadein {
+  animation-name: fadeInUp;
+  animation-duration: 1s;
+  animation-delay: 10s;
+  animation-fill-mode: both;
+}
+
+.late-fadeout {
+  animation-name: fadeOut;
+  animation-duration: 0.25s;
+  animation-delay: 0.5s;
+}
+
+/*
+ * Circle Animation (Loading)
+ */
+
+@keyframes circley {
+  0% {
+    stroke-dashoffset: 0;
+    stroke-dasharray: 0 251.3272;
+  }
+  12.5% {
+    stroke-dashoffset: 0;
+    stroke-dasharray: 188.4954, 62.8318;
+  }
+  25% {
+    stroke-dashoffset: -188.4954;
+    stroke-dasharray: 0 251.3272;
+  }
+  37.5% {
+    stroke-dashoffset: -188.4954;
+    stroke-dasharray: 188.4954, 62.8318;
+  }
+  50% {
+    stroke-dashoffset: -376.9908;
+    stroke-dasharray: 0 251.3272;
+  }
+  62.5% {
+    stroke-dashoffset: -376.9908;
+    stroke-dasharray: 188.4954, 62.8318;
+  }
+  75% {
+    stroke-dashoffset: -565.4862;
+    stroke-dasharray: 0 251.3272;
+  }
+  87.5% {
+    stroke-dashoffset: -565.4862;
+    stroke-dasharray: 188.4954, 62.8318;
+  }
+  100% {
+    stroke-dashoffset: -753.9816;
+    stroke-dasharray: 0 251.3272;
+  }
+}
+
+@keyframes circley-small {
+  0% {
+    stroke-dashoffset: 0;
+    stroke-dasharray: 0 167.5517;
+  }
+  12.5% {
+    stroke-dashoffset: 0;
+    stroke-dasharray: 125.6636, 41.8879;
+  }
+  25% {
+    stroke-dashoffset: -125.6636;
+    stroke-dasharray: 0 167.5517;
+  }
+  37.5% {
+    stroke-dashoffset: -125.6636;
+    stroke-dasharray: 125.6636, 41.8879;
+  }
+  50% {
+    stroke-dashoffset: -251.3272;
+    stroke-dasharray: 0 167.5517;
+  }
+  62.5% {
+    stroke-dashoffset: -251.3272;
+    stroke-dasharray: 125.6636, 41.8879;
+  }
+  75% {
+    stroke-dashoffset: -376.9908;
+    stroke-dasharray: 0 167.5517;
+  }
+  87.5% {
+    stroke-dashoffset: -376.9908;
+    stroke-dasharray: 125.6636, 41.8879;
+  }
+  100% {
+    stroke-dashoffset: -502.6544;
+    stroke-dasharray: 0 167.5517;
+  }
+}
+
+/*
+ * Saving Animation (Loading)
+ */
+
+.saving span {
+  animation-name: blink;
+  animation-duration: 1.4s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+
+.saving span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.saving span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/*
+ * Blink
+ */
+
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+/*
+ * Rotate
+ */
+
+@keyframes rotaty {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate {
+  animation-name: rotaty;
+  animation-iteration-count: infinite;
+  animation-duration: 1.7s;
+}
+
+/*
+ * Menu
+ */
+
+@keyframes fadeInMenu {
+  from {
+    opacity: 0;
+    transform: scale3d(0, 0, 0) translate3d(0, -15px, 0);
+    transform-origin: center top;
+    box-shadow: none;
+  }
+
+  38% {
+    opacity: 0.62;
+    transform: scale3d(0.62, 0.62, 0.62);
+    transform-origin: center top;
+    box-shadow: none;
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fadeInMenu {
+  animation-name: fadeInMenu;
+  animation-fill-mode: forwards;
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.19, 0.1, 0.25, 1);
+}
+
+@keyframes fadeOutMenu {
+  from {
+    transform: none;
+    opacity: 1;
+  }
+  62% {
+    opacity: 0.62;
+    transform: scale3d(0.38, 0.38, 0.38) translate3d(0, 50px, 0);
+    transform-origin: center top;
+    box-shadow: none;
+  }
+  to {
+    opacity: 0;
+    transform: scale3d(0, 0, 0) translate3d(0, -15px, 0);
+    transform-origin: center top;
+    box-shadow: none;
+  }
+}
+
+.fadeOutMenu {
+  animation-name: fadeOutMenu;
+  animation-fill-mode: forwards;
+  animation-duration: 0.15s;
+  animation-timing-function: cubic-bezier(0.19, 0.1, 0.25, 1);
+}
+
+/*
+ * Zoom/Move animation
+ */
+
+@keyframes zoomInUp {
+  from {
+    opacity: 0;
+    transform: scale(0.2, 0.2) translate(-48px, 232px);
+    transform-origin: right bottom;
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+
+  62% {
+    opacity: 1;
+    transform: scale(0.5, 0.5) translate(-24px, 0);
+    transform-origin: right center;
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1, 1) translate(0, 0);
+    transform-origin: right center;
+  }
+}
+
+.zoomInUp {
+  animation-name: zoomInUp;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes textStretchGrow {
+  from {
+    transform: scale(0, 0);
+  }
+
+  38% {
+    transform: scale(0, 0);
+    transform-origin: right center;
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+
+  62% {
+    transform: scale(1, 0.1);
+    transform-origin: right center;
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
+
+  to {
+    transform: scale(1, 1);
+    transform-origin: right center;
+  }
+}
+
+.stretch-grow {
+  animation-name: textStretchGrow;
+  animation-duration: 0.4s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes zoomOutDown {
+  from {
+    opacity: 1;
+    transform: scale(1, 1) translate(0, 0);
+    transform-origin: right center;
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.5, 0.5) translate(-24px, 0);
+    transform-origin: right bottom;
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.2, 0.2) translate(-48px, 232px);
+    transform-origin: right bottom;
+  }
+}
+
+.zoomOutDown {
+  animation-name: zoomOutDown;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes textContractShrink {
+  from {
+    transform: scale(1, 1);
+  }
+
+  38% {
+    transform: scale(1, 0.1);
+    transform-origin: right center;
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+
+  62% {
+    transform: scale(0, 0);
+    transform-origin: right center;
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
+
+  to {
+    transform: scale(0, 0);
+    transform-origin: right center;
+  }
+}
+
+.contract-shrink {
+  animation-name: textContractShrink;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+}
+
+/*
+ * Slide out animation
+ */
+
+.with-slide {
+  & .slide-out {
+    max-height: 0;
+    transition: max-height 0.2s ease-out;
+    overflow: hidden;
+
+    @media #{$medium} {
+      max-height: 100px;
+    }
+  }
+
+  &:hover .slide-out {
+    max-height: 100px;
+    transition: max-height 0.3s ease-in;
+  }
+}
+
+/*
+ * Ripple effect (for buttons)
+ */
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(25, 25);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
+  }
+}
+
+@keyframes floating-ripple {
+  0% {
+    transform: scale(0);
+  }
+  30% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/*
+ * Swing
+ */
+
+@keyframes swing {
+  7% {
+    -webkit-transform: translateX(5px);
+    transform: translateX(5px);
+    background-position-x: 100%;
+  }
+  15% {
+    -webkit-transform: translateX(-5px);
+    transform: translateX(-5px);
+    background-position-x: 0%;
+  }
+  25% {
+    -webkit-transform: translateX(3px);
+    transform: translateX(3px);
+    background-position-x: 90%;
+  }
+  33% {
+    -webkit-transform: translateX(-3px);
+    transform: translateX(-3px);
+    background-position-x: 10%;
+  }
+  40% {
+    -webkit-transform: translateX(2px);
+    transform: translateX(2px);
+    background-position-x: 80%;
+  }
+  50% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    background-position-x: 50%;
+  }
+}
