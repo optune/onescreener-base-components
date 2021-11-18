@@ -80,5 +80,13 @@ export const ComponentLoading = ({ label }) => (
     <LoadingContent>
       <LoadingCircle cx="30" cy="30" r="20" />
     </LoadingContent>
+
+    {label > '' && (
+      <p className="font-small-regular saving">
+        {label} <span>. </span>
+        <span>. </span>
+        <span>. </span>
+      </p>
+    )}
   </Container>
 )

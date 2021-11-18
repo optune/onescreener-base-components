@@ -1,0 +1,13 @@
+/*
+  Hacks for integrations and third party plugins
+*/
+#intercom-container .intercom-launcher-button,
+#intercom-container .intercom-launcher-preview {
+  box-shadow: none !important;
+  border: 2px solid white !important;
+  background-color: $colorBackground;
+}
+
+.Cal__Container__wrapper {
+  box-shadow: $shadowNormal;
+}

@@ -9,6 +9,24 @@ export const ColorStormGray = '#4F4F4F'
 export const ColorWhite = '#FFFFFF'
 export const ColorGrey = '#f7f7f7'
 
+// React base colors
+export const ColorPampas = '#EEE9E3'
+export const ColorHaitiRGB = '15, 10, 44'
+export const ColorHarlequinRGB = '39,226,0'
+export const ColorWaterloo = '#7C819C'
+export const ColorHavelockBlue = '#4A90E2'
+export const ColorHawkesBlue = '#D4DEF3'
+export const ColorDarkestGrey = '#4E4E4E'
+export const ColorDarkGrey = '#5F5F5F'
+export const ColorSoftGrey = '#d7d3d0'
+export const ColorSofterGrey = '#e4dfdc'
+export const ColorDustyGray = '#9B9B9B'
+export const ColorGold = '#E5B700'
+export const ColorSilver = '#B3B2AF'
+export const ColorShipCove = '#6A86B0'
+export const ColorBackdrop = 'rgba(10, 15, 44, 0.3)'
+export const ColorBackdropDark = 'rgba(0, 0, 0, 0.85)'
+
 export const ColorLightGreySecond = '#DADDE5'
 
 export const ColorSecondary10 = '#0A1C3B'
@@ -49,4 +67,23 @@ export const ForegroundColor = {
   secondaryAttention: ColorSecondary30,
   subsecondary: ColorSecondary50,
   selected: ColorWhite,
+}
+
+export default {
+  ColorPampas,
+  ColorHaitiRGB,
+  ColorHarlequinRGB,
+  ColorWaterloo,
+  ColorHavelockBlue,
+  ColorHawkesBlue,
+  ColorDarkestGrey,
+  ColorDarkGrey,
+  ColorSoftGrey,
+  ColorSofterGrey,
+  ColorDustyGray,
+  ColorGold,
+  ColorSilver,
+  ColorShipCove,
+  ColorBackdrop,
+  ColorBackdropDark,
 }

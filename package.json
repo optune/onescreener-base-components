@@ -18,6 +18,7 @@
     "watch": "meteor npm run remove-react && rollup -c config/dev.js -w",
     "watch:windows": "meteor npm run remove-react:windows && rollup -c config/dev.js -w"
   },
+  "style": "./src/style/scss/app.scss",
   "prettier": {
     "semi": false,
     "singleQuote": true,
@@ -79,13 +80,16 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-peer-deps-external": "^2.2.2",
     "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-scss": "^3.0.0",
     "rollup-plugin-terser": "^6.1.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.10.2",
+    "@optune/react-media-queryable": "^3.1.0",
     "classnames": "^2.2.6",
     "dateformat": "^3.0.3",
     "isomorphic-fetch": "^2.2.1",
+    "node-sass": "^6.0.1",
     "react-html-parser": "^2.0.2",
     "react-images-viewer": "^1.6.7",
     "react-player": "^2.1.1",

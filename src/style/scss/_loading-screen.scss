@@ -1,0 +1,212 @@
+/* Loading Screen CSS */
+
+.loading-screen {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  background-color: #EEE9E3;
+  /* background-image: url(https://res.cloudinary.com/optune-me/image/upload/fl_progressive,q_auto:best/v1497607036/optune/app/optune-start-screen.jpg); */
+  /* background-size: cover; */
+  z-index: 999999;
+}
+
+.loading-screen-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(10, 15, 44, 0.5);
+}
+
+.loading-indicator {
+  position: relative;
+  display: flex;
+  margin: 20px;
+  max-width: 810px;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  width: 100%;
+  text-align: center;
+  color: #0A0F2C;
+}
+
+.loading-indicator a {
+  color: #8FB5ED;
+  text-decoration: none;
+}
+
+.loading-indicator a:hover {
+  text-decoration: underline;
+  color: #27E200;
+}
+
+#loading-label {
+  width: 200px;
+  color: #FFFFFF;
+  font-size: 20px;
+  text-align: center;
+}
+
+#loading-logo {
+  width: 100px;
+}
+#loading-logo path, #loading-logo polygon {
+  fill: #FFFFFF;
+}
+
+#loading-support {
+  margin-top: 60px;
+  color: #FFFFFF;
+}
+#loading-support .loading-text {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#loading-support .loading-text p {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+/* Loading Animation */
+
+#loading-animation {
+  position: relative;
+  margin-top: 11px;
+  width: 91px;
+  height: 80px;
+}
+
+.loading-bar {
+  display: inline-block;
+  border-radius: 4px;
+  width: 8px;
+  margin: 0px 2%;
+  transition: 0.5s;
+  animation: equalize 4s 0s infinite;
+  animation-timing-function: linear;
+  vertical-align: top;
+}
+
+#first-bar {
+  height: 90%;
+  background: #27E200;
+  animation-delay: -1.9s;
+}
+
+#second-bar {
+  height: 95%;
+  background: #27E200;
+  animation-delay: -2.9s;
+}
+
+#third-bar {
+  height: 100%;
+  background: #27E200;
+  animation-delay: -3.9s;
+}
+
+#fourth-bar {
+  height: 97%;
+  background: #27E200;
+  animation-delay: -4.9s;
+}
+#fith-bar {
+  height: 70%;
+  background: #27E200;
+  animation-delay: -5.9s;
+}
+
+@keyframes equalize {
+  0% {
+    height: 100%;
+  }
+  4% {
+    height: 95%;
+  }
+  8% {
+    height: 80%;
+  }
+  12% {
+    height: 60%;
+  }
+  16% {
+    height: 50%;
+  }
+  20% {
+    height: 60%;
+  }
+  24% {
+    height: 80%;
+  }
+  28% {
+    height: 25%;
+  }
+  32% {
+    height: 80%;
+  }
+  36% {
+    height: 100%;
+  }
+  40% {
+    height: 50%;
+  }
+  44% {
+    height: 80%;
+  }
+  48% {
+    height: 100%;
+  }
+  52% {
+    height: 60%;
+  }
+  56% {
+    height: 25%;
+  }
+  60% {
+    height: 60%;
+  }
+  64% {
+    height: 100%;
+  }
+  68% {
+    height: 60%;
+  }
+  72% {
+    height: 100%;
+  }
+  76% {
+    height: 50%;
+  }
+  80% {
+    height: 100%;
+  }
+  84% {
+    height: 38px;
+  }
+  88% {
+    height: 100%;
+  }
+  92% {
+    height: 50%;
+  }
+  96% {
+    height: 100%;
+  }
+  100% {
+    height: 100%;
+  }
+}
+
+
+

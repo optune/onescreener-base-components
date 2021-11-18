@@ -1,0 +1,133 @@
+.modal {
+  &.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: $z-index-4;
+    overflow: auto;
+
+    &.normal-top {
+      background-color: rgba(10, 15, 44, 0.5);
+    }
+    &.normal {
+      background-color: rgba(10, 15, 44, 0.5);
+    }
+    &.plan-upgrade {
+      background-color: rgba(10, 15, 44, 0.5);
+      z-index: $z-index-4 + 1;
+    }
+    &.light {
+      background-color: rgba(10, 15, 44, 0.1);
+    }
+    &.default {
+      background-color: rgba(10, 15, 44, 0.5);
+    }
+
+    &.move-to-front {
+      z-index: $z-index-4;
+    }
+
+    &.artist {
+      @media #{$desktop} {
+        top: 140px;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      @media #{$medium} {
+        background-color: $colorCard;
+      }
+
+      & .column {
+        pointer-events: all;
+      }
+    }
+
+    &.manager {
+      @media #{$medium} {
+        background-color: $colorCard;
+      }
+    }
+  }
+
+  &.content {
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+    border: none;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    pointer-events: none;
+
+    & div > * {
+      pointer-events: all;
+    }
+
+    &.fullscreen {
+      top: 0;
+      background: $colorCard;
+    }
+
+    &.normal-top {
+      top: 0;
+    }
+
+    @media #{$small} {
+      top: 0;
+
+      &.plan-upgrade {
+        background-color: #fcfcfc;
+      }
+      &.normal {
+        background: $colorCard;
+      }
+      &.normal-top {
+        background: $colorCard;
+      }
+      &.light {
+        background-color: rgba(10, 15, 44, 0.1);
+      }
+      &.default {
+        background: $colorBackground;
+      }
+    }
+  }
+}
+
+.card-form {
+  background: $colorCard;
+  overflow: hidden;
+
+  @media #{$desktop} {
+    box-shadow: $shadowSoft;
+  }
+
+  &.rounded {
+    @media #{$desktop} {
+      border-radius: 40px;
+    }
+  }
+}
+
+.signup-action {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.signup-content {
+  @media #{$small} {
+    position: relative;
+    width: 100%;
+
+    &.invisible {
+      margin-bottom: 0;
+    }
+  }
+}
