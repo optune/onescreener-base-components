@@ -1,0 +1,270 @@
+/* color names via http://chir.ag/projects/name-that-color/ */
+
+/* do not use named colors, they are just for reference */
+
+$colorPampas: #eee9e3;
+$colorHaiti: #0a0f2c;
+$colorHaitiFade: rgba(10, 15, 44, 0.62);
+$colorHarlequin: #27e200;
+$colorWhite: #ffffff;
+$colorStormGray: #6f717d;
+$colorTimberwolf: #eeeeee;
+$colorMonza: #d0021b;
+$colorRedDarK: #480109;
+$colorWaterloo: #7c819c;
+$colorHavelockBlue: #4a90e2;
+$colorDarkestGrey: #4e4e4e;
+$colorDarkGrey: #5f5f5f;
+$colorLightGrey: #d6d3cf;
+$colorSoftGrey: #d7d3d0;
+$colorSofterGrey: #e4dfdc;
+$colorDustyGray: #9b9b9b;
+$colorDustyGrayLight: rgba(155, 155, 155, 0.3);
+$colorGold: #e5b700;
+$colorSilver: #cac8c4;
+$colorMistyRose: #ffdfdf;
+$colorSulu: #b9ff8d;
+$colorHawkesBlue: #d4def3;
+$colorShipCove: #6a86b0;
+$colorGray89: #e3e3e3;
+$colorChambray: #4d5582;
+$colorChambrayDensed: rgba(77, 85, 130, 0.22);
+
+$colorBackground: $colorPampas;
+$colorSeparator: $colorLightGrey;
+$colorSeparatorDark: $colorDustyGray;
+$colorButton: $colorLightGrey;
+$colorButtonSecondary: #f3f2f0;
+$colorForeground: $colorHaiti;
+$colorForegroundDark: $colorDarkGrey;
+$colorForegroundLight: $colorWaterloo;
+$colorForegroundFaint: $colorDustyGray;
+$colorAccent: $colorHarlequin;
+$colorMark: $colorWhite;
+$colorCard: $colorWhite;
+$colorCardHover: $colorTimberwolf;
+$colorCardMark: $colorLightGrey;
+$colorCardDark: $colorDustyGray;
+$colorLight: $colorTimberwolf;
+$colorPlaceholder: $colorStormGray;
+$colorError: $colorMonza;
+$colorAttention: $colorMonza;
+$colorReadonly: $colorLightGrey;
+$colorOff: $colorLightGrey;
+$colorBackdrop: rgba(10, 15, 44, 0.3);
+$colorBackdropDark: rgba(0, 0, 0, 0.85);
+$colorNotification: $colorHavelockBlue;
+$colorForegroundMark: $colorHavelockBlue;
+
+// Font Family
+// $fontFamilyRegular: 'Brandon Text Regular', Helvetica, sans-serif;
+// $fontFamilyBold: 'Brandon Text Bold', Helvetica, sans-serif;
+
+$fontFamilyRegular: 'CeraPRO', Helvetica, sans-serif;
+$fontFamilyBold: 'CeraPRO', Helvetica, sans-serif;
+
+// Font Sizes
+$fontSizeXLarge: 2rem;
+$fontSizeLarge: 1.5rem;
+$fontSizeBig: 1.3rem;
+$fontSizeMedium: 1.1rem;
+$fontSizeSmall: 1rem;
+$fontSizeMicro: 0.85rem;
+$fontSizeTiny: 0.8rem;
+$fontSizeNano: 0.65rem;
+$fontSizeMin: 0.5rem;
+
+// Print
+$fontSizeMediumPrint: 11pt;
+$fontSizeSmallPrint: 10pt;
+$fontSizeMicroPrint: 9pt;
+
+$sizeNano: 5px;
+$sizeMicro: 10px;
+$sizeMini: 15px;
+$sizeSmall: 20px;
+$sizeMedium: 30px;
+$sizeLarge: 40px;
+$sizeMediumLarge: 70px;
+$sizeXLarge: 100px;
+$sizeXXLarge: 140px;
+
+$elementMaxWidth: 360px;
+$elementMinWidth: 280px;
+$elementSize: 51px;
+$elementBigSize: 60px;
+$elementSmallSize: 42px;
+
+// Print
+$elementSmallSizePrint: 18px;
+
+$shadowNormal: 2px 2px 0px $colorHaitiFade;
+$shadowSoft: 1px 1px 0px rgba(0, 0, 0, 0.37);
+$shadowUltraSoft: 1px 1px 0px rgba(0, 0, 0, 0.24);
+$shadowButton: 4px 4px 0px rgba(0, 0, 0, 0.28);
+$shadowButtonLight: 2px 2px rgba(0, 0, 0, 0.18);
+$shadowButtonSharp: 2px 2px 0px rgba(0, 0, 0, 0.3);
+$shadowButtonSharpHover: 3px 3px 0px rgba(0, 0, 0, 0.18);
+$shadowButtonSharpThin: 1px 1px 0px rgba(0, 0, 0, 0.3);
+$shadowButtonSharpThinHover: 2px 2px 0px rgba(0, 0, 0, 0.18);
+$shadowGold: 0 0 4px rgba(229, 183, 0, 0.14), 0 4px 8px rgba(229, 183, 0, 0.28);
+
+$animationDuration: 0.5s;
+$transitionDuration: 0.3s;
+
+$transitionDefault: all $transitionDuration;
+$transitionColor: color $transitionDuration, background-color $transitionDuration,
+  border-color $transitionDuration, box-shadow $transitionDuration;
+$transitionShadow: box-shadow $transitionDuration;
+
+$z-index-1: 999;
+$z-index-2: 9999;
+$z-index-3: 99999;
+$z-index-4: 999999;
+
+@mixin fontLargeBold() {
+  font-family: $fontFamilyBold;
+  font-size: $fontSizeLarge;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+  line-height: 1.3;
+}
+
+@mixin fontBigBold() {
+  font-family: $fontFamilyBold;
+  font-size: $fontSizeBig;
+  font-weight: bold;
+  letter-spacing: 0.45px;
+  line-height: 1.3;
+}
+
+@mixin fontMediumBold() {
+  font-family: $fontFamilyBold;
+  font-size: $fontSizeMedium;
+  font-weight: bold;
+  letter-spacing: 0.25px;
+}
+
+@mixin fontSmallBold() {
+  font-family: $fontFamilyBold;
+  font-size: $fontSizeSmall;
+  font-weight: bold;
+  letter-spacing: -0.15px;
+  line-height: 1.5;
+}
+
+@mixin fontMicroBold() {
+  font-family: $fontFamilyBold;
+  font-size: $fontSizeMicro;
+  font-weight: bold;
+  letter-spacing: -0.15px;
+  line-height: 1.5;
+}
+
+@mixin fontTinyBold() {
+  font-family: $fontFamilyBold;
+  font-size: $fontSizeTiny;
+  font-weight: bold;
+  letter-spacing: -0.35px;
+  line-height: 1.8;
+}
+
+@mixin fontNanoBold() {
+  font-family: $fontFamilyBold;
+  font-size: $fontSizeNano;
+  font-weight: bold;
+  letter-spacing: -0.35px;
+  line-height: 1.5;
+}
+
+@mixin fontCapsBold() {
+  font-family: $fontFamilyBold;
+  font-size: $fontSizeSmall;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: -0.3px;
+}
+
+@mixin fontCapsRegular() {
+  font-family: $fontFamilyRegular;
+  font-size: $fontSizeSmall;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: -0.3px;
+}
+
+@mixin fontCapsSmall() {
+  font-family: $fontFamilyRegular;
+  font-size: $fontSizeTiny;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+@mixin fontBigRegular() {
+  font-family: $fontFamilyRegular;
+  font-size: $fontSizeBig;
+  font-weight: normal;
+  letter-spacing: 0.45px;
+  line-height: 1.3;
+}
+
+@mixin fontMediumRegular() {
+  font-family: $fontFamilyRegular;
+  font-size: $fontSizeMedium;
+  font-weight: normal;
+  letter-spacing: 0.25px;
+  line-height: 1.3;
+}
+
+@mixin fontSmallRegular() {
+  font-family: $fontFamilyRegular;
+  font-size: $fontSizeSmall;
+  font-weight: normal;
+  letter-spacing: -0.15px;
+  line-height: 1.5;
+}
+
+@mixin fontMicroRegular() {
+  font-family: $fontFamilyRegular;
+  font-size: $fontSizeMicro;
+  font-weight: normal;
+  letter-spacing: -0.15px;
+  line-height: 1.5;
+}
+
+@mixin fontTinyRegular() {
+  font-family: $fontFamilyRegular;
+  font-size: $fontSizeTiny;
+  font-weight: normal;
+  letter-spacing: -0.35px;
+  line-height: 1.8;
+}
+
+@mixin fontNanoRegular() {
+  font-family: $fontFamilyRegular;
+  font-size: $fontSizeNano;
+  font-weight: normal;
+  letter-spacing: 0.1px;
+  line-height: 1.2;
+}
+
+/* keep in sync with components/utils/MediaQueryProps */
+$mobile: (
+  max-width: 425px,
+);
+$small: (
+  max-width: 736px,
+);
+$notSmall: (
+  min-width: 737px,
+);
+$medium: (
+  max-width: 1000px,
+);
+$desktop: (
+  min-width: 1001px,
+);
+$oversized: (
+  min-width: 1201px,
+);

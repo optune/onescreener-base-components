@@ -1,0 +1,607 @@
+.app {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.holder {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+nav {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+main {
+  position: absolute;
+  top: 79px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 79px);
+
+  @media #{$small} {
+    height: 100%;
+    top: 62px;
+  }
+
+  @media print {
+    top: 0px;
+    height: 100%;
+  }
+}
+
+.page {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  max-width: 100%;
+
+  &.overview {
+    min-height: 820px;
+  }
+
+  &.overlay {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+
+    &.fixed {
+      position: fixed;
+      top: 80px;
+    }
+
+    &.darkened::before {
+      content: ' ';
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background-color: $colorBackdrop;
+    }
+
+    @media #{$small} {
+      background-color: $colorCard;
+      width: 100%;
+      height: 100%;
+
+      & .reduce {
+        display: none;
+      }
+
+      & .card {
+        &.shadow {
+          box-shadow: none;
+        }
+
+        & .row.padding {
+          padding-left: 0px;
+          padding-right: 0px;
+        }
+
+        & .icon {
+          margin-top: -50px;
+        }
+      }
+    }
+  }
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media #{$small} {
+    width: 97%;
+  }
+}
+
+.row {
+  &:after {
+    content: ' ';
+    display: table;
+    clear: both;
+  }
+
+  &.front {
+    position: absolute;
+    width: 100%;
+  }
+
+  &.position {
+    &.bottom {
+      @media #{$notSmall} {
+        &.desktop {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.block {
+  float: left;
+  width: 100%;
+
+  &.on-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  &.padded {
+    padding: 15px 20px;
+
+    @media #{$small} {
+      &.desktop {
+        padding: 0;
+      }
+    }
+  }
+
+  &.right {
+    position: absolute;
+    right: 0;
+    width: auto;
+  }
+
+  &.bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  &.third {
+    width: 33.333%;
+  }
+
+  &.two-third {
+    width: 66.666%;
+  }
+
+  &.sixth {
+    width: 16.667%;
+  }
+
+  &.eigth {
+    width: 12.5%;
+  }
+
+  &.twelfth {
+    width: 8.333%;
+  }
+
+  &.quarter {
+    width: 25%;
+  }
+
+  &.three-quarter {
+    width: 75%;
+  }
+
+  &.half {
+    width: 50%;
+  }
+
+  &.fixed-min-element {
+    width: $elementMinWidth;
+  }
+
+  &.fixed-amount {
+    width: 125px;
+  }
+  &.fixed-currency {
+    width: 95px;
+  }
+
+  &.fixed-amount-large {
+    width: 220px;
+  }
+
+  &.fixed-amount-medium {
+    width: 180px;
+  }
+
+  &.fixed-amount-small {
+    width: 80px;
+  }
+
+  &.fixed-percentage {
+    width: 120px;
+  }
+  &.fixed-percentage-medium {
+    width: 160px;
+  }
+
+  &.fixed-fee-block-large {
+    width: 200px;
+  }
+  &.fixed-fee-block {
+    width: 150px;
+
+    @media #{$small} {
+      width: 125px;
+
+      &.small {
+        width: 90px;
+      }
+    }
+  }
+  &.fixed-status {
+    width: 125px;
+    margin-top: 2px;
+  }
+
+  &.fixed-deal-input {
+    width: 220px;
+  }
+}
+
+.column {
+  display: block;
+  float: left;
+  padding: 0 20px;
+
+  &.float-right {
+    float: right;
+  }
+
+  @media #{$small} {
+    padding: 0 10px;
+  }
+
+  /* less padding for nested columns */
+  & .column {
+    padding: 0 10px;
+  }
+
+  &.inline {
+    padding: 0;
+  }
+
+  &.fullwidth {
+    width: 100%;
+  }
+
+  &.half {
+    width: 50%;
+
+    @media #{$small} {
+      width: 100%;
+    }
+  }
+
+  &.dashboard-right {
+    margin-top: 53px;
+
+    @media #{$desktop} {
+      width: 38.235%;
+      min-width: 360px;
+    }
+
+    @media #{$medium} {
+      width: 100%;
+    }
+
+    & .dashboard-calendar {
+      background-color: $colorCard;
+      border-radius: 6px;
+      height: 370px;
+      min-width: 320px;
+      margin-bottom: 50px;
+      overflow: hidden;
+      position: relative;
+
+      & .dashboard-today {
+        position: absolute;
+        width: 100%;
+        bottom: 20px;
+      }
+    }
+
+    @media #{$small} {
+      width: 100%;
+    }
+  }
+
+  &.dashboard-left {
+    @media #{$desktop} {
+      flex-grow: 1;
+      padding-right: 40px;
+    }
+
+    @media #{$medium} {
+      width: 100%;
+    }
+
+    @media #{$small} {
+      margin-top: 40px;
+    }
+  }
+
+  &.third {
+    width: 33.333%;
+    min-width: $elementMinWidth;
+
+    &.shrink {
+      min-width: unset;
+    }
+
+    @media #{$medium} {
+      &.extend {
+        width: 100%;
+      }
+
+      &.to-half {
+        width: 50%;
+      }
+
+      &.move-left {
+        clear: both;
+      }
+    }
+
+    @media #{$small} {
+      width: 100%;
+    }
+  }
+
+  &.two-third {
+    width: 66.666%;
+    min-width: $elementMinWidth;
+
+    @media #{$medium} {
+      &.medium {
+        &.full {
+          width: 100%;
+        }
+      }
+    }
+
+    @media #{$small} {
+      width: 100%;
+    }
+  }
+
+  &.third-sixth {
+    width: 58.333%;
+  }
+
+  &.sixth {
+    width: 16.666%;
+
+    @media #{$small} {
+      width: 50%;
+    }
+  }
+
+  &.twelfth {
+    width: 8.333%;
+
+    @media #{$small} {
+      width: 100%;
+    }
+  }
+
+  &.quarter {
+    width: 25%;
+
+    @media #{$medium} {
+      &.tablet-half {
+        width: 50%;
+      }
+    }
+
+    @media #{$small} {
+      min-width: 100px;
+      max-width: 100px;
+    }
+  }
+
+  &.eigth {
+    width: 12.5%;
+  }
+
+  &.three-quarter {
+    width: 75%;
+  }
+
+  &.golden-13 {
+    width: 38.235%;
+    min-width: $elementMinWidth;
+
+    @media #{$medium} {
+      width: 50%;
+    }
+
+    @media #{$small} {
+      width: 100%;
+    }
+  }
+
+  &.golden-8 {
+    width: 23.52%;
+
+    @media #{$medium} {
+      display: none;
+    }
+  }
+}
+
+.column-right {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.column-middle {
+  display: flex;
+  align-items: center;
+}
+
+.center {
+  text-align: center;
+}
+
+.quad {
+  position: relative;
+}
+
+.quad::after {
+  display: block;
+  content: ' ';
+  margin-bottom: 100%;
+}
+
+/* http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code */
+.media {
+  display: flex;
+
+  &.upfilling {
+    height: 100%;
+  }
+
+  & .figure,
+  & figure {
+    flex-shrink: 0;
+
+    margin-right: 10px;
+
+    &.normal {
+      margin-right: 20px;
+    }
+
+    &.right {
+      margin-right: 0;
+      margin-left: 5px;
+    }
+  }
+
+  & .body {
+    flex-grow: 1;
+
+    &.flex {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+
+      &.middle {
+        justify-content: space-around;
+      }
+    }
+
+    &.fixate {
+      &.medium {
+        width: calc(100% - 60px);
+      }
+    }
+
+    &.padding-right {
+      padding-right: 10px;
+    }
+  }
+}
+
+.element-width {
+  width: 100%;
+  max-width: $elementMaxWidth;
+  min-width: $elementMinWidth;
+
+  @media #{$small} {
+    &.mobile-adjust {
+      min-width: 0px;
+    }
+  }
+}
+
+.element-half-width {
+  width: 100%;
+  max-width: $elementMaxWidth;
+  min-width: calc(#{$elementMinWidth} / 2);
+
+  @media #{$small} {
+    &.mobile-adjust {
+      min-width: 0px;
+    }
+  }
+}
+
+.float-right {
+  float: right;
+}
+
+form,
+.form {
+  &.modal {
+    position: relative;
+    max-width: calc(#{$elementMaxWidth} + 40px);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px 20px;
+    background: $colorCard;
+    border-radius: 4px;
+
+    &.two-third {
+      max-width: calc(2 * #{$elementMaxWidth} + 40px);
+    }
+
+    &.fullwidth {
+      max-width: 1200px;
+    }
+
+    &.no-padding {
+      padding: 0;
+    }
+
+    &.info {
+      margin-top: 150px;
+      padding: 50px 50px 70px;
+    }
+
+    @media #{$small} {
+      top: 20px;
+      box-shadow: none;
+      border-radius: 0;
+    }
+  }
+}
+
+/* Remove scroll on the body when react-modal is open */
+.ReactModal__Body--open {
+  overflow: hidden;
+}
+
+#intercom-container .intercom-notifications-frame {
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.17));
+
+  @media #{$notSmall} {
+    margin-right: 120px !important;
+    margin-bottom: 15px !important;
+  }
+
+  @media #{$small} {
+    left: 10px !important;
+    margin-bottom: -16px !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+}
