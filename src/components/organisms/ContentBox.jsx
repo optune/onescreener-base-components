@@ -348,7 +348,7 @@ const FullscreenContainer = styled.div`
   display: flex;
   margin: 0;
 
-  z-index: 1;
+  z-index: 99;
   /* pointer-events: none; */
 `
 
