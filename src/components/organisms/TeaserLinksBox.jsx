@@ -84,14 +84,14 @@ const Container = styled.div`
       &::after {
         border-radius: 50px;
       }
-    }
 
-    svg {
-      width: ${({ isSidePreview }) => (isSidePreview ? '18px' : '30px')};
+      svg {
+        width: ${({ isSidePreview }) => (isSidePreview ? '18px' : '30px')};
 
-      * {
-        fill: ${({ color }) => (color ? color : '#0a1c3b')};
-        stroke: none;
+        * {
+          fill: ${({ color }) => (color ? color : '#0a1c3b')};
+          stroke: none;
+        }
       }
     }
 
