@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import classNames from 'classnames'
+import { useMediaQuery } from 'react-responsive'
 
 // API
 import { filterTime, getFromDate } from '../../api'
@@ -20,6 +21,10 @@ import { ArrowLeftIcon, ArrowRightIcon } from '../icons/navigation/Arrow'
 
 const LINKS_LIMIT = 7
 
+const TEASER_LINKS_HEIGHT = 50
+const TEASER_LINKS_MARGIN = 10
+const TEASER_LINKS_HEIGHT_SIDE_PREVIEW = 32
+
 const Container = styled.div`
   position: absolute;
   top: 0;
@@ -36,7 +41,8 @@ const Container = styled.div`
     position: relative;
     width: 100%;
     max-width: 640px;
-    min-height: ${({ isSidePreview }) => (isSidePreview ? '32px' : '50px')};
+    min-height: ${({ isSidePreview }) =>
+      isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT}px;
     height: auto;
     font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '16px')};
     font-weight: 600;
@@ -131,7 +137,7 @@ const Container = styled.div`
     }
 
     &:not(:last-child) {
-      margin-bottom: 10px;
+      margin-bottom: ${TEASER_LINKS_MARGIN}px;
     }
 
     &.disabled {
@@ -239,6 +245,7 @@ export const TeaserLinksBox = ({
   domainName,
   getImageUrl,
   isProPlanRequired,
+  isPreviewMobile,
   isSidePreview,
   onLoadShopItem,
   setModalShop,
@@ -287,12 +294,30 @@ export const TeaserLinksBox = ({
    *
    */
 
+  // Media Query
+  const isSmall = useMediaQuery({ query: MediaSmall })
+
   useEffect(() => {
     let teaserLinksFiltered = teaserLinks.filter(({ isShop }) => (isShop ? shopEnabled : true))
     let value = teaserLinksFiltered.reduce((acc, curr) => acc + (curr.isShop ? 2 : 1), 0)
     let actualList = [teaserLinksFiltered]
 
-    if (value > LINKS_LIMIT) {
+    let windowHeight = window.innerHeight
+    if (isSidePreview) windowHeight = document.getElementById('page-container').scrollHeight
+
+    const logoHeight = parseInt(windowHeight * (isPreviewMobile && isSidePreview ? 0.34 : 0.18))
+    const linksHeight = isSmall || isPreviewMobile ? 60 : 110
+    const allowedHeight = windowHeight - logoHeight - linksHeight
+    let linksLimit = parseInt(
+      allowedHeight /
+        ((isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT) +
+          TEASER_LINKS_MARGIN)
+    )
+
+    // To avoid loophole
+    if (linksLimit <= 2) linksLimit = 4
+
+    if (value > linksLimit) {
       let pageValue = 0
       let pageIndex = 0
 
@@ -309,7 +334,7 @@ export const TeaserLinksBox = ({
 
         /* Check if there is space for one more link */
 
-        if (pageValue >= LINKS_LIMIT && nextValue > LINKS_LIMIT) {
+        if (pageValue >= linksLimit && nextValue > linksLimit) {
           actualList[pageIndex].push({ isForward: true })
           actualList.push([])
           pageIndex += 1
@@ -325,7 +350,7 @@ export const TeaserLinksBox = ({
 
     setPagination(0)
     setList(actualList)
-  }, [teaserLinks])
+  }, [teaserLinks, isPreviewMobile])
 
   const paginationBack = () => setPagination(pagination - 1 < 0 ? 0 : pagination - 1)
 
@@ -426,7 +451,7 @@ export const TeaserLinksBox = ({
                       maxWidth: 40,
                       maxHeight: 40,
                     })}
-                    alt={name}
+                    alt={`link-${index}`}
                     className="image"
                   />
                 )}

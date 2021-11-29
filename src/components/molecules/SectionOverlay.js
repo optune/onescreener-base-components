@@ -145,10 +145,10 @@ const getPositionMobile = (position, isLinks, isLogo, isTeaserLinks, linksPositi
   }
 
   if (isTeaserLinks) {
-    top = 20
+    top = 28
     left = 0
     right = 0
-    bottom = 20
+    bottom = 13
 
     if (isLogo) {
       top = 0
