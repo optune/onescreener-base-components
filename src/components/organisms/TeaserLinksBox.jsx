@@ -77,6 +77,7 @@ const Container = styled.div`
 
     &.navigation {
       width: auto;
+      min-height: 38px;
       padding: 0 18px;
       border-radius: 50px;
       align-items: center;
