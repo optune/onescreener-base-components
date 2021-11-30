@@ -16,6 +16,7 @@ import { MediaSmall } from '../../style/media'
 // Utils
 import { RGBToHex } from '../../utils/convertRGBtoHEX'
 import { getImageUrl } from '../../utils/getImageUrl'
+import { ArrowLeftIcon, ArrowRightIcon } from '../icons/navigation/Arrow'
 
 const LINKS_LIMIT = 7
 
@@ -71,6 +72,27 @@ const Container = styled.div`
       p.has-image {
         padding: ${({ isSidePreview }) => (isSidePreview ? '0 31px 0 50px' : '0 40px 0 100px')};
         line-height: 1.2;
+      }
+    }
+
+    &.navigation {
+      width: auto;
+      min-height: 38px;
+      padding: 0 18px;
+      border-radius: 50px;
+      align-items: center;
+      justify-items: center;
+      &::after {
+        border-radius: 50px;
+      }
+
+      svg {
+        width: ${({ isSidePreview }) => (isSidePreview ? '18px' : '30px')};
+
+        * {
+          fill: ${({ color }) => (color ? color : '#0a1c3b')};
+          stroke: none;
+        }
       }
     }
 
@@ -330,14 +352,14 @@ export const TeaserLinksBox = ({
         ({ _id, url, name, images = [], isShop, shop, isBack, isForward }, index) => {
           if (isBack)
             return (
-              <div key="back-button" className="teaser-link" onClick={paginationBack}>
-                Show previous
+              <div key="back-button" className="teaser-link navigation" onClick={paginationBack}>
+                <ArrowLeftIcon />
               </div>
             )
           if (isForward)
             return (
-              <div key="forward-button" className="teaser-link" onClick={paginationNext}>
-                Show more
+              <div key="forward-button" className="teaser-link navigation" onClick={paginationNext}>
+                <ArrowRightIcon />
               </div>
             )
 
