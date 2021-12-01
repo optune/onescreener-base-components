@@ -102,10 +102,10 @@ const InfoForm = ({
             return (
               <div key={i.file.public_id} className="image-box" onClick={handleOpen(index)}>
                 <ImageBackground
-                  imageUrl={getImageUrl({ image: i.file, maxWidth: 5, maxHeight: 5, blur: 700 })}
+                  imageUrl={getImageUrl({ image: i.file, maxWidth: 10, maxHeight: 10, blur: 700 })}
                 />
                 <img
-                  src={getImageUrl({ image: i.file, maxWidth: 20, maxHeight: 20 }) || ''}
+                  src={getImageUrl({ image: i.file, maxWidth: 75, maxHeight: 75 }) || ''}
                   alt={`product image ${index}`}
                 />
               </div>
