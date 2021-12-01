@@ -447,6 +447,13 @@ const Container = styled.div`
       margin: 0px 10px;
     `}
 
+  ${({ isTeaserLinks }) =>
+    isTeaserLinks &&
+    css`
+      top: 4%;
+      height: ${({ isSidePreview }) => (isSidePreview ? '80%' : '65%')};
+    `}
+
   @media ${MediaMobile} {
     height: ${({ isSidePreview }) => (isSidePreview ? null : '40%')};
     width: ${({ isSidePreview }) => (isSidePreview ? null : '100%')};
@@ -621,6 +628,8 @@ export const ContentBox = ({
           getImageUrl={getImageUrl}
           isProPlanRequired={isProPlanRequired}
           isSidePreview={isSidePreview}
+          isPreviewMobile={isPreviewMobile}
+          isPreviewMobileReady={isPreviewMobileReady}
           modalShop={modalShop}
           onLoadShopItem={onLoadShopItem}
           setModalShop={setModalShop}
