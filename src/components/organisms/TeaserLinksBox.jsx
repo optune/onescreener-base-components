@@ -83,7 +83,7 @@ const Container = styled.div`
 
     &.navigation {
       width: auto;
-      min-height: 38px;
+      min-height: ${({ isSidePreview }) => (isSidePreview ? '19px' : '38px')};
       padding: 0 18px;
       border-radius: 50px;
       align-items: center;
@@ -246,6 +246,7 @@ export const TeaserLinksBox = ({
   getImageUrl,
   isProPlanRequired,
   isPreviewMobile,
+  isPreviewMobileReady,
   isSidePreview,
   onLoadShopItem,
   setModalShop,
@@ -305,15 +306,14 @@ export const TeaserLinksBox = ({
     let windowHeight = window.innerHeight
     if (isSidePreview) windowHeight = document.getElementById('page-container').scrollHeight
 
-    const logoHeight = parseInt(windowHeight * (isPreviewMobile && isSidePreview ? 0.34 : 0.18))
-    const linksHeight = isSmall || isPreviewMobile ? 60 : 110
+    const logoHeight = parseInt(windowHeight * (isPreviewMobile && isSidePreview ? 0.33 : 0.17))
+    const linksHeight = isSidePreview ? 45 : isSmall || isPreviewMobile ? 60 : 110
     const allowedHeight = windowHeight - logoHeight - linksHeight
     let linksLimit = parseInt(
       allowedHeight /
         ((isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT) +
           TEASER_LINKS_MARGIN)
     )
-
     // To avoid loophole
     if (linksLimit <= 2) linksLimit = 4
 
@@ -350,7 +350,7 @@ export const TeaserLinksBox = ({
 
     setPagination(0)
     setList(actualList)
-  }, [teaserLinks, isPreviewMobile])
+  }, [teaserLinks, isPreviewMobileReady])
 
   const paginationBack = () => setPagination(pagination - 1 < 0 ? 0 : pagination - 1)
 
