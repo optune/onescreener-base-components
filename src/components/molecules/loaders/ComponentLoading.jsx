@@ -51,8 +51,8 @@ const circleySmall = keyframes`
   }
 `
 const LoadingContent = styled.svg`
-  width: 60px;
-  height: 60px;
+  width: ${({ small }) => (small ? 30 : 60)}px;
+  height: ${({ small }) => (small ? 30 : 60)}px;
   margin-right: ${({ hasLabel }) => (hasLabel ? 10 : 0)}px;
 `
 
@@ -75,10 +75,10 @@ const Container = styled.div`
   animation-timing-function: ease-in-out;
 `
 
-export const ComponentLoading = ({ label }) => (
+export const ComponentLoading = ({ label, small }) => (
   <Container className="flex-center-middle animated">
-    <LoadingContent>
-      <LoadingCircle cx="30" cy="30" r="20" />
+    <LoadingContent small={small}>
+      <LoadingCircle cx={small ? '15' : '30'} cy={small ? '15' : '30'} r={small ? '10' : '20'} />
     </LoadingContent>
 
     {label > '' && (
