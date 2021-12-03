@@ -450,7 +450,7 @@ const Container = styled.div`
   ${({ isTeaserLinks }) =>
     isTeaserLinks &&
     css`
-      top: 5%;
+      top: 4%;
       height: ${({ isSidePreview }) => (isSidePreview ? '80%' : '65%')};
     `}
 
@@ -629,6 +629,7 @@ export const ContentBox = ({
           isProPlanRequired={isProPlanRequired}
           isSidePreview={isSidePreview}
           isPreviewMobile={isPreviewMobile}
+          isPreviewMobileReady={isPreviewMobileReady}
           modalShop={modalShop}
           onLoadShopItem={onLoadShopItem}
           setModalShop={setModalShop}
