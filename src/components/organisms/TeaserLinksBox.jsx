@@ -443,7 +443,7 @@ export const TeaserLinksBox = ({
                   </div>
                 )}
 
-                {images?.length > 0 && (
+                {images.filter((i) => !!i)?.length > 0 && (
                   <img
                     image={hasImage ? 1 : undefined}
                     src={getImageUrl({
