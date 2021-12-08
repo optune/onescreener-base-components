@@ -374,7 +374,7 @@ export const TeaserLinksBox = ({
   return (
     <Container isSidePreview={isSidePreview} color={color} colorBackground={colorBackground}>
       {list?.[pagination].map(
-        ({ _id, url, name, images = [], isShop, shop, isBack, isForward }, index) => {
+        ({ _id, type, url, name, images = [], isShop, shop, isBack, isForward }, index) => {
           if (isBack)
             return (
               <div key="back-button" className="teaser-link navigation" onClick={paginationBack}>
@@ -387,6 +387,8 @@ export const TeaserLinksBox = ({
                 <ArrowRightIcon />
               </div>
             )
+
+          console.log({ type })
 
           const isLink = !isShop
           const soldOut = shop?.maxQuantity === -1
