@@ -16,6 +16,7 @@ export { Column } from './components/atoms/layout/Column'
 export { UpgradeOverlay } from './components/molecules/UpgradeOverlay'
 export { PageLoading } from './components/molecules/loaders/PageLoading'
 export { ComponentLoading } from './components/molecules/loaders/ComponentLoading'
+export { ReactPlayer } from './components/molecules/embed/ReactPlayer'
 
 // Templates
 export { Page } from './components/templates/Page.jsx'
@@ -38,6 +39,11 @@ export { getImageUrl } from './utils/getImageUrl.js'
 export { getFavionUrl } from './utils/getFaviconUrl.js'
 export { useAuthLock } from './utils/useAuthLock'
 export { MediaQueryProps } from './utils/MediaQueryProps'
+export { isSpotify } from './utils/player/spotify'
+export { isApple } from './utils/player/apple'
+export { isDeezer } from './utils/player/deezer'
+export { isVideoSupported } from './utils/player/video'
+export { isMusicSupported } from './utils/player/music'
 
 // Styles
 export { default as GlobalStyle, globalStyles } from './style/global.js' // global styles

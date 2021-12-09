@@ -507,6 +507,7 @@ export const ContentBox = ({
   onLoadShopItem,
   pageUrl,
   setModalShop,
+  setModalEmbed,
   showRedirectOverlay,
   showStatistics,
   shopEnabled,
@@ -633,6 +634,7 @@ export const ContentBox = ({
           modalShop={modalShop}
           onLoadShopItem={onLoadShopItem}
           setModalShop={setModalShop}
+          setModalEmbed={setModalEmbed}
           shopEnabled={shopEnabled}
           showStatistics={showStatistics}
           statisticsPeriod={statisticsPeriod}

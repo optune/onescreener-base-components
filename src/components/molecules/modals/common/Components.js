@@ -107,8 +107,11 @@ export const Container = styled.div`
   background: ${({ colorBackground }) => colorBackground || 'rgba(255,255,255)'};
   border-radius: 4px;
   position: relative;
-  overflow-y: auto;
   max-height: 90vh;
+
+  &.height-100 {
+    height: 100%;
+  }
 
   &.overflow-y {
     overflow-y: auto;
