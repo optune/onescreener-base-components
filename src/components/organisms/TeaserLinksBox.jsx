@@ -5,11 +5,14 @@ import classNames from 'classnames'
 import { useMediaQuery } from 'react-responsive'
 
 // API
-import { filterTime, getFromDate } from '../../api'
+import { filterTime, getFromDate, TeaserLinkType } from '../../api'
 
 // Atoms
 import { StatisticsOverlay } from '../atoms/StatisticsOverlay'
 import { CartIcon } from '../icons/shop/CartIcon'
+
+// Icons
+import { PlayCircleFill } from '@styled-icons/bootstrap/PlayCircleFill'
 
 // Styles
 import { MediaSmall } from '../../style/media'
@@ -221,12 +224,23 @@ const Container = styled.div`
       height: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
       width: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
 
-      svg.icon {
+      svg {
         height: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
         width: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
+      }
 
+      &.embed {
+        svg {
+          * {
+            fill: white;
+          }
+        }
+      }
+
+      svg.icon {
         rect {
           fill: white;
+          stroke: none;
         }
         path {
           fill: none;
@@ -250,6 +264,7 @@ export const TeaserLinksBox = ({
   isSidePreview,
   onLoadShopItem,
   setModalShop,
+  setModalEmbed,
   shopEnabled,
   showStatistics,
   statisticsPeriod,
@@ -374,7 +389,10 @@ export const TeaserLinksBox = ({
   return (
     <Container isSidePreview={isSidePreview} color={color} colorBackground={colorBackground}>
       {list?.[pagination].map(
-        ({ _id, url, name, images = [], isShop, shop, isBack, isForward }, index) => {
+        (
+          { _id, type, url, name, images = [], isShop, shop, playerSettings, isBack, isForward },
+          index
+        ) => {
           if (isBack)
             return (
               <div key="back-button" className="teaser-link navigation" onClick={paginationBack}>
@@ -388,7 +406,9 @@ export const TeaserLinksBox = ({
               </div>
             )
 
-          const isLink = !isShop
+          const isLink =
+            !isShop && type !== TeaserLinkType.LINK_MUSIC && type !== TeaserLinkType.LINK_VIDEO
+          const isEmbed = type === TeaserLinkType.LINK_MUSIC || type === TeaserLinkType.LINK_VIDEO
           const soldOut = shop?.maxQuantity === -1
           const hasImage = !!images?.[0]
 
@@ -434,6 +454,17 @@ export const TeaserLinksBox = ({
                     }
                   })
                 }
+
+                if (!isSidePreview && isEmbed) {
+                  console.log('click embed')
+                  setModalEmbed({
+                    show: true,
+                    url,
+                    autoplay: playerSettings?.autoplay,
+                    mute: playerSettings?.mute,
+                    type,
+                  })
+                }
               }}
             >
               <div className="image-container">
@@ -443,7 +474,7 @@ export const TeaserLinksBox = ({
                   </div>
                 )}
 
-                {images.filter((i) => !!i)?.length > 0 && (
+                {images.filter((i) => !!i?.url > '')?.length > 0 && (
                   <img
                     image={hasImage ? 1 : undefined}
                     src={getImageUrl({
@@ -462,6 +493,11 @@ export const TeaserLinksBox = ({
               {isShop && (
                 <div className="icon-container">
                   <CartIcon />
+                </div>
+              )}
+              {isEmbed && (
+                <div className="icon-container embed">
+                  <PlayCircleFill />
                 </div>
               )}
               {showStatistics && (
