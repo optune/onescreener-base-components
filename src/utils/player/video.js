@@ -1,5 +1,6 @@
 const supportedPlatforms = [
   'youtube.com',
+  'youtu.be',
   'twitch.tv',
   'vimeo.com',
   'facebook.com',
