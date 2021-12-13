@@ -1,4 +1,5 @@
 export const isApple = (url = '') => url.indexOf('music.apple.com') !== -1
+export const isApplePlaylist = (url = '') => url.indexOf('music.apple.com') !== -1
 
 export const getAppleUrl = (url = '') => {
   let trueUrl, temp

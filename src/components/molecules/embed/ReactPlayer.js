@@ -1,5 +1,6 @@
 import React from 'react'
 import RPlayer from 'react-player'
+import styled from 'styled-components'
 
 // Players
 import { SpotifyPlayer } from '../../atoms/SpotifyPlayer'
@@ -11,8 +12,16 @@ import { isApple } from '../../../utils/player/apple'
 import { isDeezer } from '../../../utils/player/deezer'
 import { isSpotify } from '../../../utils/player/spotify'
 
+const StyledPlayer = styled(RPlayer)`
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`
+
 export const ReactPlayer = ({ url, ...other }) => {
-  let InnerPlayer = RPlayer
+  let InnerPlayer = StyledPlayer
 
   if (isSpotify(url)) {
     InnerPlayer = SpotifyPlayer
