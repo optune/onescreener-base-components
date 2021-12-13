@@ -39,6 +39,7 @@ export const EmbedModal = ({ isSidePreview, isPreviewMobile, onClose, show, moda
       isPreviewMobile={isPreviewMobile}
       show={ssrDone && show}
       isSidePreview={isSidePreview}
+      onClose={onClose}
     >
       <Container
         colorBackground={isMusic ? '' : 'rgba(0,0,0,1)'}
@@ -53,8 +54,8 @@ export const EmbedModal = ({ isSidePreview, isPreviewMobile, onClose, show, moda
           width="100%"
           height="100%"
           url={modalEmbed.url}
-          playing={modalEmbed.autoplay}
-          muted={modalEmbed.mute}
+          playing={!!modalEmbed.autoplay}
+          muted={!!modalEmbed.autoplay || !!modalEmbed.mute}
           controls={true}
           config={{
             soundcloud: {

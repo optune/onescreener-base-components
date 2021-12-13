@@ -38,7 +38,12 @@ export const TextModal = ({
   const isDonation = paypalLink > ''
 
   return (
-    <Modal isPreviewMobile={isPreviewMobile} show={ssrDone && show} isSidePreview={isSidePreview}>
+    <Modal
+      isPreviewMobile={isPreviewMobile}
+      show={ssrDone && show}
+      isSidePreview={isSidePreview}
+      onClose={onClose}
+    >
       <Container isSidePreview={isSidePreview}>
         <CloseButton onClick={onClose}>
           <CloseDarkIcon className="close-icon" />
