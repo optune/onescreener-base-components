@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
 // API
 import { TeaserLinkType } from '../../../api'
@@ -9,33 +10,83 @@ import { ReactPlayer } from '../embed/ReactPlayer'
 
 // Styles
 import { CloseDarkIcon } from '../../icons/CloseIcon'
+import { MediaSmall } from '../../../style/media'
 
 // Common
-import {
-  Modal,
-  Container,
-  CloseButton,
-  TextContainer,
-  StyledButton,
-  StyledButtonContainer,
-  StyledTextContainer,
-  StyledTitle,
-} from './common/Components'
+import { Modal, Container, CloseButton } from './common/Components'
+
+// Utils
+import { isSpotify } from '../../../utils/player/spotify'
+import { isDeezer } from '../../../utils/player/deezer'
+import { isApple } from '../../../utils/player/apple'
+import { isMixcloud, isSoundcloud } from '../../../utils/player/music'
+
+import { isFacebook, isWistia } from '../../../utils/player/video'
+
+const getMusicHeight = (url, isSmall) => {
+  const isSpotifyUrl = isSpotify(url)
+  const isDeezerUrl = isDeezer(url)
+  const isAppleUrl = isApple(url)
+  const isMixcloudUrl = isMixcloud(url)
+  const isSoundcloudUrl = isSoundcloud(url)
+
+  let height = '200px'
+
+  if (isSpotifyUrl) height = isSmall ? '400px' : '580px'
+  if (isDeezerUrl) height = '62px'
+  if (isMixcloudUrl) height = '180px'
+  if (isSoundcloudUrl) height = '600px'
+  if (isAppleUrl) height = '150px'
+
+  return height
+}
+
+const getVideoHeight = (url, isSmall) => {
+  const isFacebookUrl = isFacebook(url)
+
+  let height = isSmall ? '300px' : '600px'
+
+  if (isFacebookUrl) height = isSmall ? '300px' : '500px'
+
+  return height
+}
 
 export const EmbedModal = ({ isSidePreview, isPreviewMobile, onClose, show, modalEmbed = {} }) => {
   const [ssrDone, setSsrDone] = useState(false)
 
   const isMusic = modalEmbed.type === TeaserLinkType.LINK_MUSIC
 
+  // Media Query
+  const isSmall = useMediaQuery({ query: MediaSmall })
+
+  const musicHeight = getMusicHeight(modalEmbed.url, isSmall)
+  const videoHeight = getVideoHeight(modalEmbed.url, isSmall)
+
   useEffect(() => {
     setSsrDone(true)
   }, [])
 
+  /*
+   * !HACKS: wistia is not embed hence trying to click Play causes onCloseOverlay to be fired
+   */
+
+  useEffect(() => {
+    if (isWistia(modalEmbed.url)) {
+      setTimeout(() => {
+        document
+          .getElementsByClassName('wistia_embed_initialized')?.[0]
+          ?.addEventListener('click', (e) => e.stopPropagation())
+      }, 100)
+    }
+  }, [modalEmbed.url])
+
   return (
     <Modal
       width="50%"
-      height={isMusic ? '20%' : '50%'}
-      maxHeight={isMusic ? '150px' : ''}
+      height="100%"
+      width="100%"
+      maxHeight={isMusic ? musicHeight : videoHeight}
+      maxWidth={isMusic ? '700px' : '900px'}
       isPreviewMobile={isPreviewMobile}
       show={ssrDone && show}
       isSidePreview={isSidePreview}

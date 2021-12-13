@@ -1,11 +1,22 @@
+/*
+ * Constants
+ */
+
+const PlatformUrl = {
+  FACEBOOK: 'facebook.com',
+  WISTIA: 'wistia.com',
+}
+
+// TODO: finish refactor
+
 const supportedPlatforms = [
   'youtube.com',
   'youtu.be',
   'twitch.tv',
   'vimeo.com',
-  'facebook.com',
+  PlatformUrl.FACEBOOK,
   'streamable.com',
-  'wistia.com',
+  PlatformUrl.WISTIA,
   'dailymotion.com',
   'vidyard.com',
 ]
@@ -33,3 +44,10 @@ const supportedPlatforms = [
 
 export const isVideoSupported = (url = '') =>
   supportedPlatforms.some((platform) => url.indexOf(platform) !== -1)
+
+/*
+ * Platform type check
+ */
+
+export const isFacebook = (url = '') => url.indexOf(PlatformUrl.FACEBOOK) !== -1
+export const isWistia = (url = '') => url.indexOf(PlatformUrl.WISTIA) !== -1
