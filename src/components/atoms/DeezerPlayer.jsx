@@ -1,7 +1,10 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+
+// Utils
+import { getDeezerUrl, isDeezer, isValidDeezerUrl } from '../../utils/player/deezer'
 
 const Player = styled.div`
   max-width: ${({ isSquare, isSidePreview }) =>
@@ -14,24 +17,13 @@ const Player = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  ${({ fullwidth }) =>
+    fullwidth &&
+    css`
+      width: 100%;
+    `}
 `
-
-const isValidUrl = (url) => {
-  let tempArr = url.split('/')
-  let emptySlash = []
-
-  tempArr.forEach((el, index) => el === '' && emptySlash.push(index))
-
-  if (emptySlash.length === 2) {
-    if (emptySlash[emptySlash.length - 1] !== tempArr.length - 1) {
-      return false
-    }
-  }
-  if (emptySlash.length > 2) {
-    return false
-  }
-  return true
-}
 
 export const DeezerPlayer = ({
   url = '',
@@ -39,52 +31,23 @@ export const DeezerPlayer = ({
   autoplay = false,
   theme = 'DARK',
   color = 'ff0000',
+  fullwidth,
   isSidePreview,
 }) => {
-  let trueUrl, temp, type, id
+  let trueUrl
 
-  const typeAllow = ['artist', 'playlist', 'track', 'album', 'podcast']
-  const typeExist = (type) => typeAllow.some((el) => el === type)
-
-  if (!isValidUrl(url)) {
+  if (!isValidDeezerUrl(url)) {
     return null
   }
 
-  if (url.indexOf('deezer.com/') !== -1) {
-    try {
-      temp = url.split('/')
-      typeIndex = temp.findIndex((type) => typeExist(type))
-      type = temp[typeIndex]
-
-      if (!type) {
-        return null
-      }
-
-      if (url.indexOf('?utm_') !== -1) {
-        id = temp[typeIndex + 1].slice(0, temp[typeIndex + 1].indexOf('?'))
-      } else {
-        id = temp[typeIndex + 1]
-      }
-
-      if (type === 'track') {
-        type = 'tracks'
-      }
-
-      if (type === 'artist') {
-        type = 'radio'
-        id = 'artist-' + id
-      }
-
-      trueUrl = `https://www.deezer.com/plugins/player?format=${format.toLowerCase()}&playlist=true&autoplay=${autoplay}&color=${color}&width=100%&height=100%&layout=${theme.toLowerCase()}&type=${type}&id=${id}&app_id=1`
-    } catch (err) {
-      return null
-    }
+  if (isDeezer(url)) {
+    trueUrl = getDeezerUrl(url, format, autoplay, theme, color)
   } else {
     return null
   }
 
   return (
-    <Player isSquare={format === 'SQUARE'} isSidePreview={isSidePreview}>
+    <Player fullwidth={fullwidth} isSquare={format === 'SQUARE'} isSidePreview={isSidePreview}>
       <iframe
         src={trueUrl}
         width="100%"

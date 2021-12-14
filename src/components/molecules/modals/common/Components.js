@@ -18,11 +18,11 @@ const StyledModal = styled.div`
   right: 0;
   bottom: 0;
   opacity: ${({ show }) => (show ? 1 : 0)};
+  pointer-events: ${({ show }) => (show ? 'all' : 'none')};
   z-index: 999999;
   overflow: hidden;
   background-color: ${({ isPreviewMobile }) =>
     isPreviewMobile ? 'transparent' : 'rgba(0,0,0, 0.50)'};
-  pointer-events: none;
   transition: opacity 0.5s ease-out;
 `
 
@@ -63,6 +63,7 @@ export const Modal = ({
   show,
   isPreviewMobile,
   isSidePreview,
+  onClose,
   width,
   maxWidth,
   height,
@@ -74,6 +75,7 @@ export const Modal = ({
       show={show}
       isPreviewMobile={isPreviewMobile}
       isSidePreview={isSidePreview}
+      onClick={onClose}
     >
       <StyledModalContent
         show={show}
@@ -107,8 +109,11 @@ export const Container = styled.div`
   background: ${({ colorBackground }) => colorBackground || 'rgba(255,255,255)'};
   border-radius: 4px;
   position: relative;
-  overflow-y: auto;
   max-height: 90vh;
+
+  &.height-100 {
+    height: 100%;
+  }
 
   &.overflow-y {
     overflow-y: auto;
