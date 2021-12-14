@@ -75,10 +75,7 @@ export const Modal = ({
       show={show}
       isPreviewMobile={isPreviewMobile}
       isSidePreview={isSidePreview}
-      onClick={() => {
-        console.log('on click close overlay')
-        onClose()
-      }}
+      onClick={onClose}
     >
       <StyledModalContent
         show={show}

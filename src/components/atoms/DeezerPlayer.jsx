@@ -37,16 +37,12 @@ export const DeezerPlayer = ({
   let trueUrl
 
   if (!isValidDeezerUrl(url)) {
-    console.log('niot real')
     return null
   }
 
   if (isDeezer(url)) {
-    console.log('true')
     trueUrl = getDeezerUrl(url, format, autoplay, theme, color)
-    console.log({ trueUrl })
   } else {
-    console.log('null')
     return null
   }
 

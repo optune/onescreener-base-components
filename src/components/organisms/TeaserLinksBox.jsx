@@ -456,7 +456,6 @@ export const TeaserLinksBox = ({
                 }
 
                 if (!isSidePreview && isEmbed) {
-                  console.log('click embed')
                   setModalEmbed({
                     show: true,
                     url,
