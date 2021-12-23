@@ -262,6 +262,7 @@ export const TeaserLinksBox = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  isLegacyMobile,
   onLoadShopItem,
   setModalShop,
   setModalEmbed,
@@ -323,7 +324,8 @@ export const TeaserLinksBox = ({
 
     const logoHeight = parseInt(windowHeight * (isPreviewMobile && isSidePreview ? 0.33 : 0.17))
     const linksHeight = isSidePreview ? 45 : isSmall || isPreviewMobile ? 60 : 110
-    const allowedHeight = windowHeight - logoHeight - linksHeight
+    const legacyCorrection = isSmall && isLegacyMobile ? 20 : 0
+    const allowedHeight = windowHeight - logoHeight - linksHeight - legacyCorrection
     let linksLimit = parseInt(
       allowedHeight /
         ((isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT) +
