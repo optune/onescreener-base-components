@@ -12,10 +12,11 @@ import { StatisticsOverlay } from '../atoms/StatisticsOverlay'
 import { CartIcon } from '../icons/shop/CartIcon'
 
 // Icons
-import { PlayCircleFill } from '@styled-icons/bootstrap/PlayCircleFill'
+import { PlayCircleFill, PlayCircleFillDimensions } from '@styled-icons/bootstrap/PlayCircleFill'
 
 // Styles
 import { MediaSmall } from '../../style/media'
+import { ForegroundColor } from '../../style/color'
 
 // Utils
 import { RGBToHex } from '../../utils/convertRGBtoHEX'
@@ -43,6 +44,7 @@ const Container = styled.div`
   .teaser-link {
     position: relative;
     width: 100%;
+    padding: 0 5px 0 10px;
     max-width: 640px;
     min-height: ${({ isSidePreview }) =>
       isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT}px;
@@ -52,10 +54,8 @@ const Container = styled.div`
     color: ${({ color }) => (color ? color : '#0a1c3b')};
     text-shadow: 1px 1px 1px rgba(46, 49, 49, 0.3);
 
-    display: grid;
-    grid-template-columns: ${({ image }) => (image ? '90px auto' : 'auto')};
-    grid-row-gap: 0;
-
+    display: flex;
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
     text-decoration: none;
@@ -76,11 +76,6 @@ const Container = styled.div`
       .image-container {
         height: ${({ isSidePreview }) => (isSidePreview ? '42px' : '85px')};
         width: ${({ isSidePreview }) => (isSidePreview ? '42px' : '85px')};
-      }
-
-      p.has-image {
-        padding: ${({ isSidePreview }) => (isSidePreview ? '0 31px 0 50px' : '0 40px 0 100px')};
-        line-height: 1.2;
       }
     }
 
@@ -164,13 +159,6 @@ const Container = styled.div`
     }
 
     .clip {
-      grid-column: ${({ image }) => (image > '' ? '2/2' : '1/1')};
-      justify-self: ${({ image }) => (image > '' ? 'flex-start' : 'center')};
-      align-self: center;
-      display: flex;
-      position: absolute;
-
-      padding: 0 20px;
       line-height: ${({ isSidePreview }) => (isSidePreview ? '12px' : '19px')};
       max-width: ${({ isSidePreview }) => isSidePreview && '240px'};
       max-height: 100%;
@@ -186,15 +174,20 @@ const Container = styled.div`
       }
     }
 
-    p.has-image {
-      padding: ${({ isSidePreview }) => (isSidePreview ? '0 31px' : '0 50px')};
+    .name-container {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
     }
 
     .image-container {
-      position: absolute;
-      top: 50%;
-      left: 5px;
-      transform: translateY(-50%);
+      // position: absolute;
+      // top: 50%;
+      // left: 5px;
+      // transform: translateY(-50%);
       height: ${({ isSidePreview }) => (isSidePreview ? '26px' : '42px')};
       width: ${({ isSidePreview }) => (isSidePreview ? '26px' : '42px')};
 
@@ -207,12 +200,12 @@ const Container = styled.div`
 
       .sold-out {
         position: absolute;
-        text-transform: uppercase;
-        font-size: ${({ isSidePreview }) => (isSidePreview ? '10px' : '16px')};
-        color: red;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        text-transform: uppercase;
+        font-size: ${({ isSidePreview }) => (isSidePreview ? '10px' : '16px')};
+        color: ${ForegroundColor.error};
       }
     }
 
@@ -385,6 +378,7 @@ export const TeaserLinksBox = ({
 
     return clicks
   }
+  console.log({ list })
 
   return (
     <Container isSidePreview={isSidePreview} color={color} colorBackground={colorBackground}>
@@ -406,11 +400,18 @@ export const TeaserLinksBox = ({
               </div>
             )
 
-          const isLink =
-            !isShop && type !== TeaserLinkType.LINK_MUSIC && type !== TeaserLinkType.LINK_VIDEO
-          const isEmbed = type === TeaserLinkType.LINK_MUSIC || type === TeaserLinkType.LINK_VIDEO
+          const isMusic = type === TeaserLinkType.LINK_MUSIC
+          const isVideo = type === TeaserLinkType.LINK_VIDEO
+          const isLink = !isShop && !isMusic && !isVideo
+          const isEmbed = isMusic || isVideo
+          const isPhysical = !!isShop && !!shop?.isPhysical
+
           const soldOut = shop?.maxQuantity === -1
           const hasImage = !!images?.[0]
+
+          let Icon = PlayCircleFill
+          // if (isVideo) Icon = PlayCircleFillDimensions
+          if (isShop) Icon = CartIcon
 
           return (
             <TeaserLink
@@ -466,6 +467,23 @@ export const TeaserLinksBox = ({
                 }
               }}
             >
+              <div className="name-container">
+                <p image={hasImage ? 1 : undefined} className={`clip ${hasImage && 'has-image'}`}>
+                  {name}
+                </p>
+                {isShop && (
+                  <span>
+                    {isPhysical ? 'P' : 'D'} {shop.price} - {shop.currency}{' '}
+                  </span>
+                )}
+              </div>
+              {!hasImage && (
+                <div className={`icon-container ${isEmbed ? 'embed' : ''}`}>
+                  {/* <Icon /> */}
+                  {isMusic && 'M'}
+                  {isVideo && 'V'}
+                </div>
+              )}
               <div className="image-container">
                 {soldOut && (
                   <div className="sold-out">
@@ -486,19 +504,6 @@ export const TeaserLinksBox = ({
                   />
                 )}
               </div>
-              <p image={hasImage ? 1 : undefined} className={`clip ${hasImage && 'has-image'}`}>
-                {name}
-              </p>
-              {isShop && (
-                <div className="icon-container">
-                  <CartIcon />
-                </div>
-              )}
-              {isEmbed && (
-                <div className="icon-container embed">
-                  <PlayCircleFill />
-                </div>
-              )}
               {showStatistics && (
                 <StatisticsOverlay>
                   <div>{getLinkClicks({ name, url })}</div>
