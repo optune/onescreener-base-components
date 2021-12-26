@@ -28,6 +28,8 @@ export { Links } from './components/molecules/links/Links'
 
 // Icons
 export { CloseDarkIcon } from './components/icons/CloseIcon.js'
+// export { ErrorIcon } from './components/icons/ErrorIcon'
+export { ErrorOutline as ErrorIcon } from '@styled-icons/material/ErrorOutline'
 
 // API
 export { getGigs } from './api/gigs/index.js'
