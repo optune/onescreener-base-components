@@ -50,10 +50,16 @@
         background-color: $colorCard;
       }
     }
+
+    @media #{$small} {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   &.content {
-    position: absolute;
+    position: relative;
     top: 50px;
     bottom: 0;
     left: 0;
@@ -79,7 +85,12 @@
     }
 
     @media #{$small} {
-      top: 0;
+      position: relative;
+      top: unset;
+      bottom: unset;
+      left: unset;
+      right: unset;
+      width: 100%;
 
       &.plan-upgrade {
         background-color: #fcfcfc;
