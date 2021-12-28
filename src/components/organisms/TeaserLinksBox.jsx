@@ -308,7 +308,9 @@ export const TeaserLinksBox = ({
   const isSmall = useMediaQuery({ query: MediaSmall })
 
   useEffect(() => {
-    let teaserLinksFiltered = teaserLinks.filter(({ isShop }) => (isShop ? shopEnabled : true))
+    let teaserLinksFiltered = teaserLinks
+      .filter(({ visible }) => !!visible)
+      .filter(({ isShop }) => (isShop ? shopEnabled : true))
     let value = teaserLinksFiltered.reduce((acc, curr) => acc + (curr.isShop ? 2 : 1), 0)
     let actualList = [teaserLinksFiltered]
 
@@ -380,7 +382,6 @@ export const TeaserLinksBox = ({
 
     return clicks
   }
-  console.log({ list })
 
   return (
     <Container isSidePreview={isSidePreview} color={color} colorBackground={colorBackground}>
