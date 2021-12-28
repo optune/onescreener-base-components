@@ -309,7 +309,7 @@ export const TeaserLinksBox = ({
 
   useEffect(() => {
     let teaserLinksFiltered = teaserLinks
-      .filter(({ visible }) => !!visible)
+      .filter(({ visible }) => (typeof visible === 'undefined' ? true : !!visible))
       .filter(({ isShop }) => (isShop ? shopEnabled : true))
     let value = teaserLinksFiltered.reduce((acc, curr) => acc + (curr.isShop ? 2 : 1), 0)
     let actualList = [teaserLinksFiltered]
