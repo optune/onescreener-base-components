@@ -67,7 +67,7 @@ export const EmbedModal = ({ isSidePreview, isPreviewMobile, onClose, show, moda
   }, [])
 
   /*
-   * !HACKS: wistia is not embed hence trying to click Play causes onCloseOverlay to be fired
+   * !HACKS: wistia is not embed hence trying to click Play causes <Modal>'s onClose to be fired
    */
 
   useEffect(() => {
