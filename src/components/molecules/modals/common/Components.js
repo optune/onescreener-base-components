@@ -45,10 +45,12 @@ const StyledModalContent = styled.div`
   overflow: hidden;
 
   @media ${MediaSmall} {
+    top: 50%;
+    transform: translateY(-50%);
     margin: 0;
     width: 100%;
     max-width: unset;
-    height: ${({ height }) => height || '100%'};
+    height: ${({ height }) => height || 'auto'};
 
     &.checkout {
       height: auto;
