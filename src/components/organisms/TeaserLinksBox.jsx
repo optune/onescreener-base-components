@@ -163,8 +163,8 @@ const Container = styled.div`
 
       @media ${MediaSmall} {
         max-width: 240px;
-        align-self: center;
-        justify-self: flex-start;
+        align-self: flex-start;
+        justify-self: center;
       }
     }
 
