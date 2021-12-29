@@ -59,7 +59,7 @@
   }
 
   &.content {
-    position: relative;
+    position: absolute;
     top: 50px;
     bottom: 0;
     left: 0;
@@ -91,6 +91,14 @@
       left: unset;
       right: unset;
       width: 100%;
+
+      &.tall {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
 
       &.plan-upgrade {
         background-color: #fcfcfc;
