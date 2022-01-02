@@ -132,7 +132,8 @@ const Container = styled.div`
       margin-bottom: ${TEASER_LINKS_MARGIN}px;
     }
 
-    &.disabled {
+    &.disabled,
+    &.processing {
       cursor: auto;
       pointer-events: none;
       opacity: 0.75;
@@ -140,6 +141,10 @@ const Container = styled.div`
       &::after {
         content: unset;
       }
+    }
+
+    &.processing {
+      opacity: 0.2;
     }
 
     &.long {
@@ -392,12 +397,23 @@ export const TeaserLinksBox = ({
     return clicks
   }
 
-  console.log({ list: list?.[pagination] })
   return (
     <Container isSidePreview={isSidePreview} color={color} colorBackground={colorBackground}>
       {list?.[pagination].map(
         (
-          { _id, type, url, name, images = [], isShop, shop, playerSettings, isBack, isForward },
+          {
+            _id,
+            type,
+            url,
+            name,
+            images = [],
+            isShop,
+            shop,
+            playerSettings,
+            processing,
+            isBack,
+            isForward,
+          },
           index
         ) => {
           if (isBack)
@@ -433,6 +449,7 @@ export const TeaserLinksBox = ({
               image={images?.[0]}
               className={classNames('teaser-link', {
                 disabled: soldOut,
+                processing,
                 long: name.length > 45,
                 shop: isShop,
               })}
