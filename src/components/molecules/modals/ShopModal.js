@@ -62,7 +62,7 @@ const InfoForm = ({
     () =>
       images?.map(({ file }) => ({
         srcSet: [
-          `${getImageUrl({ image: file, maxWidth: 170, maxHeight: 170 })} 1000w`,
+          `${getImageUrl({ image: file, maxWidth: 100, maxHeight: 100 })} 1000w`,
           `${getImageUrl({ image: file, maxWidth: 75, maxHeight: 75 })} 450w`,
         ],
         src: getImageUrl({ image: file }),
