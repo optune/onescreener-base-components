@@ -502,7 +502,7 @@ export const TeaserLinksBox = ({
                 </p>
                 {isShop && (
                   <div className="icon-container shop">
-                    <span className={`icon ${isPhysical ? '' : 'digital'}`}>
+                    <span className={classNames('icon', { digital: !isPhysical })}>
                       {!!Icon && <Icon />}
                     </span>
                     <span className="price">
