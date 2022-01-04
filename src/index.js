@@ -28,6 +28,12 @@ export { Links } from './components/molecules/links/Links'
 
 // Icons
 export { CloseDarkIcon } from './components/icons/CloseIcon.js'
+export { ImageFileIcon } from './components/icons/content/ImageFile'
+export { ListIcon } from './components/icons/content/List'
+export { MovieIcon } from './components/icons/content/Movie'
+export { GigsIcon } from './components/icons/platform/Gigs'
+// export { ErrorIcon } from './components/icons/ErrorIcon'
+export { ErrorOutline as ErrorIcon } from '@styled-icons/material/ErrorOutline'
 
 // API
 export { getGigs } from './api/gigs/index.js'
@@ -37,6 +43,7 @@ export { renderHtml } from './utils/renderHtml.js'
 export { getBackground } from './utils/getBackground.js'
 export { getImageUrl } from './utils/getImageUrl.js'
 export { getFavionUrl } from './utils/getFaviconUrl.js'
+export { getTeaserLinkIcon } from './components/organisms/utils/getTeaserLinkIcon'
 export { useAuthLock } from './utils/useAuthLock'
 export { MediaQueryProps } from './utils/MediaQueryProps'
 export { isSpotify } from './utils/player/spotify'

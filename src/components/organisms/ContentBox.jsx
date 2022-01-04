@@ -583,6 +583,10 @@ export const ContentBox = ({
           position: isTeaserLinks ? '2/1' : positionMobile,
           span: isTeaserLinks ? '1/2' : spanMobile,
         })
+
+  const isLegacy = !!area
+  const isLegacyMobile = !!areaMobile
+
   const { border, circle, square } = links
 
   /*
@@ -631,6 +635,8 @@ export const ContentBox = ({
           isSidePreview={isSidePreview}
           isPreviewMobile={isPreviewMobile}
           isPreviewMobileReady={isPreviewMobileReady}
+          isLegacy={isLegacy}
+          isLegacyMobile={isLegacyMobile}
           modalShop={modalShop}
           onLoadShopItem={onLoadShopItem}
           setModalShop={setModalShop}
@@ -694,8 +700,8 @@ export const ContentBox = ({
         isDifferentPositions={isDifferentPositions}
       >
         <Container
-          isLegacy={!!area}
-          isLegacyMobile={!!areaMobile}
+          isLegacy={isLegacy}
+          isLegacyMobile={isLegacyMobile}
           isSidePreview={isSidePreview}
           isPreviewMobile={isPreviewMobile}
           isTeaserLinks={isTeaserLinks}

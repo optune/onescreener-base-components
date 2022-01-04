@@ -29,6 +29,15 @@ export const ColorBackdropDark = 'rgba(0, 0, 0, 0.85)'
 
 export const ColorLightGreySecond = '#DADDE5'
 
+export const ColorPrimaryLight = '#D6E2F7'
+export const ColorPrimaryDark = ColorBlue
+
+export const ColorPurpleLight = '#E9DCFA'
+export const ColorPurpleDark = '#442E64'
+
+export const ColorHarlequinLight = '#D8F5DE'
+export const ColorHarlequinDark = '#25890F'
+
 export const ColorSecondary10 = '#0A1C3B'
 export const ColorSecondary10RGB = '10,28,59'
 export const ColorSecondary20 = '#223452'
@@ -49,6 +58,10 @@ export const BackgroundColor = {
   base: ColorGrey,
   disabledDark: ColorSecondary90,
   hover: ColorHaiti,
+
+  primaryLight: ColorPrimaryLight,
+  purpleLight: ColorPurpleLight,
+  greenLight: ColorHarlequinLight,
   secondary: ColorWhite,
   selected: ColorBlue,
   selectedGradient: (degree = DEFAULT_DEGREE) =>
@@ -62,6 +75,9 @@ export const ForegroundColor = {
   hover: ColorBlue,
   error: ColorMonza,
   info: ColorSecondary40,
+  primaryDark: ColorPrimaryDark,
+  purpleDark: ColorPurpleDark,
+  greenDark: ColorHarlequinDark,
   success: ColorHarlequin,
   secondary: ColorSecondary10,
   secondaryAttention: ColorSecondary30,
