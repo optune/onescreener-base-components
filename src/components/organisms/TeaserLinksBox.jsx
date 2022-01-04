@@ -458,7 +458,7 @@ export const TeaserLinksBox = ({
               className={classNames('teaser-link', {
                 disabled: soldOut,
                 processing,
-                long: name.length > 45,
+                long: name.length >= 38,
                 shop: isShop,
               })}
               target="_blank"
