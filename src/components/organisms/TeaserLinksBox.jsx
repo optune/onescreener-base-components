@@ -441,12 +441,11 @@ export const TeaserLinksBox = ({
           const soldOut = shop?.maxQuantity === -1
           const hasImage = !!images?.[0]
 
-          const linkType =
-            typeof type === 'undefined'
-              ? isDigital
-                ? TeaserLinkType.SHOP_DIGITAL
-                : TeaserLinkType.SHOP_PHYSICAL
-              : type
+          const linkType = isLegacy
+            ? isDigital
+              ? TeaserLinkType.SHOP_DIGITAL
+              : TeaserLinkType.SHOP_PHYSICAL
+            : type
 
           let Icon = (isLegacy && !isShop) || isRegular ? null : getTeaserLinkIcon(linkType)
 
