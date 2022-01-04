@@ -31,6 +31,7 @@ const config = ({ sourcemap }) => ({
 
     scss({
       output: 'lib/app.css',
+      watch: 'src/style/scss',
     }),
 
     replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
