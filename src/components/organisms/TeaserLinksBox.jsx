@@ -158,7 +158,7 @@ const Container = styled.div`
     }
 
     .clip {
-      line-height: ${({ isSidePreview }) => (isSidePreview ? '16px' : '22px')};
+      line-height: ${({ isSidePreview }) => (isSidePreview ? '20px' : '22px')};
       max-width: ${({ isSidePreview }) => isSidePreview && '240px'};
       max-height: 100%;
       overflow: hidden;
@@ -429,7 +429,7 @@ export const TeaserLinksBox = ({
               </div>
             )
 
-          const isRegular = type === TeaserLinkType.LINK
+          const isRegular = typeof type === 'undefined' || type === TeaserLinkType.LINK
           const isMusic = type === TeaserLinkType.LINK_MUSIC
           const isVideo = type === TeaserLinkType.LINK_VIDEO
           const isLink = !isShop && !isMusic && !isVideo
@@ -503,7 +503,7 @@ export const TeaserLinksBox = ({
                 {isShop && (
                   <div className="icon-container shop">
                     <span className={`icon ${isPhysical ? '' : 'digital'}`}>
-                      <Icon />
+                      {!!Icon && <Icon />}
                     </span>
                     <span className="price">
                       {CurrencySign[shop.currency] || '$'} {shop.price}
