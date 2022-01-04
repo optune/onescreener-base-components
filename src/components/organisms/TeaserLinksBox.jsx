@@ -392,7 +392,6 @@ export const TeaserLinksBox = ({
     return clicks
   }
 
-  console.log({ list: list?.[pagination] })
   return (
     <Container isSidePreview={isSidePreview} color={color} colorBackground={colorBackground}>
       {list?.[pagination].map(
