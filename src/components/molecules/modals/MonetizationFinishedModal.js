@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import classNames from 'classnames'
 import React, { Fragment, useState, useEffect } from 'react'
 
 // API
@@ -40,6 +41,9 @@ const InfoColumn = ({ label = ' ', value = ' ', marginTop, third, fullwidth }) =
 )
 
 const SuccessMessage = ({ order }) => {
+  const { isSession } = order || {}
+  const isCalendly = order?.session?.schedulingUrl > ''
+
   return (
     <Fragment>
       <div className="row marginBottom">
@@ -55,25 +59,28 @@ const SuccessMessage = ({ order }) => {
         </div>
       </div>
 
-      <div className="row marginTop">
-        <Text className="bold" fontSize="1.3rem" margin="0 0 5px 0">
-          Order details
-        </Text>
-      </div>
-
-      <div className="row ">
-        <InfoColumn label={'Quantity'} value={order?.details.quantity} third />
-        <InfoColumn
-          label={'Price'}
-          value={`${CurrencySign[order?.details.currency] || '$'} ${order?.details.price}`}
-          third
-        />
-        <InfoColumn
-          label={'Total'}
-          value={`${CurrencySign[order?.details.currency] || '$'} ${order?.details.total}`}
-          third
-        />
-      </div>
+      {!isSession && (
+        <Fragment>
+          <div className="row marginTop">
+            <Text className="bold" fontSize="1.3rem" margin="0 0 5px 0">
+              Order details
+            </Text>
+          </div>
+          <div className="row ">
+            <InfoColumn label={'Quantity'} value={order?.details.quantity} third />
+            <InfoColumn
+              label={'Price'}
+              value={`${CurrencySign[order?.details.currency] || '$'} ${order?.details.price}`}
+              third
+            />
+            <InfoColumn
+              label={'Total'}
+              value={`${CurrencySign[order?.details.currency] || '$'} ${order?.details.total}`}
+              third
+            />
+          </div>
+        </Fragment>
+      )}
 
       {order?.product?.isPhysical && order?.details?.clientNote > '' ? (
         <div className="row  marginBottom">
@@ -85,15 +92,24 @@ const SuccessMessage = ({ order }) => {
           />
         </div>
       ) : (
-        !order?.product?.isPhysical && (
+        ((!isSession && !order?.product?.isPhysical) || (isSession && isCalendly)) && (
           <div className="row marginTop marginBottom">
             <div className="column">
               <StyledButton
                 className="fullwidth"
                 active
-                onClick={() => window.open(order?.product.downloadLink, '_blank')}
+                onClick={() =>
+                  window.open(
+                    isSession && isCalendly
+                      ? order.session.schedulingUrl
+                      : order?.product.downloadLink,
+                    '_blank'
+                  )
+                }
               >
-                {order?.product.downloadLabel || 'Download link'}
+                {isSession && isCalendly
+                  ? 'Click here to book the session'
+                  : order?.product.downloadLabel || 'Download link'}
               </StyledButton>
             </div>
           </div>
@@ -101,8 +117,16 @@ const SuccessMessage = ({ order }) => {
       )}
       <div className="row marginTop">
         <div className="column">
-          <Text fontSize="1.1rem" className="center info" margin="0">
-            You will shortly receive your receipt by e-mail{' '}
+          <Text
+            fontSize="1.1rem"
+            className={classNames('info', {
+              center: !isSession && isCalendly,
+            })}
+            margin="0"
+          >
+            {isSession && !isCalendly
+              ? `You will get an email at ${order?.client?.email} with instructions on how to book your appointment`
+              : 'You will shortly receive your receipt by e-mail'}
           </Text>
         </div>
       </div>
@@ -110,7 +134,7 @@ const SuccessMessage = ({ order }) => {
   )
 }
 
-export const ShopFinishedModal = ({
+export const MonetizationFinishedModal = ({
   isOrderSuccess,
   isPreviewMobile,
   isSidePreview,
@@ -152,6 +176,7 @@ export const ShopFinishedModal = ({
           setOrder(order)
         } else {
           setOrder({
+            session: {},
             details: {},
             client: {},
             product: {},
@@ -166,6 +191,7 @@ export const ShopFinishedModal = ({
   useEffect(() => {
     if (show && (order.isViewed || order.isEmpty)) {
       setOrder({
+        session: {},
         details: {},
         client: {},
         product: {},

@@ -3,7 +3,7 @@ import React, { Fragment, useState, useEffect, useMemo } from 'react'
 import ImageViewer from 'react-images-viewer'
 
 // API
-import { CurrencySign } from '../../../api'
+import { CurrencySign, TeaserLinkType } from '../../../api'
 
 // Styles
 import { CloseDarkIcon } from '../../icons/CloseIcon'
@@ -317,7 +317,7 @@ const stripTags = (text) => {
 
 const regexEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
 
-export const ShopModal = ({
+export const MonetizationModal = ({
   getImageUrl,
   isPreviewMobile,
   isSidePreview,
@@ -353,12 +353,34 @@ export const ShopModal = ({
     note,
     maxQuantity,
     isPhysical,
+    isShop,
+    isSession,
+    bookingMethod,
+    schedulingUrl,
+    length,
   } = shopItem || {
     checkout: {},
   }
 
   const currencySign = CurrencySign[currency] || '$'
   const actualPrice = +parseFloat(+price * +quantity).toFixed(2)
+
+  let orderType = TeaserLinkType.MONETIZATION_ONE_TO_ONE
+  if (isShop && isPhysical) orderType = TeaserLinkType.SHOP_PHYSICAL
+  if (isShop && !isPhysical) orderType = TeaserLinkType.SHOP_DIGITAL
+
+  const modalHeader = {
+    1: {
+      [TeaserLinkType.MONETIZATION_ONE_TO_ONE]: '1:1',
+      [TeaserLinkType.SHOP_PHYSICAL]: 'Shop',
+      [TeaserLinkType.SHOP_DIGITAL]: 'Shop',
+    },
+    2: {
+      [TeaserLinkType.MONETIZATION_ONE_TO_ONE]: 'Checkout',
+      [TeaserLinkType.SHOP_PHYSICAL]: 'Checkout',
+      [TeaserLinkType.SHOP_DIGITAL]: 'Checkout',
+    },
+  }
 
   const disabled =
     step === 2 &&
@@ -432,7 +454,7 @@ export const ShopModal = ({
 
         <Header>
           <Text className="bold" fontSize="1.2rem">
-            {step === 1 ? 'Shop' : 'Checkout'}
+            {modalHeader[step][orderType]}
           </Text>
         </Header>
         <TextContainer className="checkout">
@@ -495,6 +517,14 @@ export const ShopModal = ({
                           description: stripTags(shopItem.description),
                         },
                         order: {
+                          type: orderType,
+                          isShop,
+                          isSession,
+                          session: {
+                            bookingMethod,
+                            schedulingUrl,
+                            length,
+                          },
                           details: {
                             price,
                             currency,

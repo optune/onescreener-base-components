@@ -35,6 +35,17 @@ const Container = styled.div`
   flex-direction: column;
   margin: 0;
 
+  .long {
+    p.clip,
+    span.clip {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+  }
+
   .teaser-link {
     position: relative;
     width: 100%;
@@ -63,7 +74,7 @@ const Container = styled.div`
     border-radius: 4px;
     transition: all 0.3s ease-out;
 
-    &.shop {
+    &.double {
       min-height: ${({ isSidePreview }) => (isSidePreview ? '60px' : '100px')};
       font-size: ${({ isSidePreview }) => (isSidePreview ? '18px' : '22px')};
 
@@ -147,16 +158,6 @@ const Container = styled.div`
       opacity: 0.2;
     }
 
-    &.long {
-      p {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-      }
-    }
-
     .clip {
       line-height: ${({ isSidePreview }) => (isSidePreview ? '20px' : '22px')};
       max-width: ${({ isSidePreview }) => isSidePreview && '240px'};
@@ -215,16 +216,36 @@ const Container = styled.div`
         justify-content: center;
         align-items: center;
 
+        &.subtitle {
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 1;
+        }
+
         &.icon {
           margin-right: ${({ isSidePreview }) => (isSidePreview ? '5px' : '10px')};
+
+          & ~ span.price {
+            margin-right: ${({ isSidePreview }) => (isSidePreview ? '2px' : '5px')};
+          }
+        }
+
+        &.price {
+          min-width: 36px;
+          margin-right: 10px;
         }
       }
 
-      &.shop {
+      &.double {
         height: ${({ isSidePreview }) => (isSidePreview ? '25px' : '36px')};
         width: auto;
         display: flex;
         align-items: center;
+
+        &.smaller {
+          height: ${({ isSidePreview }) => (isSidePreview ? '19px' : '30px')};
+          align-items: flex-end;
+        }
 
         .icon {
           width: auto;
@@ -259,6 +280,8 @@ const Container = styled.div`
 
 const TeaserLink = styled.a``
 
+const isDoubleSize = (link = {}) => link.isShop || link.isSession
+
 export const TeaserLinksBox = ({
   analyticsLivePage,
   color,
@@ -283,6 +306,8 @@ export const TeaserLinksBox = ({
   const [list, setList] = useState(null)
   const [pagination, setPagination] = useState(0)
 
+  // console.log({ teaserLinksBASAE: teaserLinks })
+  // console.log({ listBASAE: list })
   /*
    * IMAGE ALGO EXAMPLE
    *
@@ -324,8 +349,8 @@ export const TeaserLinksBox = ({
   useEffect(() => {
     let teaserLinksFiltered = teaserLinks
       .filter(({ visible }) => (typeof visible === 'undefined' ? true : !!visible))
-      .filter(({ isShop }) => (isShop ? shopEnabled : true))
-    let value = teaserLinksFiltered.reduce((acc, curr) => acc + (curr.isShop ? 2 : 1), 0)
+      .filter(({ isShop, isSession }) => (isShop || isSession ? shopEnabled : true))
+    let value = teaserLinksFiltered.reduce((acc, curr) => acc + (isDoubleSize(curr) ? 2 : 1), 0)
     let actualList = [teaserLinksFiltered]
 
     let windowHeight = window.innerHeight
@@ -349,13 +374,13 @@ export const TeaserLinksBox = ({
 
       actualList = [[]]
 
-      for (let i = 0; i < teaserLinksFiltered.length; i++) {
+      for (let i = 0; i < teaserLinksFiltered?.length; i++) {
         /* Calculate values */
 
         let tl = teaserLinksFiltered[i]
-        let tlValue = tl.isShop ? 2 : 1
+        let tlValue = isDoubleSize(tl) ? 2 : 1
         pageValue += tlValue
-        let nextLinkValue = (teaserLinksFiltered?.[i + 1]?.isShop ? 2 : 1) || 0
+        let nextLinkValue = (isDoubleSize(teaserLinksFiltered?.[i + 1]) ? 2 : 1) || 0
         let nextValue = pageValue + nextLinkValue
 
         /* Check if there is space for one more link */
@@ -408,6 +433,8 @@ export const TeaserLinksBox = ({
             name,
             images = [],
             isShop,
+            isSession,
+            session,
             shop,
             playerSettings,
             processing,
@@ -429,14 +456,16 @@ export const TeaserLinksBox = ({
               </div>
             )
 
+          // console.log({ isShop, isSession, session, shop })
           const isLegacy = typeof type === 'undefined'
           const isRegular = type === TeaserLinkType.LINK
           const isMusic = type === TeaserLinkType.LINK_MUSIC
           const isVideo = type === TeaserLinkType.LINK_VIDEO
-          const isLink = !isShop && !isMusic && !isVideo
+          const isLink = !isSession && !isShop && !isMusic && !isVideo
           const isEmbed = isMusic || isVideo
           const isPhysical = !!isShop && !!shop?.isPhysical
           const isDigital = !!isShop && !shop?.isPhysical
+          const isDouble = isDoubleSize({ isShop, isSession })
 
           const soldOut = shop?.maxQuantity === -1
           const hasImage = !!images?.[0]
@@ -459,7 +488,7 @@ export const TeaserLinksBox = ({
                 disabled: soldOut,
                 processing,
                 long: name.length >= 38,
-                shop: isShop,
+                double: isDouble,
               })}
               target="_blank"
               rel="noreferrer"
@@ -477,16 +506,20 @@ export const TeaserLinksBox = ({
                   },
                 }).then((r) => r)
 
-                if (!isSidePreview && isShop) {
+                if (!isSidePreview && (isShop || isSession)) {
                   onLoadShopItem?.({ itemId: _id }).then((item) => {
-                    if (item.shop.maxQuantity > -1) {
+                    if (item.shop.maxQuantity > -1 || item.isSession) {
                       setModalShop({
                         show: true,
                         item: {
                           _id: item._id,
                           name: item.name,
                           images: item.images,
+                          isShop,
+                          isSession,
+                          ...item.session,
                           ...item.shop,
+                          isPhysical: isSession ? false : item.shop.isPhysical,
                         },
                       })
                     }
@@ -508,14 +541,24 @@ export const TeaserLinksBox = ({
                 <p image={hasImage ? 1 : undefined} className={`clip ${hasImage && 'has-image'}`}>
                   {name}
                 </p>
-                {isShop && (
-                  <div className="icon-container shop">
-                    <span className={classNames('icon', { digital: !isPhysical })}>
+                {isDouble && (
+                  <div
+                    className={classNames('icon-container', {
+                      double: isDouble,
+                      smaller: isSession,
+                      long: true,
+                    })}
+                  >
+                    <span className={classNames('icon', { digital: isShop && !isPhysical })}>
                       {!!Icon && <Icon />}
                     </span>
-                    <span className="price">
+                    <span className={classNames('price', { subtitle: isSession })}>
                       {CurrencySign[shop.currency] || '$'} {shop.price}
                     </span>
+
+                    {isSession && (
+                      <span className={classNames('subtitle', 'clip')}>{session.length}</span>
+                    )}
                   </div>
                 )}
               </div>

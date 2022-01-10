@@ -21,7 +21,7 @@ export const getTeaserLinkIcon = (type) => {
     case TeaserLinkType.SHOP_PHYSICAL:
       return ShopBag
 
-    case TeaserLinkType.LINK_ONE_TO_ONE:
+    case TeaserLinkType.MONETIZATION_ONE_TO_ONE:
       return MessageFemaleIcon
 
     default:
