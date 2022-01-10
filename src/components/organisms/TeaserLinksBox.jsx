@@ -429,17 +429,25 @@ export const TeaserLinksBox = ({
               </div>
             )
 
-          const isRegular = typeof type === 'undefined' || type === TeaserLinkType.LINK
+          const isLegacy = typeof type === 'undefined'
+          const isRegular = type === TeaserLinkType.LINK
           const isMusic = type === TeaserLinkType.LINK_MUSIC
           const isVideo = type === TeaserLinkType.LINK_VIDEO
           const isLink = !isShop && !isMusic && !isVideo
           const isEmbed = isMusic || isVideo
           const isPhysical = !!isShop && !!shop?.isPhysical
+          const isDigital = !!isShop && !shop?.isPhysical
 
           const soldOut = shop?.maxQuantity === -1
           const hasImage = !!images?.[0]
 
-          let Icon = isRegular ? null : getTeaserLinkIcon(type)
+          const linkType = isLegacy
+            ? isDigital
+              ? TeaserLinkType.SHOP_DIGITAL
+              : TeaserLinkType.SHOP_PHYSICAL
+            : type
+
+          let Icon = (isLegacy && !isShop) || isRegular ? null : getTeaserLinkIcon(linkType)
 
           return (
             <TeaserLink
@@ -450,7 +458,7 @@ export const TeaserLinksBox = ({
               className={classNames('teaser-link', {
                 disabled: soldOut,
                 processing,
-                long: name.length > 45,
+                long: name.length >= 38,
                 shop: isShop,
               })}
               target="_blank"
@@ -502,7 +510,7 @@ export const TeaserLinksBox = ({
                 </p>
                 {isShop && (
                   <div className="icon-container shop">
-                    <span className={`icon ${isPhysical ? '' : 'digital'}`}>
+                    <span className={classNames('icon', { digital: !isPhysical })}>
                       {!!Icon && <Icon />}
                     </span>
                     <span className="price">
