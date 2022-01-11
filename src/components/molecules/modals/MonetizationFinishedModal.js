@@ -108,7 +108,7 @@ const SuccessMessage = ({ order }) => {
                 }
               >
                 {isSession && isCalendly
-                  ? 'Click here to book the session'
+                  ? order?.product.downloadLabel || 'Click here to book the session'
                   : order?.product.downloadLabel || 'Download link'}
               </StyledButton>
             </div>
