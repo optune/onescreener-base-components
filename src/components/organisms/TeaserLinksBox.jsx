@@ -11,7 +11,7 @@ import { filterTime, getFromDate, CurrencySign, TeaserLinkType } from '../../api
 import { StatisticsOverlay } from '../atoms/StatisticsOverlay'
 
 // Styles
-import { MediaSmall } from '../../style/media'
+import { MediaMobile, MediaSmall } from '../../style/media'
 import { ForegroundColor } from '../../style/color'
 
 // Utils
@@ -44,6 +44,12 @@ const Container = styled.div`
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
+  }
+
+  .text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .teaser-link {
@@ -218,20 +224,31 @@ const Container = styled.div`
 
         &.subtitle {
           font-size: 16px;
-          font-weight: 400;
           line-height: 1;
+          align-items: flex-end;
         }
 
         &.icon {
           margin-right: ${({ isSidePreview }) => (isSidePreview ? '5px' : '10px')};
 
-          & ~ span.price {
-            margin-right: ${({ isSidePreview }) => (isSidePreview ? '2px' : '5px')};
+          &.smaller {
+            margin-right: 5px;
+            align-items: flex-end;
+          }
+        }
+
+        &.session-length {
+          display: inline-block;
+          max-width: ${({ isSidePreview, isPreviewMobile }) =>
+            isSidePreview ? (isPreviewMobile ? '100px' : '150px') : '300px'};
+
+          @media ${MediaSmall} {
+            max-width: ${({ isSidePreview, isPreviewMobile }) =>
+              isSidePreview ? (isPreviewMobile ? '100px' : '150px') : '142px'};
           }
         }
 
         &.price {
-          min-width: 36px;
           margin-right: 10px;
         }
       }
@@ -423,7 +440,12 @@ export const TeaserLinksBox = ({
   }
 
   return (
-    <Container isSidePreview={isSidePreview} color={color} colorBackground={colorBackground}>
+    <Container
+      isSidePreview={isSidePreview}
+      isPreviewMobile={isPreviewMobile}
+      color={color}
+      colorBackground={colorBackground}
+    >
       {list?.[pagination].map(
         (
           {
@@ -549,7 +571,12 @@ export const TeaserLinksBox = ({
                       long: true,
                     })}
                   >
-                    <span className={classNames('icon', { digital: isShop && !isPhysical })}>
+                    <span
+                      className={classNames('icon', {
+                        digital: isShop && !isPhysical,
+                        smaller: isSession,
+                      })}
+                    >
                       {!!Icon && <Icon />}
                     </span>
                     <span className={classNames('price', { subtitle: isSession })}>
@@ -557,7 +584,9 @@ export const TeaserLinksBox = ({
                     </span>
 
                     {isSession && (
-                      <span className={classNames('subtitle', 'clip')}>{session.length}</span>
+                      <span className={classNames('subtitle', 'text-ellipsis', 'session-length')}>
+                        {session.length}
+                      </span>
                     )}
                   </div>
                 )}
