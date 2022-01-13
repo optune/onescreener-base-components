@@ -3,7 +3,7 @@ import React, { Fragment, useState, useEffect, useMemo } from 'react'
 import ImageViewer from 'react-images-viewer'
 
 // API
-import { CurrencySign, TeaserLinkType } from '../../../api'
+import { BookingMethod, CurrencySign, TeaserLinkType } from '../../../api'
 
 // Styles
 import { CloseDarkIcon } from '../../icons/CloseIcon'
@@ -33,6 +33,7 @@ import { ComponentLoading } from '../loaders/ComponentLoading'
 // Utils
 import { debounce } from '../../../utils/debounce'
 import { renderHtml } from '../../../utils/renderHtml'
+import { RoundClockIcon } from '../../icons/ClockIcon'
 
 const InfoForm = ({
   name,
@@ -42,6 +43,9 @@ const InfoForm = ({
   currency,
   isPhysical,
   description,
+  isSession,
+  isShop,
+  duration,
   quantity,
   onSelectQuantity,
   actualPrice,
@@ -114,8 +118,8 @@ const InfoForm = ({
         </div>
       </ImageRow>
       <div className="row marginTop marginBottom">
-        <div className="column third left">
-          {isPhysical && (
+        {isShop && isPhysical ? (
+          <div className="column third left">
             <Select onChange={onSelectQuantity} value={quantity}>
               {[1, 2, 3, 4].map((n) => {
                 let la = +maxQuantity - +n
@@ -125,9 +129,22 @@ const InfoForm = ({
                 return null
               })}
             </Select>
-          )}
-        </div>
-        <div className="column half right price">
+          </div>
+        ) : isSession && !!duration ? (
+          <Fragment>
+            <div className="column auto left">
+              <RoundClockIcon className="icon normal" />
+            </div>
+            <div className="column two-third left">
+              <Text as="div" className="bangers left clip" margin="0 0 0 5px">
+                {duration}
+              </Text>
+            </div>
+          </Fragment>
+        ) : (
+          <div className="column third"></div>
+        )}
+        <div className="column third right price">
           {actualPrice} {currency}
         </div>
       </div>
@@ -356,12 +373,17 @@ export const MonetizationModal = ({
     isShop,
     isSession,
     bookingMethod,
-    duration,
+    duration: sessionDuration,
     schedulingUrl,
     length,
   } = shopItem || {
     checkout: {},
   }
+
+  const isCalendly = bookingMethod === BookingMethod.CALENDLY
+
+  let duration = length
+  if (!duration && isCalendly) duration = `${sessionDuration} minutes`
 
   console.log({ shopItem })
   const currencySign = CurrencySign[currency] || '$'
@@ -444,6 +466,7 @@ export const MonetizationModal = ({
       isPreviewMobile={isPreviewMobile}
       show={ssrDone && show}
       isSidePreview={isSidePreview}
+      // onClose={onClose}
       width="45%"
       maxWidth="365px"
       height="auto"
@@ -469,6 +492,9 @@ export const MonetizationModal = ({
               images={images}
               getImageUrl={getImageUrl}
               isPhysical={isPhysical}
+              isSession={isSession}
+              isShop={isShop}
+              duration={duration}
               maxQuantity={maxQuantity}
               name={name}
               onSelectQuantity={handleQuantityChange}
@@ -524,7 +550,7 @@ export const MonetizationModal = ({
                           isSession,
                           session: {
                             bookingMethod,
-                            duration,
+                            duration: sessionDuration,
                             schedulingUrl,
                             length,
                           },
