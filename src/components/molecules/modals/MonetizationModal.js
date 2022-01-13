@@ -356,12 +356,14 @@ export const MonetizationModal = ({
     isShop,
     isSession,
     bookingMethod,
+    duration,
     schedulingUrl,
     length,
   } = shopItem || {
     checkout: {},
   }
 
+  console.log({ shopItem })
   const currencySign = CurrencySign[currency] || '$'
   const actualPrice = +parseFloat(+price * +quantity).toFixed(2)
 
@@ -522,6 +524,7 @@ export const MonetizationModal = ({
                           isSession,
                           session: {
                             bookingMethod,
+                            duration,
                             schedulingUrl,
                             length,
                           },
