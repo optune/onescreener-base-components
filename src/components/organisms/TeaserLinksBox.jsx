@@ -502,8 +502,8 @@ export const TeaserLinksBox = ({
           const isCalendly = !!isSession && session?.bookingMethod === BookingMethod.CALENDLY
           const isDouble = isDoubleSize({ isShop, isSession })
 
-          let duration = session.length
-          if (!duration && isCalendly) duration = `${session.duration} minutes`
+          let duration = session?.length
+          if (!duration && isCalendly && !!session) duration = `${session.duration} minutes`
 
           const soldOut = shop?.maxQuantity === -1
           const hasImage = !!images?.[0]
