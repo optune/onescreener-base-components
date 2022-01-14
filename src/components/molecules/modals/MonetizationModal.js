@@ -385,7 +385,6 @@ export const MonetizationModal = ({
   let duration = length
   if (!duration && isCalendly) duration = `${sessionDuration} minutes`
 
-  console.log({ shopItem })
   const currencySign = CurrencySign[currency] || '$'
   const actualPrice = +parseFloat(+price * +quantity).toFixed(2)
 
