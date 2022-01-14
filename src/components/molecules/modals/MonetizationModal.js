@@ -394,7 +394,7 @@ export const MonetizationModal = ({
 
   const modalHeader = {
     1: {
-      [TeaserLinkType.MONETIZATION_ONE_TO_ONE]: '1:1',
+      [TeaserLinkType.MONETIZATION_ONE_TO_ONE]: 'Session',
       [TeaserLinkType.SHOP_PHYSICAL]: 'Shop',
       [TeaserLinkType.SHOP_DIGITAL]: 'Shop',
     },
