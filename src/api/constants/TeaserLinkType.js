@@ -5,4 +5,5 @@ export const TeaserLinkType = {
   LINK: 'link',
   LINK_VIDEO: 'linkVideo',
   LINK_MUSIC: 'linkMusic',
+  MONETIZATION_ONE_TO_ONE: 'monetizationOneToOne',
 }

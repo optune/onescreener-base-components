@@ -123,7 +123,7 @@ export const Input = ({
     {label && (
       <InputLabel error={error}>
         {label}
-        {required && ' (*)'}
+        {required && ' *'}
         {!!error && errorMessage > '' && (
           <span>
             {' - '}
