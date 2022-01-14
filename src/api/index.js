@@ -1,5 +1,6 @@
 export { Currency } from './constants/Currency'
 export { CurrencySign } from './constants/CurrencySign'
+export { BookingMethod } from './constants/BookingMethod'
 export { StatisticsPeriod } from './constants/StatisticsPeriod'
 export { TeaserLinkType } from './constants/TeaserLinkType'
 

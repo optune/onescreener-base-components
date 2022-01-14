@@ -9,7 +9,7 @@ import { Button } from '../../../atoms/buttons/Button'
 import { MediaMobile, MediaSmall } from '../../../../style/media.js'
 
 // Styles
-import { BackgroundColor, ForegroundColor, ColorHaiti } from '../../../../style/color'
+import { ForegroundColor } from '../../../../style/color'
 
 const StyledModal = styled.div`
   position: ${({ isSidePreview }) => (isSidePreview ? 'absolute' : 'fixed')};
@@ -129,7 +129,17 @@ export const Container = styled.div`
     g {
       path {
         fill: white !important;
+        stroke: none;
       }
+    }
+  }
+
+  svg.icon {
+    height: 20px;
+    width: 20px;
+
+    * {
+      stroke: ${ForegroundColor.secondary};
     }
   }
 
@@ -196,6 +206,10 @@ export const Container = styled.div`
       }
     }
 
+    &.auto {
+      width: auto;
+    }
+
     &.fullwidth {
       width: 100%;
     }
@@ -208,14 +222,23 @@ export const Container = styled.div`
       width: 33.33%;
     }
 
+    &.two-third {
+      width: 66.66%;
+    }
+
     &.left {
-      justify-content: flex-start;
+      justify-content: center;
       align-items: flex-start;
     }
 
     &.right {
-      justify-content: flex-end;
+      justify-content: center;
       align-items: flex-end;
+    }
+
+    &.space-between {
+      justify-content: space-between;
+      align-items: center;
     }
   }
 `
@@ -371,7 +394,7 @@ export const Text = styled.p`
   font-size: ${({ fontSize }) => fontSize || '1.5rem'};
   text-align: left;
   width: 100%;
-  margin: ${({ margin }) => `${margin} !important` || 'initial'};
+  margin: ${({ margin }) => (margin > '' ? `${margin} !important` : 'initial')};
 
   &.center {
     text-align: center;
@@ -387,6 +410,14 @@ export const Text = styled.p`
 
   &.info {
     color: ${ForegroundColor.info};
+  }
+
+  &.clip {
+    max-width: 220px;
+    max-height: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   &.bangers {

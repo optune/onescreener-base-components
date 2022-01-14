@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import classNames from 'classnames'
 import { useMediaQuery } from 'react-responsive'
 
 // API
-import { filterTime, getFromDate, CurrencySign, TeaserLinkType } from '../../api'
+import { filterTime, getFromDate, CurrencySign, TeaserLinkType, BookingMethod } from '../../api'
 
 // Atoms
 import { StatisticsOverlay } from '../atoms/StatisticsOverlay'
+import { RoundClockIcon } from '../icons/ClockIcon'
 
 // Styles
 import { MediaMobile, MediaSmall } from '../../style/media'
@@ -82,7 +83,7 @@ const Container = styled.div`
 
     &.double {
       min-height: ${({ isSidePreview }) => (isSidePreview ? '60px' : '100px')};
-      font-size: ${({ isSidePreview }) => (isSidePreview ? '18px' : '22px')};
+      font-size: ${({ isSidePreview }) => (isSidePreview ? '16px' : '22px')};
 
       .image-container {
         height: ${({ isSidePreview }) => (isSidePreview ? '42px' : '85px')};
@@ -165,7 +166,7 @@ const Container = styled.div`
     }
 
     .clip {
-      line-height: ${({ isSidePreview }) => (isSidePreview ? '20px' : '22px')};
+      line-height: ${({ isSidePreview }) => (isSidePreview ? '16px' : '22px')};
       max-width: ${({ isSidePreview }) => isSidePreview && '240px'};
       max-height: 100%;
       overflow: hidden;
@@ -214,7 +215,7 @@ const Container = styled.div`
     }
 
     .icon-container {
-      height: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
+      height: ${({ isSidePreview }) => (isSidePreview ? '18px' : '28px')};
       width: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
 
       span {
@@ -223,17 +224,17 @@ const Container = styled.div`
         align-items: center;
 
         &.subtitle {
-          font-size: 16px;
+          font-size: ${({ isSidePreview }) => (isSidePreview ? '13px' : '16px')};
           line-height: 1;
           align-items: flex-end;
         }
 
         &.icon {
           margin-right: ${({ isSidePreview }) => (isSidePreview ? '5px' : '10px')};
+          align-items: flex-end;
 
           &.smaller {
             margin-right: 5px;
-            align-items: flex-end;
           }
         }
 
@@ -270,9 +271,20 @@ const Container = styled.div`
           &.digital {
             margin-left: ${({ isSidePreview }) => (isSidePreview ? '-3px' : '-5px')};
             margin-right: ${({ isSidePreview }) => (isSidePreview ? '4px' : '6px')};
+            margin-bottom: ${({ isSidePreview }) => (isSidePreview ? '-1px' : '-2px')};
+
+            svg {
+              height: ${({ isSidePreview }) => (isSidePreview ? '20px' : '24px')};
+            }
           }
 
           &:not(.digital) {
+            &.clock {
+              svg {
+                height: ${({ isSidePreview }) => (isSidePreview ? '15px' : '18px')};
+              }
+            }
+
             svg {
               height: ${({ isSidePreview }) => (isSidePreview ? '16px' : '20px')};
               width: ${({ isSidePreview }) => (isSidePreview ? '16px' : '20px')};
@@ -487,7 +499,11 @@ export const TeaserLinksBox = ({
           const isEmbed = isMusic || isVideo
           const isPhysical = !!isShop && !!shop?.isPhysical
           const isDigital = !!isShop && !shop?.isPhysical
+          const isCalendly = !!isSession && session?.bookingMethod === BookingMethod.CALENDLY
           const isDouble = isDoubleSize({ isShop, isSession })
+
+          let duration = session?.length
+          if (!duration && isCalendly && !!session) duration = `${session.duration} minutes`
 
           const soldOut = shop?.maxQuantity === -1
           const hasImage = !!images?.[0]
@@ -567,26 +583,37 @@ export const TeaserLinksBox = ({
                   <div
                     className={classNames('icon-container', {
                       double: isDouble,
-                      smaller: isSession,
+                      smaller: true,
                       long: true,
                     })}
                   >
                     <span
                       className={classNames('icon', {
                         digital: isShop && !isPhysical,
-                        smaller: isSession,
+                        smaller: true,
                       })}
                     >
                       {!!Icon && <Icon />}
                     </span>
-                    <span className={classNames('price', { subtitle: isSession })}>
+                    <span className={classNames('price', 'subtitle', { subtitle: isSession })}>
                       {CurrencySign[shop.currency] || '$'} {shop.price}
                     </span>
 
-                    {isSession && (
-                      <span className={classNames('subtitle', 'text-ellipsis', 'session-length')}>
-                        {session.length}
-                      </span>
+                    {isSession && duration > '' && (
+                      <Fragment>
+                        <span
+                          className={classNames('icon', {
+                            digital: isShop && !isPhysical,
+                            smaller: true,
+                            clock: true,
+                          })}
+                        >
+                          <RoundClockIcon />
+                        </span>
+                        <span className={classNames('subtitle', 'text-ellipsis', 'session-length')}>
+                          {duration}
+                        </span>
+                      </Fragment>
                     )}
                   </div>
                 )}

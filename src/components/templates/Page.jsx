@@ -32,6 +32,8 @@ import GlobalStyle from '../../style/global.js'
 import { UpgradeOverlay } from '../molecules/UpgradeOverlay.js'
 import { MediaMobile } from '../../style/media'
 
+import '../../style/scss/app.scss'
+
 const PageContainer = styled.div`
   position: absolute;
   top: 0;

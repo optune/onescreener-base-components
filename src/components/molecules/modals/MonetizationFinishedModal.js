@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import React, { Fragment, useState, useEffect } from 'react'
 
 // API
-import { CurrencySign } from '../../../api'
+import { BookingMethod, CurrencySign } from '../../../api'
 
 // Styles
 import { CloseDarkIcon } from '../../icons/CloseIcon'
@@ -42,8 +42,9 @@ const InfoColumn = ({ label = ' ', value = ' ', marginTop, third, fullwidth }) =
 
 const SuccessMessage = ({ order }) => {
   const { isSession } = order || {}
-  const isCalendly = order?.session?.schedulingUrl > ''
+  const isCalendly = order?.session?.bookingMethod === BookingMethod.CALENDLY
 
+  console.log({ order, isCalendly })
   return (
     <Fragment>
       <div className="row marginBottom">
@@ -120,11 +121,11 @@ const SuccessMessage = ({ order }) => {
           <Text
             fontSize="1.1rem"
             className={classNames('info', {
-              center: !isSession && isCalendly,
+              center: !isSession,
             })}
             margin="0"
           >
-            {isSession && !isCalendly
+            {isSession
               ? `You will get an email at ${order?.client?.email} with instructions on how to book your appointment`
               : 'You will shortly receive your receipt by e-mail'}
           </Text>
