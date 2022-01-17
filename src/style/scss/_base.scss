@@ -2,7 +2,9 @@ html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
@@ -11,21 +13,21 @@ body {
   color: $colorForeground;
 }
 
-h1, .h1 {
+h1,
+.h1 {
   @include fontBigRegular();
-
 
   @media #{$small} {
     font-size: 1.6em;
   }
-
 
   &.bold {
     @include fontBigBold();
   }
 }
 
-h2, .h2 {
+h2,
+.h2 {
   font-family: $fontFamilyBold;
   font-weight: bold;
   font-size: $fontSizeBig;
@@ -38,7 +40,8 @@ h2, .h2 {
   }
 }
 
-h3, .h3 {
+h3,
+.h3 {
   @include fontMediumRegular();
   padding-top: 1px;
 
@@ -47,12 +50,14 @@ h3, .h3 {
   }
 }
 
-h4, .h4 {
+h4,
+.h4 {
   font-family: $fontFamilyRegular;
   font-size: $fontSizeTiny;
 }
 
-h5, .h5 {
+h5,
+.h5 {
   font-family: $fontFamilyRegular;
   font-size: $fontSizeTiny;
   text-transform: uppercase;
@@ -68,17 +73,21 @@ p {
   font-family: $fontFamilyRegular;
 }
 
-strong, b, .bold {
+strong,
+b,
+.bold {
   font-family: $fontFamilyBold;
   font-weight: bold;
 }
 
 .underlined {
-  border-bottom: 2px solid;
+  // border-bottom: 2px solid;
+  text-decoration: underline;
   display: inline-block;
 }
 
-img, picture {
+img,
+picture {
   object-fit: cover;
   max-width: 100%;
   object-fit: cover;
@@ -118,36 +127,35 @@ p, .text {
 }
 */
 
-
 @mixin inputPlaceholder() {
-    $selector: '';
-    $prefixes: (
-        moz: "::-moz",
-        webkit: "::-webkit",
-        ie: ":-ms"
-    );
-    @each $prop, $value in $prefixes {
-        @if $prop != "moz" {
-            $selector: #{$value}-input-placeholder;
-        } @else {
-            $selector: #{$value}-placeholder;
-        }
-        @if & {
-            &#{$selector} {
-                @content;
-            }
-        } @else {
-            #{$selector} {
-                @content;
-            }
-        }
+  $selector: '';
+  $prefixes: (
+    moz: '::-moz',
+    webkit: '::-webkit',
+    ie: ':-ms',
+  );
+  @each $prop, $value in $prefixes {
+    @if $prop != 'moz' {
+      $selector: #{$value}-input-placeholder;
+    } @else {
+      $selector: #{$value}-placeholder;
     }
-    &::placeholder {
-      @content;
+    @if & {
+      &#{$selector} {
+        @content;
+      }
+    } @else {
+      #{$selector} {
+        @content;
+      }
     }
+  }
+  &::placeholder {
+    @content;
+  }
 }
 @include inputPlaceholder() {
-  opacity: 1.0;
+  opacity: 1;
   color: $colorForegroundFaint;
   font-weight: normal;
 }
@@ -168,7 +176,7 @@ code {
 }
 
 small {
-  font-size: calc(13/15)em;
+  font-size: calc(13 / 15) em;
 }
 
 sub {
