@@ -44,7 +44,7 @@ const getMusicHeight = (url, isSmall) => {
 const getVideoHeight = (url, isSmall) => {
   const isFacebookUrl = isFacebook(url)
 
-  let height = isSmall ? '300px' : '600px'
+  let height = isSmall ? '300px' : '505px'
 
   if (isFacebookUrl) height = isSmall ? '300px' : '500px'
 
