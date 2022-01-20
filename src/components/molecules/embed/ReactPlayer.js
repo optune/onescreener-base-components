@@ -8,9 +8,9 @@ import { ApplePlayer } from '../../atoms/ApplePlayer'
 import { DeezerPlayer } from '../../atoms/DeezerPlayer'
 
 // Utils
-import { isApple } from '../../../utils/player/apple'
-import { isDeezer } from '../../../utils/player/deezer'
-import { isSpotify } from '../../../utils/player/spotify'
+import { isApple } from '../../../utils/teaserLinks/players/apple'
+import { isDeezer } from '../../../utils/teaserLinks/players/deezer'
+import { isSpotify } from '../../../utils/teaserLinks/players/spotify'
 
 const StyledPlayer = styled(RPlayer)`
   & > div {

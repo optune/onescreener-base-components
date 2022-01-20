@@ -4,7 +4,7 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 
 // Utils
-import { getDeezerUrl, isDeezer, isValidDeezerUrl } from '../../utils/player/deezer'
+import { getDeezerUrl, isDeezer, isValidDeezerUrl } from '../../utils/teaserLinks/players/deezer'
 
 const Player = styled.div`
   max-width: ${({ isSquare, isSidePreview }) =>

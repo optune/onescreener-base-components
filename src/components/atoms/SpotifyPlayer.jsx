@@ -4,7 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 // Utils
-import { getSpotifyUrl } from '../../utils/player/spotify'
+import { getSpotifyUrl } from '../../utils/teaserLinks/players/spotify'
 
 const Player = styled.div`
   width: 100%;
