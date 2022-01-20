@@ -4,7 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 // Utils
-import { getAppleUrl, isApple } from '../../utils/player/apple'
+import { getAppleUrl, isApple } from '../../utils/teaserLinks/players/apple'
 
 const Player = styled.div`
   width: 100%;
