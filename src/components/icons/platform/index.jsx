@@ -1,9 +1,12 @@
+// ![helper][add-icon] File to change to add/change Icon
+
 // Social Icons
 import { AboutIcon } from './About.jsx'
 import { AmazonIcon } from './Amazon.jsx'
 import { AppleMusicIcon } from './AppleMusic.jsx'
 import { ArtistProfileIcon } from './ArtistProfile.jsx'
 import { ArtoIcon } from './Arto.jsx'
+import { ArtstationIcon } from './Artstation.jsx'
 import { AwsIcon } from './Aws.jsx'
 import { BaiduIcon } from './Baidu.jsx'
 import { BandcampIcon } from './Bandcamp.jsx'
@@ -14,6 +17,7 @@ import { ClubhouseIcon } from './Clubhouse.js'
 import { CodepenIcon } from './Codepen.js'
 import { CompanyIcon } from './Company.jsx'
 import { DiggIcon } from './Digg.jsx'
+import { DiscordIcon } from './Discord.jsx'
 import { DownloadIcon } from './Download.jsx'
 import { DribbbleIcon } from './Dribbble.jsx'
 import { DropboxIcon } from './Dropbox.js'
@@ -85,6 +89,7 @@ export const PlatformLinkIcon = {
   AMAZON: AmazonIcon,
   APPLEMUSIC: AppleMusicIcon,
   ARTO: ArtoIcon,
+  ARTSTATION: ArtstationIcon,
   AWS: AwsIcon,
   BAIDU: BaiduIcon,
   BANDCAMP: BandcampIcon,
@@ -94,6 +99,7 @@ export const PlatformLinkIcon = {
   CODEPEN: CodepenIcon,
   COMPANY: CompanyIcon,
   DIGG: DiggIcon,
+  DISCORD: DiscordIcon,
   DOWNLOAD: DownloadIcon,
   DRIBBBLE: DribbbleIcon,
   DROPBOX: DropboxIcon,
