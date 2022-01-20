@@ -215,7 +215,7 @@ const Container = styled.div`
     }
 
     .icon-container {
-      height: ${({ isSidePreview }) => (isSidePreview ? '18px' : '28px')};
+      height: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
       width: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
 
       span {
