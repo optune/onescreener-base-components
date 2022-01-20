@@ -335,8 +335,6 @@ export const TeaserLinksBox = ({
   const [list, setList] = useState(null)
   const [pagination, setPagination] = useState(0)
 
-  // console.log({ teaserLinksBASAE: teaserLinks })
-  // console.log({ listBASAE: list })
   /*
    * IMAGE ALGO EXAMPLE
    *
@@ -490,7 +488,6 @@ export const TeaserLinksBox = ({
               </div>
             )
 
-          // console.log({ isShop, isSession, session, shop })
           const isLegacy = typeof type === 'undefined'
           const isRegular = type === TeaserLinkType.LINK
           const isMusic = type === TeaserLinkType.LINK_MUSIC

@@ -44,7 +44,6 @@ const SuccessMessage = ({ order }) => {
   const { isSession } = order || {}
   const isCalendly = order?.session?.bookingMethod === BookingMethod.CALENDLY
 
-  console.log({ order, isCalendly })
   return (
     <Fragment>
       <div className="row marginBottom">
