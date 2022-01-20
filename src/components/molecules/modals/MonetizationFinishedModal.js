@@ -210,11 +210,12 @@ export const MonetizationFinishedModal = ({
       isPreviewMobile={isPreviewMobile}
       show={ssrDone && show}
       isSidePreview={isSidePreview}
+      onClose={handleClose}
       width="60%"
       height="90%"
       maxWidth="385px"
     >
-      <Container isSidePreview={isSidePreview}>
+      <Container isSidePreview={isSidePreview} onClick={(e) => e.stopPropagation()}>
         <CloseButton onClick={handleClose}>
           <CloseDarkIcon className="close-icon" />
         </CloseButton>

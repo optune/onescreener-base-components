@@ -465,13 +465,17 @@ export const MonetizationModal = ({
       isPreviewMobile={isPreviewMobile}
       show={ssrDone && show}
       isSidePreview={isSidePreview}
-      // onClose={onClose}
+      onClose={onClose}
       width="45%"
       maxWidth="365px"
       height="auto"
       className="checkout"
     >
-      <Container isSidePreview={isSidePreview} className={isPhysical && step === 2 && 'overflow-y'}>
+      <Container
+        isSidePreview={isSidePreview}
+        className={isPhysical && step === 2 && 'overflow-y'}
+        onClick={(e) => e.stopPropagation()}
+      >
         <CloseButton onClick={onClose}>
           <CloseDarkIcon className="close-icon" />
         </CloseButton>
