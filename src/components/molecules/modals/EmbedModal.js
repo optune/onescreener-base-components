@@ -22,6 +22,7 @@ import { isApple } from '../../../utils/player/apple'
 import { isMixcloud, isSoundcloud } from '../../../utils/player/music'
 
 import { isFacebook, isWistia } from '../../../utils/player/video'
+import classNames from 'classnames'
 
 const getMusicHeight = (url, isSmall) => {
   const isSpotifyUrl = isSpotify(url)
@@ -44,9 +45,9 @@ const getMusicHeight = (url, isSmall) => {
 const getVideoHeight = (url, isSmall) => {
   const isFacebookUrl = isFacebook(url)
 
-  let height = isSmall ? '300px' : '505px'
+  let height = isSmall ? '400px' : '505px'
 
-  if (isFacebookUrl) height = isSmall ? '300px' : '500px'
+  if (isFacebookUrl) height = isSmall ? '400px' : '500px'
 
   return height
 }
@@ -54,6 +55,7 @@ const getVideoHeight = (url, isSmall) => {
 export const EmbedModal = ({ isSidePreview, isPreviewMobile, onClose, show, modalEmbed = {} }) => {
   const [ssrDone, setSsrDone] = useState(false)
 
+  const isVideo = modalEmbed.type === TeaserLinkType.LINK_VIDEO
   const isMusic = modalEmbed.type === TeaserLinkType.LINK_MUSIC
 
   // Media Query
@@ -95,7 +97,11 @@ export const EmbedModal = ({ isSidePreview, isPreviewMobile, onClose, show, moda
       <Container
         colorBackground={isMusic ? '' : 'rgba(0,0,0,1)'}
         isSidePreview={isSidePreview}
-        className="height-100"
+        className={classNames({
+          ['height-100']: !isVideo,
+          ['ratio']: isVideo,
+          ['wrapper-16x9']: isVideo,
+        })}
       >
         <CloseButton onClick={onClose}>
           <CloseDarkIcon className="close-icon" />
@@ -104,6 +110,10 @@ export const EmbedModal = ({ isSidePreview, isPreviewMobile, onClose, show, moda
         <ReactPlayer
           width="100%"
           height="100%"
+          className={classNames({
+            ['ratio']: isVideo,
+            ['inner-16x9']: isVideo,
+          })}
           url={modalEmbed.url}
           playing={!!modalEmbed.autoplay}
           muted={!!modalEmbed.autoplay || !!modalEmbed.mute}
