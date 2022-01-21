@@ -1,4 +1,5 @@
-export const isOpensea = (url = '') => url.indexOf('opensea.io') !== -1
+export const isOpensea = (url = '') =>
+  url.indexOf('opensea.io') !== -1 && url.indexOf('assets/') !== -1
 
 export const isOpenseaEmbed = (url = '') => url.endsWith('?embed=true')
 
