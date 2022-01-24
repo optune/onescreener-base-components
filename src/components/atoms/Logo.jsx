@@ -25,6 +25,14 @@ const LogoSizeImageTL = {
   XL: '18%',
 }
 
+const LogoSizeImageMobileLandscapeTL = {
+  XS: '4%',
+  S: '5%',
+  M: '6%',
+  L: '8%',
+  XL: '10%',
+}
+
 const LogoSizeImageSidePreviewTL = {
   XS: '5%',
   S: '6%',
@@ -44,6 +52,8 @@ const LogoSizeMax = {
   L: 67,
   XL: 100,
 }
+
+const LANDSCAPE = 'LANDSCAPE'
 
 const LogoImage = styled.img`
   display: flex;
@@ -70,13 +80,22 @@ const LogoImage = styled.img`
     width: 100%;
   }
 
-  ${({ isSidePreview, isTeaserLinks }) =>
+  ${({ isSidePreview, isTeaserLinks, orientation }) =>
     !isSidePreview &&
     isTeaserLinks &&
+    orientation !== LANDSCAPE &&
     css`
       @media ${MediaSmallMobile} {
         height: 10%;
       }
+    `}
+
+  /* Fix for Teaser links mobile view and Landscape image  */
+
+  ${({ orientation, size }) =>
+    orientation === LANDSCAPE &&
+    css`
+      height: ${LogoSizeImageMobileLandscapeTL[size]};
     `}
 `
 
