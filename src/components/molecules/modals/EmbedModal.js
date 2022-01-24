@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
+import classNames from 'classnames'
 
 // API
 import { TeaserLinkType } from '../../../api'
 
 // Molecules
 import { ReactPlayer } from '../embed/ReactPlayer'
+import { isOpensea, OpenseaEmbed } from '../../..'
 
 // Styles
 import { CloseDarkIcon } from '../../icons/CloseIcon'
@@ -16,13 +18,12 @@ import { MediaSmall } from '../../../style/media'
 import { Modal, Container, CloseButton } from './common/Components'
 
 // Utils
-import { isSpotify } from '../../../utils/player/spotify'
-import { isDeezer } from '../../../utils/player/deezer'
-import { isApple } from '../../../utils/player/apple'
-import { isMixcloud, isSoundcloud } from '../../../utils/player/music'
+import { isSpotify } from '../../../utils/teaserLinks/players/spotify'
+import { isDeezer } from '../../../utils/teaserLinks/players/deezer'
+import { isApple } from '../../../utils/teaserLinks/players/apple'
+import { isMixcloud, isSoundcloud } from '../../../utils/teaserLinks/players/music'
 
-import { isFacebook, isWistia } from '../../../utils/player/video'
-import classNames from 'classnames'
+import { isFacebook, isWistia } from '../../../utils/teaserLinks/players/video'
 
 const getMusicHeight = (url, isSmall) => {
   const isSpotifyUrl = isSpotify(url)
@@ -52,17 +53,48 @@ const getVideoHeight = (url, isSmall) => {
   return height
 }
 
+const getEmbedSize = ({ url, isSmall, isVideo, isMusic, isNft }) => {
+  let height = '300px'
+  let width = '700px'
+
+  if (isVideo) {
+    width = '900px'
+    height = getVideoHeight(url, isSmall)
+  }
+  if (isMusic) height = getMusicHeight(url, isSmall)
+  if (isNft) {
+    width = '670px'
+    height = '210px'
+  }
+
+  return { height, width }
+}
+
+const fixModalClose = ({ className }) => {
+  setTimeout(() => {
+    document
+      .getElementsByClassName(className)?.[0]
+      ?.addEventListener('click', (e) => e.stopPropagation())
+  }, 100)
+}
+
 export const EmbedModal = ({ isSidePreview, isPreviewMobile, onClose, show, modalEmbed = {} }) => {
   const [ssrDone, setSsrDone] = useState(false)
 
   const isVideo = modalEmbed.type === TeaserLinkType.LINK_VIDEO
   const isMusic = modalEmbed.type === TeaserLinkType.LINK_MUSIC
+  const isNft = modalEmbed.type === TeaserLinkType.LINK_OPENSEA
 
   // Media Query
   const isSmall = useMediaQuery({ query: MediaSmall })
 
-  const musicHeight = getMusicHeight(modalEmbed.url, isSmall)
-  const videoHeight = getVideoHeight(modalEmbed.url, isSmall)
+  const { height: embedHeight, width: embedWidth } = getEmbedSize({
+    url: modalEmbed.url,
+    isSmall,
+    isVideo,
+    isMusic,
+    isNft,
+  })
 
   useEffect(() => {
     setSsrDone(true)
@@ -74,11 +106,13 @@ export const EmbedModal = ({ isSidePreview, isPreviewMobile, onClose, show, moda
 
   useEffect(() => {
     if (isWistia(modalEmbed.url)) {
-      setTimeout(() => {
-        document
-          .getElementsByClassName('wistia_embed_initialized')?.[0]
-          ?.addEventListener('click', (e) => e.stopPropagation())
-      }, 100)
+      // wistia_embed_initialized
+      fixModalClose({ className: 'wistia_embed_initialized' })
+    }
+
+    if (isOpensea(modalEmbed.url)) {
+      // nft-card
+      fixModalClose({ className: 'nft-card' })
     }
   }, [modalEmbed.url])
 
@@ -87,8 +121,8 @@ export const EmbedModal = ({ isSidePreview, isPreviewMobile, onClose, show, moda
       width="50%"
       height="100%"
       width="100%"
-      maxHeight={isMusic ? musicHeight : videoHeight}
-      maxWidth={isMusic ? '700px' : '900px'}
+      maxHeight={embedHeight}
+      maxWidth={embedWidth}
       isPreviewMobile={isPreviewMobile}
       show={ssrDone && show}
       isSidePreview={isSidePreview}
@@ -107,29 +141,33 @@ export const EmbedModal = ({ isSidePreview, isPreviewMobile, onClose, show, moda
           <CloseDarkIcon className="close-icon" />
         </CloseButton>
 
-        <ReactPlayer
-          width="100%"
-          height="100%"
-          className={classNames({
-            ['ratio']: isVideo,
-            ['inner-16x9']: isVideo,
-          })}
-          url={modalEmbed.url}
-          playing={!!modalEmbed.autoplay}
-          muted={!!modalEmbed.autoplay || !!modalEmbed.mute}
-          controls={true}
-          config={{
-            soundcloud: {
-              playerVars: {},
-            },
-            youtube: {
-              playerVars: {
-                modestbranding: 1,
-                rel: 0,
+        {isNft ? (
+          <OpenseaEmbed url={modalEmbed.url} />
+        ) : (
+          <ReactPlayer
+            width="100%"
+            height="100%"
+            className={classNames({
+              ['ratio']: isVideo,
+              ['inner-16x9']: isVideo,
+            })}
+            url={modalEmbed.url}
+            playing={!!modalEmbed.autoplay}
+            muted={!!modalEmbed.autoplay || !!modalEmbed.mute}
+            controls={true}
+            config={{
+              soundcloud: {
+                playerVars: {},
               },
-            },
-          }}
-        />
+              youtube: {
+                playerVars: {
+                  modestbranding: 1,
+                  rel: 0,
+                },
+              },
+            }}
+          />
+        )}
       </Container>
     </Modal>
   )

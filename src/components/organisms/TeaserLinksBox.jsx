@@ -102,7 +102,7 @@ const Container = styled.div`
         border-radius: 50px;
       }
 
-      svg {
+      svg.icon {
         width: ${({ isSidePreview }) => (isSidePreview ? '18px' : '30px')};
 
         * {
@@ -215,7 +215,7 @@ const Container = styled.div`
     }
 
     .icon-container {
-      height: ${({ isSidePreview }) => (isSidePreview ? '18px' : '28px')};
+      height: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
       width: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
 
       span {
@@ -301,6 +301,14 @@ const Container = styled.div`
       svg.icon {
         * {
           stroke: ${({ color }) => (color ? color : ForegroundColor.secondary)};
+
+          &[stroke='none'] {
+            // fill: none;
+            // stroke: ${({ color }) => (color ? color : '#0a1c3b')};
+
+            fill: ${({ color }) => (color ? color : '#0a1c3b')} ;
+            stroke: none;
+          }
         }
       }
     }
@@ -492,8 +500,9 @@ export const TeaserLinksBox = ({
           const isRegular = type === TeaserLinkType.LINK
           const isMusic = type === TeaserLinkType.LINK_MUSIC
           const isVideo = type === TeaserLinkType.LINK_VIDEO
-          const isLink = !isSession && !isShop && !isMusic && !isVideo
-          const isEmbed = isMusic || isVideo
+          const isNft = type === TeaserLinkType.LINK_OPENSEA
+          const isEmbed = isMusic || isVideo || isNft
+          const isLink = !isSession && !isShop && !isEmbed
           const isPhysical = !!isShop && !!shop?.isPhysical
           const isDigital = !!isShop && !shop?.isPhysical
           const isCalendly = !!isSession && session?.bookingMethod === BookingMethod.CALENDLY
