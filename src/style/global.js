@@ -38,6 +38,8 @@ body {
     overflow:hidden;
   }
 
+
+
   @media ${MediaSmall} {
     &.noscroll {
       overflow-y: hidden;
@@ -90,6 +92,26 @@ ol, ul {
     background-color: ${ColorWhite};
   }
 }
+
+.ratio {
+  &.inner {
+    &-16x9 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &.wrapper {
+    &-16x9 {
+      height: unset;
+      padding-top: 56.25%;
+    }
+  }
+}
+
 `
 
 export default createGlobalStyle`
