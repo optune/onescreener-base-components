@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
+import classNames from 'classnames'
 
 // API
 import { TeaserLinkType } from '../../../api'
@@ -23,7 +24,6 @@ import { isApple } from '../../../utils/teaserLinks/players/apple'
 import { isMixcloud, isSoundcloud } from '../../../utils/teaserLinks/players/music'
 
 import { isFacebook, isWistia } from '../../../utils/teaserLinks/players/video'
-import classNames from 'classnames'
 
 const getMusicHeight = (url, isSmall) => {
   const isSpotifyUrl = isSpotify(url)
