@@ -52,7 +52,7 @@ export { isApple } from './utils/teaserLinks/players/apple'
 export { isDeezer } from './utils/teaserLinks/players/deezer'
 export { isVideoSupported } from './utils/teaserLinks/players/video'
 export { isMusicSupported } from './utils/teaserLinks/players/music'
-export { isOpensea } from './utils/teaserLinks/integrations/opensea'
+export { isOpensea, getOpenseaUrl } from './utils/teaserLinks/integrations/opensea'
 
 // Styles
 export { default as GlobalStyle, globalStyles } from './style/global.js' // global styles
