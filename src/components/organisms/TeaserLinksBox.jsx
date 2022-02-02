@@ -93,7 +93,7 @@ const Container = styled.div`
 
     &.navigation {
       width: auto;
-      min-height: ${({ isSidePreview }) => (isSidePreview ? '19px' : '38px')};
+      min-height: ${({ isSidePreview }) => (isSidePreview ? '28px' : '38px')};
       padding: 0 18px;
       border-radius: 50px;
       align-items: center;

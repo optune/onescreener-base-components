@@ -2,6 +2,8 @@
 import React, { Fragment } from 'react'
 import styled, { css } from 'styled-components'
 
+// Atoms
+import { EditButton } from '../atoms/buttons/EditButton.js'
 import { Logo } from '../atoms/Logo.jsx'
 import { LogoText } from '../atoms/LogoText.jsx'
 
@@ -260,13 +262,14 @@ const getLogoPosition = ({ logo }) => {
 
 export const LogoBox = ({
   design,
-  logo,
-  links,
   getImageUrl,
+  isEditMode,
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
   isTeaserLinks,
+  links,
+  logo,
   onLogoSectionClick,
   showRedirectOverlay,
   zIndex,
@@ -280,14 +283,15 @@ export const LogoBox = ({
     <Fragment>
       {showRedirectOverlay && (
         <SectionOverlay
+          color="gray"
+          isExtended={isLogoText ? !logo.text?.title : !logo.image?.url}
+          isLogo
+          isPreviewMobile={isPreviewMobile}
+          isTeaserLinks={isTeaserLinks}
+          linksPosition={links?.position}
+          onClick={onLogoSectionClick}
           positionDesktop={position.classnameDesktop}
           positionMobile={position.classnameMobile}
-          linksPosition={links?.list?.length > 0 ? links?.position : ''}
-          onClick={onLogoSectionClick}
-          isPreviewMobile={isPreviewMobile}
-          isLogo
-          isTeaserLinks={isTeaserLinks}
-          color="gray"
         />
       )}
       <LogoContainer
@@ -303,18 +307,20 @@ export const LogoBox = ({
         {isLogoText ? (
           <LogoText
             design={design}
-            logo={logo}
+            isEditMode={isEditMode}
             isPreviewMobile={isPreviewMobileReady}
-            isTeaserLinks={isTeaserLinks}
             isSidePreview={isSidePreview}
+            isTeaserLinks={isTeaserLinks}
+            logo={logo}
           />
         ) : (
           <Logo
-            logo={logo}
             getImageUrl={getImageUrl}
+            isEditMode={isEditMode}
             isPreviewMobile={isPreviewMobile}
-            isTeaserLinks={isTeaserLinks}
             isSidePreview={isSidePreview}
+            isTeaserLinks={isTeaserLinks}
+            logo={logo}
           />
         )}
       </LogoContainer>

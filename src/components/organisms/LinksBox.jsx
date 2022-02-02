@@ -3,6 +3,7 @@ import React, { Fragment } from 'react'
 import styled, { css } from 'styled-components'
 
 import { MediaMobile, MediaSmall, NotMediaMobile } from '../../style/media.js'
+import { EditButton } from '../atoms/buttons/EditButton.js'
 import { SectionOverlay } from '../molecules/SectionOverlay.js'
 
 const LinksContainer = styled.div`
@@ -131,27 +132,31 @@ const LinksList = styled.div`
 
 export const LinksBox = ({
   children,
-  position,
-  zIndex,
-  isSidePreview,
-  isPreviewMobile,
-  isInstagramBrowser,
-  showRedirectOverlay,
-  onLinksSectionClick,
   hasPro,
+  isEditMode,
+  isInstagramBrowser,
+  isPreviewMobile,
+  isSidePreview,
+  links,
+  onLinksSectionClick,
+  position,
+  showRedirectOverlay,
+  zIndex,
 }) => {
   const positionLinks = position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'
 
+  console.log({ positionLinks })
   return (
     <Fragment>
       {showRedirectOverlay && (
         <SectionOverlay
+          color="yellow"
+          isExtended={links.list?.length === 0}
+          isLinks
+          isPreviewMobile={isPreviewMobile}
+          onClick={onLinksSectionClick}
           positionDesktop={positionLinks}
           positionMobile="bottom-center"
-          onClick={onLinksSectionClick}
-          isPreviewMobile={isPreviewMobile}
-          color="yellow"
-          isLinks
         />
       )}
       <LinksContainer
@@ -165,6 +170,7 @@ export const LinksBox = ({
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
         >
+          {/* {(true || isEditMode) && <EditButton top="-25px">Links</EditButton>} */}
           {children}
         </LinksList>
       </LinksContainer>

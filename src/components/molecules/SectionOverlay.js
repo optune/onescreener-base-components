@@ -1,7 +1,9 @@
 import React from 'react'
+import { useMediaQuery } from 'react-responsive'
 import styled from 'styled-components'
 
 import { MediaSmall } from '../../style/media'
+import { EditButton } from '../atoms/buttons/EditButton'
 
 const Container = styled.div`
   position: absolute;
@@ -11,7 +13,7 @@ const Container = styled.div`
     isPreviewMobile ? bottomMobile : bottom};
   left: ${({ left, leftMobile, isPreviewMobile }) => (isPreviewMobile ? leftMobile : left)};
   background-color: ${({ colorSection }) => colorSection};
-  opacity: 0.5;
+  opacity: 1;
   z-index: 9999;
   cursor: pointer;
 `
@@ -127,15 +129,15 @@ const getPositionMobile = (position, isLinks, isLogo, isTeaserLinks, linksPositi
     bottom = 70.666
   }
   if (y === CENTER) {
-    top = 29.333
-    bottom = 29.333
+    top = 35.333
+    bottom = 37.333
   }
   if (y === BOTTOM) {
     top = 66.666
     bottom = 0
 
     if (!isLinks && yLinks > '') {
-      top = 54.666
+      top = 64.666
       bottom = 11
     }
     if (isLinks) {
@@ -166,11 +168,58 @@ const getPositionMobile = (position, isLinks, isLogo, isTeaserLinks, linksPositi
   }
 }
 
+const getEditButtonSettings = ({
+  isExtended,
+  isLinks,
+  isLogo,
+  isPreviewMobile,
+  positionDesktop,
+}) => {
+  let title = undefined
+  let top = '10px'
+  let left = undefined
+  let right = undefined
+  let transform = 'translateX(-50%)'
+
+  if (isExtended) title = 'Add Content'
+
+  // console.log({ isLinks, isLogo, positionDesktop })
+  if (isLinks) {
+    const [yLinks, xLinks] = getAxis(positionDesktop)
+    top = '10px'
+    right = 'unset'
+
+    if (isExtended) title = 'Add Icons'
+
+    if (xLinks === LEFT && !isPreviewMobile) {
+      top = '50%'
+      left = undefined
+      right = isExtended ? '-35px' : '0'
+      transform = 'translateY(-50%)'
+    }
+
+    if (xLinks === RIGHT && !isPreviewMobile) {
+      top = '50%'
+      right = undefined
+      left = isExtended ? '-35px' : '0'
+      transform = 'translateY(-50%)'
+    }
+  }
+  if (isLogo) {
+    top = '5px'
+
+    if (isExtended) title = 'Add Logo'
+  }
+
+  return { title, top, left, right, transform }
+}
+
 // TODO: change for TEASER LINKS
 export const SectionOverlay = ({
   positionDesktop = 'top-center',
   positionMobile = 'top-center',
   isPreviewMobile,
+  isExtended,
   isLinks,
   isLogo,
   isTeaserLinks,
@@ -180,6 +229,28 @@ export const SectionOverlay = ({
   isTest = false,
 }) => {
   const mappedLinksPosition = linksPosition?.toLowerCase().replace('_', '-') || ''
+
+  const isMobile = useMediaQuery({ query: MediaSmall })
+
+  // TODO: add no teaser links position support
+  // TODO: minor adjust for edit button position everywhere
+  // TODO: add support for collision between content and logo
+  // TODO: add animations for Edit Button
+  const {
+    title,
+    top: topEdit,
+    left: leftEdit,
+    right: rightEdit,
+    transform: transformEdit,
+  } = getEditButtonSettings({
+    isExtended,
+    isLinks,
+    isLogo,
+    isPreviewMobile,
+    positionDesktop,
+  })
+
+  // console.log({ title, topEdit, leftEdit, rightEdit, transformEdit })
 
   const { top, left, right, bottom } = getPositionDesktop(
     positionDesktop,
@@ -196,6 +267,9 @@ export const SectionOverlay = ({
     mappedLinksPosition
   )
 
+  if (isLinks) {
+    console.log({ top, left, right, bottom, topMobile, leftMobile, rightMobile, bottomMobile })
+  }
   return (
     <Container
       top={top}
@@ -206,9 +280,21 @@ export const SectionOverlay = ({
       leftMobile={leftMobile}
       rightMobile={rightMobile}
       bottomMobile={bottomMobile}
-      colorSection={isTest && color}
+      colorSection={isTest ? color : undefined}
       isPreviewMobile={isPreviewMobile}
-      onClick={onClick}
-    />
+      onClick={isMobile ? undefined : onClick}
+    >
+      {isMobile && (
+        <EditButton
+          top={topEdit}
+          left={leftEdit}
+          right={rightEdit}
+          transform={transformEdit}
+          onClick={isMobile ? onClick : undefined}
+        >
+          {title}
+        </EditButton>
+      )}
+    </Container>
   )
 }
