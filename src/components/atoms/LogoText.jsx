@@ -3,6 +3,9 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 
+// Atoms
+import { EditButton } from './buttons/EditButton.js'
+
 import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
 
 import { MediaMobile } from '../../style/media'
@@ -175,7 +178,14 @@ const getLogoPosition = ({ logo }) => {
   }
 }
 
-export const LogoText = ({ design, logo, isPreviewMobile, isSidePreview, isTeaserLinks }) => {
+export const LogoText = ({
+  design,
+  logo,
+  isEditMode,
+  isPreviewMobile,
+  isSidePreview,
+  isTeaserLinks,
+}) => {
   const logoPosition = getLogoPosition({ logo })
   return logo.text?.title ? (
     <LogoTextContainer
@@ -189,6 +199,7 @@ export const LogoText = ({ design, logo, isPreviewMobile, isSidePreview, isTease
       logoPosition={isTeaserLinks ? { desktop: 'flex-start', mobile: 'flex-start' } : logoPosition}
       isTeaserLinks={isTeaserLinks}
     >
+      {/* {(true || isEditMode) && <EditButton top="0">Logo</EditButton>} */}
       <AutoTextFit
         adjustWidth
         includeWidth

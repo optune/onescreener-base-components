@@ -49,11 +49,14 @@ export const ColorSecondary90 = '#DADDE5'
 export const ColorSecondary95 = '#EAECF0'
 export const ColorSecondary150 = '#EFF0F2'
 
+export const ColorActive50 = '#1A75FF'
+
 const DEFAULT_DEGREE = 20
 
 // Color Theme
 export const BackgroundColor = {
   accent: ColorBlue,
+  accentSecondary: ColorActive50,
   disabled: ColorWhite,
   base: ColorGrey,
   disabledDark: ColorSecondary90,

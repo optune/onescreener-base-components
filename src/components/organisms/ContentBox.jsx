@@ -2,6 +2,9 @@
 import React, { Fragment } from 'react'
 import styled, { css } from 'styled-components'
 
+// Atoms
+import { EditButton } from '../atoms/buttons/EditButton.js'
+
 import { TextBox } from './TextBox.jsx'
 import { GigsBox } from './GigsBox.jsx'
 import { MediaBox } from './MediaBox.jsx'
@@ -452,7 +455,7 @@ const Container = styled.div`
     isTeaserLinks &&
     css`
       top: 4%;
-      height: ${({ isSidePreview }) => (isSidePreview ? '80%' : '65%')};
+      height: 65;
     `}
 
   @media ${MediaMobile} {
@@ -498,6 +501,7 @@ export const ContentBox = ({
   design,
   domainName,
   getImageUrl,
+  isEditMode,
   isPreviewMobile,
   isPreviewMobileReady,
   isProPlanRequired,
@@ -507,11 +511,11 @@ export const ContentBox = ({
   onContentSectionClick,
   onLoadShopItem,
   pageUrl,
-  setModalShop,
   setModalEmbed,
+  setModalShop,
+  shopEnabled,
   showRedirectOverlay,
   showStatistics,
-  shopEnabled,
   statisticsPeriod,
   trackingVisitorEvents,
   visitorSession,
@@ -677,6 +681,7 @@ export const ContentBox = ({
     <Fragment>
       {showRedirectOverlay && (
         <SectionOverlay
+          isExtended={type === 'TEASER_LINKS' && teaserLinks?.list?.length === 0}
           positionDesktop={position.classnameDesktop}
           positionMobile={position.classnameMobile}
           linksPosition={links?.list?.length > 0 ? links?.position : ''}
@@ -709,6 +714,8 @@ export const ContentBox = ({
           isGigs={isGigs}
           size={size}
         >
+          {/* {(true || isEditMode) && <EditButton top="20%">Content</EditButton>} */}
+
           {Content}
         </Container>
       </ResponsiveContainer>

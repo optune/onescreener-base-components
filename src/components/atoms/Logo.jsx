@@ -3,6 +3,9 @@
 import React, { memo } from 'react'
 import styled, { css } from 'styled-components'
 
+// Atoms
+import { EditButton } from './buttons/EditButton'
+
 import { MediaSmall, MediaSmallMobile } from '../../style/media'
 
 /*
@@ -55,9 +58,9 @@ const LogoSizeMax = {
 
 const LANDSCAPE = 'LANDSCAPE'
 
-const LogoImage = styled.img`
+const ImageContainer = styled.div`
+position:relative;
   display: flex;
-  object-fit: contain;
   margin: ${({ isSidePreview }) => (isSidePreview ? '0.5rem' : '1rem')};
 
   ${({ isPreviewMobile, isSidePreview, isTeaserLinks, size }) =>
@@ -75,7 +78,7 @@ const LogoImage = styled.img`
 
       ${isPreviewMobile && `width: 100%;`}
     `}
-  
+
   @media ${MediaSmall} {
     width: 100%;
   }
@@ -97,6 +100,12 @@ const LogoImage = styled.img`
     css`
       height: ${LogoSizeImageMobileLandscapeTL[size]};
     `}
+`
+
+const LogoImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 `
 
 const areEqual = (prevProps, nextProps) => {
@@ -123,18 +132,26 @@ const areEqual = (prevProps, nextProps) => {
   )
 }
 
-export const Logo = memo(({ logo, getImageUrl, isPreviewMobile, isTeaserLinks, isSidePreview }) => {
-  return (
-    <LogoImage
-      isPreviewMobile={isPreviewMobile}
-      orientation={logo.image.orientation}
-      src={getImageUrl({
-        image: logo.image,
-        maxWidth: LogoSizeMax[logo.size],
-      })}
-      size={logo.size}
-      isTeaserLinks={isTeaserLinks}
-      isSidePreview={isSidePreview}
-    />
-  )
-}, areEqual)
+export const Logo = memo(
+  ({ logo, getImageUrl, isEditMode, isPreviewMobile, isTeaserLinks, isSidePreview }) => {
+    return (
+      <ImageContainer
+        isPreviewMobile={isPreviewMobile}
+        orientation={logo.image.orientation}
+        size={logo.size}
+        isTeaserLinks={isTeaserLinks}
+        isSidePreview={isSidePreview}
+      >
+        {/* {(true || isEditMode) && <EditButton top="0">Logo image</EditButton>} */}
+
+        <LogoImage
+          src={getImageUrl({
+            image: logo.image,
+            maxWidth: LogoSizeMax[logo.size],
+          })}
+        />
+      </ImageContainer>
+    )
+  },
+  areEqual
+)
