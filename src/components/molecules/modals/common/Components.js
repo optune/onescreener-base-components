@@ -396,6 +396,34 @@ export const Text = styled.p`
   width: 100%;
   margin: ${({ margin }) => (margin > '' ? `${margin} !important` : 'initial')};
 
+  &.editor {
+    overflow-y: auto;
+    max-height: 35vh;
+
+    ol,
+    ul {
+      list-style: auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+    }
+    h3 {
+      font-size: 1.17rem;
+    }
+
+    h1,
+    h2,
+    h3,
+    strong,
+    b {
+      font-weight: 600;
+    }
+  }
+
   &.center {
     text-align: center;
   }

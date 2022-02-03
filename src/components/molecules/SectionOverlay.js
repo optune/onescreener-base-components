@@ -268,7 +268,7 @@ export const SectionOverlay = ({
   )
 
   if (isLinks) {
-    console.log({ top, left, right, bottom, topMobile, leftMobile, rightMobile, bottomMobile })
+    // console.log({ top, left, right, bottom, topMobile, leftMobile, rightMobile, bottomMobile })
   }
   return (
     <Container
