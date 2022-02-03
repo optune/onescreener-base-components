@@ -297,7 +297,7 @@ export const Page = ({
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
         >
-          {!showRedirectOverlay && (
+          {!showRedirectOverlay && isSidePreview && (
             <div className="page-container-edit-mode" onClick={onEditModeClick} />
           )}
           {showUpgradeOverlay && <UpgradeOverlay onUpgrade={onUpgrade} ProTag={ProTag} />}
