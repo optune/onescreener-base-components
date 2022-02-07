@@ -22,10 +22,10 @@ nav {
 
 main {
   position: absolute;
-  top: 79px;
+  top: 75px;
   left: 0;
   width: 100%;
-  height: calc(100% - 79px);
+  height: calc(100% - 75px);
 
   @media #{$small} {
     height: 100%;
