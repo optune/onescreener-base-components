@@ -145,7 +145,6 @@ export const LinksBox = ({
 }) => {
   const positionLinks = position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'
 
-  console.log({ positionLinks })
   return (
     <Fragment>
       {showRedirectOverlay && (
