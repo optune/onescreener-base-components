@@ -19,6 +19,11 @@ import { ForegroundColor } from '../../style/color'
 import { RGBToHex } from '../../utils/convertRGBtoHEX'
 import { ArrowLeftIcon, ArrowRightIcon } from '../icons/navigation/Arrow'
 import { getTeaserLinkIcon } from './utils/getTeaserLinkIcon'
+import {
+  getFilteredTeaserLinksList,
+  getTeaserLinksValueLength,
+  isDoubleSize,
+} from './utils/getTeaserLinksSettings'
 
 const TEASER_LINKS_HEIGHT = 50
 const TEASER_LINKS_MARGIN = 10
@@ -93,7 +98,7 @@ const Container = styled.div`
 
     &.navigation {
       width: auto;
-      min-height: ${({ isSidePreview }) => (isSidePreview ? '19px' : '38px')};
+      min-height: ${({ isSidePreview }) => (isSidePreview ? '28px' : '38px')};
       padding: 0 18px;
       border-radius: 50px;
       align-items: center;
@@ -317,8 +322,6 @@ const Container = styled.div`
 
 const TeaserLink = styled.a``
 
-const isDoubleSize = (link = {}) => link.isShop || link.isSession
-
 export const TeaserLinksBox = ({
   analyticsLivePage,
   color,
@@ -382,10 +385,8 @@ export const TeaserLinksBox = ({
   const isSmall = useMediaQuery({ query: MediaSmall })
 
   useEffect(() => {
-    let teaserLinksFiltered = teaserLinks
-      .filter(({ visible }) => (typeof visible === 'undefined' ? true : !!visible))
-      .filter(({ isShop, isSession }) => (isShop || isSession ? shopEnabled : true))
-    let value = teaserLinksFiltered.reduce((acc, curr) => acc + (isDoubleSize(curr) ? 2 : 1), 0)
+    let teaserLinksFiltered = getFilteredTeaserLinksList({ list: teaserLinks, shopEnabled })
+    let value = getTeaserLinksValueLength({ list: teaserLinks, shopEnabled })
     let actualList = [teaserLinksFiltered]
 
     let windowHeight = window.innerHeight
@@ -537,19 +538,20 @@ export const TeaserLinksBox = ({
               target="_blank"
               rel="noreferrer"
               onClick={() => {
-                trackingVisitorEvents({
-                  visitorSession,
-                  domainName,
-                  category: {
-                    teaserLinks: {
-                      event: {
-                        name,
-                        url,
+                if (!isSidePreview) {
+                  trackingVisitorEvents({
+                    visitorSession,
+                    domainName,
+                    category: {
+                      teaserLinks: {
+                        event: {
+                          name,
+                          url,
+                        },
                       },
                     },
-                  },
-                }).then((r) => r)
-
+                  }).then((r) => r)
+                }
                 if (!isSidePreview && (isShop || isSession)) {
                   onLoadShopItem?.({ itemId: _id }).then((item) => {
                     if (item.shop.maxQuantity > -1 || item.isSession) {
@@ -602,7 +604,7 @@ export const TeaserLinksBox = ({
                       {!!Icon && <Icon />}
                     </span>
                     <span className={classNames('price', 'subtitle', { subtitle: isSession })}>
-                      {CurrencySign[shop.currency] || '$'} {shop.price}
+                      {CurrencySign[shop.currency] || '$'} {Number(shop.price).toFixed(2)}
                     </span>
 
                     {isSession && duration > '' && (

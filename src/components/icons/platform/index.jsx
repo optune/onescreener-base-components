@@ -55,6 +55,7 @@ import { QuoraIcon } from './Quora.jsx'
 import { RedditIcon } from './Reddit.jsx'
 import { RequestFormIcon } from './RequestForm.jsx'
 import { ResidentAdvisorIcon } from './ResidentAdvisor.jsx'
+import { SnapchatIcon } from './Snapchat.jsx'
 import { SoundcloudIcon } from './Soundcloud.jsx'
 import { SpotifyIcon } from './Spotify.jsx'
 import { TechRiderIcon } from './TechRider.jsx'
@@ -129,6 +130,7 @@ export const PlatformLinkIcon = {
   QUORA: QuoraIcon,
   REDDIT: RedditIcon,
   RESIDENTADVISORY: ResidentAdvisorIcon,
+  SNAPCHAT: SnapchatIcon,
   SOUNDCLOUD: SoundcloudIcon,
   SPOTIFY: SpotifyIcon,
   TELEGRAM: TelegramIcon,
