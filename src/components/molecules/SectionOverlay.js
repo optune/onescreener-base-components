@@ -305,7 +305,7 @@ export const SectionOverlay = ({
   isLogo,
   isPreviewMobile,
   isTeaserLinks,
-  isTest = true,
+  isTest = false,
   linksPosition,
   logoPosition,
   onClick,
