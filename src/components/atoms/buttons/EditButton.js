@@ -21,7 +21,7 @@ const IconButton = styled.button`
   transform: ${({ transform }) => transform || 'translateX(-50%)'};
   min-width: ${ButtonHeight}px;
   min-height: ${ButtonHeight}px;
-  height: ${ButtonHeight}px;
+  height: ${({ buttonHeight }) => buttonHeight || ButtonHeight}px;
   width: ${ButtonHeight}px;
   color: ${ForegroundColor.accent};
   background-color: ${BackgroundColor.accentSecondary};
@@ -79,10 +79,10 @@ const IconButton = styled.button`
   align-items: center;
 `
 
-export const EditButton = ({ children, ...other }) => {
+export const EditButton = ({ children, className, ...other }) => {
   return (
     <IconButton
-      className={classNames({
+      className={classNames(className, {
         extended: !!children,
       })}
       {...other}

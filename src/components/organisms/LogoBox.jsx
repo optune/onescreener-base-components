@@ -10,6 +10,10 @@ import { LogoText } from '../atoms/LogoText.jsx'
 import { MediaMobile, MediaSmall } from '../../style/media'
 import { SectionOverlay } from '../molecules/SectionOverlay.js'
 
+// Utils
+import { getLogoPosition } from './utils/getLogoSettings.js'
+import { getContentPosition } from './utils/getContentSettings.js'
+
 const stylesLogoDesktop = `
 &.desktop- {
   &top-left {
@@ -238,29 +242,8 @@ const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
   }
 }
 
-/*
- * Get classnames for logo position
- */
-
-const getLogoPosition = ({ logo }) => {
-  const positionDesktop = (logo.positionDesktop > '' && logo.positionDesktop) || logo.position
-
-  const classnameDesktop =
-    (positionDesktop > '' && positionDesktop.toLowerCase().replace('_', '-')) || 'top-center'
-
-  const logoPosition =
-    (logo.isDifferentPositions && logo.positionMobile) || logo.positionDesktop || logo.position
-
-  const classnameMobile =
-    (logoPosition > '' && logoPosition.toLowerCase().replace('_', '-')) || 'top-center'
-
-  return {
-    classnameMobile,
-    classnameDesktop,
-  }
-}
-
 export const LogoBox = ({
+  content,
   design,
   getImageUrl,
   isEditMode,
@@ -284,6 +267,7 @@ export const LogoBox = ({
       {showRedirectOverlay && (
         <SectionOverlay
           color="gray"
+          contentPosition={getContentPosition({ content })}
           isExtended={isLogoText ? !logo.text?.title : !logo.image?.url}
           isLogo
           isPreviewMobile={isPreviewMobile}

@@ -323,6 +323,7 @@ export const Page = ({
             {/* Logo */}
             {logo && (
               <LogoBox
+                content={content}
                 design={isThemeSelected && design}
                 getImageUrl={getUrl}
                 isEditMode={showRedirectOverlay}
@@ -352,6 +353,7 @@ export const Page = ({
               isProPlanRequired={isProPlanRequired}
               isSidePreview={isSidePreview}
               links={links}
+              logo={logo}
               modalShop={modalShop}
               onContentSectionClick={onContentSectionClick}
               onLoadShopItem={onLoadShopItem}
