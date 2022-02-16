@@ -436,6 +436,7 @@ const Container = styled.div`
     (isTeaserLinks || isGigs) &&
     css`
       min-width: ${({ isSidePreview }) => (isSidePreview ? '255px' : '315px')};
+      width: ${({ isSidePreview }) => (isSidePreview ? '50%' : '85%')};
     `}
 
 
@@ -507,6 +508,7 @@ export const ContentBox = ({
   onLoadShopItem,
   pageUrl,
   setModalShop,
+  setModalEmbed,
   showRedirectOverlay,
   showStatistics,
   shopEnabled,
@@ -582,6 +584,10 @@ export const ContentBox = ({
           position: isTeaserLinks ? '2/1' : positionMobile,
           span: isTeaserLinks ? '1/2' : spanMobile,
         })
+
+  const isLegacy = !!area
+  const isLegacyMobile = !!areaMobile
+
   const { border, circle, square } = links
 
   /*
@@ -630,9 +636,12 @@ export const ContentBox = ({
           isSidePreview={isSidePreview}
           isPreviewMobile={isPreviewMobile}
           isPreviewMobileReady={isPreviewMobileReady}
+          isLegacy={isLegacy}
+          isLegacyMobile={isLegacyMobile}
           modalShop={modalShop}
           onLoadShopItem={onLoadShopItem}
           setModalShop={setModalShop}
+          setModalEmbed={setModalEmbed}
           shopEnabled={shopEnabled}
           showStatistics={showStatistics}
           statisticsPeriod={statisticsPeriod}
@@ -692,8 +701,8 @@ export const ContentBox = ({
         isDifferentPositions={isDifferentPositions}
       >
         <Container
-          isLegacy={!!area}
-          isLegacyMobile={!!areaMobile}
+          isLegacy={isLegacy}
+          isLegacyMobile={isLegacyMobile}
           isSidePreview={isSidePreview}
           isPreviewMobile={isPreviewMobile}
           isTeaserLinks={isTeaserLinks}

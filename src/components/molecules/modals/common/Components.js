@@ -9,7 +9,7 @@ import { Button } from '../../../atoms/buttons/Button'
 import { MediaMobile, MediaSmall } from '../../../../style/media.js'
 
 // Styles
-import { BackgroundColor, ForegroundColor, ColorHaiti } from '../../../../style/color'
+import { ForegroundColor } from '../../../../style/color'
 
 const StyledModal = styled.div`
   position: ${({ isSidePreview }) => (isSidePreview ? 'absolute' : 'fixed')};
@@ -18,11 +18,11 @@ const StyledModal = styled.div`
   right: 0;
   bottom: 0;
   opacity: ${({ show }) => (show ? 1 : 0)};
+  pointer-events: ${({ show }) => (show ? 'all' : 'none')};
   z-index: 999999;
   overflow: hidden;
   background-color: ${({ isPreviewMobile }) =>
     isPreviewMobile ? 'transparent' : 'rgba(0,0,0, 0.50)'};
-  pointer-events: none;
   transition: opacity 0.5s ease-out;
 `
 
@@ -45,10 +45,12 @@ const StyledModalContent = styled.div`
   overflow: hidden;
 
   @media ${MediaSmall} {
+    top: 50%;
+    transform: translateY(-50%);
     margin: 0;
     width: 100%;
     max-width: unset;
-    height: ${({ height }) => height || '100%'};
+    height: ${({ height }) => height || 'auto'};
 
     &.checkout {
       height: auto;
@@ -63,6 +65,7 @@ export const Modal = ({
   show,
   isPreviewMobile,
   isSidePreview,
+  onClose,
   width,
   maxWidth,
   height,
@@ -74,6 +77,7 @@ export const Modal = ({
       show={show}
       isPreviewMobile={isPreviewMobile}
       isSidePreview={isSidePreview}
+      onClick={onClose}
     >
       <StyledModalContent
         show={show}
@@ -107,8 +111,11 @@ export const Container = styled.div`
   background: ${({ colorBackground }) => colorBackground || 'rgba(255,255,255)'};
   border-radius: 4px;
   position: relative;
-  overflow-y: auto;
   max-height: 90vh;
+
+  &.height-100 {
+    height: 100%;
+  }
 
   &.overflow-y {
     overflow-y: auto;
@@ -122,7 +129,17 @@ export const Container = styled.div`
     g {
       path {
         fill: white !important;
+        stroke: none;
       }
+    }
+  }
+
+  svg.icon {
+    height: 20px;
+    width: 20px;
+
+    * {
+      stroke: ${ForegroundColor.secondary};
     }
   }
 
@@ -189,6 +206,10 @@ export const Container = styled.div`
       }
     }
 
+    &.auto {
+      width: auto;
+    }
+
     &.fullwidth {
       width: 100%;
     }
@@ -201,14 +222,23 @@ export const Container = styled.div`
       width: 33.33%;
     }
 
+    &.two-third {
+      width: 66.66%;
+    }
+
     &.left {
-      justify-content: flex-start;
+      justify-content: center;
       align-items: flex-start;
     }
 
     &.right {
-      justify-content: flex-end;
+      justify-content: center;
       align-items: flex-end;
+    }
+
+    &.space-between {
+      justify-content: space-between;
+      align-items: center;
     }
   }
 `
@@ -364,7 +394,7 @@ export const Text = styled.p`
   font-size: ${({ fontSize }) => fontSize || '1.5rem'};
   text-align: left;
   width: 100%;
-  margin: ${({ margin }) => `${margin} !important` || 'initial'};
+  margin: ${({ margin }) => (margin > '' ? `${margin} !important` : 'initial')};
 
   &.center {
     text-align: center;
@@ -380,6 +410,14 @@ export const Text = styled.p`
 
   &.info {
     color: ${ForegroundColor.info};
+  }
+
+  &.clip {
+    max-width: 220px;
+    max-height: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   &.bangers {

@@ -10,7 +10,9 @@ import { BackLink } from '../atoms/BackLink'
 // Molecules
 import { Links } from '../molecules/links/Links.jsx'
 import { TextModal } from '../molecules/modals/TextModal'
-import { ShopModal } from '../molecules/modals/ShopModal.js'
+import { MonetizationModal } from '../molecules/modals/MonetizationModal.js'
+import { MonetizationFinishedModal } from '../molecules/modals/MonetizationFinishedModal.js'
+import { EmbedModal } from '../molecules/modals/EmbedModal.js'
 import { BannerReferral } from '../molecules/banners/BannerReferral.js'
 
 // Background
@@ -28,7 +30,6 @@ import { getImageUrl } from '../../utils/getImageUrl.js'
 // Global Styles
 import GlobalStyle from '../../style/global.js'
 import { UpgradeOverlay } from '../molecules/UpgradeOverlay.js'
-import { ShopFinishedModal } from '../molecules/modals/ShopFinishedModal.js'
 import { MediaMobile } from '../../style/media'
 
 const PageContainer = styled.div`
@@ -241,6 +242,14 @@ export const Page = ({
     isOrderSuccess,
   })
 
+  const [modalEmbed, setModalEmbed] = useState({
+    show: false,
+    url: '',
+    autoplay: false,
+    mute: false,
+    type: 'link',
+  })
+
   let PageComponent = null
 
   if (page) {
@@ -328,6 +337,7 @@ export const Page = ({
               onLoadShopItem={onLoadShopItem}
               pageUrl={pageUrl}
               setModalShop={setModalShop}
+              setModalEmbed={setModalEmbed}
               shopEnabled={stripe?.shopEnabled}
               showRedirectOverlay={showRedirectOverlay}
               showStatistics={showStatistics}
@@ -338,7 +348,7 @@ export const Page = ({
 
             {!isSidePreview && (
               <Fragment>
-                <ShopModal
+                <MonetizationModal
                   getImageUrl={getUrl}
                   isSidePreview={isSidePreview}
                   isPreviewMobile={isPreviewMobile}
@@ -350,7 +360,7 @@ export const Page = ({
                   shopItem={modalShop.item}
                 />
 
-                <ShopFinishedModal
+                <MonetizationFinishedModal
                   isSidePreview={isSidePreview}
                   isPreviewMobile={isPreviewMobile}
                   onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
@@ -358,6 +368,21 @@ export const Page = ({
                   show={modalShop.isOrderSuccess}
                   onLoadOrder={onLoadOrder}
                   shopItem={modalShop.item}
+                />
+
+                <EmbedModal
+                  isSidePreview={isSidePreview}
+                  isPreviewMobile={isPreviewMobile}
+                  onClose={() => {
+                    setModalEmbed({ ...modalEmbed, show: false })
+
+                    /* To turn off the player after animation */
+                    setTimeout(() => {
+                      setModalEmbed({ show: false, url: '' })
+                    }, 350)
+                  }}
+                  show={modalEmbed.show}
+                  modalEmbed={modalEmbed}
                 />
               </Fragment>
             )}
