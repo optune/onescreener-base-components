@@ -400,9 +400,28 @@ export const Text = styled.p`
     overflow-y: auto;
     max-height: 35vh;
 
+    > p.white-space:last-child {
+      @media ${MediaMobile} {
+        margin-bottom: 3.5rem;
+      }
+    }
+
     ol,
     ul {
-      list-style: auto;
+      display: block;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      padding-inline-start: 40px;
+    }
+
+    ul {
+      list-style-type: disc;
+    }
+
+    ol {
+      list-style-type: decimal;
     }
 
     h1 {
@@ -491,6 +510,10 @@ export const StyledButtonContainer = styled.div`
   button {
     @media ${MediaMobile} {
       width: 90%;
+      margin: 0.5rem auto 0.5rem;
+      line-height: 1;
+      font-size: 13px;
+      min-height: 32px;
     }
   }
   &.gradient {
