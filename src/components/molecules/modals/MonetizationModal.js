@@ -152,6 +152,7 @@ const InfoForm = ({
 
       <Text as="div" left className="bangers editor" fontSize="1rem">
         {renderHtml(description)}
+        <p className="white-space"></p>
       </Text>
     </Fragment>
   )
