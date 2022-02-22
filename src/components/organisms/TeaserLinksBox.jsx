@@ -27,7 +27,7 @@ import {
 
 const TEASER_LINKS_HEIGHT = 50
 const TEASER_LINKS_MARGIN = 10
-const TEASER_LINKS_HEIGHT_SIDE_PREVIEW = 32
+const TEASER_LINKS_HEIGHT_SIDE_PREVIEW = 38
 
 const Container = styled.div`
   position: absolute;
@@ -47,7 +47,7 @@ const Container = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: ${({ isSidePreview }) => (isSidePreview ? '2' : '2')};
       -webkit-box-orient: vertical;
     }
   }
@@ -66,7 +66,7 @@ const Container = styled.div`
     min-height: ${({ isSidePreview }) =>
       isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT}px;
     height: auto;
-    font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '16px')};
+    font-size: ${({ isSidePreview }) => (isSidePreview ? '11px' : '16px')};
     font-weight: 600;
     color: ${({ color }) => (color ? color : ForegroundColor.secondary)};
     text-shadow: 1px 1px 1px rgba(46, 49, 49, 0.3);
@@ -87,8 +87,9 @@ const Container = styled.div`
     transition: all 0.3s ease-out;
 
     &.double {
-      min-height: ${({ isSidePreview }) => (isSidePreview ? '60px' : '100px')};
-      font-size: ${({ isSidePreview }) => (isSidePreview ? '16px' : '22px')};
+      min-height: ${({ isSidePreview }) =>
+        isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW * 2 : TEASER_LINKS_HEIGHT * 2}px;
+      font-size: ${({ isSidePreview }) => (isSidePreview ? '14px' : '22px')};
 
       .image-container {
         height: ${({ isSidePreview }) => (isSidePreview ? '42px' : '85px')};
@@ -171,17 +172,13 @@ const Container = styled.div`
     }
 
     .clip {
-      line-height: ${({ isSidePreview }) => (isSidePreview ? '16px' : '22px')};
-      max-width: ${({ isSidePreview }) => isSidePreview && '240px'};
+      line-height: ${({ isSidePreview }) => (isSidePreview ? '14px' : '22px')};
+      padding-right: 10px;
       max-height: 100%;
       overflow: hidden;
       overflow-wrap: break-word;
       white-space: normal;
       word-break: break-word;
-
-      @media ${MediaSmall} {
-        max-width: 240px;
-      }
     }
 
     .name-container {
