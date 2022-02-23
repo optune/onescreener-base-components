@@ -30,7 +30,7 @@ import { getImageUrl } from '../../utils/getImageUrl.js'
 // Global Styles
 import GlobalStyle from '../../style/global.js'
 import { UpgradeOverlay } from '../molecules/UpgradeOverlay.js'
-import { MediaMobile } from '../../style/media'
+import { MediaMobile, ZIndex2 } from '../../style/media'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -59,6 +59,17 @@ const PageContainer = styled.div`
 
   display: flex;
   overflow: hidden;
+
+  .page-container-edit-mode {
+    position:absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    // background-color: gray;
+    // opacity: 0.5;
+    z-index: ${ZIndex2};
+  }
 
   ${({ isSidePreview }) =>
     isSidePreview &&
@@ -142,19 +153,22 @@ export const Page = ({
   artistSlug,
   domainName,
   hasPro,
+  isEditMode,
   isInstagramBrowser,
   isOrderSuccess,
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  isSmall,
   Modal,
   noBacklink,
   onBuyItem,
   onContentSectionClick,
+  onEditModeClick,
   onLinksSectionClick,
   onLoadOrder,
-  onLogoSectionClick,
   onLoadShopItem,
+  onLogoSectionClick,
   onReferralOpen,
   onUpgrade,
   page,
@@ -168,6 +182,7 @@ export const Page = ({
   visitorSession,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
+
   useEffect(() => {
     setSsrDone(true)
 
@@ -261,7 +276,7 @@ export const Page = ({
       background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom'
     const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
 
-    const showRedirectOverlay = isSidePreview && !showStatistics
+    const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
 
     PageComponent = (
       <Fragment>
@@ -282,6 +297,9 @@ export const Page = ({
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
         >
+          {!showRedirectOverlay && isSidePreview && (
+            <div className="page-container-edit-mode" onClick={onEditModeClick} />
+          )}
           {showUpgradeOverlay && <UpgradeOverlay onUpgrade={onUpgrade} ProTag={ProTag} />}
           {/* // TODO: Try to move SectionOverlay for all components here --> sectionOverlays.map(s => <SectionOverlay {...s} />) (To avoid unnecessary prop drilling) */}
           {ssrDone && (
@@ -305,18 +323,20 @@ export const Page = ({
             {/* Logo */}
             {logo && (
               <LogoBox
+                content={content}
                 design={isThemeSelected && design}
-                logo={logo}
-                links={links}
                 getImageUrl={getUrl}
+                isEditMode={showRedirectOverlay}
                 isPreviewMobile={isPreviewMobile}
                 isPreviewMobileReady={isPreviewMobileReady}
+                isProPlanRequired={isProPlanRequired}
                 isSidePreview={isSidePreview}
                 isTeaserLinks={content.type === 'TEASER_LINKS'}
-                isProPlanRequired={isProPlanRequired}
+                links={links}
+                logo={logo}
+                onLogoSectionClick={onLogoSectionClick}
                 showRedirectOverlay={showRedirectOverlay}
                 zIndex={10}
-                onLogoSectionClick={onLogoSectionClick}
               />
             )}
 
@@ -327,17 +347,19 @@ export const Page = ({
               design={isThemeSelected && design}
               domainName={domainName}
               getImageUrl={getUrl}
+              isEditMode={showRedirectOverlay}
               isPreviewMobile={isPreviewMobile}
               isPreviewMobileReady={isPreviewMobileReady}
               isProPlanRequired={isProPlanRequired}
               isSidePreview={isSidePreview}
               links={links}
+              logo={logo}
               modalShop={modalShop}
               onContentSectionClick={onContentSectionClick}
               onLoadShopItem={onLoadShopItem}
               pageUrl={pageUrl}
-              setModalShop={setModalShop}
               setModalEmbed={setModalEmbed}
+              setModalShop={setModalShop}
               shopEnabled={stripe?.shopEnabled}
               showRedirectOverlay={showRedirectOverlay}
               showStatistics={showStatistics}
@@ -387,77 +409,77 @@ export const Page = ({
               </Fragment>
             )}
 
-            {/* Links */}
+            {/* Links // TODO: add check for Text or Donation icon to show TextModal */}
             {links.list.length > 0 && (
-              <Fragment>
-                <TextModal
-                  border={links.border}
-                  circle={links.circle}
-                  color={
-                    (isThemeSelected && design?.theme?.links?.colorLinks) ||
-                    links.colorLinks ||
-                    content.color
-                  }
-                  colorAccent={
-                    (isThemeSelected && design?.theme?.links?.colorLinksAccent) ||
-                    links.colorLinksAccent ||
-                    content.colorAccent
-                  }
-                  colorBackground={
-                    (isThemeSelected && design?.theme?.links?.colorLinksBackground) ||
-                    links.colorLinksBackground ||
-                    content.colorBackground
-                  }
-                  colorBackgroundAccent={
-                    (isThemeSelected && design?.theme?.links?.colorLinksBackgroundAccent) ||
-                    links.colorLinksBackgroundAccent ||
-                    content.colorBackgroundAccent
-                  }
-                  title={modalData.title}
-                  content={modalData.content}
-                  paypalLink={modalData.paypalLink}
-                  userName={userName || page.userName}
-                  isPreviewMobile={isPreviewMobile}
-                  isSidePreview={isSidePreview}
-                  label={modalData.label}
-                  onAction={modalData.onAction}
-                  hasActionFinished={modalData.hasActionFinished}
-                  onClose={() => setModalData({ ...modalData, show: false })}
-                  show={modalData.show}
-                  square={links.square}
-                />
-
-                <LinksBox
-                  position={links.position}
-                  zIndex={99}
-                  isSidePreview={isSidePreview}
-                  isPreviewMobile={isPreviewMobile}
-                  isInstagramBrowser={isInstagramBrowser}
-                  showRedirectOverlay={showRedirectOverlay}
-                  onLinksSectionClick={onLinksSectionClick}
-                  hasPro={hasPro}
-                >
-                  {Links({
-                    content,
-                    design,
-                    isThemeSelected,
-                    isPreviewMobile,
-                    isSidePreview,
-                    analyticsLivePage,
-                    isProPlanRequired,
-                    statisticsPeriod,
-                    showStatistics,
-                    links,
-                    Modal,
-                    modalData,
-                    pageUrl,
-                    setModalData,
-                    trackingVisitorEvents,
-                    domainName,
-                  })}
-                </LinksBox>
-              </Fragment>
+              <TextModal
+                border={links.border}
+                circle={links.circle}
+                color={
+                  (isThemeSelected && design?.theme?.links?.colorLinks) ||
+                  links.colorLinks ||
+                  content.color
+                }
+                colorAccent={
+                  (isThemeSelected && design?.theme?.links?.colorLinksAccent) ||
+                  links.colorLinksAccent ||
+                  content.colorAccent
+                }
+                colorBackground={
+                  (isThemeSelected && design?.theme?.links?.colorLinksBackground) ||
+                  links.colorLinksBackground ||
+                  content.colorBackground
+                }
+                colorBackgroundAccent={
+                  (isThemeSelected && design?.theme?.links?.colorLinksBackgroundAccent) ||
+                  links.colorLinksBackgroundAccent ||
+                  content.colorBackgroundAccent
+                }
+                title={modalData.title}
+                content={modalData.content}
+                paypalLink={modalData.paypalLink}
+                userName={userName || page.userName}
+                isPreviewMobile={isPreviewMobile}
+                isSidePreview={isSidePreview}
+                label={modalData.label}
+                onAction={modalData.onAction}
+                hasActionFinished={modalData.hasActionFinished}
+                onClose={() => setModalData({ ...modalData, show: false })}
+                show={modalData.show}
+                square={links.square}
+              />
             )}
+
+            <LinksBox
+              hasPro={hasPro}
+              isEditMode={showRedirectOverlay}
+              isInstagramBrowser={isInstagramBrowser}
+              isPreviewMobile={isPreviewMobile}
+              isSidePreview={isSidePreview}
+              links={links}
+              onLinksSectionClick={onLinksSectionClick}
+              position={links.position}
+              showRedirectOverlay={showRedirectOverlay}
+              zIndex={99}
+            >
+              {Links({
+                content,
+                design,
+                isThemeSelected,
+                isPreviewMobile,
+                isSidePreview,
+                analyticsLivePage,
+                isProPlanRequired,
+                statisticsPeriod,
+                showStatistics,
+                links,
+                Modal,
+                modalData,
+                pageUrl,
+                setModalData,
+                trackingVisitorEvents,
+                domainName,
+              })}
+            </LinksBox>
           </ForegroundContainer>
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
           {!hasPro && !isSidePreview && (

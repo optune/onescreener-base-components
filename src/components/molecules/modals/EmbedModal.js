@@ -8,7 +8,7 @@ import { TeaserLinkType } from '../../../api'
 
 // Molecules
 import { ReactPlayer } from '../embed/ReactPlayer'
-import { isOpensea, OpenseaEmbed } from '../../..'
+import { OpenseaEmbed } from '../../../components/atoms/OpenseaEmbed'
 
 // Styles
 import { CloseDarkIcon } from '../../icons/CloseIcon'
@@ -22,7 +22,7 @@ import { isSpotify } from '../../../utils/teaserLinks/players/spotify'
 import { isDeezer } from '../../../utils/teaserLinks/players/deezer'
 import { isApple } from '../../../utils/teaserLinks/players/apple'
 import { isMixcloud, isSoundcloud } from '../../../utils/teaserLinks/players/music'
-
+import { isOpensea } from '../../../utils/teaserLinks/integrations/opensea'
 import { isFacebook, isWistia } from '../../../utils/teaserLinks/players/video'
 
 const getMusicHeight = (url, isSmall) => {

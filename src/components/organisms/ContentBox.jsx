@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import styled, { css } from 'styled-components'
+
+// Atoms
+import { EditButton } from '../atoms/buttons/EditButton.js'
 
 import { TextBox } from './TextBox.jsx'
 import { GigsBox } from './GigsBox.jsx'
@@ -10,8 +13,13 @@ import { TeaserLinksBox } from './TeaserLinksBox.jsx'
 
 import { MediaMobile, NotMediaMobile } from '../../style/media.js'
 
-import { renderHtml } from '../../utils/renderHtml.js'
 import { SectionOverlay } from '../molecules/SectionOverlay.js'
+
+// Utils
+import { renderHtml } from '../../utils/renderHtml.js'
+import { getTeaserLinksValueLength } from './utils/getTeaserLinksSettings.js'
+import { getLogoPosition } from './utils/getLogoSettings.js'
+import { getContentPosition } from './utils/getContentSettings.js'
 
 const stylesContentDesktop = `
 &.desktop- {
@@ -452,7 +460,7 @@ const Container = styled.div`
     isTeaserLinks &&
     css`
       top: 4%;
-      height: ${({ isSidePreview }) => (isSidePreview ? '80%' : '65%')};
+      height: 65;
     `}
 
   @media ${MediaMobile} {
@@ -471,47 +479,28 @@ const Container = styled.div`
 
 `
 
-const getContentPosition = ({ content }) => {
-  const positionDesktop =
-    (content.positionDesktop > '' && content.positionDesktop) || content.position
-
-  const classnameDesktop =
-    (positionDesktop > '' && positionDesktop.toLowerCase().replace('_', '-')) || 'top-center'
-
-  const contentPosition =
-    (content.isDifferentPositions && content.positionMobile) ||
-    content.positionDesktop ||
-    content.position
-
-  const classnameMobile =
-    (contentPosition > '' && contentPosition.toLowerCase().replace('_', '-')) || 'top-center'
-
-  return {
-    classnameMobile,
-    classnameDesktop,
-  }
-}
-
 export const ContentBox = ({
   analyticsLivePage,
   content,
   design,
   domainName,
   getImageUrl,
+  isEditMode,
   isPreviewMobile,
   isPreviewMobileReady,
   isProPlanRequired,
   isSidePreview,
   links,
+  logo,
   modalShop,
   onContentSectionClick,
   onLoadShopItem,
   pageUrl,
-  setModalShop,
   setModalEmbed,
+  setModalShop,
+  shopEnabled,
   showRedirectOverlay,
   showStatistics,
-  shopEnabled,
   statisticsPeriod,
   trackingVisitorEvents,
   visitorSession,
@@ -671,19 +660,24 @@ export const ContentBox = ({
       Content = null
   }
 
+  const teaserLinksValue = getTeaserLinksValueLength({ list: teaserLinks?.list, shopEnabled })
   return fullscreen ? (
     <FullscreenContainer>{Content}</FullscreenContainer>
   ) : (
     <Fragment>
       {showRedirectOverlay && (
         <SectionOverlay
-          positionDesktop={position.classnameDesktop}
-          positionMobile={position.classnameMobile}
-          linksPosition={links?.list?.length > 0 ? links?.position : ''}
-          onClick={onContentSectionClick}
+          color={'red'}
+          isContent
+          isExtended={isTeaserLinks && teaserLinksValue === 0}
           isPreviewMobile={isPreviewMobile}
           isTeaserLinks={isTeaserLinks}
-          color={'red'}
+          linksPosition={links?.list?.length > 0 ? links?.position : ''}
+          logoPosition={getLogoPosition({ logo })}
+          onClick={onContentSectionClick}
+          positionDesktop={position.classnameDesktop}
+          positionMobile={position.classnameMobile}
+          teaserLinksValue={teaserLinksValue}
         />
       )}
       <ResponsiveContainer

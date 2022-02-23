@@ -22,10 +22,10 @@ nav {
 
 main {
   position: absolute;
-  top: 79px;
+  top: 75px;
   left: 0;
   width: 100%;
-  height: calc(100% - 79px);
+  height: calc(100% - 75px);
 
   @media #{$small} {
     height: 100%;
@@ -256,7 +256,7 @@ main {
 .column {
   display: block;
   float: left;
-  padding: 0 20px;
+  padding: 0 12px;
 
   &.float-right {
     float: right;
@@ -268,7 +268,7 @@ main {
 
   /* less padding for nested columns */
   & .column {
-    padding: 0 10px;
+    padding: 0 5px;
   }
 
   &.inline {

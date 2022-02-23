@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { ComponentLoading } from '../..'
+import { ComponentLoading } from '../../components/molecules/loaders/ComponentLoading'
 
 // Utils
 import { getOpenseaUrl } from '../../utils/teaserLinks/integrations/opensea'
