@@ -125,9 +125,6 @@ const getPositionDesktop = ({
     right = 30.333
     bottom = 42
 
-    if (!isLogo) {
-      // console.log({ teaserLinksValueDESKTOP: teaserLinksValue })
-    }
     if (teaserLinksValue > 1) {
       top -= teaserLinksValue * 3.1
       bottom -= teaserLinksValue * 3.6
@@ -210,8 +207,6 @@ const getPositionMobile = ({
     right = 0
     bottom = 41 // - 28
 
-    // // console.log('is teaser links yes')
-
     if (teaserLinksValue > 1) {
       top -= teaserLinksValue * 2.2
       bottom -= teaserLinksValue * 3
@@ -220,16 +215,11 @@ const getPositionMobile = ({
       if (bottom < 18) bottom = 18
     }
 
-    // // console.log({ topLINKS: top, bottomLINKS: bottom })
-
     if (isLogo) {
-      // // console.log('is LOGO teaser links yes')
       top = 0
       left = 0
       right = 0
       bottom = 80
-
-      // // console.log({ top, bottom })
     }
   }
 
@@ -266,7 +256,6 @@ const getEditButtonSettings = ({
 
   if (isExtended) title = isOverlappingLogoContent ? 'Edit Content' : 'Add Content'
 
-  // // console.log({ isLinks, isLogo, positionDesktop })
   if (isLinks) {
     const [yLinks, xLinks] = getAxis(positionDesktop)
     top = '10px'
@@ -315,7 +304,6 @@ export const SectionOverlay = ({
 }) => {
   const mappedLinksPosition = linksPosition?.toLowerCase().replace('_', '-') || ''
 
-  // console.log({ mappedLinksPosition })
   let isOverlappingLogoContent = false
 
   if (isLogo && !isTeaserLinks)
@@ -328,10 +316,8 @@ export const SectionOverlay = ({
       : logoPosition.classnameDesktop === positionDesktop
 
   if (isLogo) {
-    // console.log({ logoovelap: isOverlappingLogoContent })
   }
   if (isContent) {
-    // console.log({ contentovelap: isOverlappingLogoContent })
   }
 
   const isMobile = useMediaQuery({ query: MediaSmall })
@@ -350,8 +336,6 @@ export const SectionOverlay = ({
     isPreviewMobile,
     positionDesktop,
   })
-
-  // // console.log({ title, topEdit, leftEdit, rightEdit, transformEdit })
 
   const { top, left, right, bottom } = getPositionDesktop({
     isContent,

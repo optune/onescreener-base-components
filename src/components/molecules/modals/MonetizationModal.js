@@ -74,7 +74,6 @@ const InfoForm = ({
     [images]
   )
 
-  console.log({ description })
   return (
     <Fragment>
       <ImageViewer
