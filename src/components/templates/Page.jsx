@@ -272,10 +272,14 @@ export const Page = ({
     const { links } = page || { links: { list: [] } }
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
+    // console.log({ DESIGNbackground: design.background })
+
+    console.log({ designBASE: design, contentBASE: content, logo, links, selectedThemeId })
     const isBackgroundSelected =
       background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom'
     const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
 
+    console.log({ isThemeSelected })
     const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
 
     PageComponent = (
@@ -288,6 +292,7 @@ export const Page = ({
             ...background,
             isBackgroundSelected,
             selectedBackgroundUrl: design?.background?.url,
+            isSidePreview,
           })}
           ssrDone={ssrDone}
           focusPoint={background.focusPoint}
@@ -301,13 +306,15 @@ export const Page = ({
             <div className="page-container-edit-mode" onClick={onEditModeClick} />
           )}
           {showUpgradeOverlay && <UpgradeOverlay onUpgrade={onUpgrade} ProTag={ProTag} />}
-          {/* // TODO: Try to move SectionOverlay for all components here --> sectionOverlays.map(s => <SectionOverlay {...s} />) (To avoid unnecessary prop drilling) */}
+
           {ssrDone && (
             <Background
               background={{
                 ...background,
                 isBackgroundSelected,
                 selectedBackgroundUrl: design?.background?.url,
+                isSidePreview,
+                detached: true,
               }}
               color={background.color}
               designColor={isBackgroundSelected && design?.background?.color}

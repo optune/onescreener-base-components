@@ -30,8 +30,14 @@ export const getImageUrl = (isClient, isSocial) => ({
   blur,
   isBackgroundSelected,
   selectedBackgroundUrl,
+  isSidePreview,
+  detached,
 }) => {
   let imageUrl
+
+  // if (isSidePreview && !detached) console.log({ isBackgroundSelected, selectedBackgroundUrl })
+  // if (isSidePreview && detached)
+  //   console.log({ isBackgroundSelected, selectedBackgroundUrl, separate: true })
 
   if (isBackgroundSelected && !selectedBackgroundUrl) return ''
 
@@ -39,6 +45,8 @@ export const getImageUrl = (isClient, isSocial) => ({
     image = {}
     image.url = selectedBackgroundUrl
   }
+  // if (isSidePreview && !detached) console.log('hasImage here background')
+  // if (isSidePreview && detached) console.log('hasImage here SEPAREATE')
 
   if (image?.url > '') {
     const imagePath = getImagePath(image)

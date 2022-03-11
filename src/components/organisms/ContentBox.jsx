@@ -559,6 +559,10 @@ export const ContentBox = ({
       colorBackgroundDesign || teaserLinks?.colorLinksBackground || colorBackground,
   }
 
+  console.log({ colorDesign, colorBackgroundDesign })
+  console.log({ teaserLinks })
+  console.log({ colors })
+
   const area =
     positionLegacy === 'null' || span === 'null' || !positionLegacy || !span
       ? undefined
