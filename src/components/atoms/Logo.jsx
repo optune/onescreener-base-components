@@ -108,31 +108,35 @@ const LogoImage = styled.img`
   object-fit: contain;
 `
 
-const areEqual = (prevProps, nextProps) => {
-  return (
-    prevProps.isPreviewMobile === nextProps.isPreviewMobile &&
-    prevProps.isTeaserLinks === nextProps.isTeaserLinks &&
-    prevProps.logo.type === nextProps.logo.type &&
-    prevProps.logo.isDifferentPositions === nextProps.logo.isDifferentPositions &&
-    prevProps.logo.position === nextProps.logo.position &&
-    prevProps.logo.positionDesktop === nextProps.logo.positionDesktop &&
-    prevProps.logo.positionMobile === nextProps.logo.positionMobile &&
-    prevProps.logo.size === nextProps.logo.size &&
-    prevProps.logo.image?.height === nextProps.logo.image?.height &&
-    prevProps.logo.image?.orientation === nextProps.logo.image?.orientation &&
-    prevProps.logo.image?.public_id === nextProps.logo.image?.public_id &&
-    prevProps.logo.image?.url === nextProps.logo.image?.url &&
-    prevProps.logo.image?.width === nextProps.logo.image?.width &&
-    prevProps.logo.text?.color === nextProps.logo.text?.color &&
-    prevProps.logo.text?.font === nextProps.logo.text?.font &&
-    prevProps.logo.text?.fontURL === nextProps.logo.text?.fontURL &&
-    prevProps.logo.text?.shadowColor === nextProps.logo.text?.shadowColor &&
-    prevProps.logo.text?.shadowSize === nextProps.logo.text?.shadowSize &&
-    prevProps.logo.text?.title === nextProps.logo.text?.title
-  )
-}
+// const areEqual = (prevProps, nextProps) => {
+//   const isEqual =
+//     prevProps.isPreviewMobile === nextProps.isPreviewMobile &&
+//     prevProps.isTeaserLinks === nextProps.isTeaserLinks &&
+//     prevProps.logo.type === nextProps.logo.type &&
+//     prevProps.logo.isDifferentPositions === nextProps.logo.isDifferentPositions &&
+//     prevProps.logo.position === nextProps.logo.position &&
+//     prevProps.logo.positionDesktop === nextProps.logo.positionDesktop &&
+//     prevProps.logo.positionMobile === nextProps.logo.positionMobile &&
+//     prevProps.logo.size === nextProps.logo.size &&
+//     prevProps.logo.image?.height === nextProps.logo.image?.height &&
+//     prevProps.logo.image?.orientation === nextProps.logo.image?.orientation &&
+//     prevProps.logo.image?.public_id === nextProps.logo.image?.public_id &&
+//     prevProps.logo.image?.url === nextProps.logo.image?.url &&
+//     prevProps.logo.image?.width === nextProps.logo.image?.width &&
+//     prevProps.logo.text?.color === nextProps.logo.text?.color &&
+//     prevProps.logo.text?.font === nextProps.logo.text?.font &&
+//     prevProps.logo.text?.fontURL === nextProps.logo.text?.fontURL &&
+//     prevProps.logo.text?.shadowColor === nextProps.logo.text?.shadowColor &&
+//     prevProps.logo.text?.shadowSize === nextProps.logo.text?.shadowSize &&
+//     prevProps.logo.text?.title === nextProps.logo.text?.title
+//   console.log({ LOGO_EUQAL: isEqual })
+//   console.log({ LOGO_SIZE_BEFORE: prevProps.logo.size })
+//   console.log({ LOGO_SIZE_NOW: nextProps.logo.size })
+//   return isEqual
+// }
 
-export const Logo = memo(
+export const Logo =
+  // memo(
   ({ logo, getImageUrl, isEditMode, isPreviewMobile, isTeaserLinks, isSidePreview }) => {
     return (
       <ImageContainer
@@ -152,6 +156,7 @@ export const Logo = memo(
         />
       </ImageContainer>
     )
-  },
-  areEqual
-)
+  }
+// ,
+// areEqual
+// )
