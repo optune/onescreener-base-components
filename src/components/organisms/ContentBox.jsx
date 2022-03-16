@@ -546,13 +546,11 @@ export const ContentBox = ({
     colorBackground: colorBackgroundDesign,
     colorAccent: colorAccentDesign,
     colorBackgroundAccent: colorBackgroundAccentDesign,
-  } = design?.theme?.content || {}
 
-  const position = getContentPosition({ content })
-
-  const isTeaserLinks = type === 'TEASER_LINKS'
-  const isText = type === 'TEXT'
-  const isGigs = type === 'GIGS'
+    teaserLinks: { colorLinks: colorLinksDesign, colorLinksBackground: colorLinksBackgroundDesign },
+  } = design?.theme?.content || {
+    teaserLinks: {},
+  }
 
   const colors = {
     color: colorDesign || color,
@@ -560,10 +558,16 @@ export const ContentBox = ({
     colorBackground: colorBackgroundDesign || colorBackground,
     colorBackgroundAccent: colorBackgroundAccentDesign || colorBackgroundAccent,
 
-    colorLinks: colorDesign || teaserLinks?.colorLinks || color,
+    colorLinks: colorLinksDesign || teaserLinks?.colorLinks || color,
     colorLinksBackground:
-      colorBackgroundDesign || teaserLinks?.colorLinksBackground || colorBackground,
+      colorLinksBackgroundDesign || teaserLinks?.colorLinksBackground || colorBackground,
   }
+
+  const position = getContentPosition({ content })
+
+  const isTeaserLinks = type === 'TEASER_LINKS'
+  const isText = type === 'TEXT'
+  const isGigs = type === 'GIGS'
 
   const area =
     positionLegacy === 'null' || span === 'null' || !positionLegacy || !span
