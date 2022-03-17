@@ -546,11 +546,10 @@ export const ContentBox = ({
     colorBackground: colorBackgroundDesign,
     colorAccent: colorAccentDesign,
     colorBackgroundAccent: colorBackgroundAccentDesign,
+  } = design?.theme?.content || {}
 
-    teaserLinks: { colorLinks: colorLinksDesign, colorLinksBackground: colorLinksBackgroundDesign },
-  } = design?.theme?.content || {
-    teaserLinks: {},
-  }
+  const { colorLinks: colorLinksDesign, colorLinksBackground: colorLinksBackgroundDesign } =
+    design?.theme?.content?.teaserLinks || {}
 
   const colors = {
     color: colorDesign || color,
