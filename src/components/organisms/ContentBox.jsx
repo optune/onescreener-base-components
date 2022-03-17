@@ -11,7 +11,7 @@ import { MediaBox } from './MediaBox.jsx'
 import { CoverBox } from './CoverBox.jsx'
 import { TeaserLinksBox } from './TeaserLinksBox.jsx'
 
-import { MediaMobile, NotMediaMobile } from '../../style/media.js'
+import { MediaSmall, MediaMobile, NotMediaMobile } from '../../style/media.js'
 
 import { SectionOverlay } from '../molecules/SectionOverlay.js'
 
@@ -369,31 +369,37 @@ display: flex;
 z-index: 99;
 /* bottom: 5.2rem; */
 
-${({ isSidePreview, isTeaserLinks, linksPosition, contentPosition, isPreviewMobile }) =>
-  css`
+${({ isSidePreview, isTeaserLinks, linksPosition, contentPosition, isPreviewMobile }) => css`
+  bottom: ${linksPosition.includes('BOTTOM') &&
+  !isTeaserLinks &&
+  (isPreviewMobile
+    ? contentPosition.classnameMobile.toUpperCase().includes('BOTTOM')
+    : contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM')) &&
+  (isSidePreview ? '3.1rem' : '6.4rem')};
+  left: ${linksPosition.includes('LEFT') &&
+  !isTeaserLinks &&
+  (isPreviewMobile
+    ? contentPosition.classnameMobile.toUpperCase().includes('LEFT')
+    : contentPosition.classnameDesktop.toUpperCase().includes('LEFT')) &&
+  isSidePreview &&
+  !isPreviewMobile &&
+  '2.8rem'};
+  right: ${linksPosition.includes('RIGHT') &&
+  !isTeaserLinks &&
+  (isPreviewMobile
+    ? contentPosition.classnameMobile.toUpperCase().includes('RIGHT')
+    : contentPosition.classnameDesktop.toUpperCase().includes('RIGHT')) &&
+  isSidePreview &&
+  !isPreviewMobile &&
+  '2.8rem'};
+
+  @media ${MediaSmall} {
     bottom: ${linksPosition.includes('BOTTOM') &&
     !isTeaserLinks &&
-    (isPreviewMobile
-      ? contentPosition.classnameMobile.toUpperCase().includes('BOTTOM')
-      : contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM')) &&
+    contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') &&
     (isSidePreview ? '3.1rem' : '6.4rem')};
-    left: ${linksPosition.includes('LEFT') &&
-    !isTeaserLinks &&
-    (isPreviewMobile
-      ? contentPosition.classnameMobile.toUpperCase().includes('LEFT')
-      : contentPosition.classnameDesktop.toUpperCase().includes('LEFT')) &&
-    isSidePreview &&
-    !isPreviewMobile &&
-    '2.8rem'};
-    right: ${linksPosition.includes('RIGHT') &&
-    !isTeaserLinks &&
-    (isPreviewMobile
-      ? contentPosition.classnameMobile.toUpperCase().includes('RIGHT')
-      : contentPosition.classnameDesktop.toUpperCase().includes('RIGHT')) &&
-    isSidePreview &&
-    !isPreviewMobile &&
-    '2.8rem'};
-  `}
+  }
+`}
 
 
   ${stylesContentDesktop}
@@ -542,11 +548,8 @@ export const ContentBox = ({
     colorBackgroundAccent: colorBackgroundAccentDesign,
   } = design?.theme?.content || {}
 
-  const position = getContentPosition({ content })
-
-  const isTeaserLinks = type === 'TEASER_LINKS'
-  const isText = type === 'TEXT'
-  const isGigs = type === 'GIGS'
+  const { colorLinks: colorLinksDesign, colorLinksBackground: colorLinksBackgroundDesign } =
+    design?.theme?.content?.teaserLinks || {}
 
   const colors = {
     color: colorDesign || color,
@@ -554,14 +557,16 @@ export const ContentBox = ({
     colorBackground: colorBackgroundDesign || colorBackground,
     colorBackgroundAccent: colorBackgroundAccentDesign || colorBackgroundAccent,
 
-    colorLinks: colorDesign || teaserLinks?.colorLinks || color,
+    colorLinks: colorLinksDesign || teaserLinks?.colorLinks || color,
     colorLinksBackground:
-      colorBackgroundDesign || teaserLinks?.colorLinksBackground || colorBackground,
+      colorLinksBackgroundDesign || teaserLinks?.colorLinksBackground || colorBackground,
   }
 
-  console.log({ colorDesign, colorBackgroundDesign })
-  console.log({ teaserLinks })
-  console.log({ colors })
+  const position = getContentPosition({ content })
+
+  const isTeaserLinks = type === 'TEASER_LINKS'
+  const isText = type === 'TEXT'
+  const isGigs = type === 'GIGS'
 
   const area =
     positionLegacy === 'null' || span === 'null' || !positionLegacy || !span
