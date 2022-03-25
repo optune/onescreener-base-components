@@ -272,14 +272,10 @@ export const Page = ({
     const { links } = page || { links: { list: [] } }
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
-    // console.log({ DESIGNbackground: design.background })
-
-    console.log({ designBASE: design, contentBASE: content, logo, links, selectedThemeId })
     const isBackgroundSelected =
       background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom'
     const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
 
-    console.log({ isThemeSelected })
     const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
 
     PageComponent = (
