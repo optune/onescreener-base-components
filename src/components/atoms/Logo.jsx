@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
 
-import React, { memo } from 'react'
+import React from 'react'
 import styled, { css } from 'styled-components'
 
 // Atoms
-import { EditButton } from './buttons/EditButton'
 
 import { MediaSmall, MediaSmallMobile } from '../../style/media'
 
