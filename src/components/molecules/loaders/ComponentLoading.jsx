@@ -77,7 +77,7 @@ const Container = styled.div`
 
 export const ComponentLoading = ({ label, small, width }) => (
   <Container className="flex-center-middle animated" small={small}>
-    <LoadingContent small={small} width={width}>
+    <LoadingContent small={small} width={width} hasLabel={label > ''}>
       <LoadingCircle
         small={small}
         cx={width > '' ? width / 2 : small ? '15' : '30'}

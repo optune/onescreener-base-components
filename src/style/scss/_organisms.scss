@@ -86,11 +86,15 @@
 
     @media #{$small} {
       position: relative;
-      top: unset;
-      bottom: unset;
+      top: 20px;
+      bottom: 0;
+      width: 100%;
       left: unset;
       right: unset;
-      width: 100%;
+
+      &:not(.tall) {
+        height: 100%;
+      }
 
       &.tall {
         position: absolute;
@@ -98,6 +102,10 @@
         bottom: 0;
         left: 0;
         right: 0;
+
+        .modal-container {
+          height: auto;
+        }
       }
 
       &.plan-upgrade {
