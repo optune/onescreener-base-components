@@ -18,7 +18,7 @@ import { MediaSmall } from '../../../style/media'
 import { Modal, Container, CloseButton } from './common/Components'
 
 // Utils
-import { isSpotify } from '../../../utils/teaserLinks/players/spotify'
+import { isSpotify, isSpotifyPodcast } from '../../../utils/teaserLinks/players/spotify'
 import { isDeezer } from '../../../utils/teaserLinks/players/deezer'
 import { isApple } from '../../../utils/teaserLinks/players/apple'
 import { isMixcloud, isSoundcloud } from '../../../utils/teaserLinks/players/music'
@@ -27,6 +27,7 @@ import { isFacebook, isWistia } from '../../../utils/teaserLinks/players/video'
 
 const getMusicHeight = (url, isSmall) => {
   const isSpotifyUrl = isSpotify(url)
+  const isSpotifyPodcastUrl = isSpotifyPodcast(url)
   const isDeezerUrl = isDeezer(url)
   const isAppleUrl = isApple(url)
   const isMixcloudUrl = isMixcloud(url)
@@ -35,6 +36,7 @@ const getMusicHeight = (url, isSmall) => {
   let height = '200px'
 
   if (isSpotifyUrl) height = isSmall ? '400px' : '580px'
+  if (isSpotifyPodcastUrl) height = '231.5px'
   if (isDeezerUrl) height = '62px'
   if (isMixcloudUrl) height = '180px'
   if (isSoundcloudUrl) height = '600px'
@@ -135,6 +137,7 @@ export const EmbedModal = ({ isSidePreview, isPreviewMobile, onClose, show, moda
           ['height-100']: !isVideo,
           ['ratio']: isVideo,
           ['wrapper-16x9']: isVideo,
+          rounder: isSpotifyPodcast(modalEmbed.url),
         })}
       >
         <CloseButton onClick={onClose}>

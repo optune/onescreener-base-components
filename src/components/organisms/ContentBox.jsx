@@ -559,7 +559,10 @@ export const ContentBox = ({
 
     colorLinks: colorLinksDesign || teaserLinks?.colorLinks || color,
     colorLinksBackground:
-      colorLinksBackgroundDesign || teaserLinks?.colorLinksBackground || colorBackground,
+      colorLinksBackgroundDesign ||
+      (teaserLinks.isTransparent
+        ? 'transparent'
+        : teaserLinks?.colorLinksBackground || colorBackground),
   }
 
   const position = getContentPosition({ content })

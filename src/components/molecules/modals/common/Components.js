@@ -113,6 +113,10 @@ export const Container = styled.div`
   position: relative;
   max-height: 90vh;
 
+  &.rounder {
+    border-radius: 14px;
+  }
+
   &.height-100 {
     height: 100%;
   }
