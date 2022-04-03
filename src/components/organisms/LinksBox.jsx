@@ -165,6 +165,7 @@ export const LinksBox = ({
         isInstagramBrowser={isInstagramBrowser}
       >
         <LinksList
+          data-cy="icons-list"
           className={positionLinks}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
