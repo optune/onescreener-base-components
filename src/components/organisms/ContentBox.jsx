@@ -707,6 +707,7 @@ export const ContentBox = ({
         isDifferentPositions={isDifferentPositions}
       >
         <Container
+          data-cy="page-content-container"
           isLegacy={isLegacy}
           isLegacyMobile={isLegacyMobile}
           isSidePreview={isSidePreview}

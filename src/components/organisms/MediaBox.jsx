@@ -94,16 +94,12 @@ export const MediaBox = ({ media, isPreviewMobile, isSidePreview }) => {
   return media?.fullscreen
     ? Player && (
         <Fullscreen>
-          <Player
-            {...playerProps}
-          />
+          <Player {...playerProps} />
         </Fullscreen>
       )
     : Player && (
         <PlayerWrapper isPreviewMobile={isPreviewMobile}>
-          <Player
-            {...playerProps}
-          />
+          <Player {...playerProps} />
         </PlayerWrapper>
       )
 }
