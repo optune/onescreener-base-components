@@ -278,6 +278,10 @@ export const Page = ({
 
     const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
 
+    console.log({ pageBASE: page })
+    const showBanner = !page.hasProPlan || page.referral?.isOn
+    console.log({ showBanner })
+
     PageComponent = (
       <Fragment>
         <GlobalStyle />
@@ -482,7 +486,7 @@ export const Page = ({
             </LinksBox>
           </ForegroundContainer>
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
-          {!hasPro && !isSidePreview && (
+          {showBanner && !isSidePreview && (
             <BannerReferral artistSlug={artistSlug} onReferralOpen={onReferralOpen} />
           )}
         </PageContainer>

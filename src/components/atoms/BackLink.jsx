@@ -59,7 +59,7 @@ export const BackLink = ({ artistSlug, isPreviewMobile, isPro }) => (
     isPro={isPro}
   >
     <h1>
-      created with <strong>Onescreener</strong>
+      Create your <strong>Onescreener</strong>
     </h1>
   </StyledBackLink>
 )

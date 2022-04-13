@@ -75,6 +75,26 @@ const Text = styled.div`
   & h5 {
     font-size: 0.8em;
   }
+
+
+  ol,
+  ul {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
 `
 
 export const TextBox = ({
