@@ -560,7 +560,7 @@ export const ContentBox = ({
     colorLinks: colorLinksDesign || teaserLinks?.colorLinks || color,
     colorLinksBackground:
       colorLinksBackgroundDesign ||
-      (teaserLinks.isTransparent
+      (teaserLinks?.isTransparent
         ? 'transparent'
         : teaserLinks?.colorLinksBackground || colorBackground),
   }
