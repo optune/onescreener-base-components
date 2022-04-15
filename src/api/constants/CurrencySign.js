@@ -5,5 +5,5 @@ export const CurrencySign = {
   [Currency.EUR]: '€',
   [Currency.CHF]: 'CHF',
   [Currency.GBP]: '£',
-  [Currency.CAD]: 'C$',
+  [Currency.CAD]: 'CAD',
 }
