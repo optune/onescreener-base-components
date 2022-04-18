@@ -588,7 +588,7 @@ export const MonetizationModal = ({
             {step === 2 &&
               (buttonDisabled
                 ? 'Redirecting to checkout...'
-                : `Buy for ${currencySign} ${actualPrice}`)}
+                : `Buy for ${actualPrice} ${currencySign}`)}
           </StyledButton>
         </StyledButtonContainer>
       </Container>
