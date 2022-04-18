@@ -12,8 +12,8 @@ const Container = styled.div`
   bottom: ${({ bottom, bottomMobile, isPreviewMobile }) =>
     isPreviewMobile ? bottomMobile : bottom};
   left: ${({ left, leftMobile, isPreviewMobile }) => (isPreviewMobile ? leftMobile : left)};
-  background-color: ${({ colorSection }) => colorSection};
-  opacity: 1;
+  background-color: ${({ isTest, colorSection }) => (isTest ? colorSection : 'unset')};
+  opacity: ${({ isTest }) => (isTest ? 0.6 : 1)};
   z-index: 9999;
   cursor: pointer;
 `
@@ -26,14 +26,27 @@ const CENTER = 'center'
 
 const getAxis = (position) => (position > '' ? position.split('-') : ['', ''])
 
-const getPositionDesktop = (position, isLinks, isLogo, isTeaserLinks, linksPosition) => {
+const getPositionDesktop = ({
+  isContent,
+  isLinks,
+  isLogo,
+  isOverlappingLogoContent,
+  isTeaserLinks,
+  mappedLinksPosition,
+  positionDesktop,
+  teaserLinksValue,
+}) => {
   let top = 0,
     left = 0,
     right = 0,
     bottom = 0
 
-  const [y, x] = getAxis(position)
-  const [yLinks, xLinks] = getAxis(linksPosition)
+  const [y, x] = getAxis(positionDesktop)
+  const [yLinks, xLinks] = getAxis(mappedLinksPosition)
+
+  /*
+   * Rows settings
+   */
 
   if (y === TOP) {
     top = 0
@@ -53,7 +66,7 @@ const getPositionDesktop = (position, isLinks, isLogo, isTeaserLinks, linksPosit
     bottom = 0
 
     if (!isLinks && yLinks === BOTTOM) {
-      top = 51.666
+      top = 59.666
       bottom = 13
     }
 
@@ -61,6 +74,10 @@ const getPositionDesktop = (position, isLinks, isLogo, isTeaserLinks, linksPosit
       top = 87
     }
   }
+
+  /*
+   * Column settings
+   */
 
   if (x === RIGHT) {
     left = 66.666
@@ -98,11 +115,23 @@ const getPositionDesktop = (position, isLinks, isLogo, isTeaserLinks, linksPosit
     }
   }
 
+  /*
+   * Special cases settings
+   */
+
   if (isTeaserLinks) {
-    top = 17
+    top = 46
     left = 30.333
     right = 30.333
-    bottom = 17
+    bottom = 42
+
+    if (teaserLinksValue > 1) {
+      top -= teaserLinksValue * 3.1
+      bottom -= teaserLinksValue * 3.6
+
+      if (top < 19) top = 19
+      if (bottom < 17) bottom = 17
+    }
 
     if (isLogo) {
       top = 0
@@ -112,17 +141,39 @@ const getPositionDesktop = (position, isLinks, isLogo, isTeaserLinks, linksPosit
     }
   }
 
+  if (isOverlappingLogoContent) {
+    if (isLogo) {
+      left += 16.667
+    }
+    if (isContent) {
+      right += 16.667
+    }
+  }
+
   return { top: `${top}%`, left: `${left}%`, right: `${right}%`, bottom: `${bottom}%` }
 }
 
-const getPositionMobile = (position, isLinks, isLogo, isTeaserLinks, linksPosition) => {
+const getPositionMobile = ({
+  isContent,
+  isLinks,
+  isLogo,
+  isOverlappingLogoContent,
+  isTeaserLinks,
+  mappedLinksPosition,
+  positionMobile,
+  teaserLinksValue,
+}) => {
   let top = 0,
     left = 0,
     right = 0,
     bottom = 0
 
-  const [y, x] = getAxis(position)
-  const [yLinks, xLinks] = getAxis(linksPosition)
+  const [y, x] = getAxis(positionMobile)
+  const [yLinks, xLinks] = getAxis(mappedLinksPosition)
+
+  /*
+   * Rows settings
+   */
 
   if (y === TOP) {
     top = 0
@@ -146,17 +197,38 @@ const getPositionMobile = (position, isLinks, isLogo, isTeaserLinks, linksPositi
     }
   }
 
+  /*
+   * Special cases settings
+   */
+
   if (isTeaserLinks) {
-    top = 28
+    top = 47 // - 19
     left = 0
     right = 0
-    bottom = 13
+    bottom = 41 // - 28
+
+    if (teaserLinksValue > 1) {
+      top -= teaserLinksValue * 2.2
+      bottom -= teaserLinksValue * 3
+
+      if (top < 26) top = 26
+      if (bottom < 18) bottom = 18
+    }
 
     if (isLogo) {
       top = 0
       left = 0
       right = 0
       bottom = 80
+    }
+  }
+
+  if (isOverlappingLogoContent) {
+    if (isLogo) {
+      left += 50
+    }
+    if (isContent) {
+      right += 50
     }
   }
 
@@ -172,18 +244,18 @@ const getEditButtonSettings = ({
   isExtended,
   isLinks,
   isLogo,
+  isOverlappingLogoContent,
   isPreviewMobile,
   positionDesktop,
 }) => {
   let title = undefined
-  let top = '10px'
+  let top = '5px'
   let left = undefined
   let right = undefined
   let transform = 'translateX(-50%)'
 
-  if (isExtended) title = 'Add Content'
+  if (isExtended) title = isOverlappingLogoContent ? 'Edit Content' : 'Add Content'
 
-  // console.log({ isLinks, isLogo, positionDesktop })
   if (isLinks) {
     const [yLinks, xLinks] = getAxis(positionDesktop)
     top = '10px'
@@ -206,9 +278,7 @@ const getEditButtonSettings = ({
     }
   }
   if (isLogo) {
-    top = '5px'
-
-    if (isExtended) title = 'Add Logo'
+    if (isExtended) title = isOverlappingLogoContent ? 'Edit Logo' : 'Add Logo'
   }
 
   return { title, top, left, right, transform }
@@ -216,26 +286,42 @@ const getEditButtonSettings = ({
 
 // TODO: change for TEASER LINKS
 export const SectionOverlay = ({
-  positionDesktop = 'top-center',
-  positionMobile = 'top-center',
-  isPreviewMobile,
+  color,
+  contentPosition,
+  isContent,
   isExtended,
   isLinks,
   isLogo,
+  isPreviewMobile,
   isTeaserLinks,
-  linksPosition,
-  color,
-  onClick,
   isTest = false,
+  linksPosition,
+  logoPosition,
+  onClick,
+  positionDesktop = 'top-center',
+  positionMobile = 'top-center',
+  teaserLinksValue,
 }) => {
   const mappedLinksPosition = linksPosition?.toLowerCase().replace('_', '-') || ''
 
+  let isOverlappingLogoContent = false
+
+  if (isLogo && !isTeaserLinks)
+    isOverlappingLogoContent = isPreviewMobile
+      ? contentPosition.classnameMobile === positionMobile
+      : contentPosition.classnameDesktop === positionDesktop
+  if (isContent && !isTeaserLinks)
+    isOverlappingLogoContent = isPreviewMobile
+      ? logoPosition.classnameMobile === positionMobile
+      : logoPosition.classnameDesktop === positionDesktop
+
+  if (isLogo) {
+  }
+  if (isContent) {
+  }
+
   const isMobile = useMediaQuery({ query: MediaSmall })
 
-  // TODO: add no teaser links position support
-  // TODO: minor adjust for edit button position everywhere
-  // TODO: add support for collision between content and logo
-  // TODO: add animations for Edit Button
   const {
     title,
     top: topEdit,
@@ -243,33 +329,35 @@ export const SectionOverlay = ({
     right: rightEdit,
     transform: transformEdit,
   } = getEditButtonSettings({
-    isExtended,
+    isExtended: isExtended || isOverlappingLogoContent,
     isLinks,
     isLogo,
+    isOverlappingLogoContent,
     isPreviewMobile,
     positionDesktop,
   })
 
-  // console.log({ title, topEdit, leftEdit, rightEdit, transformEdit })
-
-  const { top, left, right, bottom } = getPositionDesktop(
+  const { top, left, right, bottom } = getPositionDesktop({
+    isContent,
+    isLinks,
+    isLogo,
+    isOverlappingLogoContent,
+    isTeaserLinks,
+    mappedLinksPosition,
     positionDesktop,
+    teaserLinksValue,
+  })
+  const { topMobile, leftMobile, rightMobile, bottomMobile } = getPositionMobile({
+    isContent,
     isLinks,
     isLogo,
+    isOverlappingLogoContent,
     isTeaserLinks,
-    mappedLinksPosition
-  )
-  const { topMobile, leftMobile, rightMobile, bottomMobile } = getPositionMobile(
+    mappedLinksPosition,
     positionMobile,
-    isLinks,
-    isLogo,
-    isTeaserLinks,
-    mappedLinksPosition
-  )
+    teaserLinksValue,
+  })
 
-  if (isLinks) {
-    console.log({ top, left, right, bottom, topMobile, leftMobile, rightMobile, bottomMobile })
-  }
   return (
     <Container
       top={top}
@@ -280,17 +368,20 @@ export const SectionOverlay = ({
       leftMobile={leftMobile}
       rightMobile={rightMobile}
       bottomMobile={bottomMobile}
-      colorSection={isTest ? color : undefined}
+      colorSection={color}
+      isTest={isTest}
       isPreviewMobile={isPreviewMobile}
       onClick={isMobile ? undefined : onClick}
     >
       {isMobile && (
         <EditButton
-          top={topEdit}
+          buttonHeight={isOverlappingLogoContent ? 38 : undefined}
+          className="animated fadeIn"
           left={leftEdit}
-          right={rightEdit}
-          transform={transformEdit}
           onClick={isMobile ? onClick : undefined}
+          right={rightEdit}
+          top={topEdit}
+          transform={transformEdit}
         >
           {title}
         </EditButton>

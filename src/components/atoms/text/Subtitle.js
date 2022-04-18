@@ -13,4 +13,8 @@ export const Subtitle = styled.p`
     font-size: 14px;
     line-height: 115%;
   }
+
+  &.center {
+    text-align: center;
+  }
 `

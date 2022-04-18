@@ -145,7 +145,6 @@ export const LinksBox = ({
 }) => {
   const positionLinks = position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'
 
-  console.log({ positionLinks })
   return (
     <Fragment>
       {showRedirectOverlay && (
@@ -166,6 +165,7 @@ export const LinksBox = ({
         isInstagramBrowser={isInstagramBrowser}
       >
         <LinksList
+          data-cy="icons-list"
           className={positionLinks}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}

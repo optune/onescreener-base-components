@@ -25,7 +25,7 @@ const CoverImage = styled.img`
 export const CoverBox = ({ cover, getImageUrl }) =>
   (cover && !!cover.image?.url && (
     <Cover>
-      <CoverLink href={cover.url || ''} target="__blank">
+      <CoverLink data-cy="cover-link" href={cover.url || ''} target="__blank">
         <CoverImage
           src={getImageUrl({ image: cover.image }) || ''}
           // src={cover.image.url || ''}

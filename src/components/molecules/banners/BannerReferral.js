@@ -89,7 +89,7 @@ export const BannerReferral = ({ onReferralOpen, artistSlug }) => {
         </h1>
       </div>
       <div className="referral">
-        <h1>Sign up and get 20% off</h1>
+        <h1>Sign up and get 30% off</h1>
       </div>
     </Container>
   )

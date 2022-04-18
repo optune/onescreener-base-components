@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import React, { Fragment, useState, useEffect } from 'react'
 
 // API
-import { BookingMethod, CurrencySign } from '../../../api'
+import { BookingMethod, CurrencySign, adjustUrl } from '../../../api'
 
 // Styles
 import { CloseDarkIcon } from '../../icons/CloseIcon'
@@ -102,7 +102,7 @@ const SuccessMessage = ({ order }) => {
                   window.open(
                     isSession && isCalendly
                       ? order.session.schedulingUrl
-                      : order?.product.downloadLink,
+                      : adjustUrl(order?.product.downloadLink),
                     '_blank'
                   )
                 }

@@ -16,6 +16,26 @@ export const isSpotify = (url = '') => {
   return false
 }
 
+/* 
+  Podcast links for testing:
+
+  https://open.spotify.com/episode/4ktnKuP66TGPi1BQiSZdWZ?si=9608f1be13a544ff
+
+  https://open.spotify.com/episode/7E0ozwnfSdJzF4dQzqhz3y?si=6OBNJLtaTQybkfmHbuk9FA
+
+  https://open.spotify.com/episode/3U4wMKyvMUhB83qf8FaA3I?si=cebd9fab0b5c4609
+
+  https://open.spotify.com/episode/1k7ofXS8KOle5Gj1Ov40Cj?si=XjfVcFEkTUadfViioVaEeg
+
+*/
+
+export const isSpotifyPodcast = (url = '') => {
+  if (!isSpotify(url)) return false
+  if (url.indexOf('/episode/') !== -1) return true
+
+  return false
+}
+
 export const getSpotifyUrl = (url = '') => {
   let trueUrl, temp
 

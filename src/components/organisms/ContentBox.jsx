@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import styled, { css } from 'styled-components'
 
 // Atoms
@@ -11,10 +11,15 @@ import { MediaBox } from './MediaBox.jsx'
 import { CoverBox } from './CoverBox.jsx'
 import { TeaserLinksBox } from './TeaserLinksBox.jsx'
 
-import { MediaMobile, NotMediaMobile } from '../../style/media.js'
+import { MediaSmall, MediaMobile, NotMediaMobile } from '../../style/media.js'
 
-import { renderHtml } from '../../utils/renderHtml.js'
 import { SectionOverlay } from '../molecules/SectionOverlay.js'
+
+// Utils
+import { renderHtml } from '../../utils/renderHtml.js'
+import { getTeaserLinksValueLength } from './utils/getTeaserLinksSettings.js'
+import { getLogoPosition } from './utils/getLogoSettings.js'
+import { getContentPosition } from './utils/getContentSettings.js'
 
 const stylesContentDesktop = `
 &.desktop- {
@@ -364,31 +369,37 @@ display: flex;
 z-index: 99;
 /* bottom: 5.2rem; */
 
-${({ isSidePreview, isTeaserLinks, linksPosition, contentPosition, isPreviewMobile }) =>
-  css`
+${({ isSidePreview, isTeaserLinks, linksPosition, contentPosition, isPreviewMobile }) => css`
+  bottom: ${linksPosition.includes('BOTTOM') &&
+  !isTeaserLinks &&
+  (isPreviewMobile
+    ? contentPosition.classnameMobile.toUpperCase().includes('BOTTOM')
+    : contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM')) &&
+  (isSidePreview ? '3.1rem' : '6.4rem')};
+  left: ${linksPosition.includes('LEFT') &&
+  !isTeaserLinks &&
+  (isPreviewMobile
+    ? contentPosition.classnameMobile.toUpperCase().includes('LEFT')
+    : contentPosition.classnameDesktop.toUpperCase().includes('LEFT')) &&
+  isSidePreview &&
+  !isPreviewMobile &&
+  '2.8rem'};
+  right: ${linksPosition.includes('RIGHT') &&
+  !isTeaserLinks &&
+  (isPreviewMobile
+    ? contentPosition.classnameMobile.toUpperCase().includes('RIGHT')
+    : contentPosition.classnameDesktop.toUpperCase().includes('RIGHT')) &&
+  isSidePreview &&
+  !isPreviewMobile &&
+  '2.8rem'};
+
+  @media ${MediaSmall} {
     bottom: ${linksPosition.includes('BOTTOM') &&
     !isTeaserLinks &&
-    (isPreviewMobile
-      ? contentPosition.classnameMobile.toUpperCase().includes('BOTTOM')
-      : contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM')) &&
+    contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') &&
     (isSidePreview ? '3.1rem' : '6.4rem')};
-    left: ${linksPosition.includes('LEFT') &&
-    !isTeaserLinks &&
-    (isPreviewMobile
-      ? contentPosition.classnameMobile.toUpperCase().includes('LEFT')
-      : contentPosition.classnameDesktop.toUpperCase().includes('LEFT')) &&
-    isSidePreview &&
-    !isPreviewMobile &&
-    '2.8rem'};
-    right: ${linksPosition.includes('RIGHT') &&
-    !isTeaserLinks &&
-    (isPreviewMobile
-      ? contentPosition.classnameMobile.toUpperCase().includes('RIGHT')
-      : contentPosition.classnameDesktop.toUpperCase().includes('RIGHT')) &&
-    isSidePreview &&
-    !isPreviewMobile &&
-    '2.8rem'};
-  `}
+  }
+`}
 
 
   ${stylesContentDesktop}
@@ -474,27 +485,6 @@ const Container = styled.div`
 
 `
 
-const getContentPosition = ({ content }) => {
-  const positionDesktop =
-    (content.positionDesktop > '' && content.positionDesktop) || content.position
-
-  const classnameDesktop =
-    (positionDesktop > '' && positionDesktop.toLowerCase().replace('_', '-')) || 'top-center'
-
-  const contentPosition =
-    (content.isDifferentPositions && content.positionMobile) ||
-    content.positionDesktop ||
-    content.position
-
-  const classnameMobile =
-    (contentPosition > '' && contentPosition.toLowerCase().replace('_', '-')) || 'top-center'
-
-  return {
-    classnameMobile,
-    classnameDesktop,
-  }
-}
-
 export const ContentBox = ({
   analyticsLivePage,
   content,
@@ -507,6 +497,7 @@ export const ContentBox = ({
   isProPlanRequired,
   isSidePreview,
   links,
+  logo,
   modalShop,
   onContentSectionClick,
   onLoadShopItem,
@@ -557,11 +548,8 @@ export const ContentBox = ({
     colorBackgroundAccent: colorBackgroundAccentDesign,
   } = design?.theme?.content || {}
 
-  const position = getContentPosition({ content })
-
-  const isTeaserLinks = type === 'TEASER_LINKS'
-  const isText = type === 'TEXT'
-  const isGigs = type === 'GIGS'
+  const { colorLinks: colorLinksDesign, colorLinksBackground: colorLinksBackgroundDesign } =
+    design?.theme?.content?.teaserLinks || {}
 
   const colors = {
     color: colorDesign || color,
@@ -569,10 +557,19 @@ export const ContentBox = ({
     colorBackground: colorBackgroundDesign || colorBackground,
     colorBackgroundAccent: colorBackgroundAccentDesign || colorBackgroundAccent,
 
-    colorLinks: colorDesign || teaserLinks?.colorLinks || color,
+    colorLinks: colorLinksDesign || teaserLinks?.colorLinks || color,
     colorLinksBackground:
-      colorBackgroundDesign || teaserLinks?.colorLinksBackground || colorBackground,
+      colorLinksBackgroundDesign ||
+      (teaserLinks.isTransparent
+        ? 'transparent'
+        : teaserLinks?.colorLinksBackground || colorBackground),
   }
+
+  const position = getContentPosition({ content })
+
+  const isTeaserLinks = type === 'TEASER_LINKS'
+  const isText = type === 'TEXT'
+  const isGigs = type === 'GIGS'
 
   const area =
     positionLegacy === 'null' || span === 'null' || !positionLegacy || !span
@@ -675,20 +672,24 @@ export const ContentBox = ({
       Content = null
   }
 
+  const teaserLinksValue = getTeaserLinksValueLength({ list: teaserLinks?.list, shopEnabled })
   return fullscreen ? (
     <FullscreenContainer>{Content}</FullscreenContainer>
   ) : (
     <Fragment>
       {showRedirectOverlay && (
         <SectionOverlay
-          isExtended={type === 'TEASER_LINKS' && teaserLinks?.list?.length === 0}
-          positionDesktop={position.classnameDesktop}
-          positionMobile={position.classnameMobile}
-          linksPosition={links?.list?.length > 0 ? links?.position : ''}
-          onClick={onContentSectionClick}
+          color={'red'}
+          isContent
+          isExtended={isTeaserLinks && teaserLinksValue === 0}
           isPreviewMobile={isPreviewMobile}
           isTeaserLinks={isTeaserLinks}
-          color={'red'}
+          linksPosition={links?.list?.length > 0 ? links?.position : ''}
+          logoPosition={getLogoPosition({ logo })}
+          onClick={onContentSectionClick}
+          positionDesktop={position.classnameDesktop}
+          positionMobile={position.classnameMobile}
+          teaserLinksValue={teaserLinksValue}
         />
       )}
       <ResponsiveContainer
@@ -706,6 +707,7 @@ export const ContentBox = ({
         isDifferentPositions={isDifferentPositions}
       >
         <Container
+          data-cy="page-content-container"
           isLegacy={isLegacy}
           isLegacyMobile={isLegacyMobile}
           isSidePreview={isSidePreview}
@@ -714,8 +716,6 @@ export const ContentBox = ({
           isGigs={isGigs}
           size={size}
         >
-          {/* {(true || isEditMode) && <EditButton top="20%">Content</EditButton>} */}
-
           {Content}
         </Container>
       </ResponsiveContainer>

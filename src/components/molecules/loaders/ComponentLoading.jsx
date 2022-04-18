@@ -51,8 +51,8 @@ const circleySmall = keyframes`
   }
 `
 const LoadingContent = styled.svg`
-  width: ${({ small }) => (small ? 30 : 60)}px;
-  height: ${({ small }) => (small ? 30 : 60)}px;
+  width: ${({ small, width }) => (width > '' ? width : small ? 30 : 60)}px;
+  height: ${({ small, width }) => (width > '' ? width : small ? 30 : 60)}px;
   margin-right: ${({ hasLabel }) => (hasLabel ? 10 : 0)}px;
 `
 
@@ -60,7 +60,7 @@ const LoadingCircle = styled.circle`
   fill: none;
   stroke: ${BackgroundColor.accent};
   stroke-linecap: round;
-  stroke-width: 3;
+  stroke-width: ${({ small }) => (small ? 1 : 3)};
   animation: ${circleySmall} 5.333s ease infinite, ${rotary} 2.2s linear infinite;
   transform-origin: center center;
 `
@@ -75,10 +75,15 @@ const Container = styled.div`
   animation-timing-function: ease-in-out;
 `
 
-export const ComponentLoading = ({ label, small }) => (
-  <Container className="flex-center-middle animated">
-    <LoadingContent small={small}>
-      <LoadingCircle cx={small ? '15' : '30'} cy={small ? '15' : '30'} r={small ? '10' : '20'} />
+export const ComponentLoading = ({ label, small, width }) => (
+  <Container className="flex-center-middle animated" small={small}>
+    <LoadingContent small={small} width={width} hasLabel={label > ''}>
+      <LoadingCircle
+        small={small}
+        cx={width > '' ? width / 2 : small ? '15' : '30'}
+        cy={width > '' ? width / 2 : small ? '15' : '30'}
+        r={width > '' ? (width / 2) * 0.666 : small ? '10' : '20'}
+      />
     </LoadingContent>
 
     {label > '' && (

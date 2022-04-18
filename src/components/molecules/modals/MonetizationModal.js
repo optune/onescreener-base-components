@@ -149,8 +149,9 @@ const InfoForm = ({
         </div>
       </div>
 
-      <Text as="div" left className="bangers" fontSize="1rem">
+      <Text as="div" left className="bangers editor" fontSize="1rem">
         {renderHtml(description)}
+        <p className="white-space"></p>
       </Text>
     </Fragment>
   )
@@ -386,7 +387,7 @@ export const MonetizationModal = ({
   if (!duration && isCalendly) duration = `${sessionDuration} minutes`
 
   const currencySign = CurrencySign[currency] || '$'
-  const actualPrice = +parseFloat(+price * +quantity).toFixed(2)
+  const actualPrice = Number(+price * +quantity).toFixed(2)
 
   let orderType = TeaserLinkType.MONETIZATION_ONE_TO_ONE
   if (isShop && isPhysical) orderType = TeaserLinkType.SHOP_PHYSICAL
@@ -561,7 +562,7 @@ export const MonetizationModal = ({
                             price,
                             currency,
                             quantity,
-                            total: actualPrice,
+                            total: +actualPrice,
                             clientNote: formData.clientNote,
                           },
                           status: 'UNPAID',

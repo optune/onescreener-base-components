@@ -113,6 +113,10 @@ export const Container = styled.div`
   position: relative;
   max-height: 90vh;
 
+  &.rounder {
+    border-radius: 14px;
+  }
+
   &.height-100 {
     height: 100%;
   }
@@ -396,6 +400,53 @@ export const Text = styled.p`
   width: 100%;
   margin: ${({ margin }) => (margin > '' ? `${margin} !important` : 'initial')};
 
+  &.editor {
+    overflow-y: auto;
+    max-height: 35vh;
+
+    > p.white-space:last-child {
+      @media ${MediaMobile} {
+        margin-bottom: 3.5rem;
+      }
+    }
+
+    ol,
+    ul {
+      display: block;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      padding-inline-start: 40px;
+    }
+
+    ul {
+      list-style-type: disc;
+    }
+
+    ol {
+      list-style-type: decimal;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+    }
+    h3 {
+      font-size: 1.17rem;
+    }
+
+    h1,
+    h2,
+    h3,
+    strong,
+    b {
+      font-weight: 600;
+    }
+  }
+
   &.center {
     text-align: center;
   }
@@ -463,6 +514,10 @@ export const StyledButtonContainer = styled.div`
   button {
     @media ${MediaMobile} {
       width: 90%;
+      margin: 0.5rem auto 0.5rem;
+      line-height: 1;
+      font-size: 13px;
+      min-height: 32px;
     }
   }
   &.gradient {

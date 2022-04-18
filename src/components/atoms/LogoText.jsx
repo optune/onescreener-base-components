@@ -123,7 +123,8 @@ const LogoTextContainer = styled.div`
       isSidePreview && !isPreviewMobile ? LogoSize.Desktop[size] : LogoSize.Mobile[size]};
 
     & #auto-text-fit-container {
-      align-items: ${({ logoPosition }) => logoPosition.mobile};
+      align-items: ${({ logoPosition, isSidePreview, isPreviewMobile }) =>
+        isPreviewMobile ? logoPosition.mobile : logoPosition.desktop};
     }
   }
 

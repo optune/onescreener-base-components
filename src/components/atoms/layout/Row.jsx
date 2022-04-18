@@ -15,8 +15,8 @@ const RowContainer = styled.div`
   transition: opacity 0.3s, max-height 0.3s, margin-top 0.3s, margin-bottom 0.3s;
 
   @media ${MediaSmall} {
-    margin-top: ${({ marginTop, hide }) => (!hide && marginTop ? 0.5 : 0)}rem;
-    margin-bottom: ${({ marginBottom, hide }) => (!hide && marginBottom ? 1.5 : 0)}rem;
+    margin-top: ${({ marginTop, hide }) => (!hide && marginTop ? 0.66 : 0)}rem;
+    margin-bottom: ${({ marginBottom, hide }) => (!hide && marginBottom ? 1.75 : 0)}rem;
   }
 `
 

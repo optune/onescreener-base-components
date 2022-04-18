@@ -278,6 +278,10 @@ export const Page = ({
 
     const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
 
+    console.log({ pageBASE: page })
+    const showBanner = !page.hasProPlan || page.referral?.isOn
+    console.log({ showBanner })
+
     PageComponent = (
       <Fragment>
         <GlobalStyle />
@@ -301,7 +305,7 @@ export const Page = ({
             <div className="page-container-edit-mode" onClick={onEditModeClick} />
           )}
           {showUpgradeOverlay && <UpgradeOverlay onUpgrade={onUpgrade} ProTag={ProTag} />}
-          {/* // TODO: Try to move SectionOverlay for all components here --> sectionOverlays.map(s => <SectionOverlay {...s} />) (To avoid unnecessary prop drilling) */}
+
           {ssrDone && (
             <Background
               background={{
@@ -323,6 +327,7 @@ export const Page = ({
             {/* Logo */}
             {logo && (
               <LogoBox
+                content={content}
                 design={isThemeSelected && design}
                 getImageUrl={getUrl}
                 isEditMode={showRedirectOverlay}
@@ -352,6 +357,7 @@ export const Page = ({
               isProPlanRequired={isProPlanRequired}
               isSidePreview={isSidePreview}
               links={links}
+              logo={logo}
               modalShop={modalShop}
               onContentSectionClick={onContentSectionClick}
               onLoadShopItem={onLoadShopItem}
@@ -480,7 +486,7 @@ export const Page = ({
             </LinksBox>
           </ForegroundContainer>
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
-          {!hasPro && !isSidePreview && (
+          {showBanner && !isSidePreview && (
             <BannerReferral artistSlug={artistSlug} onReferralOpen={onReferralOpen} />
           )}
         </PageContainer>

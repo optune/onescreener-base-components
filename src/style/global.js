@@ -95,6 +95,13 @@ ol, ul {
 
 .ratio {
   &.inner {
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
     &-16x9 {
       position: absolute;
       top: 0;
@@ -105,9 +112,16 @@ ol, ul {
   }
 
   &.wrapper {
+    position: relative;
+    width: 100%;
     &-16x9 {
       height: unset;
       padding-top: 56.25%;
+    }
+
+    &-9x16 {
+      height: unset;
+      padding-top: 178%;
     }
   }
 }
