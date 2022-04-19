@@ -320,7 +320,7 @@ export const Page = ({
           )}
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
-            {!noBacklink && !isSidePreview && !!hasPro && (
+            {!noBacklink && !isSidePreview && !!hasPro && !showBanner && (
               <BackLink artistSlug={artistSlug} isPreviewMobile={isPreviewMobile} isPro={hasPro} />
             )}
 
@@ -455,6 +455,7 @@ export const Page = ({
 
             <LinksBox
               hasPro={hasPro}
+              showBanner={showBanner}
               isEditMode={showRedirectOverlay}
               isInstagramBrowser={isInstagramBrowser}
               isPreviewMobile={isPreviewMobile}
