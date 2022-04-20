@@ -386,7 +386,7 @@ export const MonetizationModal = ({
   let duration = length
   if (!duration && isCalendly) duration = `${sessionDuration} minutes`
 
-  const currencySign = CurrencySign[currency] || '$'
+  const currencySign = CurrencySign[currency] || 'USD'
   const actualPrice = Number(+price * +quantity).toFixed(2)
 
   let orderType = TeaserLinkType.MONETIZATION_ONE_TO_ONE
