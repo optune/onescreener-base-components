@@ -278,6 +278,8 @@ export const Page = ({
 
     const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
 
+    const showBanner = !page.hasProPlan || page.referral?.isOn
+
     PageComponent = (
       <Fragment>
         <GlobalStyle />
@@ -316,7 +318,7 @@ export const Page = ({
           )}
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
-            {!noBacklink && !isSidePreview && !!hasPro && (
+            {!noBacklink && !isSidePreview && !!hasPro && !showBanner && (
               <BackLink artistSlug={artistSlug} isPreviewMobile={isPreviewMobile} isPro={hasPro} />
             )}
 
@@ -451,6 +453,7 @@ export const Page = ({
 
             <LinksBox
               hasPro={hasPro}
+              showBanner={showBanner}
               isEditMode={showRedirectOverlay}
               isInstagramBrowser={isInstagramBrowser}
               isPreviewMobile={isPreviewMobile}
@@ -482,7 +485,7 @@ export const Page = ({
             </LinksBox>
           </ForegroundContainer>
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
-          {!hasPro && !isSidePreview && (
+          {showBanner && !isSidePreview && (
             <BannerReferral artistSlug={artistSlug} onReferralOpen={onReferralOpen} />
           )}
         </PageContainer>
