@@ -601,7 +601,7 @@ export const TeaserLinksBox = ({
                       {!!Icon && <Icon />}
                     </span>
                     <span className={classNames('price', 'subtitle', { subtitle: isSession })}>
-                      {CurrencySign[shop.currency] || '$'} {Number(shop.price).toFixed(2)}
+                      {Number(shop.price).toFixed(2)} {CurrencySign[shop.currency] || 'USD'}
                     </span>
 
                     {isSession && duration > '' && (
