@@ -278,9 +278,7 @@ export const Page = ({
 
     const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
 
-    console.log({ pageBASE: page })
     const showBanner = !page.hasProPlan || page.referral?.isOn
-    console.log({ showBanner })
 
     PageComponent = (
       <Fragment>
