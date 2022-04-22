@@ -491,7 +491,7 @@ export const ContentBox = ({
   design,
   domainName,
   getImageUrl,
-  isEditMode,
+  isInstagramBrowser,
   isPreviewMobile,
   isPreviewMobileReady,
   isProPlanRequired,
@@ -633,6 +633,7 @@ export const ContentBox = ({
           colorBackground={colors.colorLinksBackground}
           domainName={domainName}
           getImageUrl={getImageUrl}
+          isInstagramBrowser={isInstagramBrowser}
           isProPlanRequired={isProPlanRequired}
           isSidePreview={isSidePreview}
           isPreviewMobile={isPreviewMobile}

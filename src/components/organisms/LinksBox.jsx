@@ -135,7 +135,6 @@ export const LinksBox = ({
   children,
   hasPro,
   isEditMode,
-  isInstagramBrowser,
   isPreviewMobile,
   isSidePreview,
   links,
@@ -164,7 +163,6 @@ export const LinksBox = ({
         hasPro={hasPro}
         zIndex={zIndex}
         isSidePreview={isSidePreview}
-        isInstagramBrowser={isInstagramBrowser}
         showBanner={showBanner}
       >
         <LinksList
