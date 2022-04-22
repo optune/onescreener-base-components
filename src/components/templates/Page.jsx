@@ -154,7 +154,6 @@ export const Page = ({
   domainName,
   hasPro,
   isEditMode,
-  isInstagramBrowser,
   isOrderSuccess,
   isPreviewMobile,
   isPreviewMobileReady,
@@ -182,6 +181,7 @@ export const Page = ({
   visitorSession,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
+  const [isInstagramBrowser, setIsInstagramBrowser] = useState(false)
 
   useEffect(() => {
     setSsrDone(true)
@@ -214,6 +214,17 @@ export const Page = ({
   useEffect(() => {
     if (ssrDone && !isSidePreview) {
       window?.addEventListener('load', () => {
+        /*
+         * Check if user is using Instagram browser
+         */
+
+        const UA = window.navigator.userAgent || navigator.vendor || window.opera
+        const isInstagram = UA.indexOf('Instagram') > -1
+        setIsInstagramBrowser(isInstagram)
+
+        /*
+         * Handle Cookie banner appearance
+         */
         const cookieBannerOn =
           window.cookieconsent?.utils?.getCookie?.('cookieconsent_status') === undefined
 
@@ -350,6 +361,7 @@ export const Page = ({
               domainName={domainName}
               getImageUrl={getUrl}
               isEditMode={showRedirectOverlay}
+              isInstagramBrowser={isInstagramBrowser}
               isPreviewMobile={isPreviewMobile}
               isPreviewMobileReady={isPreviewMobileReady}
               isProPlanRequired={isProPlanRequired}
@@ -455,7 +467,6 @@ export const Page = ({
               hasPro={hasPro}
               showBanner={showBanner}
               isEditMode={showRedirectOverlay}
-              isInstagramBrowser={isInstagramBrowser}
               isPreviewMobile={isPreviewMobile}
               isSidePreview={isSidePreview}
               links={links}

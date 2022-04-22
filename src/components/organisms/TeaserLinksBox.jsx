@@ -325,6 +325,7 @@ export const TeaserLinksBox = ({
   colorBackground,
   domainName,
   getImageUrl,
+  isInstagramBrowser,
   isProPlanRequired,
   isPreviewMobile,
   isPreviewMobileReady,
@@ -393,11 +394,14 @@ export const TeaserLinksBox = ({
     const linksHeight = isSidePreview ? 45 : isSmall || isPreviewMobile ? 60 : 110
     const legacyCorrection = isSmall && isLegacyMobile ? 20 : 0
     const allowedHeight = windowHeight - logoHeight - linksHeight - legacyCorrection
-    let linksLimit = parseInt(
-      allowedHeight /
-        ((isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT) +
-          TEASER_LINKS_MARGIN)
-    )
+    let linksLimit = isInstagramBrowser
+      ? 6
+      : parseInt(
+          allowedHeight /
+            ((isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT) +
+              TEASER_LINKS_MARGIN)
+        )
+
     // To avoid loophole
     if (linksLimit <= 2) linksLimit = 4
 
