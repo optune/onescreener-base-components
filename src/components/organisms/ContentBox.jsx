@@ -367,15 +367,22 @@ width: 100%;
 height: 100%;
 display: flex;
 z-index: 99;
-/* bottom: 5.2rem; */
+bottom: ${({ showBanner }) => (showBanner ? '38px' : '0')}; 
 
-${({ isSidePreview, isTeaserLinks, linksPosition, contentPosition, isPreviewMobile }) => css`
+${({
+  contentPosition,
+  isPreviewMobile,
+  isSidePreview,
+  isTeaserLinks,
+  linksPosition,
+  showBanner,
+}) => css`
   bottom: ${linksPosition.includes('BOTTOM') &&
   !isTeaserLinks &&
   (isPreviewMobile
     ? contentPosition.classnameMobile.toUpperCase().includes('BOTTOM')
     : contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM')) &&
-  (isSidePreview ? '3.1rem' : '6.4rem')};
+  (isSidePreview ? '3.1rem' : showBanner ? '8.4rem' : '6.4rem')};
   left: ${linksPosition.includes('LEFT') &&
   !isTeaserLinks &&
   (isPreviewMobile
@@ -397,7 +404,7 @@ ${({ isSidePreview, isTeaserLinks, linksPosition, contentPosition, isPreviewMobi
     bottom: ${linksPosition.includes('BOTTOM') &&
     !isTeaserLinks &&
     contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') &&
-    (isSidePreview ? '3.1rem' : '6.4rem')};
+    (isSidePreview ? '3.1rem' : showBanner ? '8.4rem' : '6.4rem')};
   }
 `}
 
@@ -449,10 +456,14 @@ const Container = styled.div`
   ${({ isSidePreview, isTeaserLinks, isGigs }) =>
     (isTeaserLinks || isGigs) &&
     css`
-      min-width: ${({ isSidePreview }) => (isSidePreview ? '255px' : '315px')};
-      width: ${({ isSidePreview }) => (isSidePreview ? '50%' : '85%')};
+      min-width: ${isSidePreview ? '255px' : '315px'};
     `}
 
+  ${({ isSidePreview, isTeaserLinks }) =>
+    isTeaserLinks &&
+    css`
+      width: ${isSidePreview ? '50%' : '85%'};
+    `}
 
   ${({ isPreviewMobile, isSidePreview, isLegacyMobile, size }) =>
     isPreviewMobile &&
@@ -504,6 +515,7 @@ export const ContentBox = ({
   pageUrl,
   setModalEmbed,
   setModalShop,
+  showBanner,
   shopEnabled,
   showRedirectOverlay,
   showStatistics,
@@ -706,6 +718,7 @@ export const ContentBox = ({
         isSidePreview={isSidePreview}
         isPreviewMobile={isPreviewMobile}
         isDifferentPositions={isDifferentPositions}
+        showBanner={showBanner}
       >
         <Container
           data-cy="page-content-container"
