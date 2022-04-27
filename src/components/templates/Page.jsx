@@ -374,6 +374,7 @@ export const Page = ({
               pageUrl={pageUrl}
               setModalEmbed={setModalEmbed}
               setModalShop={setModalShop}
+              showBanner={showBanner}
               shopEnabled={stripe?.shopEnabled}
               showRedirectOverlay={showRedirectOverlay}
               showStatistics={showStatistics}
