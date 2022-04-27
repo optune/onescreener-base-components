@@ -77,23 +77,27 @@ const Text = styled.div`
   }
 
 
-  ol,
-  ul {
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 40px;
-  }
+ ${({ isGigs }) =>
+   !isGigs &&
+   css`
+     ol,
+     ul {
+       display: block;
+       margin-block-start: 1em;
+       margin-block-end: 1em;
+       margin-inline-start: 0px;
+       margin-inline-end: 0px;
+       padding-inline-start: 40px;
+     }
 
-  ul {
-    list-style-type: disc;
-  }
+     ul {
+       list-style-type: disc;
+     }
 
-  ol {
-    list-style-type: decimal;
-  }
+     ol {
+       list-style-type: decimal;
+     }
+   `}
 
 `
 
@@ -102,6 +106,7 @@ export const TextBox = ({
   color,
   colorBackground,
   colorAccent,
+  isGigs,
   isPreviewMobile,
   isSidePreview,
   textValue,
@@ -110,7 +115,7 @@ export const TextBox = ({
 }) => {
   return (
     <TextBackground>
-      <Text colorPrimary={color} colorAccent={colorAccent} wordWrap={wordWrap}>
+      <Text colorPrimary={color} colorAccent={colorAccent} wordWrap={wordWrap} isGigs={isGigs}>
         <AutoTextFit
           colorBackground={colorBackground}
           includeWidth={!wordWrap}
