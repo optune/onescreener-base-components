@@ -263,7 +263,7 @@ const CheckoutForm = ({
           </div>
         </div>
       )}
-      {isPhysical && (
+      {/* {isPhysical && (
         <Fragment>
           <div className="row">
             <div className="column">
@@ -322,7 +322,7 @@ const CheckoutForm = ({
             </div>
           </div>
         </Fragment>
-      )}
+      )} */}
     </Fragment>
   )
 }
@@ -408,12 +408,8 @@ export const MonetizationModal = ({
 
   const disabled =
     step === 2 &&
-    (formData.email === '' ||
-      !validEmail ||
-      emailTouched ||
-      formData.clientName === '' ||
-      (isPhysical ? !(formData.city > '' && formData.zip > '' && formData.street > '') : false))
-
+    (formData.email === '' || !validEmail || emailTouched || formData.clientName === '')
+  // || (isPhysical ? !(formData.city > '' && formData.zip > '' && formData.street > '') : false)
   const onValidateEmail = (email) => {
     setEmailTouched(false)
 
