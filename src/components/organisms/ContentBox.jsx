@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment, useMemo } from 'react'
 import styled, { css } from 'styled-components'
+import chroma from 'chroma-js'
 
 // Atoms
 import { EditButton } from '../atoms/buttons/EditButton.js'
@@ -17,9 +18,15 @@ import { SectionOverlay } from '../molecules/SectionOverlay.js'
 
 // Utils
 import { renderHtml } from '../../utils/renderHtml.js'
-import { getTeaserLinksValueLength } from './utils/getTeaserLinksSettings.js'
+import {
+  getTeaserLinksValueLength,
+  getTeaserLinkTagColors,
+} from './utils/getTeaserLinksSettings.js'
 import { getLogoPosition } from './utils/getLogoSettings.js'
 import { getContentPosition } from './utils/getContentSettings.js'
+
+// Styles
+import { ColorWhite, ForegroundColor } from '../../style/color.js'
 
 const stylesContentDesktop = `
 &.desktop- {
@@ -541,6 +548,10 @@ export const ContentBox = ({
     spanMobile,
   } = content
 
+  console.log({ teaserLinks })
+  const isDesign = !!design
+  const teaserLinksIsTransparent = isDesign ? false : teaserLinks?.isTransparent
+
   const {
     color: colorDesign,
     colorBackground: colorBackgroundDesign,
@@ -548,8 +559,13 @@ export const ContentBox = ({
     colorBackgroundAccent: colorBackgroundAccentDesign,
   } = design?.theme?.content || {}
 
-  const { colorLinks: colorLinksDesign, colorLinksBackground: colorLinksBackgroundDesign } =
-    design?.theme?.content?.teaserLinks || {}
+  const {
+    colorLinks: colorLinksDesign,
+    colorLinksBackground: colorLinksBackgroundDesign,
+    colorLinksTag: colorLinksTagDesign,
+    colorLinksBackgroundTag: colorLinksBackgroundTagDesign,
+    // font: teaserLinksFontDesign,
+  } = design?.theme?.content?.teaserLinks || {}
 
   const colors = {
     color: colorDesign || color,
@@ -560,12 +576,60 @@ export const ContentBox = ({
     colorLinks: colorLinksDesign || teaserLinks?.colorLinks || color,
     colorLinksBackground:
       colorLinksBackgroundDesign ||
-      (teaserLinks?.isTransparent
+      (teaserLinksIsTransparent
         ? 'transparent'
         : teaserLinks?.colorLinksBackground || colorBackground),
+    colorLinksTag: colorLinksTagDesign || teaserLinks?.colorLinksTag,
+    colorLinksBackgroundTag: colorLinksBackgroundTagDesign || teaserLinks?.colorLinksBackgroundTag,
   }
 
   const position = getContentPosition({ content })
+
+  /*
+   * Handle Tag color matching
+   */
+
+  if (colors.colorLinksBackground === 'transparent')
+    colors.colorLinksBackground = 'rgba(255,255,255,0)'
+
+  console.log({ colors })
+
+  // const teaserLinksTagBackgroundColor =
+  //   teaserLinksIsTransparent || chroma(colors.colorLinksBackground).alpha() === 0
+  //     ? chroma(colors.colorLinks).luminance(0.15)
+  //     : chroma(colors.colorLinksBackground).luminance(0.15)
+
+  // const tagLuminance = Math.round(chroma(teaserLinksTagBackgroundColor).luminance() * 100)
+  // const teaserLinksBackgroundLuminance = teaserLinksIsTransparent
+  //   ? 0
+  //   : Math.round(chroma(colors.colorLinksBackground).luminance() * 100)
+
+  // const teaserLinksTagColor =
+  //   isDesign || !!colors.colorLinksTag
+  //     ? colors.colorLinksTag
+  //     : tagLuminance >= 70
+  //     ? teaserLinksBackgroundLuminance >= 70
+  //       ? ForegroundColor.secondary
+  //       : colors.colorLinksBackground
+  //     : ColorWhite
+
+  // const teaserLinksBorderColor = teaserLinksIsTransparent
+  //   ? undefined
+  //   : teaserLinksBackgroundLuminance > 70
+  //   ? chroma(colors.colorLinksBackground).brighten(1)
+  //   : chroma(colors.colorLinksBackground).darken(1)
+
+  // console.log({ tagLuminance, teaserLinksBackgroundLuminance })
+  // console.log({ teaserLinksTagColor, teaserLinksTagBackgroundColor, teaserLinksBorderColor })
+
+  const { tagColor, tagBackgroundColor, colorBorder } = getTeaserLinkTagColors({
+    isTransparent: teaserLinksIsTransparent,
+    isDesign,
+    color: colors.colorLinks,
+    colorBackground: colors.colorLinksBackground,
+    colorTag: colors.colorLinksTag,
+    colorBackgroundTag: colors.colorLinksBackgroundTag,
+  })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
   const isText = type === 'TEXT'
@@ -631,7 +695,11 @@ export const ContentBox = ({
           analyticsLivePage={analyticsLivePage}
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
+          colorTag={tagColor}
+          colorTagBackground={tagBackgroundColor}
+          colorBorder={colorBorder}
           domainName={domainName}
+          // font={teaserLinksFont}
           getImageUrl={getImageUrl}
           isInstagramBrowser={isInstagramBrowser}
           isProPlanRequired={isProPlanRequired}
