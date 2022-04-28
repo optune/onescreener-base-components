@@ -25,9 +25,6 @@ import {
 import { getLogoPosition } from './utils/getLogoSettings.js'
 import { getContentPosition } from './utils/getContentSettings.js'
 
-// Styles
-import { ColorWhite, ForegroundColor } from '../../style/color.js'
-
 const stylesContentDesktop = `
 &.desktop- {
   &top-left {
@@ -549,7 +546,7 @@ export const ContentBox = ({
   } = content
 
   console.log({ teaserLinks })
-  const isDesign = !!design
+  const isDesign = !!design?.theme
   const teaserLinksIsTransparent = isDesign ? false : teaserLinks?.isTransparent
 
   const {
@@ -569,9 +566,9 @@ export const ContentBox = ({
 
   const colors = {
     color: colorDesign || color,
-    colorAccent: colorAccentDesign || colorAccent,
     colorBackground: colorBackgroundDesign || colorBackground,
-    colorBackgroundAccent: colorBackgroundAccentDesign || colorBackgroundAccent,
+    colorAccent: colorAccentDesign || colorAccent, // text and gigs hover - deprecated
+    colorBackgroundAccent: colorBackgroundAccentDesign || colorBackgroundAccent, // text and gigs hover - deprecated
 
     colorLinks: colorLinksDesign || teaserLinks?.colorLinks || color,
     colorLinksBackground:
@@ -589,38 +586,7 @@ export const ContentBox = ({
    * Handle Tag color matching
    */
 
-  if (colors.colorLinksBackground === 'transparent')
-    colors.colorLinksBackground = 'rgba(255,255,255,0)'
-
   console.log({ colors })
-
-  // const teaserLinksTagBackgroundColor =
-  //   teaserLinksIsTransparent || chroma(colors.colorLinksBackground).alpha() === 0
-  //     ? chroma(colors.colorLinks).luminance(0.15)
-  //     : chroma(colors.colorLinksBackground).luminance(0.15)
-
-  // const tagLuminance = Math.round(chroma(teaserLinksTagBackgroundColor).luminance() * 100)
-  // const teaserLinksBackgroundLuminance = teaserLinksIsTransparent
-  //   ? 0
-  //   : Math.round(chroma(colors.colorLinksBackground).luminance() * 100)
-
-  // const teaserLinksTagColor =
-  //   isDesign || !!colors.colorLinksTag
-  //     ? colors.colorLinksTag
-  //     : tagLuminance >= 70
-  //     ? teaserLinksBackgroundLuminance >= 70
-  //       ? ForegroundColor.secondary
-  //       : colors.colorLinksBackground
-  //     : ColorWhite
-
-  // const teaserLinksBorderColor = teaserLinksIsTransparent
-  //   ? undefined
-  //   : teaserLinksBackgroundLuminance > 70
-  //   ? chroma(colors.colorLinksBackground).brighten(1)
-  //   : chroma(colors.colorLinksBackground).darken(1)
-
-  // console.log({ tagLuminance, teaserLinksBackgroundLuminance })
-  // console.log({ teaserLinksTagColor, teaserLinksTagBackgroundColor, teaserLinksBorderColor })
 
   const { tagColor, tagBackgroundColor, colorBorder } = getTeaserLinkTagColors({
     isTransparent: teaserLinksIsTransparent,
