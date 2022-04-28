@@ -1,6 +1,8 @@
 import chroma from 'chroma-js'
 import { ColorWhite, ForegroundColor } from '../../../style/color'
 
+export const DEFAULT_TEASER_LINKS_FONT = 'Open Sans'
+
 export const isDoubleSize = (link = {}) => link.isShop || link.isSession
 
 export const getFilteredTeaserLinksList = ({ list = [], shopEnabled }) =>
@@ -22,7 +24,7 @@ export const getTeaserLinkTagColors = ({
   colorBackgroundTag,
 }) => {
   let bgColor = colorBackground
-  if (bgColor === 'transparent') bgColor = '#000000'
+  if (bgColor === 'transparent') bgColor = 'rgba(255,255,255,0)'
 
   const tagBackgroundColor = !!colorBackgroundTag
     ? colorBackgroundTag
@@ -30,7 +32,7 @@ export const getTeaserLinkTagColors = ({
     ? chroma(color).luminance(0.2)
     : chroma(bgColor).luminance(0.2)
 
-  const tagLuminance = Math.round(chroma(tagBackgroundColor).luminance() * 100)
+  const tagBackgroundLuminance = Math.round(chroma(tagBackgroundColor).luminance() * 100)
 
   const teaserLinksBackgroundLuminance = isTransparent
     ? 0
@@ -39,7 +41,7 @@ export const getTeaserLinkTagColors = ({
   const tagColor =
     isDesign || !!colorTag
       ? colorTag
-      : tagLuminance >= 70
+      : tagBackgroundLuminance >= 70
       ? teaserLinksBackgroundLuminance >= 70
         ? ForegroundColor.secondary
         : bgColor

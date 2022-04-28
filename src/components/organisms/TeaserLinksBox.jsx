@@ -48,7 +48,7 @@ const Container = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: ${({ isSidePreview }) => (isSidePreview ? '2' : '2')};
+      -webkit-line-clamp: ${({ isSidePreview }) => (isSidePreview ? '2' : '3')};
       -webkit-box-orient: vertical;
     }
   }
