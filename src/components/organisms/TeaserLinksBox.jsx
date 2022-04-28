@@ -221,7 +221,7 @@ const Container = styled.div`
     &.processing {
       cursor: auto;
       pointer-events: none;
-      opacity: 0.75;
+      opacity: 0.9;
 
       &::after {
         content: unset;
@@ -252,7 +252,8 @@ const Container = styled.div`
     }
 
     .image-container {
-      height: ${({ isSidePreview }) => (isSidePreview ? '22px' : '33px')};
+        position: relative;
+        height: ${({ isSidePreview }) => (isSidePreview ? '22px' : '33px')};
       width: ${({ isSidePreview }) => (isSidePreview ? '22px' : '33px')};
 
       .image {
@@ -268,6 +269,10 @@ const Container = styled.div`
         left: 50%;
         transform: translate(-50%, -50%);
         text-transform: uppercase;
+        background-color: rgba(255,255,255,0.8);
+        padding: 5px;
+        border-radius: 4px;
+        text-align: center;
         font-size: ${({ isSidePreview }) => (isSidePreview ? '10px' : '16px')};
         color: ${ForegroundColor.error};
       }
@@ -566,7 +571,7 @@ export const TeaserLinksBox = ({
           let duration = session?.length
           if (!duration && isCalendly && !!session) duration = `${session.duration} minutes`
 
-          const soldOut = shop?.maxQuantity === -1
+          const soldOut = isShop && shop?.maxQuantity === -1
           const hasImage = !!images?.[0]
 
           const linkType = isLegacy
