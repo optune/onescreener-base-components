@@ -90,8 +90,9 @@ const Container = styled.div`
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1), 0px 3px 10px rgba(0, 0, 0, 0.1);
 
     border-radius: 6px;
-    transition: all 0.3s ease-out;
-
+    transition: all 0.3s ease-out, transform  0.2s cubic-bezier(0, 0.25, 0.35, 2.25), opacity 0.2s cubic-bezier(0, 0.25, 0.35, 2.25);
+    backface-visibility: hidden;
+    
     &.double {
       align-items: flex-start;
       padding-right: 0;
@@ -123,7 +124,6 @@ const Container = styled.div`
       position: absolute;
       bottom: -7px;
       left: ${({ isSidePreview }) => (isSidePreview ? '4px' : '9px')}; 
-      height: ${({ isSidePreview }) => (isSidePreview ? '24px' : '30px')};
       z-index: ${ZIndex1};
 
       .tag {
@@ -184,7 +184,7 @@ const Container = styled.div`
       left: 0;
       right: 0;
       bottom: 0;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.18), 0px 3px 9px rgba(0, 0, 0, 0.18);
+      box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.09), 0px 3px 6px rgba(0, 0, 0, 0.1);
       
       border-radius: 6px;
       transition: opacity 0.3s ease-out;
@@ -193,6 +193,7 @@ const Container = styled.div`
 
     &:hover,
     &:focus {
+      transform: translateZ(0) scale(1.03);
       backdrop-filter: blur(12px);
       background: ${({ colorBackground, color }) =>
         colorBackground == 'rgba(255,255,255,0)' ? `${RGBToHex(color)}10` : colorBackground};
@@ -316,7 +317,7 @@ const Container = styled.div`
       }
 
       &.double {
-        height: ${({ isSidePreview }) => (isSidePreview ? '25px' : '36px')};
+        height: ${({ isSidePreview }) => (isSidePreview ? '24px' : '28px')};
         width: auto;
         display: flex;
         align-items: center;
