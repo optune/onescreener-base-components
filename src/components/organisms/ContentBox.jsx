@@ -545,7 +545,6 @@ export const ContentBox = ({
     spanMobile,
   } = content
 
-  console.log({ teaserLinks })
   const isDesign = !!design?.theme
   const teaserLinksIsTransparent = isDesign ? false : teaserLinks?.isTransparent
 
@@ -585,8 +584,6 @@ export const ContentBox = ({
   /*
    * Handle Tag color matching
    */
-
-  console.log({ colors })
 
   const { tagColor, tagBackgroundColor, colorBorder } = getTeaserLinkTagColors({
     isTransparent: teaserLinksIsTransparent,
