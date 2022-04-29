@@ -371,7 +371,7 @@ width: 100%;
 height: 100%;
 display: flex;
 z-index: 99;
-bottom: ${({ showBanner }) => (showBanner ? '38px' : '0')}; 
+bottom: ${({ showBanner, isSidePreview }) => (showBanner && !isSidePreview ? '38px' : '0')}; 
 
 ${({
   contentPosition,
