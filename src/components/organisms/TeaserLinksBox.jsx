@@ -70,6 +70,7 @@ const Container = styled.div`
     height: auto;
     font-size: ${({ isSidePreview }) => (isSidePreview ? '11px' : '16px')};
     font-weight: 600;
+    letter-spacing: 0.05rem;
     color: ${({ color }) => (color ? color : ForegroundColor.secondary)};
     backdrop-filter: blur(3px);
     display: flex;
