@@ -392,19 +392,21 @@ ${({
   (isPreviewMobile
     ? contentPosition.classnameMobile.toUpperCase().includes('LEFT')
     : contentPosition.classnameDesktop.toUpperCase().includes('LEFT')) &&
-  isSidePreview &&
+  // isSidePreview &&
   !isPreviewMobile &&
-  '2.8rem'};
+  '5.8rem'};
   right: ${linksPosition.includes('RIGHT') &&
   !isTeaserLinks &&
   (isPreviewMobile
     ? contentPosition.classnameMobile.toUpperCase().includes('RIGHT')
     : contentPosition.classnameDesktop.toUpperCase().includes('RIGHT')) &&
-  isSidePreview &&
+  // isSidePreview &&
   !isPreviewMobile &&
-  '2.8rem'};
+  '5.8rem'};
 
   @media ${MediaSmall} {
+    right: unset;
+    left: unset;
     bottom: ${linksPosition.includes('BOTTOM') &&
     !isTeaserLinks &&
     contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') &&
