@@ -6,7 +6,7 @@ import SimpleBar from 'simplebar-react'
 import { Button } from '../../../atoms/buttons/Button'
 
 // Media
-import { MediaMobile, MediaSmall } from '../../../../style/media.js'
+import { MediaMobile, MediaSmall, ZIndex2, ZIndex3 } from '../../../../style/media.js'
 
 // Styles
 import { ForegroundColor } from '../../../../style/color'
@@ -19,7 +19,7 @@ const StyledModal = styled.div`
   bottom: 0;
   opacity: ${({ show }) => (show ? 1 : 0)};
   pointer-events: ${({ show }) => (show ? 'all' : 'none')};
-  z-index: 999999;
+  z-index: ${ZIndex2};
   overflow: hidden;
   background-color: ${({ isPreviewMobile }) =>
     isPreviewMobile ? 'transparent' : 'rgba(0,0,0, 0.50)'};
@@ -43,6 +43,7 @@ const StyledModalContent = styled.div`
   background: ${({ isPreviewMobile }) => (isPreviewMobile ? 'rgba(0,0,0, 0.50)' : 'transparent')};
   pointer-events: ${({ show }) => (show ? 'all' : 'none')};
   overflow: hidden;
+  z-index: ${ZIndex3};
 
   @media ${MediaSmall} {
     top: 50%;
@@ -88,6 +89,7 @@ export const Modal = ({
         maxHeight={maxHeight}
         maxWidth={maxWidth}
         className={className}
+        onClick={(e) => e.stopPropagation()}
       >
         {children}
       </StyledModalContent>
@@ -112,6 +114,7 @@ export const Container = styled.div`
   border-radius: 4px;
   position: relative;
   max-height: 90vh;
+  z-index: 1;
 
   &.rounder {
     border-radius: 14px;
