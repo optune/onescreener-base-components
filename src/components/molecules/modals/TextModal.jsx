@@ -15,7 +15,9 @@ import {
   StyledButtonContainer,
   StyledTextContainer,
   StyledTitle,
+  Text,
 } from './common/Components'
+import { renderHtml } from '../../../utils/renderHtml'
 
 export const TextModal = ({
   isSidePreview,
@@ -43,6 +45,7 @@ export const TextModal = ({
       show={ssrDone && show}
       isSidePreview={isSidePreview}
       onClose={onClose}
+      height="auto"
     >
       <Container isSidePreview={isSidePreview}>
         <CloseButton onClick={onClose}>
@@ -57,9 +60,12 @@ export const TextModal = ({
               : label}
           </StyledTitle>
           <StyledTextContainer isSidePreview={isSidePreview}>
-            {content?.split('\n').map((line, lineIndex) => (
+            {/* {content?.split('\n').map((line, lineIndex) => (
               <p key={lineIndex}>{line}</p>
-            ))}
+            ))} */}
+            <Text as="div" className="editor">
+              {renderHtml(content)}
+            </Text>
           </StyledTextContainer>
         </TextContainer>
 
