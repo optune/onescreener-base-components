@@ -1,5 +1,5 @@
 // React
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 // Atoms
@@ -22,35 +22,37 @@ const LinkWrapperText = styled.div`
 `
 
 export const PlatformLink = ({
-  trackingVisitorEvents,
-  domainName,
+  actionText,
+  autoOpenId,
   border,
   circle,
   color,
   colorAccent,
   colorBackground,
   colorBackgroundAccent,
+  domainName,
   email,
-  actionText,
   isHighlighted,
   isPreviewMobile,
   isSidePreview,
   isWithoutIcon,
-  showStatistics,
-  linkClicks,
   label,
+  linkClicks,
   margin,
   modalData,
   name,
-  notInteractive,
   noShadow,
+  notInteractive,
+  onOpenModal,
   platform,
   position,
   setModalData,
+  showStatistics,
   size,
   square,
   target,
   text,
+  trackingVisitorEvents,
   url,
 }) => {
   const Icon = LinkIconMapper({ platform, size })
@@ -59,46 +61,80 @@ export const PlatformLink = ({
     label ||
     platform
   ).replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, (l) => l.toUpperCase())
+
+  const handleDonationModalOpen = () => {
+    if (platform !== 'DONATION' || !setModalData) return
+
+    trackingVisitorEvents({
+      domainName,
+      category: {
+        links: {
+          event: {
+            name: labelText,
+            platform: platform,
+          },
+        },
+      },
+    }).then((r) => r)
+    setModalData({
+      show: true,
+      title: name,
+      content: text,
+      paypalLink: `https://www.paypal.com/donate?business=${email}&currency_code=USD`,
+      label: labelText,
+      onAction:
+        actionText > ''
+          ? () => {
+              setModalData({
+                ...modalData,
+                show: true,
+                label: labelText,
+                paypalLink: `https://www.paypal.com/donate?business=${email}&currency_code=USD`,
+                title: name,
+                content: actionText,
+
+                hasActionFinished: true,
+              })
+            }
+          : null,
+    })
+    onOpenModal('donation')
+  }
+
+  const handleTextModalOpen = () => {
+    if (!text || !setModalData) return
+
+    trackingVisitorEvents({
+      domainName,
+      category: {
+        links: {
+          event: {
+            name: labelText,
+            platform: platform,
+            url: text,
+          },
+        },
+      },
+    }).then((r) => r)
+    setModalData({ show: true, content: text, label: labelText })
+    onOpenModal('text')
+  }
+
+  useEffect(() => {
+    switch (autoOpenId) {
+      case 'donation':
+        handleDonationModalOpen()
+        break
+      case 'text':
+        handleTextModalOpen()
+      default:
+        break
+    }
+  }, [autoOpenId])
+
   if (platform === 'DONATION') {
     return (
-      <LinkWrapperText
-        notInteractive={notInteractive}
-        onClick={() => {
-          trackingVisitorEvents({
-            domainName,
-            category: {
-              links: {
-                event: {
-                  name: labelText,
-                  platform: platform,
-                },
-              },
-            },
-          }).then((r) => r)
-          setModalData({
-            show: true,
-            title: name,
-            content: text,
-            paypalLink: `https://www.paypal.com/donate?business=${email}&currency_code=USD`,
-            label: labelText,
-            onAction:
-              actionText > ''
-                ? () => {
-                    setModalData({
-                      ...modalData,
-                      show: true,
-                      label: labelText,
-                      paypalLink: `https://www.paypal.com/donate?business=${email}&currency_code=USD`,
-                      title: name,
-                      content: actionText,
-
-                      hasActionFinished: true,
-                    })
-                  }
-                : null,
-          })
-        }}
-      >
+      <LinkWrapperText notInteractive={notInteractive} onClick={handleDonationModalOpen}>
         <Link
           border={border}
           circle={circle}
@@ -191,24 +227,7 @@ export const PlatformLink = ({
     )
   } else if (text > '' && setModalData) {
     return (
-      <LinkWrapperText
-        notInteractive={notInteractive}
-        onClick={() => {
-          trackingVisitorEvents({
-            domainName,
-            category: {
-              links: {
-                event: {
-                  name: labelText,
-                  platform: platform,
-                  url: text,
-                },
-              },
-            },
-          }).then((r) => r)
-          setModalData({ show: true, content: text, label: labelText })
-        }}
-      >
+      <LinkWrapperText notInteractive={notInteractive} onClick={handleTextModalOpen}>
         <Link
           border={border}
           circle={circle}

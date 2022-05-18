@@ -19,22 +19,23 @@ import { getFromDate } from '../../../api'
  */
 
 export const Links = ({
-  design,
-  isThemeSelected,
-  content,
-  isPreviewMobile,
-  isSidePreview,
   analyticsLivePage,
+  content,
+  design,
+  domainName,
+  isPreviewMobile,
   isProPlanRequired,
-  statisticsPeriod,
-  showStatistics,
+  isSidePreview,
+  isThemeSelected,
   links,
   linksColorState,
   modalData,
   pageUrl,
   setModalData,
+  showStatistics,
+  statisticsPeriod,
   trackingVisitorEvents,
-  domainName,
+  ...other
 }) => {
   const color =
     linksColorState?.colorLinks ||
@@ -111,6 +112,7 @@ export const Links = ({
             // TODO: refactor, use real email field maybe
             link.platform === 'MAIL' ? `mailto:${link.url}` : link.url
           }
+          {...other}
         />
       ))}
     </Fragment>

@@ -183,29 +183,67 @@ export const Page = ({
   const [ssrDone, setSsrDone] = useState(false)
   const [isInstagramBrowser, setIsInstagramBrowser] = useState(false)
 
+  /*
+   * Handle open modal id
+   */
+
+  const initialAutoModalOpen = {
+    teaserLinkId: null,
+    iconId: null,
+  }
+  const [autoModalOpen, setAutoModalOpen] = useState(initialAutoModalOpen)
+
   useEffect(() => {
     setSsrDone(true)
 
-    // if (!isSidePreview) {
-    //   let link = document.createElement('link')
+    if (!isSidePreview) {
+      const urlParams = new URLSearchParams(window.location.search)
+      const teaserLinkId = urlParams.get('teaserLinkId')
+      const iconId = urlParams.get('iconId')
 
-    //   // Google API
-    //   link.rel = 'preconnect'
-    //   link.href = 'https://fonts.googleapis.com'
-    //   document.head.appendChild(link)
-
-    //   // Gstatic
-    //   link.href = 'https://fonts.gstatic.com'
-    //   link.crossOrigin = true
-    //   document.head.appendChild(link)
-
-    //   // Font Bangers
-    //   link.rel = 'stylesheet'
-    //   link.href = 'https://fonts.googleapis.com/css2?family=Bangers&display=swap'
-    //   link.crossOrigin = false
-    //   document.head.appendChild(link)
-    // }
+      if (teaserLinkId || iconId) {
+        setAutoModalOpen({
+          teaserLinkId,
+          iconId,
+        })
+      }
+    }
   }, [])
+
+  useEffect(() => {
+    if (!isSidePreview && ssrDone) {
+      const urlParams = new URLSearchParams(window.location.search)
+
+      Object.keys(autoModalOpen).forEach((key) => {
+        if (!autoModalOpen[key]) {
+          urlParams.delete(key)
+        } else {
+          urlParams.set(key, autoModalOpen[key])
+        }
+      })
+
+      window.history.replaceState(null, null, `?${urlParams.toString()}`)
+    }
+  }, [Object.values(autoModalOpen)])
+
+  const handleOpenOpenModal = (type) => (id) => {
+    switch (type) {
+      case 'icon':
+        setAutoModalOpen({
+          ...autoModalOpen,
+          iconId: id,
+        })
+        break
+      case 'teaserLink':
+        setAutoModalOpen({
+          ...autoModalOpen,
+          teaserLinkId: id,
+        })
+        break
+      default:
+        break
+    }
+  }
 
   /*
    * Handle pretty cookie banner
@@ -356,6 +394,7 @@ export const Page = ({
             {/* Content */}
             <ContentBox
               analyticsLivePage={analyticsLivePage}
+              autoOpenId={autoModalOpen.teaserLinkId}
               content={content}
               design={isThemeSelected && design}
               domainName={domainName}
@@ -371,6 +410,7 @@ export const Page = ({
               modalShop={modalShop}
               onContentSectionClick={onContentSectionClick}
               onLoadShopItem={onLoadShopItem}
+              onOpenModal={handleOpenOpenModal}
               pageUrl={pageUrl}
               setModalEmbed={setModalEmbed}
               setModalShop={setModalShop}
@@ -389,7 +429,10 @@ export const Page = ({
                   getImageUrl={getUrl}
                   isSidePreview={isSidePreview}
                   isPreviewMobile={isPreviewMobile}
-                  onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
+                  onClose={() => {
+                    setAutoModalOpen(initialAutoModalOpen)
+                    setModalShop({ ...modalShop, isOrderSuccess: false, show: false })
+                  }}
                   isOrderSuccess={isOrderSuccess}
                   show={modalShop.show}
                   onBuyItem={onBuyItem}
@@ -400,7 +443,10 @@ export const Page = ({
                 <MonetizationFinishedModal
                   isSidePreview={isSidePreview}
                   isPreviewMobile={isPreviewMobile}
-                  onClose={() => setModalShop({ ...modalShop, isOrderSuccess: false, show: false })}
+                  onClose={() => {
+                    setAutoModalOpen(initialAutoModalOpen)
+                    setModalShop({ ...modalShop, isOrderSuccess: false, show: false })
+                  }}
                   isOrderSuccess={isOrderSuccess}
                   show={modalShop.isOrderSuccess}
                   onLoadOrder={onLoadOrder}
@@ -412,7 +458,7 @@ export const Page = ({
                   isPreviewMobile={isPreviewMobile}
                   onClose={() => {
                     setModalEmbed({ ...modalEmbed, show: false })
-
+                    setAutoModalOpen(initialAutoModalOpen)
                     /* To turn off the player after animation */
                     setTimeout(() => {
                       setModalEmbed({ show: false, url: '' })
@@ -458,7 +504,10 @@ export const Page = ({
                 label={modalData.label}
                 onAction={modalData.onAction}
                 hasActionFinished={modalData.hasActionFinished}
-                onClose={() => setModalData({ ...modalData, show: false })}
+                onClose={() => {
+                  setAutoModalOpen(initialAutoModalOpen)
+                  setModalData({ ...modalData, show: false })
+                }}
                 show={modalData.show}
                 square={links.square}
               />
@@ -477,22 +526,24 @@ export const Page = ({
               zIndex={99}
             >
               {Links({
+                analyticsLivePage,
+                autoOpenId: autoModalOpen.iconId,
                 content,
                 design,
-                isThemeSelected,
+                domainName,
                 isPreviewMobile,
-                isSidePreview,
-                analyticsLivePage,
                 isProPlanRequired,
-                statisticsPeriod,
-                showStatistics,
+                isSidePreview,
+                isThemeSelected,
                 links,
                 Modal,
                 modalData,
+                onOpenModal: handleOpenOpenModal('icon'),
                 pageUrl,
                 setModalData,
+                showStatistics,
+                statisticsPeriod,
                 trackingVisitorEvents,
-                domainName,
               })}
             </LinksBox>
           </ForegroundContainer>
