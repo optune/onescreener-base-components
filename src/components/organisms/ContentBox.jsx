@@ -504,6 +504,7 @@ const Container = styled.div`
 
 export const ContentBox = ({
   analyticsLivePage,
+  autoOpenId,
   content,
   design,
   domainName,
@@ -518,6 +519,7 @@ export const ContentBox = ({
   modalShop,
   onContentSectionClick,
   onLoadShopItem,
+  onOpenModal,
   pageUrl,
   setModalEmbed,
   setModalShop,
@@ -670,6 +672,7 @@ export const ContentBox = ({
       Content = (
         <TeaserLinksBox
           analyticsLivePage={analyticsLivePage}
+          autoOpenId={autoOpenId}
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
           colorTag={tagColor}
@@ -687,6 +690,7 @@ export const ContentBox = ({
           isLegacyMobile={isLegacyMobile}
           modalShop={modalShop}
           onLoadShopItem={onLoadShopItem}
+          onOpenModal={onOpenModal('teaserLink')}
           setModalShop={setModalShop}
           setModalEmbed={setModalEmbed}
           shopEnabled={shopEnabled}

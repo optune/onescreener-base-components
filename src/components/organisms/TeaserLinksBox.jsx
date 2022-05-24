@@ -11,6 +11,9 @@ import { filterTime, getFromDate, CurrencySign, TeaserLinkType, BookingMethod } 
 import { StatisticsOverlay } from '../atoms/StatisticsOverlay'
 import { RoundClockIcon } from '../icons/ClockIcon'
 
+// Molecules
+import { TeaserLink } from '../molecules/teaserLinks.js/TeaserLink'
+
 // Styles
 import { MediaMobile, MediaSmall, ZIndex1 } from '../../style/media'
 import { ForegroundColor } from '../../style/color'
@@ -369,10 +372,9 @@ const Container = styled.div`
   }
 `
 
-const TeaserLink = styled.a``
-
 export const TeaserLinksBox = ({
   analyticsLivePage,
+  autoOpenId,
   color,
   colorBackground,
   colorBorder,
@@ -388,6 +390,7 @@ export const TeaserLinksBox = ({
   isProPlanRequired,
   isSidePreview,
   onLoadShopItem,
+  onOpenModal,
   setModalEmbed,
   setModalShop,
   shopEnabled,
@@ -587,18 +590,20 @@ export const TeaserLinksBox = ({
           return (
             <TeaserLink
               as={isLink ? 'a' : 'div'}
-              key={`${name}-${index}`}
-              href={url}
-              image={images?.[0]}
+              autoOpenId={autoOpenId}
               className={classNames('teaser-link', 'tl-apply-font', {
                 disabled: soldOut,
                 processing,
                 long: name.length >= 38,
                 double: isDouble,
               })}
-              target="_blank"
+              href={url}
+              teaserLinkId={_id}
+              image={images?.[0]}
+              key={`${name}-${index}`}
               rel="noreferrer"
-              onClick={() => {
+              target="_blank"
+              onOpen={() => {
                 if (!isSidePreview) {
                   trackingVisitorEvents({
                     visitorSession,
@@ -642,6 +647,8 @@ export const TeaserLinksBox = ({
                     type,
                   })
                 }
+
+                onOpenModal(_id)
               }}
             >
               <div className="name-container">
