@@ -540,39 +540,15 @@ export const MonetizationModal = ({
                 : () => {
                     !disabled &&
                       onBuyItem?.({
-                        shopItem: {
-                          ...shopItem,
+                        itemId: shopItem._id,
+                        itemInfo: {
+                          quantity,
                           description: stripTags(shopItem.description),
                         },
-                        order: {
-                          type: orderType,
-                          isShop,
-                          isSession,
-                          session: {
-                            bookingMethod,
-                            duration: sessionDuration,
-                            schedulingUrl,
-                            length,
-                          },
-                          details: {
-                            price,
-                            currency,
-                            quantity,
-                            total: +actualPrice,
-                            clientNote: formData.clientNote,
-                          },
-                          status: 'UNPAID',
-                          client: {
-                            email: formData.email,
-                            name: formData.clientName,
-                            city: formData.city || null,
-                            street: formData.street || null,
-                            zip: formData.zip || null,
-                          },
-                          product: {
-                            name,
-                            isPhysical,
-                          },
+                        clientInfo: {
+                          email: formData.email,
+                          name: formData.clientName,
+                          note: formData.clientNote,
                         },
                         enableButton: handleEnableButton,
                         disableButton: handleDisableButton,
