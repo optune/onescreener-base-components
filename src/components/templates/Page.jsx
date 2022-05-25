@@ -372,6 +372,9 @@ export const Page = ({
             {!noBacklink && !isSidePreview && !!hasPro && !showBanner && (
               <BackLink artistSlug={artistSlug} isPreviewMobile={isPreviewMobile} isPro={hasPro} />
             )}
+            {showBanner && !isSidePreview && (
+              <BannerReferral onReferralOpen={onReferralOpen} hideBehind={false} />
+            )}
 
             {/* Logo */}
             {logo && (
@@ -550,9 +553,6 @@ export const Page = ({
             </LinksBox>
           </ForegroundContainer>
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
-          {showBanner && !isSidePreview && (
-            <BannerReferral onReferralOpen={onReferralOpen} hideBehind={isModalOpen} />
-          )}
         </PageContainer>
 
         {page.isBlocked && (

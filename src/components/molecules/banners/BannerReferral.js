@@ -8,7 +8,7 @@ const Container = styled.div`
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  z-index: ${({ hideBehind }) => (hideBehind ? ZIndex1 - 1 : ZIndex1)};
+  z-index: ${ZIndex1};
   border-radius: 4px 4px 0 0;
   cursor: pointer;
 
