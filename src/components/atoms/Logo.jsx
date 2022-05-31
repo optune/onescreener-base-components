@@ -8,7 +8,7 @@ import styled, { css } from 'styled-components'
 import { MediaSmall, MediaSmallMobile } from '../../style/media'
 
 /*
- * Logo Image
+ * Logo Image - Deprecated
  */
 
 const LogoSizeImage = {
@@ -44,7 +44,7 @@ const LogoSizeImageSidePreviewTL = {
 }
 
 /*
- * Image Size
+ * Image Size - Deprecated
  */
 
 const LogoSizeMax = {
@@ -57,54 +57,61 @@ const LogoSizeMax = {
 
 const LANDSCAPE = 'LANDSCAPE'
 
+// ${({ isPreviewMobile, isSidePreview, isTeaserLinks, size }) =>
+//     css`
+//       height: ${isTeaserLinks
+//         ? isSidePreview
+//           ? LogoSizeImageSidePreviewTL[size]
+//           : LogoSizeImageTL[size]
+//         : LogoSizeImage[size]};
+//       width: ${isTeaserLinks
+//         ? isSidePreview
+//           ? LogoSizeImageSidePreviewTL[size]
+//           : LogoSizeImageTL[size]
+//         : LogoSizeImage[size]};
+
+//       ${isPreviewMobile && `width: 100%;`}
+//     `}
+
+// ${({ isSidePreview, isTeaserLinks, orientation }) =>
+// !isSidePreview &&
+// isTeaserLinks &&
+// orientation !== LANDSCAPE &&
+// css`
+//   @media ${MediaSmallMobile} {
+//     height: 10%;
+//   }
+// `}
+
+// /* Fix for Teaser links mobile view and Landscape image  */
+
+// ${({ orientation, size }) =>
+// orientation === LANDSCAPE &&
+// css`
+//   height: ${LogoSizeImageMobileLandscapeTL[size]};
+// `}
+
 const ImageContainer = styled.div`
-position:relative;
+  position:relative;
   display: flex;
   margin: ${({ isSidePreview }) => (isSidePreview ? '0.5rem' : '1rem')};
+  height: ${({ size, isPreviewMobile, isSidePreview, isTeaserLinks }) =>
+    isSidePreview ? '50px' : '100px'};
+  width: ${({ size, isPreviewMobile, isSidePreview, isTeaserLinks }) =>
+    isSidePreview ? '50px' : '100px'};
+  
 
-  ${({ isPreviewMobile, isSidePreview, isTeaserLinks, size }) =>
-    css`
-      height: ${isTeaserLinks
-        ? isSidePreview
-          ? LogoSizeImageSidePreviewTL[size]
-          : LogoSizeImageTL[size]
-        : LogoSizeImage[size]};
-      width: ${isTeaserLinks
-        ? isSidePreview
-          ? LogoSizeImageSidePreviewTL[size]
-          : LogoSizeImageTL[size]
-        : LogoSizeImage[size]};
+  // @media ${MediaSmall} {
+  //   width: 100%;
+  // }
 
-      ${isPreviewMobile && `width: 100%;`}
-    `}
-
-  @media ${MediaSmall} {
-    width: 100%;
-  }
-
-  ${({ isSidePreview, isTeaserLinks, orientation }) =>
-    !isSidePreview &&
-    isTeaserLinks &&
-    orientation !== LANDSCAPE &&
-    css`
-      @media ${MediaSmallMobile} {
-        height: 10%;
-      }
-    `}
-
-  /* Fix for Teaser links mobile view and Landscape image  */
-
-  ${({ orientation, size }) =>
-    orientation === LANDSCAPE &&
-    css`
-      height: ${LogoSizeImageMobileLandscapeTL[size]};
-    `}
 `
 
 const LogoImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  border-radius: 50%;
 `
 
 // const areEqual = (prevProps, nextProps) => {

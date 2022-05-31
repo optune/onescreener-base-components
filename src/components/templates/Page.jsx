@@ -329,6 +329,9 @@ export const Page = ({
 
     const showBanner = !page.hasProPlan || page.referral?.isOn
 
+    const artistName = userName || page.userName
+
+    console.log({ pageBASE: page })
     PageComponent = (
       <Fragment>
         <GlobalStyle />
@@ -374,6 +377,7 @@ export const Page = ({
             {/* Logo */}
             {logo && (
               <LogoBox
+                artistName={artistName}
                 content={content}
                 design={isThemeSelected && design}
                 getImageUrl={getUrl}
@@ -498,7 +502,7 @@ export const Page = ({
                 title={modalData.title}
                 content={modalData.content}
                 paypalLink={modalData.paypalLink}
-                userName={userName || page.userName}
+                artistName={artistName}
                 isPreviewMobile={isPreviewMobile}
                 isSidePreview={isSidePreview}
                 label={modalData.label}

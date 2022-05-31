@@ -180,6 +180,7 @@ const getLogoPosition = ({ logo }) => {
 }
 
 export const LogoText = ({
+  artistName,
   design,
   logo,
   isEditMode,
@@ -188,7 +189,10 @@ export const LogoText = ({
   isTeaserLinks,
 }) => {
   const logoPosition = getLogoPosition({ logo })
-  return logo.text?.title ? (
+  const logoText = logo.text?.title || artistName
+
+  console.log({ logoText })
+  return logoText > '' ? (
     <LogoTextContainer
       size={logo.size}
       shadowColor={logo.text.shadowColor}
@@ -211,7 +215,7 @@ export const LogoText = ({
         textValue={logo.text.title}
         isSidePreview={isSidePreview}
       >
-        <p className="logo-apply-font">{logo.text.title}</p>
+        <p className="logo-apply-font">{logoText}</p>
       </AutoTextFit>
     </LogoTextContainer>
   ) : null

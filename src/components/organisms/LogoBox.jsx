@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 
 // Atoms
@@ -243,6 +243,7 @@ const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
 }
 
 export const LogoBox = ({
+  artistName,
   content,
   design,
   getImageUrl,
@@ -257,12 +258,31 @@ export const LogoBox = ({
   showRedirectOverlay,
   zIndex,
 }) => {
+  const [ssrDone, setSsrDone] = useState(false)
   const position = getLogoPosition({ logo })
   const padding = getLogoPadding({ logo, links, isPreviewMobile, isSidePreview })
 
   const isLogoText = logo.type === 'TEXT' || (logo.type !== 'TEXT' && !logo.image?.url > '')
 
-  return (
+  useEffect(() => {
+    if (isSidePreview) {
+      setTimeout(() => {
+        if (!ssrDone) {
+          // !HACKS: virtual replacement for 'load' - sometimes on migrating/building 'load' event listener doesn't fire off
+          setSsrDone(true)
+        }
+      }, 1500)
+    }
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        console.log('logobox load')
+        setSsrDone(true)
+      }, 0)
+    })
+  }, [])
+
+  return ssrDone ? (
     <Fragment>
       {showRedirectOverlay && (
         <SectionOverlay
@@ -288,26 +308,28 @@ export const LogoBox = ({
         isDifferentPositions={logo?.isDifferentPositions || false}
         padding={padding}
       >
-        {isLogoText ? (
-          <LogoText
-            design={design}
-            isEditMode={isEditMode}
-            isPreviewMobile={isPreviewMobileReady}
-            isSidePreview={isSidePreview}
-            isTeaserLinks={isTeaserLinks}
-            logo={logo}
-          />
-        ) : (
-          <Logo
-            getImageUrl={getImageUrl}
-            isEditMode={isEditMode}
-            isPreviewMobile={isPreviewMobile}
-            isSidePreview={isSidePreview}
-            isTeaserLinks={isTeaserLinks}
-            logo={logo}
-          />
-        )}
+        {/* {isLogoText ? ( */}
+        {/* ) : ( */}
+        <Logo
+          getImageUrl={getImageUrl}
+          isEditMode={isEditMode}
+          isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
+          isTeaserLinks={isTeaserLinks}
+          logo={logo}
+        />
+
+        <LogoText
+          artistName={artistName}
+          design={design}
+          isEditMode={isEditMode}
+          isPreviewMobile={isPreviewMobileReady}
+          isSidePreview={isSidePreview}
+          isTeaserLinks={isTeaserLinks}
+          logo={logo}
+        />
+        {/* )} */}
       </LogoContainer>
     </Fragment>
-  )
+  ) : null
 }
