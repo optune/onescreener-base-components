@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 
 // Atoms
 import { EditButton } from '../atoms/buttons/EditButton.js'
 import { Logo } from '../atoms/Logo.jsx'
 import { LogoText } from '../atoms/LogoText.jsx'
+// import { LogoSubscribe } from '../atoms/LogoSubscribe.js'
 
 import { MediaMobile, MediaSmall } from '../../style/media'
 import { SectionOverlay } from '../molecules/SectionOverlay.js'
@@ -196,6 +197,21 @@ const LogoContainer = styled.div`
     `}
 `
 
+const LogoWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 33%;
+  height: 15%;
+  margin: 0.8rem;
+
+  @media ${MediaMobile} {
+    width: 100%;
+  }
+`
+
 /*
  * Defined logo padding in alignment with links
  */
@@ -243,6 +259,8 @@ const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
 }
 
 export const LogoBox = ({
+  artistName,
+  artistProfilePicture,
   content,
   design,
   getImageUrl,
@@ -255,14 +273,35 @@ export const LogoBox = ({
   logo,
   onLogoSectionClick,
   showRedirectOverlay,
+  userProfilePicture,
   zIndex,
 }) => {
+  const [ssrDone, setSsrDone] = useState(false)
   const position = getLogoPosition({ logo })
   const padding = getLogoPadding({ logo, links, isPreviewMobile, isSidePreview })
 
   const isLogoText = logo.type === 'TEXT' || (logo.type !== 'TEXT' && !logo.image?.url > '')
 
-  return (
+  useEffect(() => {
+    // setSsrDone(true)
+    if (isSidePreview) {
+      setTimeout(() => {
+        if (!ssrDone) {
+          // !HACKS: virtual replacement for 'load' - sometimes on migrating/building 'load' event listener doesn't fire off
+          setSsrDone(true)
+        }
+      }, 1500)
+    }
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        console.log('logobox load')
+        setSsrDone(true)
+      }, 0)
+    })
+  }, [])
+
+  return ssrDone ? (
     <Fragment>
       {showRedirectOverlay && (
         <SectionOverlay
@@ -288,8 +327,22 @@ export const LogoBox = ({
         isDifferentPositions={logo?.isDifferentPositions || false}
         padding={padding}
       >
-        {isLogoText ? (
+        <LogoWrapper>
+          {/* {isLogoText ? ( */}
+          {/* ) : ( */}
+          <Logo
+            artistProfilePicture={artistProfilePicture}
+            getImageUrl={getImageUrl}
+            isEditMode={isEditMode}
+            isPreviewMobile={isPreviewMobile}
+            isSidePreview={isSidePreview}
+            isTeaserLinks={isTeaserLinks}
+            logo={logo}
+            userProfilePicture={userProfilePicture}
+          />
+
           <LogoText
+            artistName={artistName}
             design={design}
             isEditMode={isEditMode}
             isPreviewMobile={isPreviewMobileReady}
@@ -297,17 +350,10 @@ export const LogoBox = ({
             isTeaserLinks={isTeaserLinks}
             logo={logo}
           />
-        ) : (
-          <Logo
-            getImageUrl={getImageUrl}
-            isEditMode={isEditMode}
-            isPreviewMobile={isPreviewMobile}
-            isSidePreview={isSidePreview}
-            isTeaserLinks={isTeaserLinks}
-            logo={logo}
-          />
-        )}
+          {/* <LogoSubscribe /> */}
+          {/* )} */}
+        </LogoWrapper>
       </LogoContainer>
     </Fragment>
-  )
+  ) : null
 }
