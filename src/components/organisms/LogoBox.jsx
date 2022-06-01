@@ -196,6 +196,21 @@ const LogoContainer = styled.div`
     `}
 `
 
+const LogoWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 33%;
+  height: 15%;
+  margin: 0.8rem;
+
+  @media ${MediaMobile} {
+    width: 100%;
+  }
+`
+
 /*
  * Defined logo padding in alignment with links
  */
@@ -308,27 +323,29 @@ export const LogoBox = ({
         isDifferentPositions={logo?.isDifferentPositions || false}
         padding={padding}
       >
-        {/* {isLogoText ? ( */}
-        {/* ) : ( */}
-        <Logo
-          getImageUrl={getImageUrl}
-          isEditMode={isEditMode}
-          isPreviewMobile={isPreviewMobile}
-          isSidePreview={isSidePreview}
-          isTeaserLinks={isTeaserLinks}
-          logo={logo}
-        />
+        <LogoWrapper>
+          {/* {isLogoText ? ( */}
+          {/* ) : ( */}
+          <Logo
+            getImageUrl={getImageUrl}
+            isEditMode={isEditMode}
+            isPreviewMobile={isPreviewMobile}
+            isSidePreview={isSidePreview}
+            isTeaserLinks={isTeaserLinks}
+            logo={logo}
+          />
 
-        <LogoText
-          artistName={artistName}
-          design={design}
-          isEditMode={isEditMode}
-          isPreviewMobile={isPreviewMobileReady}
-          isSidePreview={isSidePreview}
-          isTeaserLinks={isTeaserLinks}
-          logo={logo}
-        />
-        {/* )} */}
+          <LogoText
+            artistName={artistName}
+            design={design}
+            isEditMode={isEditMode}
+            isPreviewMobile={isPreviewMobileReady}
+            isSidePreview={isSidePreview}
+            isTeaserLinks={isTeaserLinks}
+            logo={logo}
+          />
+          {/* )} */}
+        </LogoWrapper>
       </LogoContainer>
     </Fragment>
   ) : null

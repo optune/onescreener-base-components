@@ -82,33 +82,34 @@ const LogoSizeMaxHeightSidePreview = {
   },
 }
 
+// position: absolute;
+// width: ${({ size, isPreviewMobile }) =>
+//   isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
+// height: ${({ size, isPreviewMobile }) =>
+//   isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
+// margin: 0.8rem;
+// max-height: ${LogoSize.Desktop.XL};
+
+// ${({ size, isPreviewMobile, isSidePreview, isTeaserLinks }) =>
+//   isTeaserLinks &&
+//   css`
+//     max-height: ${isPreviewMobile
+//       ? LogoSizeMaxHeight.Mobile[size]
+//       : LogoSizeMaxHeight.Desktop[size]};
+//     min-width: ${isPreviewMobile
+//       ? LogoSizeMinWidth.Mobile[size]
+//       : LogoSizeMinWidth.Desktop[size]};
+
+//     ${isSidePreview &&
+//     `max-height: ${
+//       isPreviewMobile
+//         ? LogoSizeMaxHeightSidePreview.Mobile[size]
+//         : LogoSizeMaxHeightSidePreview.Desktop[size]
+//     }; `}
+//   `}
 const LogoTextContainer = styled.div`
-  position: absolute;
-  width: ${({ size, isPreviewMobile }) =>
-    isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
-  height: ${({ size, isPreviewMobile }) =>
-    isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
-  margin: 0.8rem;
-
-  max-height: ${LogoSize.Desktop.XL};
-
-  ${({ size, isPreviewMobile, isSidePreview, isTeaserLinks }) =>
-    isTeaserLinks &&
-    css`
-      max-height: ${isPreviewMobile
-        ? LogoSizeMaxHeight.Mobile[size]
-        : LogoSizeMaxHeight.Desktop[size]};
-      min-width: ${isPreviewMobile
-        ? LogoSizeMinWidth.Mobile[size]
-        : LogoSizeMinWidth.Desktop[size]};
-
-      ${isSidePreview &&
-      `max-height: ${
-        isPreviewMobile
-          ? LogoSizeMaxHeightSidePreview.Mobile[size]
-          : LogoSizeMaxHeightSidePreview.Desktop[size]
-      }; `}
-    `}
+  position: relative;
+  width: 100%;
 
   & #auto-text-fit-container {
     display: flex;
