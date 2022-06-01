@@ -147,7 +147,7 @@ export const Logo =
     return (
       <ImageContainer
         isPreviewMobile={isPreviewMobile}
-        orientation={logo.image.orientation}
+        orientation={logo?.image?.orientation}
         size={logo.size}
         isTeaserLinks={isTeaserLinks}
         isSidePreview={isSidePreview}
