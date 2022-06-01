@@ -7,6 +7,9 @@ import styled, { css } from 'styled-components'
 
 import { MediaSmall, MediaSmallMobile } from '../../style/media'
 
+const LOGO_SIZE_DESKTOP = 100
+const LOGO_SIZE_MOBILE = 64
+
 /*
  * Logo Image - Deprecated
  */
@@ -92,19 +95,44 @@ const LANDSCAPE = 'LANDSCAPE'
 // `}
 
 const ImageContainer = styled.div`
-  position:relative;
+  position: relative;
   display: flex;
-  margin: ${({ isSidePreview }) => (isSidePreview ? '0.5rem' : '1rem')};
-  height: ${({ size, isPreviewMobile, isSidePreview, isTeaserLinks }) =>
-    isSidePreview ? '50px' : '100px'};
-  width: ${({ size, isPreviewMobile, isSidePreview, isTeaserLinks }) =>
-    isSidePreview ? '50px' : '100px'};
-  
 
-  // @media ${MediaSmall} {
-  //   width: 100%;
-  // }
+  max-height: ${({ isSidePreview, isPreviewMobile }) =>
+    isSidePreview
+      ? isPreviewMobile
+        ? LOGO_SIZE_MOBILE / 1.5
+        : LOGO_SIZE_DESKTOP / 2
+      : LOGO_SIZE_DESKTOP}px;
+  max-width: ${({ isSidePreview, isPreviewMobile }) =>
+    isSidePreview
+      ? isPreviewMobile
+        ? LOGO_SIZE_MOBILE / 1.5
+        : LOGO_SIZE_DESKTOP / 2
+      : LOGO_SIZE_DESKTOP}px;
+  min-height: ${({ isSidePreview, isPreviewMobile }) =>
+    isSidePreview
+      ? isPreviewMobile
+        ? LOGO_SIZE_MOBILE / 1.5
+        : LOGO_SIZE_DESKTOP / 2
+      : LOGO_SIZE_DESKTOP}px;
+  min-width: ${({ isSidePreview, isPreviewMobile }) =>
+    isSidePreview
+      ? isPreviewMobile
+        ? LOGO_SIZE_MOBILE / 1.5
+        : LOGO_SIZE_DESKTOP / 2
+      : LOGO_SIZE_DESKTOP}px;
 
+  @media ${MediaSmall} {
+    max-height: ${({ isSidePreview }) =>
+      isSidePreview ? LOGO_SIZE_MOBILE / 1.5 : LOGO_SIZE_MOBILE}px;
+    max-width: ${({ isSidePreview }) =>
+      isSidePreview ? LOGO_SIZE_MOBILE / 1.5 : LOGO_SIZE_MOBILE}px;
+    min-height: ${({ isSidePreview }) =>
+      isSidePreview ? LOGO_SIZE_MOBILE / 1.5 : LOGO_SIZE_MOBILE}px;
+    min-width: ${({ isSidePreview }) =>
+      isSidePreview ? LOGO_SIZE_MOBILE / 1.5 : LOGO_SIZE_MOBILE}px;
+  }
 `
 
 const LogoImage = styled.img`
@@ -143,7 +171,22 @@ const LogoImage = styled.img`
 
 export const Logo =
   // memo(
-  ({ logo, getImageUrl, isEditMode, isPreviewMobile, isTeaserLinks, isSidePreview }) => {
+  ({
+    artistProfilePicture,
+    logo,
+    getImageUrl,
+    isEditMode,
+    isPreviewMobile,
+    isTeaserLinks,
+    isSidePreview,
+    userProfilePicture,
+  }) => {
+    const imageUrl = !!logo.image?.url
+      ? getImageUrl({ image: logo.image })
+      : !!artistProfilePicture
+      ? getImageUrl({ image: artistProfilePicture })
+      : userProfilePicture?.url
+
     return (
       <ImageContainer
         isPreviewMobile={isPreviewMobile}
@@ -154,12 +197,7 @@ export const Logo =
       >
         {/* {(true || isEditMode) && <EditButton top="0">Logo image</EditButton>} */}
 
-        <LogoImage
-          src={getImageUrl({
-            image: logo.image,
-            maxWidth: LogoSizeMax[logo.size],
-          })}
-        />
+        <LogoImage src={imageUrl} />
       </ImageContainer>
     )
   }

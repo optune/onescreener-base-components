@@ -109,6 +109,8 @@ const LogoSizeMaxHeightSidePreview = {
 //   `}
 const LogoTextContainer = styled.div`
   position: relative;
+  margin-top: ${({ isSidePreview }) => (isSidePreview ? '8px' : '12px')};
+  height: ${({ isSidePreview }) => (isSidePreview ? '18px' : '28px')};
   width: 100%;
 
   & #auto-text-fit-container {
@@ -207,7 +209,6 @@ export const LogoText = ({
     >
       {/* {(true || isEditMode) && <EditButton top="0">Logo</EditButton>} */}
       <AutoTextFit
-        adjustWidth
         includeWidth
         padding="0"
         maxFontSize={200}

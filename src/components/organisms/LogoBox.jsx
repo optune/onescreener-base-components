@@ -6,6 +6,7 @@ import styled, { css } from 'styled-components'
 import { EditButton } from '../atoms/buttons/EditButton.js'
 import { Logo } from '../atoms/Logo.jsx'
 import { LogoText } from '../atoms/LogoText.jsx'
+// import { LogoSubscribe } from '../atoms/LogoSubscribe.js'
 
 import { MediaMobile, MediaSmall } from '../../style/media'
 import { SectionOverlay } from '../molecules/SectionOverlay.js'
@@ -259,6 +260,7 @@ const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
 
 export const LogoBox = ({
   artistName,
+  artistProfilePicture,
   content,
   design,
   getImageUrl,
@@ -271,6 +273,7 @@ export const LogoBox = ({
   logo,
   onLogoSectionClick,
   showRedirectOverlay,
+  userProfilePicture,
   zIndex,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
@@ -280,6 +283,7 @@ export const LogoBox = ({
   const isLogoText = logo.type === 'TEXT' || (logo.type !== 'TEXT' && !logo.image?.url > '')
 
   useEffect(() => {
+    // setSsrDone(true)
     if (isSidePreview) {
       setTimeout(() => {
         if (!ssrDone) {
@@ -327,12 +331,14 @@ export const LogoBox = ({
           {/* {isLogoText ? ( */}
           {/* ) : ( */}
           <Logo
+            artistProfilePicture={artistProfilePicture}
             getImageUrl={getImageUrl}
             isEditMode={isEditMode}
             isPreviewMobile={isPreviewMobile}
             isSidePreview={isSidePreview}
             isTeaserLinks={isTeaserLinks}
             logo={logo}
+            userProfilePicture={userProfilePicture}
           />
 
           <LogoText
@@ -344,6 +350,7 @@ export const LogoBox = ({
             isTeaserLinks={isTeaserLinks}
             logo={logo}
           />
+          {/* <LogoSubscribe /> */}
           {/* )} */}
         </LogoWrapper>
       </LogoContainer>

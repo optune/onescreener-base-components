@@ -192,8 +192,8 @@ export const AutoTextFit = ({
 
     // window.addEventListener('load', () => {
     //   setTimeout(() => {
-    // Update size only once DOM is loaded and take the calculated Ref
-    console.log('autoteif load')
+    //     // Update size only once DOM is loaded and take the calculated Ref
+    //     console.log('autoteif load')
     // TODO: read about multiple loads on the dom elements
     setSsrDone(true)
     updateFontSize(element, options)
