@@ -381,8 +381,6 @@ export const MonetizationModal = ({
     checkout: {},
   }
 
-  console.log({ shopItem })
-
   const isCalendly = bookingMethod === BookingMethod.CALENDLY
 
   let duration = length

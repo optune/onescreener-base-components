@@ -8,8 +8,6 @@ export const TeaserLink = ({ autoOpenId, children, teaserLinkId, onOpen, ...othe
     if (teaserLinkId === autoOpenId) onOpen()
   }, [autoOpenId])
 
-  console.log({ teaserLinkId, autoOpenId })
-
   return (
     <Container onClick={onOpen} {...other}>
       {children}
