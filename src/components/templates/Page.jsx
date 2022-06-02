@@ -378,6 +378,7 @@ export const Page = ({
             {logo && (
               <LogoBox
                 artistName={artistName}
+                artistProfilePicture={page.artistProfilePicture}
                 content={content}
                 design={isThemeSelected && design}
                 getImageUrl={getUrl}
@@ -391,6 +392,7 @@ export const Page = ({
                 logo={logo}
                 onLogoSectionClick={onLogoSectionClick}
                 showRedirectOverlay={showRedirectOverlay}
+                userProfilePicture={page.userProfilePicture}
                 zIndex={10}
               />
             )}
