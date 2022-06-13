@@ -479,10 +479,10 @@ const Container = styled.div`
       margin: 0px 10px;
     `}
 
-  ${({ isTeaserLinks, showBanner }) =>
+  ${({ isSidePreview, isTeaserLinks, showBanner }) =>
     isTeaserLinks &&
     css`
-      top: ${showBanner ? 'calc(38px + 2%)' : '4%'};
+      top: ${showBanner && !isSidePreview ? 'calc(38px + 2%)' : '4%'};
       height: 65%;
     `}
 
