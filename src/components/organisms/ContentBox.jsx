@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment, useMemo } from 'react'
 import styled, { css } from 'styled-components'
+import chroma from 'chroma-js'
 
 // Atoms
 import { EditButton } from '../atoms/buttons/EditButton.js'
@@ -17,7 +18,10 @@ import { SectionOverlay } from '../molecules/SectionOverlay.js'
 
 // Utils
 import { renderHtml } from '../../utils/renderHtml.js'
-import { getTeaserLinksValueLength } from './utils/getTeaserLinksSettings.js'
+import {
+  getTeaserLinksValueLength,
+  getTeaserLinkTagColors,
+} from './utils/getTeaserLinksSettings.js'
 import { getLogoPosition } from './utils/getLogoSettings.js'
 import { getContentPosition } from './utils/getContentSettings.js'
 
@@ -367,37 +371,46 @@ width: 100%;
 height: 100%;
 display: flex;
 z-index: 99;
-/* bottom: 5.2rem; */
+bottom: ${({ showBanner, isSidePreview }) => (showBanner && !isSidePreview ? '38px' : '0')}; 
 
-${({ isSidePreview, isTeaserLinks, linksPosition, contentPosition, isPreviewMobile }) => css`
+${({
+  contentPosition,
+  isPreviewMobile,
+  isSidePreview,
+  isTeaserLinks,
+  linksPosition,
+  showBanner,
+}) => css`
   bottom: ${linksPosition.includes('BOTTOM') &&
   !isTeaserLinks &&
   (isPreviewMobile
     ? contentPosition.classnameMobile.toUpperCase().includes('BOTTOM')
     : contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM')) &&
-  (isSidePreview ? '3.1rem' : '6.4rem')};
+  (isSidePreview ? '3.1rem' : showBanner ? '8.4rem' : '6.4rem')};
   left: ${linksPosition.includes('LEFT') &&
   !isTeaserLinks &&
   (isPreviewMobile
     ? contentPosition.classnameMobile.toUpperCase().includes('LEFT')
     : contentPosition.classnameDesktop.toUpperCase().includes('LEFT')) &&
-  isSidePreview &&
+  // isSidePreview &&
   !isPreviewMobile &&
-  '2.8rem'};
+  '5.8rem'};
   right: ${linksPosition.includes('RIGHT') &&
   !isTeaserLinks &&
   (isPreviewMobile
     ? contentPosition.classnameMobile.toUpperCase().includes('RIGHT')
     : contentPosition.classnameDesktop.toUpperCase().includes('RIGHT')) &&
-  isSidePreview &&
+  // isSidePreview &&
   !isPreviewMobile &&
-  '2.8rem'};
+  '5.8rem'};
 
   @media ${MediaSmall} {
+    right: unset;
+    left: unset;
     bottom: ${linksPosition.includes('BOTTOM') &&
     !isTeaserLinks &&
     contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') &&
-    (isSidePreview ? '3.1rem' : '6.4rem')};
+    (isSidePreview ? '3.1rem' : showBanner ? '8.4rem' : '6.4rem')};
   }
 `}
 
@@ -449,10 +462,14 @@ const Container = styled.div`
   ${({ isSidePreview, isTeaserLinks, isGigs }) =>
     (isTeaserLinks || isGigs) &&
     css`
-      min-width: ${({ isSidePreview }) => (isSidePreview ? '255px' : '315px')};
-      width: ${({ isSidePreview }) => (isSidePreview ? '50%' : '85%')};
+      min-width: ${isSidePreview ? '255px' : '315px'};
     `}
 
+  ${({ isSidePreview, isTeaserLinks }) =>
+    isTeaserLinks &&
+    css`
+      width: ${isSidePreview ? '50%' : '85%'};
+    `}
 
   ${({ isPreviewMobile, isSidePreview, isLegacyMobile, size }) =>
     isPreviewMobile &&
@@ -487,11 +504,12 @@ const Container = styled.div`
 
 export const ContentBox = ({
   analyticsLivePage,
+  autoOpenId,
   content,
   design,
   domainName,
   getImageUrl,
-  isEditMode,
+  isInstagramBrowser,
   isPreviewMobile,
   isPreviewMobileReady,
   isProPlanRequired,
@@ -501,9 +519,11 @@ export const ContentBox = ({
   modalShop,
   onContentSectionClick,
   onLoadShopItem,
+  onOpenModal,
   pageUrl,
   setModalEmbed,
   setModalShop,
+  showBanner,
   shopEnabled,
   showRedirectOverlay,
   showStatistics,
@@ -541,6 +561,9 @@ export const ContentBox = ({
     spanMobile,
   } = content
 
+  const isDesign = !!design?.theme
+  const teaserLinksIsTransparent = isDesign ? false : teaserLinks?.isTransparent
+
   const {
     color: colorDesign,
     colorBackground: colorBackgroundDesign,
@@ -548,24 +571,44 @@ export const ContentBox = ({
     colorBackgroundAccent: colorBackgroundAccentDesign,
   } = design?.theme?.content || {}
 
-  const { colorLinks: colorLinksDesign, colorLinksBackground: colorLinksBackgroundDesign } =
-    design?.theme?.content?.teaserLinks || {}
+  const {
+    colorLinks: colorLinksDesign,
+    colorLinksBackground: colorLinksBackgroundDesign,
+    colorLinksTag: colorLinksTagDesign,
+    colorLinksBackgroundTag: colorLinksBackgroundTagDesign,
+    // font: teaserLinksFontDesign,
+  } = design?.theme?.content?.teaserLinks || {}
 
   const colors = {
     color: colorDesign || color,
-    colorAccent: colorAccentDesign || colorAccent,
     colorBackground: colorBackgroundDesign || colorBackground,
-    colorBackgroundAccent: colorBackgroundAccentDesign || colorBackgroundAccent,
+    colorAccent: colorAccentDesign || colorAccent, // text and gigs hover - deprecated
+    colorBackgroundAccent: colorBackgroundAccentDesign || colorBackgroundAccent, // text and gigs hover - deprecated
 
     colorLinks: colorLinksDesign || teaserLinks?.colorLinks || color,
     colorLinksBackground:
       colorLinksBackgroundDesign ||
-      (teaserLinks?.isTransparent
+      (teaserLinksIsTransparent
         ? 'transparent'
         : teaserLinks?.colorLinksBackground || colorBackground),
+    colorLinksTag: colorLinksTagDesign || teaserLinks?.colorLinksTag,
+    colorLinksBackgroundTag: colorLinksBackgroundTagDesign || teaserLinks?.colorLinksBackgroundTag,
   }
 
   const position = getContentPosition({ content })
+
+  /*
+   * Handle Tag color matching
+   */
+
+  const { tagColor, tagBackgroundColor, colorBorder } = getTeaserLinkTagColors({
+    isTransparent: teaserLinksIsTransparent,
+    isDesign,
+    color: colors.colorLinks,
+    colorBackground: colors.colorLinksBackground,
+    colorTag: colors.colorLinksTag,
+    colorBackgroundTag: colors.colorLinksBackgroundTag,
+  })
 
   const isTeaserLinks = type === 'TEASER_LINKS'
   const isText = type === 'TEXT'
@@ -629,10 +672,16 @@ export const ContentBox = ({
       Content = (
         <TeaserLinksBox
           analyticsLivePage={analyticsLivePage}
+          autoOpenId={autoOpenId}
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
+          colorTag={tagColor}
+          colorTagBackground={tagBackgroundColor}
+          colorBorder={colorBorder}
           domainName={domainName}
+          // font={teaserLinksFont}
           getImageUrl={getImageUrl}
+          isInstagramBrowser={isInstagramBrowser}
           isProPlanRequired={isProPlanRequired}
           isSidePreview={isSidePreview}
           isPreviewMobile={isPreviewMobile}
@@ -641,6 +690,7 @@ export const ContentBox = ({
           isLegacyMobile={isLegacyMobile}
           modalShop={modalShop}
           onLoadShopItem={onLoadShopItem}
+          onOpenModal={onOpenModal('teaserLink')}
           setModalShop={setModalShop}
           setModalEmbed={setModalEmbed}
           shopEnabled={shopEnabled}
@@ -705,6 +755,7 @@ export const ContentBox = ({
         isSidePreview={isSidePreview}
         isPreviewMobile={isPreviewMobile}
         isDifferentPositions={isDifferentPositions}
+        showBanner={showBanner}
       >
         <Container
           data-cy="page-content-container"

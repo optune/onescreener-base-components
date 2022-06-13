@@ -263,7 +263,7 @@ const CheckoutForm = ({
           </div>
         </div>
       )}
-      {isPhysical && (
+      {/* {isPhysical && (
         <Fragment>
           <div className="row">
             <div className="column">
@@ -322,7 +322,7 @@ const CheckoutForm = ({
             </div>
           </div>
         </Fragment>
-      )}
+      )} */}
     </Fragment>
   )
 }
@@ -381,12 +381,14 @@ export const MonetizationModal = ({
     checkout: {},
   }
 
+  console.log({ shopItem })
+
   const isCalendly = bookingMethod === BookingMethod.CALENDLY
 
   let duration = length
   if (!duration && isCalendly) duration = `${sessionDuration} minutes`
 
-  const currencySign = CurrencySign[currency] || '$'
+  const currencySign = CurrencySign[currency] || 'USD'
   const actualPrice = Number(+price * +quantity).toFixed(2)
 
   let orderType = TeaserLinkType.MONETIZATION_ONE_TO_ONE
@@ -408,12 +410,8 @@ export const MonetizationModal = ({
 
   const disabled =
     step === 2 &&
-    (formData.email === '' ||
-      !validEmail ||
-      emailTouched ||
-      formData.clientName === '' ||
-      (isPhysical ? !(formData.city > '' && formData.zip > '' && formData.street > '') : false))
-
+    (formData.email === '' || !validEmail || emailTouched || formData.clientName === '')
+  // || (isPhysical ? !(formData.city > '' && formData.zip > '' && formData.street > '') : false)
   const onValidateEmail = (email) => {
     setEmailTouched(false)
 
@@ -544,39 +542,15 @@ export const MonetizationModal = ({
                 : () => {
                     !disabled &&
                       onBuyItem?.({
-                        shopItem: {
-                          ...shopItem,
+                        itemId: shopItem._id,
+                        itemInfo: {
+                          quantity,
                           description: stripTags(shopItem.description),
                         },
-                        order: {
-                          type: orderType,
-                          isShop,
-                          isSession,
-                          session: {
-                            bookingMethod,
-                            duration: sessionDuration,
-                            schedulingUrl,
-                            length,
-                          },
-                          details: {
-                            price,
-                            currency,
-                            quantity,
-                            total: +actualPrice,
-                            clientNote: formData.clientNote,
-                          },
-                          status: 'UNPAID',
-                          client: {
-                            email: formData.email,
-                            name: formData.clientName,
-                            city: formData.city || null,
-                            street: formData.street || null,
-                            zip: formData.zip || null,
-                          },
-                          product: {
-                            name,
-                            isPhysical,
-                          },
+                        clientInfo: {
+                          email: formData.email,
+                          name: formData.clientName,
+                          note: formData.clientNote,
                         },
                         enableButton: handleEnableButton,
                         disableButton: handleDisableButton,
@@ -588,7 +562,7 @@ export const MonetizationModal = ({
             {step === 2 &&
               (buttonDisabled
                 ? 'Redirecting to checkout...'
-                : `Buy for ${currencySign} ${actualPrice}`)}
+                : `Buy for ${actualPrice} ${currencySign}`)}
           </StyledButton>
         </StyledButtonContainer>
       </Container>

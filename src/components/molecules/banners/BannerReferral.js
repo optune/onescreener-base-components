@@ -74,8 +74,8 @@ export const BannerReferral = ({ onReferralOpen, artistSlug }) => {
     <Container onClick={onReferralOpen}>
       <div className="brand">
         <h1>
-          <span>Made with</span>
-          <a
+          <span>Create your Onescreener</span>
+          {/* <a
             onClick={(e) => e.stopPropagation()}
             href={`https://www.onescreener.com/sign-up?utm_source=livepage&utm_medium=banner&utm_campaign=${
               artistSlug || 'unknown'
@@ -85,11 +85,11 @@ export const BannerReferral = ({ onReferralOpen, artistSlug }) => {
           >
             {' '}
             Onescreener
-          </a>
+          </a> */}
         </h1>
       </div>
       <div className="referral">
-        <h1>Sign up and get 30% off</h1>
+        <h1>Sign up and get 25% off</h1>
       </div>
     </Container>
   )

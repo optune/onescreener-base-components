@@ -11,8 +11,11 @@ import { filterTime, getFromDate, CurrencySign, TeaserLinkType, BookingMethod } 
 import { StatisticsOverlay } from '../atoms/StatisticsOverlay'
 import { RoundClockIcon } from '../icons/ClockIcon'
 
+// Molecules
+import { TeaserLink } from '../molecules/teaserLinks.js/TeaserLink'
+
 // Styles
-import { MediaMobile, MediaSmall } from '../../style/media'
+import { MediaMobile, MediaSmall, ZIndex1 } from '../../style/media'
 import { ForegroundColor } from '../../style/color'
 
 // Utils
@@ -26,7 +29,8 @@ import {
 } from './utils/getTeaserLinksSettings'
 
 const TEASER_LINKS_HEIGHT = 50
-const TEASER_LINKS_MARGIN = 10
+const TEASER_LINKS_MARGIN = 13
+const TEASER_LINKS_SHOP_MARGIN = 20
 const TEASER_LINKS_HEIGHT_SIDE_PREVIEW = 38
 
 const Container = styled.div`
@@ -47,7 +51,7 @@ const Container = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: ${({ isSidePreview }) => (isSidePreview ? '2' : '2')};
+      -webkit-line-clamp: ${({ isSidePreview }) => (isSidePreview ? '2' : '3')};
       -webkit-box-orient: vertical;
     }
   }
@@ -61,16 +65,17 @@ const Container = styled.div`
   .teaser-link {
     position: relative;
     width: 100%;
-    padding: 0 5px 0 10px;
+    padding-left: 10px;
+    padding-right: 5px;
     max-width: 640px;
     min-height: ${({ isSidePreview }) =>
       isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT}px;
     height: auto;
     font-size: ${({ isSidePreview }) => (isSidePreview ? '11px' : '16px')};
     font-weight: 600;
+    letter-spacing: 0.05rem;
     color: ${({ color }) => (color ? color : ForegroundColor.secondary)};
-    text-shadow: 1px 1px 1px rgba(46, 49, 49, 0.3);
-
+    backdrop-filter: blur(3px);
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -80,20 +85,76 @@ const Container = styled.div`
 
     background: ${({ colorBackground }) =>
       colorBackground ? colorBackground : 'rgba(130, 130, 130, 0.30)'};
-    border: 1px solid ${({ color }) => (color ? color : 'white')};
+    border: ${({ colorBorder }) => (colorBorder ? `1px solid ${colorBorder}` : 'none')};
     box-sizing: border-box;
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 0px 2px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    transition: all 0.3s ease-out;
+    // box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 0px 2px rgba(0, 0, 0, 0.1);
+    // box-shadow: 0px 3px 5px rgb(0, 0, 0, 0.09), 0px 1.388px 8px rgb(0, 0, 0, 0.07);
+    // box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.08), 0px 3px 6px rgba(0, 0, 0, 0.08), 0px 3px 12px rgba(0, 0, 0, 0.14);
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1), 0px 3px 10px rgba(0, 0, 0, 0.1);
 
+    border-radius: 6px;
+    transition: all 0.3s ease-out, transform  0.2s cubic-bezier(0, 0.25, 0.35, 2.25), opacity 0.2s cubic-bezier(0, 0.25, 0.35, 2.25);
+    backface-visibility: hidden;
+    
     &.double {
+      align-items: flex-start;
+      padding-right: 0;
+
       min-height: ${({ isSidePreview }) =>
         isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW * 2 : TEASER_LINKS_HEIGHT * 2}px;
-      font-size: ${({ isSidePreview }) => (isSidePreview ? '14px' : '22px')};
+      // font-size: ${({ isSidePreview }) => (isSidePreview ? '14px' : '22px')};
+
+      .name-container {
+        height: auto;
+        margin-top: ${({ isSidePreview }) => (isSidePreview ? '7px' : '14px')};
+      }
 
       .image-container {
-        height: ${({ isSidePreview }) => (isSidePreview ? '42px' : '85px')};
-        width: ${({ isSidePreview }) => (isSidePreview ? '42px' : '85px')};
+        height: 100%;
+        width: ${({ isSidePreview }) => (isSidePreview ? '75px' : '100px')};
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .image {
+          width: ${({ isSidePreview }) => (isSidePreview ? '60px' : '78px')};
+          height: ${({ isSidePreview }) => (isSidePreview ? '60px' : '78px')};
+        }
+      }
+    }
+
+    .tags-container {
+      position: absolute;
+      bottom: -7px;
+      left: ${({ isSidePreview }) => (isSidePreview ? '4px' : '9px')}; 
+      z-index: ${ZIndex1};
+
+      .tag {
+        height: 100%;
+        width: auto;
+        padding: 4px 8px;
+        color: ${({ colorTag }) => colorTag};
+        background-color: ${({ colorTagBackground }) =>
+          colorTagBackground ? colorTagBackground : ForegroundColor.secondary};
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 6px;
+
+        svg.icon {
+          * {
+            stroke: ${({ colorTag }) => colorTag};
+            &[stroke='none'] {
+              fill: ${({ colorTag }) => colorTag};
+              stroke: none;
+            }
+          }
+        }
+
+        &:not(:last-child) {
+          margin-right: 5px;
+        }
       }
     }
 
@@ -126,16 +187,17 @@ const Container = styled.div`
       left: 0;
       right: 0;
       bottom: 0;
-      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.08), 0px 3px 6px rgba(0, 0, 0, 0.08),
-        0px 3px 12px rgba(0, 0, 0, 0.14);
-      border: 1px solid white;
-      border-radius: 4px;
+      box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.09), 0px 3px 6px rgba(0, 0, 0, 0.1);
+      
+      border-radius: 6px;
       transition: opacity 0.3s ease-out;
       opacity: 0;
     }
 
     &:hover,
     &:focus {
+      transform: translateZ(0) scale(1.03);
+      backdrop-filter: blur(12px);
       background: ${({ colorBackground, color }) =>
         colorBackground == 'rgba(255,255,255,0)' ? `${RGBToHex(color)}10` : colorBackground};
     }
@@ -154,13 +216,17 @@ const Container = styled.div`
 
     &:not(:last-child) {
       margin-bottom: ${TEASER_LINKS_MARGIN}px;
+
+      &.double {
+        margin-bottom: ${TEASER_LINKS_SHOP_MARGIN}px;
+      }
     }
 
     &.disabled,
     &.processing {
       cursor: auto;
       pointer-events: none;
-      opacity: 0.75;
+      opacity: 0.9;
 
       &::after {
         content: unset;
@@ -191,17 +257,14 @@ const Container = styled.div`
     }
 
     .image-container {
-      // position: absolute;
-      // top: 50%;
-      // left: 5px;
-      // transform: translateY(-50%);
-      height: ${({ isSidePreview }) => (isSidePreview ? '26px' : '42px')};
-      width: ${({ isSidePreview }) => (isSidePreview ? '26px' : '42px')};
+        position: relative;
+        height: ${({ isSidePreview }) => (isSidePreview ? '22px' : '33px')};
+      width: ${({ isSidePreview }) => (isSidePreview ? '22px' : '33px')};
 
       .image {
         width: 100%;
         height: 100%;
-        border-radius: 4px;
+        border-radius: 5px;
         object-fit: cover;
       }
 
@@ -211,6 +274,10 @@ const Container = styled.div`
         left: 50%;
         transform: translate(-50%, -50%);
         text-transform: uppercase;
+        background-color: rgba(255,255,255,0.8);
+        padding: 5px;
+        border-radius: 4px;
+        text-align: center;
         font-size: ${({ isSidePreview }) => (isSidePreview ? '10px' : '16px')};
         color: ${ForegroundColor.error};
       }
@@ -250,30 +317,20 @@ const Container = styled.div`
               isSidePreview ? (isPreviewMobile ? '100px' : '150px') : '142px'};
           }
         }
-
-        &.price {
-          margin-right: 10px;
-        }
       }
 
       &.double {
-        height: ${({ isSidePreview }) => (isSidePreview ? '25px' : '36px')};
+        height: ${({ isSidePreview }) => (isSidePreview ? '24px' : '28px')};
         width: auto;
         display: flex;
         align-items: center;
 
-        &.smaller {
-          height: ${({ isSidePreview }) => (isSidePreview ? '19px' : '30px')};
-          align-items: flex-end;
-        }
-
         .icon {
           width: auto;
+          height: auto;
 
           &.digital {
-            margin-left: ${({ isSidePreview }) => (isSidePreview ? '-3px' : '-5px')};
-            margin-right: ${({ isSidePreview }) => (isSidePreview ? '4px' : '6px')};
-            margin-bottom: ${({ isSidePreview }) => (isSidePreview ? '-1px' : '-2px')};
+            margin-left: ${({ isSidePreview }) => (isSidePreview ? '-1px' : '-3px')};
 
             svg {
               height: ${({ isSidePreview }) => (isSidePreview ? '20px' : '24px')};
@@ -305,8 +362,6 @@ const Container = styled.div`
           stroke: ${({ color }) => (color ? color : ForegroundColor.secondary)};
 
           &[stroke='none'] {
-            // fill: none;
-            // stroke: ${({ color }) => (color ? color : '#0a1c3b')};
 
             fill: ${({ color }) => (color ? color : '#0a1c3b')} ;
             stroke: none;
@@ -317,22 +372,27 @@ const Container = styled.div`
   }
 `
 
-const TeaserLink = styled.a``
-
 export const TeaserLinksBox = ({
   analyticsLivePage,
+  autoOpenId,
   color,
   colorBackground,
+  colorBorder,
+  colorTag,
+  colorTagBackground,
   domainName,
+  font,
   getImageUrl,
-  isProPlanRequired,
+  isInstagramBrowser,
+  isLegacyMobile,
   isPreviewMobile,
   isPreviewMobileReady,
+  isProPlanRequired,
   isSidePreview,
-  isLegacyMobile,
   onLoadShopItem,
-  setModalShop,
+  onOpenModal,
   setModalEmbed,
+  setModalShop,
   shopEnabled,
   showStatistics,
   statisticsPeriod,
@@ -393,11 +453,14 @@ export const TeaserLinksBox = ({
     const linksHeight = isSidePreview ? 45 : isSmall || isPreviewMobile ? 60 : 110
     const legacyCorrection = isSmall && isLegacyMobile ? 20 : 0
     const allowedHeight = windowHeight - logoHeight - linksHeight - legacyCorrection
-    let linksLimit = parseInt(
-      allowedHeight /
-        ((isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT) +
-          TEASER_LINKS_MARGIN)
-    )
+    let linksLimit = isInstagramBrowser
+      ? 6
+      : parseInt(
+          allowedHeight /
+            ((isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT) +
+              TEASER_LINKS_MARGIN)
+        )
+
     // To avoid loophole
     if (linksLimit <= 2) linksLimit = 4
 
@@ -461,6 +524,10 @@ export const TeaserLinksBox = ({
       isPreviewMobile={isPreviewMobile}
       color={color}
       colorBackground={colorBackground}
+      colorBorder={colorBorder}
+      colorTag={colorTag}
+      colorTagBackground={colorTagBackground}
+      font={font}
     >
       {list?.[pagination].map(
         (
@@ -509,7 +576,7 @@ export const TeaserLinksBox = ({
           let duration = session?.length
           if (!duration && isCalendly && !!session) duration = `${session.duration} minutes`
 
-          const soldOut = shop?.maxQuantity === -1
+          const soldOut = isShop && shop?.maxQuantity === -1
           const hasImage = !!images?.[0]
 
           const linkType = isLegacy
@@ -523,18 +590,20 @@ export const TeaserLinksBox = ({
           return (
             <TeaserLink
               as={isLink ? 'a' : 'div'}
-              key={`${name}-${index}`}
-              href={url}
-              image={images?.[0]}
-              className={classNames('teaser-link', {
+              autoOpenId={autoOpenId}
+              className={classNames('teaser-link', 'tl-apply-font', {
                 disabled: soldOut,
                 processing,
                 long: name.length >= 38,
                 double: isDouble,
               })}
-              target="_blank"
+              href={url}
+              teaserLinkId={_id}
+              image={images?.[0]}
+              key={`${name}-${index}`}
               rel="noreferrer"
-              onClick={() => {
+              target="_blank"
+              onOpen={() => {
                 if (!isSidePreview) {
                   trackingVisitorEvents({
                     visitorSession,
@@ -578,20 +647,24 @@ export const TeaserLinksBox = ({
                     type,
                   })
                 }
+
+                onOpenModal(_id)
               }}
             >
               <div className="name-container">
                 <p image={hasImage ? 1 : undefined} className={`clip ${hasImage && 'has-image'}`}>
                   {name}
                 </p>
-                {isDouble && (
-                  <div
-                    className={classNames('icon-container', {
-                      double: isDouble,
-                      smaller: true,
-                      long: true,
-                    })}
-                  >
+              </div>
+              {isDouble && (
+                <div
+                  className={classNames('tags-container', 'icon-container', {
+                    double: isDouble,
+                    smaller: true,
+                    long: true,
+                  })}
+                >
+                  <div className="tag">
                     <span
                       className={classNames('icon', {
                         digital: isShop && !isPhysical,
@@ -601,10 +674,12 @@ export const TeaserLinksBox = ({
                       {!!Icon && <Icon />}
                     </span>
                     <span className={classNames('price', 'subtitle', { subtitle: isSession })}>
-                      {CurrencySign[shop.currency] || '$'} {Number(shop.price).toFixed(2)}
+                      {Number(shop.price).toFixed(2)} {CurrencySign[shop.currency] || 'USD'}
                     </span>
+                  </div>
 
-                    {isSession && duration > '' && (
+                  {isSession && duration > '' && (
+                    <div className="tag">
                       <Fragment>
                         <span
                           className={classNames('icon', {
@@ -619,10 +694,10 @@ export const TeaserLinksBox = ({
                           {duration}
                         </span>
                       </Fragment>
-                    )}
-                  </div>
-                )}
-              </div>
+                    </div>
+                  )}
+                </div>
+              )}
               {!hasImage && !!Icon && (
                 <div className={`icon-container`}>
                   <Icon />

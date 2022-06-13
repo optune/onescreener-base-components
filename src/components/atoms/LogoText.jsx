@@ -211,7 +211,7 @@ export const LogoText = ({
         textValue={logo.text.title}
         isSidePreview={isSidePreview}
       >
-        <p className="apply-font">{logo.text.title}</p>
+        <p className="logo-apply-font">{logo.text.title}</p>
       </AutoTextFit>
     </LogoTextContainer>
   ) : null

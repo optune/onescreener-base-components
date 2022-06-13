@@ -70,12 +70,12 @@ const SuccessMessage = ({ order }) => {
             <InfoColumn label={'Quantity'} value={order?.details.quantity} third />
             <InfoColumn
               label={'Price'}
-              value={`${CurrencySign[order?.details.currency] || '$'} ${order?.details.price}`}
+              value={`${order?.details.price} ${CurrencySign[order?.details.currency] || 'USD'}`}
               third
             />
             <InfoColumn
               label={'Total'}
-              value={`${CurrencySign[order?.details.currency] || '$'} ${order?.details.total}`}
+              value={`${order?.details.total} ${CurrencySign[order?.details.currency] || 'USD'}`}
               third
             />
           </div>
