@@ -7,8 +7,11 @@ import styled, { css } from 'styled-components'
 
 import { MediaSmall, MediaSmallMobile } from '../../style/media'
 
+const LOGO_SIZE_DESKTOP = 100
+const LOGO_SIZE_MOBILE = 64
+
 /*
- * Logo Image
+ * Logo Image - Deprecated
  */
 
 const LogoSizeImage = {
@@ -44,7 +47,7 @@ const LogoSizeImageSidePreviewTL = {
 }
 
 /*
- * Image Size
+ * Image Size - Deprecated
  */
 
 const LogoSizeMax = {
@@ -57,54 +60,86 @@ const LogoSizeMax = {
 
 const LANDSCAPE = 'LANDSCAPE'
 
+// ${({ isPreviewMobile, isSidePreview, isTeaserLinks, size }) =>
+//     css`
+//       height: ${isTeaserLinks
+//         ? isSidePreview
+//           ? LogoSizeImageSidePreviewTL[size]
+//           : LogoSizeImageTL[size]
+//         : LogoSizeImage[size]};
+//       width: ${isTeaserLinks
+//         ? isSidePreview
+//           ? LogoSizeImageSidePreviewTL[size]
+//           : LogoSizeImageTL[size]
+//         : LogoSizeImage[size]};
+
+//       ${isPreviewMobile && `width: 100%;`}
+//     `}
+
+// ${({ isSidePreview, isTeaserLinks, orientation }) =>
+// !isSidePreview &&
+// isTeaserLinks &&
+// orientation !== LANDSCAPE &&
+// css`
+//   @media ${MediaSmallMobile} {
+//     height: 10%;
+//   }
+// `}
+
+// /* Fix for Teaser links mobile view and Landscape image  */
+
+// ${({ orientation, size }) =>
+// orientation === LANDSCAPE &&
+// css`
+//   height: ${LogoSizeImageMobileLandscapeTL[size]};
+// `}
+
 const ImageContainer = styled.div`
-position:relative;
+  position: relative;
   display: flex;
-  margin: ${({ isSidePreview }) => (isSidePreview ? '0.5rem' : '1rem')};
 
-  ${({ isPreviewMobile, isSidePreview, isTeaserLinks, size }) =>
-    css`
-      height: ${isTeaserLinks
-        ? isSidePreview
-          ? LogoSizeImageSidePreviewTL[size]
-          : LogoSizeImageTL[size]
-        : LogoSizeImage[size]};
-      width: ${isTeaserLinks
-        ? isSidePreview
-          ? LogoSizeImageSidePreviewTL[size]
-          : LogoSizeImageTL[size]
-        : LogoSizeImage[size]};
-
-      ${isPreviewMobile && `width: 100%;`}
-    `}
+  max-height: ${({ isSidePreview, isPreviewMobile }) =>
+    isSidePreview
+      ? isPreviewMobile
+        ? LOGO_SIZE_MOBILE / 1.5
+        : LOGO_SIZE_DESKTOP / 2
+      : LOGO_SIZE_DESKTOP}px;
+  max-width: ${({ isSidePreview, isPreviewMobile }) =>
+    isSidePreview
+      ? isPreviewMobile
+        ? LOGO_SIZE_MOBILE / 1.5
+        : LOGO_SIZE_DESKTOP / 2
+      : LOGO_SIZE_DESKTOP}px;
+  min-height: ${({ isSidePreview, isPreviewMobile }) =>
+    isSidePreview
+      ? isPreviewMobile
+        ? LOGO_SIZE_MOBILE / 1.5
+        : LOGO_SIZE_DESKTOP / 2
+      : LOGO_SIZE_DESKTOP}px;
+  min-width: ${({ isSidePreview, isPreviewMobile }) =>
+    isSidePreview
+      ? isPreviewMobile
+        ? LOGO_SIZE_MOBILE / 1.5
+        : LOGO_SIZE_DESKTOP / 2
+      : LOGO_SIZE_DESKTOP}px;
 
   @media ${MediaSmall} {
-    width: 100%;
+    max-height: ${({ isSidePreview }) =>
+      isSidePreview ? LOGO_SIZE_MOBILE / 1.5 : LOGO_SIZE_MOBILE}px;
+    max-width: ${({ isSidePreview }) =>
+      isSidePreview ? LOGO_SIZE_MOBILE / 1.5 : LOGO_SIZE_MOBILE}px;
+    min-height: ${({ isSidePreview }) =>
+      isSidePreview ? LOGO_SIZE_MOBILE / 1.5 : LOGO_SIZE_MOBILE}px;
+    min-width: ${({ isSidePreview }) =>
+      isSidePreview ? LOGO_SIZE_MOBILE / 1.5 : LOGO_SIZE_MOBILE}px;
   }
-
-  ${({ isSidePreview, isTeaserLinks, orientation }) =>
-    !isSidePreview &&
-    isTeaserLinks &&
-    orientation !== LANDSCAPE &&
-    css`
-      @media ${MediaSmallMobile} {
-        height: 10%;
-      }
-    `}
-
-  /* Fix for Teaser links mobile view and Landscape image  */
-
-  ${({ orientation, size }) =>
-    orientation === LANDSCAPE &&
-    css`
-      height: ${LogoSizeImageMobileLandscapeTL[size]};
-    `}
 `
 
 const LogoImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  border-radius: 50%;
 `
 
 // const areEqual = (prevProps, nextProps) => {
@@ -136,23 +171,33 @@ const LogoImage = styled.img`
 
 export const Logo =
   // memo(
-  ({ logo, getImageUrl, isEditMode, isPreviewMobile, isTeaserLinks, isSidePreview }) => {
+  ({
+    artistProfilePicture,
+    logo,
+    getImageUrl,
+    isEditMode,
+    isPreviewMobile,
+    isTeaserLinks,
+    isSidePreview,
+    userProfilePicture,
+  }) => {
+    const imageUrl = !!logo.image?.url
+      ? getImageUrl({ image: logo.image })
+      : !!artistProfilePicture
+      ? getImageUrl({ image: artistProfilePicture })
+      : userProfilePicture?.url
+
     return (
       <ImageContainer
         isPreviewMobile={isPreviewMobile}
-        orientation={logo.image.orientation}
+        orientation={logo?.image?.orientation}
         size={logo.size}
         isTeaserLinks={isTeaserLinks}
         isSidePreview={isSidePreview}
       >
         {/* {(true || isEditMode) && <EditButton top="0">Logo image</EditButton>} */}
 
-        <LogoImage
-          src={getImageUrl({
-            image: logo.image,
-            maxWidth: LogoSizeMax[logo.size],
-          })}
-        />
+        <LogoImage src={imageUrl} />
       </ImageContainer>
     )
   }

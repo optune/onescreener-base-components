@@ -400,6 +400,8 @@ export const TeaserLinksBox = ({
   trackingVisitorEvents,
   visitorSession,
 }) => {
+  const [ssrDone, setSsrDone] = useState(false)
+
   const [list, setList] = useState(null)
   const [pagination, setPagination] = useState(0)
 
@@ -440,6 +442,28 @@ export const TeaserLinksBox = ({
 
   // Media Query
   const isSmall = useMediaQuery({ query: MediaSmall })
+
+  /*
+   * Wait until all resources are loaded to render Teaser Links
+   */
+
+  useEffect(() => {
+    if (isSidePreview) {
+      setTimeout(() => {
+        if (!ssrDone) {
+          // !HACKS: virtual replacement for 'load' - sometimes on migrating/building 'load' event listener doesn't fire off
+          setSsrDone(true)
+        }
+      }, 1500)
+    }
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        console.log('tlinks load')
+        setSsrDone(true)
+      }, 0)
+    })
+  }, [])
 
   useEffect(() => {
     let teaserLinksFiltered = getFilteredTeaserLinksList({ list: teaserLinks, shopEnabled })
@@ -518,7 +542,7 @@ export const TeaserLinksBox = ({
     return clicks
   }
 
-  return (
+  return ssrDone ? (
     <Container
       isSidePreview={isSidePreview}
       isPreviewMobile={isPreviewMobile}
@@ -735,5 +759,5 @@ export const TeaserLinksBox = ({
         }
       )}
     </Container>
-  )
+  ) : null
 }
