@@ -10,7 +10,7 @@ const LinksContainer = styled.div`
   position: absolute;
   top: 0;
   bottom: ${({ isSidePreview, hasPro, showBanner }) =>
-    isSidePreview ? '0' : hasPro && !showBanner ? '20px' : '36px'};
+    isSidePreview ? '0' : hasPro && !showBanner ? '20px' : '37.5px'};
   left: 0;
   right: 0;
   display: flex;

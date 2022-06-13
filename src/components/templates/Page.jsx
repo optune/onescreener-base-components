@@ -391,6 +391,7 @@ export const Page = ({
                 links={links}
                 logo={logo}
                 onLogoSectionClick={onLogoSectionClick}
+                showBanner={showBanner}
                 showRedirectOverlay={showRedirectOverlay}
                 userProfilePicture={page.userProfilePicture}
                 zIndex={10}

@@ -479,11 +479,11 @@ const Container = styled.div`
       margin: 0px 10px;
     `}
 
-  ${({ isTeaserLinks }) =>
+  ${({ isTeaserLinks, showBanner }) =>
     isTeaserLinks &&
     css`
-      top: 4%;
-      height: 65;
+      top: ${showBanner ? 'calc(38px + 2%)' : '4%'};
+      height: 65%;
     `}
 
   @media ${MediaMobile} {
@@ -766,6 +766,7 @@ export const ContentBox = ({
           isTeaserLinks={isTeaserLinks}
           isGigs={isGigs}
           size={size}
+          showBanner={showBanner}
         >
           {Content}
         </Container>

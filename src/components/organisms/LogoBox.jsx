@@ -222,19 +222,26 @@ const PositionBottom = ['BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT']
 const PositionBottomLeft = ['BOTTOM_LEFT', 'BOTTOM_CENTER']
 const PositionBottomRight = ['BOTTOM_RIGHT', 'BOTTOM_CENTER']
 
-const defineLogoPadding = ({ isPreviewMobile, isSidePreview }) => ({
-  left: `padding-left:  ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
-  right: `padding-right: ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
-  bottom: `padding-bottom: ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
+const defineLogoPadding = ({ isPreviewMobile, isSidePreview, showBanner }) => ({
+  left: `padding-left:  ${
+    (isSidePreview && 3.3) || (isPreviewMobile && 4.5) || (showBanner && 8.4) || 6
+  }rem`,
+  right: `padding-right: ${
+    (isSidePreview && 3.3) || (isPreviewMobile && 4.5) || (showBanner && 8.4) || 6
+  }rem`,
+  bottom: `padding-bottom: ${
+    (isSidePreview && 3.3) || (isPreviewMobile && 4.5) || (showBanner && 8.4) || 6
+  }rem`,
+  bottomBanner: `padding-bottom: 2.4rem`,
   none: isSidePreview ? 'padding: 0.5rem' : 'padding: 1rem',
 })
 
-const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
+const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview, showBanner }) => {
   const logoPositionDesktop = logo.positionDesktop || logo.position
   const logoPositionMobile =
     (logo.isDifferentPositions && logo.positionMobile) || logoPositionDesktop
 
-  const logoPadding = defineLogoPadding({ isPreviewMobile, isSidePreview })
+  const logoPadding = defineLogoPadding({ isPreviewMobile, isSidePreview, showBanner })
 
   const linkPosition = links.list.length > 0 ? links.position : ''
 
@@ -247,6 +254,7 @@ const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
     (PositionBottomRight.includes(linkPosition) &&
       PositionBottomRight.includes(logoPositionDesktop) &&
       'bottom') ||
+    (showBanner && 'bottomBanner') ||
     'none'
 
   const paddingIndexMobile =
@@ -272,13 +280,14 @@ export const LogoBox = ({
   links,
   logo,
   onLogoSectionClick,
+  showBanner,
   showRedirectOverlay,
   userProfilePicture,
   zIndex,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   const position = getLogoPosition({ logo })
-  const padding = getLogoPadding({ logo, links, isPreviewMobile, isSidePreview })
+  const padding = getLogoPadding({ logo, links, isPreviewMobile, isSidePreview, showBanner })
 
   const isLogoText = logo.type === 'TEXT' || (logo.type !== 'TEXT' && !logo.image?.url > '')
 
