@@ -304,7 +304,6 @@ export const LogoBox = ({
 
     window.addEventListener('load', () => {
       setTimeout(() => {
-        console.log('logobox load')
         setSsrDone(true)
       }, 0)
     })

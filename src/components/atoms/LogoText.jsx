@@ -194,7 +194,6 @@ export const LogoText = ({
   const logoPosition = getLogoPosition({ logo })
   const logoText = logo.text?.title || artistName
 
-  console.log({ logoText })
   return logoText > '' ? (
     <LogoTextContainer
       size={logo.size}

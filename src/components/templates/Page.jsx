@@ -331,7 +331,6 @@ export const Page = ({
 
     const artistName = userName || page.userName
 
-    console.log({ pageBASE: page })
     PageComponent = (
       <Fragment>
         <GlobalStyle />
