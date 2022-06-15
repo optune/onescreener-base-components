@@ -28,7 +28,7 @@ export const TextModal = ({
   onAction,
   hasActionFinished,
   paypalLink,
-  userName,
+  artistName,
   onClose,
   show,
 }) => {
@@ -55,7 +55,7 @@ export const TextModal = ({
           <StyledTitle>
             {isDonation
               ? (!hasActionFinished && title > '' && title) ||
-                (userName > '' && `Donate to ${userName}`) ||
+                (artistName > '' && `Donate to ${artistName}`) ||
                 'Donation'
               : label}
           </StyledTitle>

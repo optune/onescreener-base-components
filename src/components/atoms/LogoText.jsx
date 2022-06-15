@@ -82,33 +82,36 @@ const LogoSizeMaxHeightSidePreview = {
   },
 }
 
+// position: absolute;
+// width: ${({ size, isPreviewMobile }) =>
+//   isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
+// height: ${({ size, isPreviewMobile }) =>
+//   isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
+// margin: 0.8rem;
+// max-height: ${LogoSize.Desktop.XL};
+
+// ${({ size, isPreviewMobile, isSidePreview, isTeaserLinks }) =>
+//   isTeaserLinks &&
+//   css`
+//     max-height: ${isPreviewMobile
+//       ? LogoSizeMaxHeight.Mobile[size]
+//       : LogoSizeMaxHeight.Desktop[size]};
+//     min-width: ${isPreviewMobile
+//       ? LogoSizeMinWidth.Mobile[size]
+//       : LogoSizeMinWidth.Desktop[size]};
+
+//     ${isSidePreview &&
+//     `max-height: ${
+//       isPreviewMobile
+//         ? LogoSizeMaxHeightSidePreview.Mobile[size]
+//         : LogoSizeMaxHeightSidePreview.Desktop[size]
+//     }; `}
+//   `}
 const LogoTextContainer = styled.div`
-  position: absolute;
-  width: ${({ size, isPreviewMobile }) =>
-    isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
-  height: ${({ size, isPreviewMobile }) =>
-    isPreviewMobile ? LogoSize.Mobile[size] : LogoSize.Desktop[size]};
-  margin: 0.8rem;
-
-  max-height: ${LogoSize.Desktop.XL};
-
-  ${({ size, isPreviewMobile, isSidePreview, isTeaserLinks }) =>
-    isTeaserLinks &&
-    css`
-      max-height: ${isPreviewMobile
-        ? LogoSizeMaxHeight.Mobile[size]
-        : LogoSizeMaxHeight.Desktop[size]};
-      min-width: ${isPreviewMobile
-        ? LogoSizeMinWidth.Mobile[size]
-        : LogoSizeMinWidth.Desktop[size]};
-
-      ${isSidePreview &&
-      `max-height: ${
-        isPreviewMobile
-          ? LogoSizeMaxHeightSidePreview.Mobile[size]
-          : LogoSizeMaxHeightSidePreview.Desktop[size]
-      }; `}
-    `}
+  position: relative;
+  margin-top: ${({ isSidePreview }) => (isSidePreview ? '8px' : '12px')};
+  height: ${({ isSidePreview }) => (isSidePreview ? '18px' : '28px')};
+  width: 100%;
 
   & #auto-text-fit-container {
     display: flex;
@@ -180,6 +183,7 @@ const getLogoPosition = ({ logo }) => {
 }
 
 export const LogoText = ({
+  artistName,
   design,
   logo,
   isEditMode,
@@ -188,7 +192,9 @@ export const LogoText = ({
   isTeaserLinks,
 }) => {
   const logoPosition = getLogoPosition({ logo })
-  return logo.text?.title ? (
+  const logoText = logo.text?.title || artistName
+
+  return logoText > '' ? (
     <LogoTextContainer
       size={logo.size}
       shadowColor={logo.text.shadowColor}
@@ -202,7 +208,6 @@ export const LogoText = ({
     >
       {/* {(true || isEditMode) && <EditButton top="0">Logo</EditButton>} */}
       <AutoTextFit
-        adjustWidth
         includeWidth
         padding="0"
         maxFontSize={200}
@@ -211,7 +216,7 @@ export const LogoText = ({
         textValue={logo.text.title}
         isSidePreview={isSidePreview}
       >
-        <p className="logo-apply-font">{logo.text.title}</p>
+        <p className="logo-apply-font">{logoText}</p>
       </AutoTextFit>
     </LogoTextContainer>
   ) : null
