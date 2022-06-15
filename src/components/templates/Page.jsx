@@ -30,7 +30,7 @@ import { getImageUrl } from '../../utils/getImageUrl.js'
 // Global Styles
 import GlobalStyle from '../../style/global.js'
 import { UpgradeOverlay } from '../molecules/UpgradeOverlay.js'
-import { MediaMobile, ZIndex2 } from '../../style/media'
+import { MediaMobile, ZIndex1, ZIndex2 } from '../../style/media'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -105,7 +105,7 @@ const ForegroundContainer = styled.div`
   bottom: 0;
   right: 0;
   display: flex;
-  z-index: 2;
+  z-index: ${ZIndex1};
 `
 
 const LogoContainer = styled.div`
@@ -120,7 +120,7 @@ const BlockedCoverContainer = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 2;
+  z-index: ${ZIndex1};
 
   display: flex;
   justify-content: center;
@@ -314,6 +314,8 @@ export const Page = ({
     type: 'link',
   })
 
+  const isModalOpen = !isSidePreview && !!(modalData.show || modalShop.show || modalEmbed.show)
+
   let PageComponent = null
 
   if (page) {
@@ -371,6 +373,9 @@ export const Page = ({
             {/* Back Link to onescreener.com */}
             {!noBacklink && !isSidePreview && !!hasPro && !showBanner && (
               <BackLink artistSlug={artistSlug} isPreviewMobile={isPreviewMobile} isPro={hasPro} />
+            )}
+            {showBanner && !isSidePreview && (
+              <BannerReferral onReferralOpen={onReferralOpen} hideBehind={false} />
             )}
 
             {/* Logo */}
@@ -554,9 +559,6 @@ export const Page = ({
             </LinksBox>
           </ForegroundContainer>
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
-          {showBanner && !isSidePreview && (
-            <BannerReferral artistSlug={artistSlug} onReferralOpen={onReferralOpen} />
-          )}
         </PageContainer>
 
         {page.isBlocked && (

@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { BackgroundColor, ForegroundColor } from '../../../style/color'
-import { MediaMobile, MediaSmallMobile } from '../../../style/media'
+import { MediaMobile, MediaSmallMobile, ZIndex1 } from '../../../style/media'
 
 const Container = styled.div`
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 9999;
+  z-index: ${ZIndex1};
   border-radius: 4px 4px 0 0;
   cursor: pointer;
 
@@ -69,9 +69,9 @@ const Container = styled.div`
   }
 `
 
-export const BannerReferral = ({ onReferralOpen, artistSlug }) => {
+export const BannerReferral = ({ onReferralOpen, ...other }) => {
   return (
-    <Container onClick={onReferralOpen}>
+    <Container onClick={onReferralOpen} {...other}>
       <div className="brand">
         <h1>
           <span>Create your Onescreener</span>
