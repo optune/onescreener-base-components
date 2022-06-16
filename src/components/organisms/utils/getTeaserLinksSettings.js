@@ -1,8 +1,6 @@
 import chroma from 'chroma-js'
 import { ColorWhite, ForegroundColor } from '../../../style/color'
 
-export const DEFAULT_TEASER_LINKS_FONT = 'Open Sans'
-
 export const isDoubleSize = (link = {}) => link.isShop || link.isSession
 
 export const getFilteredTeaserLinksList = ({ list = [], shopEnabled }) =>

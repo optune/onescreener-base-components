@@ -210,7 +210,8 @@ export const LogoText = ({
       <AutoTextFit
         includeWidth
         padding="0"
-        maxFontSize={200}
+        maxFontSize={isSidePreview ? 18 : 22}
+        minFontSize={isSidePreview ? 9 : 12}
         isMobileView={isPreviewMobile}
         isLogo
         textValue={logo.text.title}

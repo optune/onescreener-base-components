@@ -350,6 +350,7 @@ export const TextContainer = styled.div`
 
   &.checkout {
     padding: 0 16px 0;
+    min-height: 325px;
   }
 
   & h2,
