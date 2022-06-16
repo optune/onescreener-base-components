@@ -182,9 +182,9 @@ export const Logo =
     userProfilePicture,
   }) => {
     const imageUrl = !!logo.image?.url
-      ? getImageUrl({ image: logo.image })
+      ? getImageUrl({ image: logo.image, maxHeight: 25, maxWidth: 25 })
       : !!artistProfilePicture
-      ? getImageUrl({ image: artistProfilePicture })
+      ? getImageUrl({ image: artistProfilePicture, maxHeight: 25, maxWidth: 25 })
       : userProfilePicture?.url
 
     return (
