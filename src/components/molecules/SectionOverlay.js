@@ -247,6 +247,7 @@ const getEditButtonSettings = ({
   isOverlappingLogoContent,
   isPreviewMobile,
   positionDesktop,
+  t,
 }) => {
   let title = undefined
   let top = '5px'
@@ -254,14 +255,17 @@ const getEditButtonSettings = ({
   let right = undefined
   let transform = 'translateX(-50%)'
 
-  if (isExtended) title = isOverlappingLogoContent ? 'Edit Content' : 'Add Content'
+  if (isExtended)
+    title = isOverlappingLogoContent
+      ? t('preview.page.content.edit')
+      : t('preview.page.content.add')
 
   if (isLinks) {
     const [yLinks, xLinks] = getAxis(positionDesktop)
     top = '10px'
     right = 'unset'
 
-    if (isExtended) title = 'Add Icons'
+    if (isExtended) title = t('preview.page.icons.add')
 
     if (xLinks === LEFT && !isPreviewMobile) {
       top = '50%'
@@ -278,7 +282,8 @@ const getEditButtonSettings = ({
     }
   }
   if (isLogo) {
-    if (isExtended) title = isOverlappingLogoContent ? 'Edit Logo' : 'Add Logo'
+    if (isExtended)
+      title = isOverlappingLogoContent ? t('preview.page.logo.edit') : t('preview.page.logo.add')
   }
 
   return { title, top, left, right, transform }
@@ -300,6 +305,7 @@ export const SectionOverlay = ({
   onClick,
   positionDesktop = 'top-center',
   positionMobile = 'top-center',
+  t,
   teaserLinksValue,
 }) => {
   const mappedLinksPosition = linksPosition?.toLowerCase().replace('_', '-') || ''
@@ -335,6 +341,7 @@ export const SectionOverlay = ({
     isOverlappingLogoContent,
     isPreviewMobile,
     positionDesktop,
+    t,
   })
 
   const { top, left, right, bottom } = getPositionDesktop({

@@ -142,6 +142,7 @@ export const LinksBox = ({
   position,
   showBanner,
   showRedirectOverlay,
+  t,
   zIndex,
 }) => {
   const positionLinks = position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'
@@ -157,6 +158,7 @@ export const LinksBox = ({
           onClick={onLinksSectionClick}
           positionDesktop={positionLinks}
           positionMobile="bottom-center"
+          t={t}
         />
       )}
       <LinksContainer

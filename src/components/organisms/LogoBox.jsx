@@ -282,6 +282,7 @@ export const LogoBox = ({
   onLogoSectionClick,
   showBanner,
   showRedirectOverlay,
+  t,
   userProfilePicture,
   zIndex,
 }) => {
@@ -323,6 +324,7 @@ export const LogoBox = ({
           onClick={onLogoSectionClick}
           positionDesktop={position.classnameDesktop}
           positionMobile={position.classnameMobile}
+          t={t}
         />
       )}
       <LogoContainer
