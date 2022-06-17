@@ -176,6 +176,7 @@ export const Page = ({
   showStatistics,
   showUpgradeOverlay,
   statisticsPeriod,
+  t,
   trackingVisitorEvents,
   userName,
   visitorSession,
@@ -397,6 +398,7 @@ export const Page = ({
                 onLogoSectionClick={onLogoSectionClick}
                 showBanner={showBanner}
                 showRedirectOverlay={showRedirectOverlay}
+                t={t}
                 userProfilePicture={page.userProfilePicture}
                 zIndex={10}
               />
@@ -430,6 +432,7 @@ export const Page = ({
               showRedirectOverlay={showRedirectOverlay}
               showStatistics={showStatistics}
               statisticsPeriod={statisticsPeriod}
+              t={t}
               trackingVisitorEvents={trackingVisitorEvents}
               visitorSession={visitorSession}
             />
@@ -534,6 +537,7 @@ export const Page = ({
               onLinksSectionClick={onLinksSectionClick}
               position={links.position}
               showRedirectOverlay={showRedirectOverlay}
+              t={t}
               zIndex={99}
             >
               {Links({

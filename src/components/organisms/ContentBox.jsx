@@ -528,6 +528,7 @@ export const ContentBox = ({
   showRedirectOverlay,
   showStatistics,
   statisticsPeriod,
+  t,
   trackingVisitorEvents,
   visitorSession,
 }) => {
@@ -739,6 +740,7 @@ export const ContentBox = ({
           onClick={onContentSectionClick}
           positionDesktop={position.classnameDesktop}
           positionMobile={position.classnameMobile}
+          t={t}
           teaserLinksValue={teaserLinksValue}
         />
       )}
