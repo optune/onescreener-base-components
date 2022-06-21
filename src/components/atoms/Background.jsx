@@ -19,6 +19,9 @@ const BackgroundContainer = styled.div`
 `
 
 const areEqual = (prevProps, nextProps) => {
+  // HACKS: to rerender the component when the image is deleted
+  if (!prevProps.background.image?.url || !nextProps.background.image?.url) return false
+
   return (
     prevProps.background.focusPoint === nextProps.background.focusPoint &&
     prevProps.background.fullscreen === nextProps.background.fullscreen &&
