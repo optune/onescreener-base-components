@@ -346,9 +346,9 @@ export const Page = ({
             selectedBackgroundUrl: design?.background?.url,
           })}
           ssrDone={ssrDone}
-          focusPoint={background.focusPoint}
-          fullscreen={background.fullscreen}
-          color={background.color}
+          focusPoint={background?.focusPoint}
+          fullscreen={background?.fullscreen}
+          color={background?.color}
           designColor={isBackgroundSelected && design?.background?.color}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
@@ -365,7 +365,7 @@ export const Page = ({
                 isBackgroundSelected,
                 selectedBackgroundUrl: design?.background?.url,
               }}
-              color={background.color}
+              color={background?.color}
               designColor={isBackgroundSelected && design?.background?.color}
               getImageUrl={getUrl}
             />
