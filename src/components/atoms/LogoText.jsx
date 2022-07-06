@@ -197,10 +197,10 @@ export const LogoText = ({
   return logoText > '' ? (
     <LogoTextContainer
       size={logo.size}
-      shadowColor={logo.text.shadowColor}
-      shadowSize={logo.text.shadowSize}
-      color={design?.theme?.logo?.color || logo.text.color}
-      fontFamily={design?.theme?.logo?.font || logo.text.font}
+      shadowColor={logo.text?.shadowColor}
+      shadowSize={logo.text?.shadowSize}
+      color={design?.theme?.logo?.color || logo.text?.color}
+      fontFamily={design?.theme?.logo?.font || logo.text?.font}
       isPreviewMobile={isPreviewMobile}
       isSidePreview={isSidePreview}
       logoPosition={isTeaserLinks ? { desktop: 'flex-start', mobile: 'flex-start' } : logoPosition}
@@ -214,7 +214,7 @@ export const LogoText = ({
         minFontSize={isSidePreview ? 9 : 12}
         isMobileView={isPreviewMobile}
         isLogo
-        textValue={logo.text.title}
+        textValue={logo.text?.title}
         isSidePreview={isSidePreview}
       >
         <p className="logo-apply-font">{logoText}</p>
