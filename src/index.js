@@ -53,10 +53,7 @@ export { isDeezer } from './utils/teaserLinks/players/deezer'
 export { isVideoSupported } from './utils/teaserLinks/players/video'
 export { isMusicSupported } from './utils/teaserLinks/players/music'
 export { isOpensea, getOpenseaUrl } from './utils/teaserLinks/integrations/opensea'
-export {
-  getTeaserLinkTagColors,
-  DEFAULT_TEASER_LINKS_FONT,
-} from './components/organisms/utils/getTeaserLinksSettings'
+export { getTeaserLinkTagColors } from './components/organisms/utils/getTeaserLinksSettings'
 
 // Styles
 export { default as GlobalStyle, globalStyles } from './style/global.js' // global styles
@@ -72,6 +69,8 @@ export {
   FontSizeNano,
   FontSizeSmall,
   FontSizeTiny,
+  DEFAULT_LOGO_FONT,
+  DEFAULT_TEASER_LINKS_FONT,
 } from './style/font'
 
 export {

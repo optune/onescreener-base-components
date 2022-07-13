@@ -7,6 +7,7 @@ export const ColorLightGrey = '#D6D3CF'
 export const ColorMonza = '#D0021B'
 export const ColorStormGray = '#4F4F4F'
 export const ColorWhite = '#FFFFFF'
+export const ColorWhiteRGB = '255,255,255'
 export const ColorGrey = '#f7f7f7'
 
 // React base colors
@@ -66,6 +67,7 @@ export const BackgroundColor = {
   purpleLight: ColorPurpleLight,
   greenLight: ColorHarlequinLight,
   secondary: ColorWhite,
+  secondaryRGB: ColorWhiteRGB,
   selected: ColorBlue,
   selectedGradient: (degree = DEFAULT_DEGREE) =>
     `linear-gradient(${degree}deg, ${ColorBlue} 61.46%, rgba(${ColorBlueRGB},0.5) 100%)`,

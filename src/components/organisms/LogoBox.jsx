@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components'
 import { EditButton } from '../atoms/buttons/EditButton.js'
 import { Logo } from '../atoms/Logo.jsx'
 import { LogoText } from '../atoms/LogoText.jsx'
-// import { LogoSubscribe } from '../atoms/LogoSubscribe.js'
+import { LogoSubscribe } from '../atoms/LogoSubscribe.js'
 
 import { MediaMobile, MediaSmall } from '../../style/media'
 import { SectionOverlay } from '../molecules/SectionOverlay.js'
@@ -276,12 +276,18 @@ export const LogoBox = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  isSubscribed,
+  isSubscriptionLoading,
   isTeaserLinks,
+  isUser,
   links,
   logo,
   onLogoSectionClick,
+  onSubscribe,
+  onUnsubscribe,
   showBanner,
   showRedirectOverlay,
+  t,
   userProfilePicture,
   zIndex,
 }) => {
@@ -304,7 +310,6 @@ export const LogoBox = ({
 
     window.addEventListener('load', () => {
       setTimeout(() => {
-        console.log('logobox load')
         setSsrDone(true)
       }, 0)
     })
@@ -324,6 +329,7 @@ export const LogoBox = ({
           onClick={onLogoSectionClick}
           positionDesktop={position.classnameDesktop}
           positionMobile={position.classnameMobile}
+          t={t}
         />
       )}
       <LogoContainer
@@ -359,7 +365,14 @@ export const LogoBox = ({
             isTeaserLinks={isTeaserLinks}
             logo={logo}
           />
-          {/* <LogoSubscribe /> */}
+          <LogoSubscribe
+            isSidePreview={isSidePreview}
+            isSubscribed={isSubscribed}
+            isSubscriptionLoading={isSubscriptionLoading}
+            isUser={isUser}
+            onSubscribe={onSubscribe}
+            onUnsubscribe={onUnsubscribe}
+          />
           {/* )} */}
         </LogoWrapper>
       </LogoContainer>

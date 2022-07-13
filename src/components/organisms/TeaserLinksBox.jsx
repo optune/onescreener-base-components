@@ -106,7 +106,7 @@ const Container = styled.div`
 
       .name-container {
         height: auto;
-        margin-top: ${({ isSidePreview }) => (isSidePreview ? '7px' : '14px')};
+        margin-top: ${({ isSidePreview }) => (isSidePreview ? '7px' : '12px')};
       }
 
       .image-container {
@@ -125,7 +125,7 @@ const Container = styled.div`
 
     .tags-container {
       position: absolute;
-      bottom: -7px;
+      bottom: -12px;
       left: ${({ isSidePreview }) => (isSidePreview ? '4px' : '9px')}; 
       z-index: ${ZIndex1};
 
@@ -294,7 +294,6 @@ const Container = styled.div`
 
         &.subtitle {
           font-size: ${({ isSidePreview }) => (isSidePreview ? '13px' : '16px')};
-          line-height: 1;
           align-items: flex-end;
         }
 
@@ -320,7 +319,7 @@ const Container = styled.div`
       }
 
       &.double {
-        height: ${({ isSidePreview }) => (isSidePreview ? '24px' : '28px')};
+        height: ${({ isSidePreview }) => (isSidePreview ? '24px' : '22px')};
         width: auto;
         display: flex;
         align-items: center;
@@ -459,7 +458,6 @@ export const TeaserLinksBox = ({
 
     window.addEventListener('load', () => {
       setTimeout(() => {
-        console.log('tlinks load')
         setSsrDone(true)
       }, 0)
     })

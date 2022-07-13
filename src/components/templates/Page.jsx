@@ -30,7 +30,7 @@ import { getImageUrl } from '../../utils/getImageUrl.js'
 // Global Styles
 import GlobalStyle from '../../style/global.js'
 import { UpgradeOverlay } from '../molecules/UpgradeOverlay.js'
-import { MediaMobile, ZIndex2 } from '../../style/media'
+import { MediaMobile, ZIndex1, ZIndex2 } from '../../style/media'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -105,7 +105,7 @@ const ForegroundContainer = styled.div`
   bottom: 0;
   right: 0;
   display: flex;
-  z-index: 2;
+  z-index: ${ZIndex1};
 `
 
 const LogoContainer = styled.div`
@@ -120,7 +120,7 @@ const BlockedCoverContainer = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 2;
+  z-index: ${ZIndex1};
 
   display: flex;
   justify-content: center;
@@ -154,11 +154,15 @@ export const Page = ({
   domainName,
   hasPro,
   isEditMode,
+  isLoggedIn,
   isOrderSuccess,
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
   isSmall,
+  isSubscribed,
+  isSubscriptionLoading,
+  isUser,
   Modal,
   noBacklink,
   onBuyItem,
@@ -169,6 +173,8 @@ export const Page = ({
   onLoadShopItem,
   onLogoSectionClick,
   onReferralOpen,
+  onSubscribe,
+  onUnsubscribe,
   onUpgrade,
   page,
   pageUrl,
@@ -176,6 +182,7 @@ export const Page = ({
   showStatistics,
   showUpgradeOverlay,
   statisticsPeriod,
+  t,
   trackingVisitorEvents,
   userName,
   visitorSession,
@@ -183,6 +190,7 @@ export const Page = ({
   const [ssrDone, setSsrDone] = useState(false)
   const [isInstagramBrowser, setIsInstagramBrowser] = useState(false)
 
+  console.log({ isSubscribed, isUser })
   /*
    * Handle open modal id
    */
@@ -200,6 +208,10 @@ export const Page = ({
       const urlParams = new URLSearchParams(window.location.search)
       const teaserLinkId = urlParams.get('teaserLinkId')
       const iconId = urlParams.get('iconId')
+
+      /*
+       * Handle auto modal open
+       */
 
       if (teaserLinkId || iconId) {
         setAutoModalOpen({
@@ -314,6 +326,8 @@ export const Page = ({
     type: 'link',
   })
 
+  // const isModalOpen = !isSidePreview && !!(modalData.show || modalShop.show || modalEmbed.show)
+
   let PageComponent = null
 
   if (page) {
@@ -327,11 +341,10 @@ export const Page = ({
 
     const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
 
-    const showBanner = !page.hasProPlan || page.referral?.isOn
+    const showBanner = !isUser && (!page.hasProPlan || page.referral?.isOn)
 
     const artistName = userName || page.userName
 
-    console.log({ pageBASE: page })
     PageComponent = (
       <Fragment>
         <GlobalStyle />
@@ -344,9 +357,9 @@ export const Page = ({
             selectedBackgroundUrl: design?.background?.url,
           })}
           ssrDone={ssrDone}
-          focusPoint={background.focusPoint}
-          fullscreen={background.fullscreen}
-          color={background.color}
+          focusPoint={background?.focusPoint}
+          fullscreen={background?.fullscreen}
+          color={background?.color}
           designColor={isBackgroundSelected && design?.background?.color}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
@@ -363,7 +376,7 @@ export const Page = ({
                 isBackgroundSelected,
                 selectedBackgroundUrl: design?.background?.url,
               }}
-              color={background.color}
+              color={background?.color}
               designColor={isBackgroundSelected && design?.background?.color}
               getImageUrl={getUrl}
             />
@@ -372,6 +385,9 @@ export const Page = ({
             {/* Back Link to onescreener.com */}
             {!noBacklink && !isSidePreview && !!hasPro && !showBanner && (
               <BackLink artistSlug={artistSlug} isPreviewMobile={isPreviewMobile} isPro={hasPro} />
+            )}
+            {showBanner && !isSidePreview && (
+              <BannerReferral onReferralOpen={onReferralOpen} hideBehind={false} />
             )}
 
             {/* Logo */}
@@ -387,14 +403,20 @@ export const Page = ({
                 isPreviewMobileReady={isPreviewMobileReady}
                 isProPlanRequired={isProPlanRequired}
                 isSidePreview={isSidePreview}
+                isSubscribed={isSubscribed}
+                isSubscriptionLoading={isSubscriptionLoading}
                 isTeaserLinks={content.type === 'TEASER_LINKS'}
+                isUser={isUser}
                 links={links}
                 logo={logo}
                 onLogoSectionClick={onLogoSectionClick}
+                onSubscribe={onSubscribe}
+                onUnsubscribe={onUnsubscribe}
                 showBanner={showBanner}
                 showRedirectOverlay={showRedirectOverlay}
+                t={t}
                 userProfilePicture={page.userProfilePicture}
-                zIndex={10}
+                zIndex={100}
               />
             )}
 
@@ -426,6 +448,7 @@ export const Page = ({
               showRedirectOverlay={showRedirectOverlay}
               showStatistics={showStatistics}
               statisticsPeriod={statisticsPeriod}
+              t={t}
               trackingVisitorEvents={trackingVisitorEvents}
               visitorSession={visitorSession}
             />
@@ -530,6 +553,7 @@ export const Page = ({
               onLinksSectionClick={onLinksSectionClick}
               position={links.position}
               showRedirectOverlay={showRedirectOverlay}
+              t={t}
               zIndex={99}
             >
               {Links({
@@ -555,9 +579,6 @@ export const Page = ({
             </LinksBox>
           </ForegroundContainer>
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
-          {showBanner && !isSidePreview && (
-            <BannerReferral artistSlug={artistSlug} onReferralOpen={onReferralOpen} />
-          )}
         </PageContainer>
 
         {page.isBlocked && (
