@@ -7,8 +7,8 @@ import styled, { css } from 'styled-components'
 
 import { MediaSmall, MediaSmallMobile } from '../../style/media'
 
-const LOGO_SIZE_DESKTOP = 100
-const LOGO_SIZE_MOBILE = 64
+const LOGO_SIZE_DESKTOP = 68
+const LOGO_SIZE_MOBILE = 62
 
 /*
  * Logo Image - Deprecated

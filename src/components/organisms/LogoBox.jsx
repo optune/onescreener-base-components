@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components'
 import { EditButton } from '../atoms/buttons/EditButton.js'
 import { Logo } from '../atoms/Logo.jsx'
 import { LogoText } from '../atoms/LogoText.jsx'
-// import { LogoSubscribe } from '../atoms/LogoSubscribe.js'
+import { LogoSubscribe } from '../atoms/LogoSubscribe.js'
 
 import { MediaMobile, MediaSmall } from '../../style/media'
 import { SectionOverlay } from '../molecules/SectionOverlay.js'
@@ -276,10 +276,15 @@ export const LogoBox = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  isSubscribed,
+  isSubscriptionLoading,
   isTeaserLinks,
+  isUser,
   links,
   logo,
   onLogoSectionClick,
+  onSubscribe,
+  onUnsubscribe,
   showBanner,
   showRedirectOverlay,
   t,
@@ -360,7 +365,14 @@ export const LogoBox = ({
             isTeaserLinks={isTeaserLinks}
             logo={logo}
           />
-          {/* <LogoSubscribe /> */}
+          <LogoSubscribe
+            isSidePreview={isSidePreview}
+            isSubscribed={isSubscribed}
+            isSubscriptionLoading={isSubscriptionLoading}
+            isUser={isUser}
+            onSubscribe={onSubscribe}
+            onUnsubscribe={onUnsubscribe}
+          />
           {/* )} */}
         </LogoWrapper>
       </LogoContainer>
