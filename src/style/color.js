@@ -34,6 +34,7 @@ export const ColorPrimaryLight = '#D6E2F7'
 export const ColorPrimaryDark = ColorBlue
 
 export const ColorPurpleLight = '#E9DCFA'
+export const ColorPurpleMedium = '#9E7EC9'
 export const ColorPurpleDark = '#442E64'
 
 export const ColorHarlequinLight = '#D8F5DE'
@@ -65,6 +66,7 @@ export const BackgroundColor = {
 
   primaryLight: ColorPrimaryLight,
   purpleLight: ColorPurpleLight,
+  purpleMedium: ColorPurpleMedium,
   greenLight: ColorHarlequinLight,
   secondary: ColorWhite,
   secondaryRGB: ColorWhiteRGB,

@@ -1,20 +1,46 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { BackgroundColor } from '../../style/color'
+
+import { UserMinusIcon } from '../icons/page/UserMinus'
+import { UserPlusIcon } from '../icons/page/UserPlus'
+import { CheckIcon } from '../icons/info/Check'
 
 import { Button } from './buttons/Button'
 
 const Container = styled.div`
   margin-top: 6px;
   display: flex;
-  min-height: ${({ isSidePreview }) => (isSidePreview ? 22 : 30)}px;
+  min-height: ${({ isSidePreview }) => (isSidePreview ? 20 : 30)}px;
   pointer-events: ${({ isSidePreview }) => (isSidePreview ? 'none' : 'auto')};
 
   button {
-    &:first-child {
-      margin-right: 5px;
+    border-radius: 4px;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+
+    &:not(:first-child) {
+      margin-left: 5px;
+    }
+
+    svg.icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    &.subscribe-button {
+      border: 1px solid ${BackgroundColor.accent};
+
+      svg.icon {
+        * {
+          stroke: ${BackgroundColor.accent};
+        }
+      }
     }
 
     &.subscription-status {
+      background-color: ${BackgroundColor.accent};
+      color: white;
       cursor: auto;
       pointer-events: none;
     }
@@ -40,6 +66,8 @@ export const LogoSubscribe = ({
   const handleOnUnsubscribe = () => {
     onUnsubscribe({ setLoading: setIsSubscribing, setSubscribed })
   }
+
+  const SubscribeIcon = !subscribed ? UserPlusIcon : UserMinusIcon
 
   useEffect(() => {
     if (isUser) {
@@ -74,11 +102,12 @@ export const LogoSubscribe = ({
           {subscribed && (
             <Button className="subscription-status" height={isSidePreview ? 20 : 28}>
               {' '}
-              {isSubscriptionLoading ? 'Loading...' : 'V'}
+              {isSubscriptionLoading ? 'Loading...' : <CheckIcon />}
             </Button>
           )}
           {!isSubscriptionLoading && (
             <Button
+              className="subscribe-button"
               secondary
               height={isSidePreview ? 20 : 28}
               contrast
@@ -90,7 +119,7 @@ export const LogoSubscribe = ({
                   : handleOnSubscribe
               }
             >
-              {subscribed ? 'UN' : 'SUB'}
+              <SubscribeIcon />
             </Button>
           )}
         </Fragment>
