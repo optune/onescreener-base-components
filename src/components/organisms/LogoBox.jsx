@@ -167,6 +167,7 @@ const LogoContainer = styled.div`
   left: 0;
   right: 0;
   display: flex;
+  pointer-events: none;
 
   z-index: ${({ zIndex }) => zIndex};
 
@@ -206,6 +207,7 @@ const LogoWrapper = styled.div`
   width: 33%;
   height: 15%;
   margin: 0.8rem;
+  pointer-events: all;
 
   @media ${MediaMobile} {
     width: 100%;
