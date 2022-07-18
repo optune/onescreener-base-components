@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { BackgroundColor } from '../../style/color'
 
 import { UserMinusIcon } from '../icons/page/UserMinus'
 import { UserPlusIcon } from '../icons/page/UserPlus'
@@ -8,10 +7,13 @@ import { CheckIcon } from '../icons/info/Check'
 
 import { Button } from './buttons/Button'
 
+import { BackgroundColor } from '../../style/color'
+import { MediaSmall } from '../../style/media'
+
 const Container = styled.div`
   margin-top: 6px;
   display: flex;
-  min-height: ${({ isSidePreview }) => (isSidePreview ? 20 : 30)}px;
+  min-height: ${({ isSidePreview }) => (isSidePreview ? 11 : 22)}px;
   pointer-events: ${({ isSidePreview }) => (isSidePreview ? 'none' : 'auto')};
 
   button {
@@ -36,6 +38,11 @@ const Container = styled.div`
           stroke: ${BackgroundColor.accent};
         }
       }
+
+      @media ${MediaSmall} {
+        min-height: 23px;
+        height: 100%;
+      }
     }
 
     &.subscription-status {
@@ -44,6 +51,10 @@ const Container = styled.div`
       cursor: auto;
       pointer-events: none;
     }
+  }
+
+  @media ${MediaSmall} {
+    min-height: 25%;
   }
 `
 
