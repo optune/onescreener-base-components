@@ -299,6 +299,8 @@ export const LogoBox = ({
 
   const isLogoText = logo.type === 'TEXT' || (logo.type !== 'TEXT' && !logo.image?.url > '')
 
+  const showFollowButton = typeof logo.showFollowButton === 'boolean' ? logo.showFollowButton : true
+
   useEffect(() => {
     // setSsrDone(true)
     if (isSidePreview) {
@@ -367,14 +369,16 @@ export const LogoBox = ({
             isTeaserLinks={isTeaserLinks}
             logo={logo}
           />
-          <LogoSubscribe
-            isSidePreview={isSidePreview}
-            isSubscribed={isSubscribed}
-            isSubscriptionLoading={isSubscriptionLoading}
-            isUser={isUser}
-            onSubscribe={onSubscribe}
-            onUnsubscribe={onUnsubscribe}
-          />
+          {showFollowButton && (
+            <LogoSubscribe
+              isSidePreview={isSidePreview}
+              isSubscribed={isSubscribed}
+              isSubscriptionLoading={isSubscriptionLoading}
+              isUser={isUser}
+              onSubscribe={onSubscribe}
+              onUnsubscribe={onUnsubscribe}
+            />
+          )}
           {/* )} */}
         </LogoWrapper>
       </LogoContainer>
