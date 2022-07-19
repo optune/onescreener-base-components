@@ -124,14 +124,10 @@ const ImageContainer = styled.div`
       : LOGO_SIZE_DESKTOP}px;
 
   @media ${MediaSmall} {
-    max-height: ${({ isSidePreview }) =>
-      isSidePreview ? LOGO_SIZE_MOBILE / 1.5 : LOGO_SIZE_MOBILE}px;
-    max-width: ${({ isSidePreview }) =>
-      isSidePreview ? LOGO_SIZE_MOBILE / 1.5 : LOGO_SIZE_MOBILE}px;
-    min-height: ${({ isSidePreview }) =>
-      isSidePreview ? LOGO_SIZE_MOBILE / 1.5 : LOGO_SIZE_MOBILE}px;
-    min-width: ${({ isSidePreview }) =>
-      isSidePreview ? LOGO_SIZE_MOBILE / 1.5 : LOGO_SIZE_MOBILE}px;
+    max-height: 50%;
+    min-height: unset;
+    max-width: unset;
+    min-width: unset;
   }
 `
 

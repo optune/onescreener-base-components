@@ -110,7 +110,8 @@ const LogoSizeMaxHeightSidePreview = {
 const LogoTextContainer = styled.div`
   position: relative;
   margin-top: ${({ isSidePreview }) => (isSidePreview ? '3px' : '6px')};
-  min-height: ${({ isSidePreview }) => (isSidePreview ? '16px' : '26px')};
+  min-height: ${({ isSidePreview }) => (isSidePreview ? '10px' : '20px')};
+  min-height: 25%;
   width: 100%;
 
   & #auto-text-fit-container {
