@@ -5,10 +5,12 @@ import styled, { css } from 'styled-components'
 
 // Atoms
 
-import { MediaSmall, MediaSmallMobile } from '../../style/media'
+import { MediaSmall, MediaSmallMobile, MediaTinyMobile } from '../../style/media'
 
 const LOGO_SIZE_DESKTOP = 68
-const LOGO_SIZE_MOBILE = 62
+const LOGO_SIZE_SMALL = 62
+const LOGO_SIZE_MOBILE = 56
+const LOGO_SIZE_MOBILE_TINY = 52
 
 /*
  * Logo Image - Deprecated
@@ -94,40 +96,51 @@ const LANDSCAPE = 'LANDSCAPE'
 //   height: ${LogoSizeImageMobileLandscapeTL[size]};
 // `}
 
+const getLogoImageSize = ({ isSidePreview, logoSize, logoSizeSidePreview }) =>
+  css`
+    max-height: ${isSidePreview ? (logoSizeSidePreview || logoSize) / 1.5 : logoSize}px;
+    max-width: ${isSidePreview ? (logoSizeSidePreview || logoSize) / 1.5 : logoSize}px;
+    min-height: ${isSidePreview ? (logoSizeSidePreview || logoSize) / 1.5 : logoSize}px;
+    min-width: ${isSidePreview ? (logoSizeSidePreview || logoSize) / 1.5 : logoSize}px;
+  `
+
 const ImageContainer = styled.div`
   position: relative;
   display: flex;
 
-  max-height: ${({ isSidePreview, isPreviewMobile }) =>
-    isSidePreview
-      ? isPreviewMobile
-        ? LOGO_SIZE_MOBILE / 1.5
-        : LOGO_SIZE_DESKTOP / 2
-      : LOGO_SIZE_DESKTOP}px;
-  max-width: ${({ isSidePreview, isPreviewMobile }) =>
-    isSidePreview
-      ? isPreviewMobile
-        ? LOGO_SIZE_MOBILE / 1.5
-        : LOGO_SIZE_DESKTOP / 2
-      : LOGO_SIZE_DESKTOP}px;
-  min-height: ${({ isSidePreview, isPreviewMobile }) =>
-    isSidePreview
-      ? isPreviewMobile
-        ? LOGO_SIZE_MOBILE / 1.5
-        : LOGO_SIZE_DESKTOP / 2
-      : LOGO_SIZE_DESKTOP}px;
-  min-width: ${({ isSidePreview, isPreviewMobile }) =>
-    isSidePreview
-      ? isPreviewMobile
-        ? LOGO_SIZE_MOBILE / 1.5
-        : LOGO_SIZE_DESKTOP / 2
-      : LOGO_SIZE_DESKTOP}px;
+  ${({ isSidePreview, isPreviewMobile }) =>
+    getLogoImageSize({
+      isSidePreview,
+      isPreviewMobile,
+      logoSize: LOGO_SIZE_DESKTOP,
+      logoSizeSidePreview: isPreviewMobile ? LOGO_SIZE_SMALL : LOGO_SIZE_DESKTOP,
+    })}
 
   @media ${MediaSmall} {
-    max-height: 50%;
-    min-height: unset;
-    max-width: unset;
-    min-width: unset;
+    ${({ isSidePreview, isPreviewMobile }) =>
+      getLogoImageSize({
+        isSidePreview,
+        isPreviewMobile,
+        logoSize: LOGO_SIZE_SMALL,
+      })}
+  }
+
+  @media ${MediaSmallMobile} {
+    ${({ isSidePreview, isPreviewMobile }) =>
+      getLogoImageSize({
+        isSidePreview,
+        isPreviewMobile,
+        logoSize: LOGO_SIZE_MOBILE,
+      })}
+  }
+
+  @media ${MediaTinyMobile} {
+    ${({ isSidePreview, isPreviewMobile }) =>
+      getLogoImageSize({
+        isSidePreview,
+        isPreviewMobile,
+        logoSize: LOGO_SIZE_MOBILE_TINY,
+      })}
   }
 `
 

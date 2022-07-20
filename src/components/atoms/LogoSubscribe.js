@@ -14,6 +14,7 @@ const Container = styled.div`
   margin-top: 6px;
   display: flex;
   min-height: ${({ isSidePreview }) => (isSidePreview ? 11 : 22)}px;
+  max-height: 25%;
   pointer-events: ${({ isSidePreview }) => (isSidePreview ? 'none' : 'auto')};
 
   button {
@@ -38,11 +39,6 @@ const Container = styled.div`
           stroke: ${BackgroundColor.accent};
         }
       }
-
-      @media ${MediaSmall} {
-        min-height: 23px;
-        height: 100%;
-      }
     }
 
     &.subscription-status {
@@ -50,6 +46,11 @@ const Container = styled.div`
       color: white;
       cursor: auto;
       pointer-events: none;
+    }
+
+    @media ${MediaSmall} {
+      min-height: 23px;
+      height: 100%;
     }
   }
 
