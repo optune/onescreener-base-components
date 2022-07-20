@@ -341,7 +341,8 @@ export const Page = ({
 
     const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
 
-    const showBanner = !isUser && (!page.hasProPlan || page.referral?.isOn)
+    const showBanner =
+      !isUser && (!page.hasProPlan || page.referral?.isOn) && !isSubscriptionLoading
 
     const artistName = userName || page.userName
 
