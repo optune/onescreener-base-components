@@ -456,11 +456,12 @@ export const TeaserLinksBox = ({
       }, 1500)
     }
 
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        setSsrDone(true)
-      }, 0)
-    })
+    // window.addEventListener('load', () => {
+    //   setTimeout(() => {
+    //     setSsrDone(true)
+    //   }, 0)
+    // })
+    setSsrDone(true)
   }, [])
 
   useEffect(() => {
