@@ -41,7 +41,7 @@ const StyledButton = styled.button`
           overflow: none;
         `};
 
-  min-height: 40px;
+  min-height: ${({ height }) => height || 40}px;
   background: ${getBackgroundColor};
   border-radius: ${({ secondary, round }) => (round ? '50%' : secondary ? '2px' : '3px')};
   border: none;
@@ -52,8 +52,8 @@ const StyledButton = styled.button`
   padding: 0.5rem 1rem;
 
   & svg.icon {
-    height: 24px;
-    width: 24px;
+    height: ${({ height }) => (height ? height - 16 : 24)}px;
+    width: ${({ height }) => (height ? height - 16 : 24)}px;
 
     & * {
       fill: ${getForegroundColor};

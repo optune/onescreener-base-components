@@ -35,6 +35,9 @@ export { MovieIcon } from './components/icons/content/Movie'
 export { GigsIcon } from './components/icons/platform/Gigs'
 // export { ErrorIcon } from './components/icons/ErrorIcon'
 export { ErrorOutline as ErrorIcon } from '@styled-icons/material/ErrorOutline'
+export { UserPlusIcon } from './components/icons/page/UserPlus'
+export { UserMinusIcon } from './components/icons/page/UserMinus'
+export { PeopleIcon } from './components/icons/info/People'
 
 // API
 export { getGigs } from './api/gigs/index.js'

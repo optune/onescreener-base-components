@@ -366,53 +366,54 @@ const FullscreenContainer = styled.div`
 
 const ResponsiveContainer = styled.div`
 
-position: relative;
-width: 100%;
-height: 100%;
-display: flex;
-z-index: 99;
-bottom: ${({ showBanner, isSidePreview }) => (showBanner && !isSidePreview ? '38px' : '0')}; 
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 99;
+  bottom: ${({ showBanner, isSidePreview }) => (showBanner && !isSidePreview ? '38px' : '0')}; 
+  pointer-events: none;
 
-${({
-  contentPosition,
-  isPreviewMobile,
-  isSidePreview,
-  isTeaserLinks,
-  linksPosition,
-  showBanner,
-}) => css`
-  bottom: ${linksPosition.includes('BOTTOM') &&
-  !isTeaserLinks &&
-  (isPreviewMobile
-    ? contentPosition.classnameMobile.toUpperCase().includes('BOTTOM')
-    : contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM')) &&
-  (isSidePreview ? '3.1rem' : showBanner ? '8.4rem' : '6.4rem')};
-  left: ${linksPosition.includes('LEFT') &&
-  !isTeaserLinks &&
-  (isPreviewMobile
-    ? contentPosition.classnameMobile.toUpperCase().includes('LEFT')
-    : contentPosition.classnameDesktop.toUpperCase().includes('LEFT')) &&
-  // isSidePreview &&
-  !isPreviewMobile &&
-  '5.8rem'};
-  right: ${linksPosition.includes('RIGHT') &&
-  !isTeaserLinks &&
-  (isPreviewMobile
-    ? contentPosition.classnameMobile.toUpperCase().includes('RIGHT')
-    : contentPosition.classnameDesktop.toUpperCase().includes('RIGHT')) &&
-  // isSidePreview &&
-  !isPreviewMobile &&
-  '5.8rem'};
-
-  @media ${MediaSmall} {
-    right: unset;
-    left: unset;
+  ${({
+    contentPosition,
+    isPreviewMobile,
+    isSidePreview,
+    isTeaserLinks,
+    linksPosition,
+    showBanner,
+  }) => css`
     bottom: ${linksPosition.includes('BOTTOM') &&
     !isTeaserLinks &&
-    contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') &&
+    (isPreviewMobile
+      ? contentPosition.classnameMobile.toUpperCase().includes('BOTTOM')
+      : contentPosition.classnameDesktop.toUpperCase().includes('BOTTOM')) &&
     (isSidePreview ? '3.1rem' : showBanner ? '8.4rem' : '6.4rem')};
-  }
-`}
+    left: ${linksPosition.includes('LEFT') &&
+    !isTeaserLinks &&
+    (isPreviewMobile
+      ? contentPosition.classnameMobile.toUpperCase().includes('LEFT')
+      : contentPosition.classnameDesktop.toUpperCase().includes('LEFT')) &&
+    // isSidePreview &&
+    !isPreviewMobile &&
+    '5.8rem'};
+    right: ${linksPosition.includes('RIGHT') &&
+    !isTeaserLinks &&
+    (isPreviewMobile
+      ? contentPosition.classnameMobile.toUpperCase().includes('RIGHT')
+      : contentPosition.classnameDesktop.toUpperCase().includes('RIGHT')) &&
+    // isSidePreview &&
+    !isPreviewMobile &&
+    '5.8rem'};
+
+    @media ${MediaSmall} {
+      right: unset;
+      left: unset;
+      bottom: ${linksPosition.includes('BOTTOM') &&
+      !isTeaserLinks &&
+      contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') &&
+      (isSidePreview ? '3.1rem' : showBanner ? '8.4rem' : '6.4rem')};
+    }
+  `}
 
 
   ${stylesContentDesktop}
@@ -457,7 +458,7 @@ const Container = styled.div`
   margin: 0.5rem;
   height: ${({ isLegacy, size }) => (isLegacy ? '100%' : ContentSize.Desktop[size])};
   width: ${({ isLegacy, size }) => (isLegacy ? '100%' : ContentSize.Desktop[size])};
-  
+  pointer-events: all;
 
   ${({ isSidePreview, isTeaserLinks, isGigs }) =>
     (isTeaserLinks || isGigs) &&

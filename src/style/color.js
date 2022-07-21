@@ -7,6 +7,7 @@ export const ColorLightGrey = '#D6D3CF'
 export const ColorMonza = '#D0021B'
 export const ColorStormGray = '#4F4F4F'
 export const ColorWhite = '#FFFFFF'
+export const ColorWhiteRGB = '255,255,255'
 export const ColorGrey = '#f7f7f7'
 
 // React base colors
@@ -33,6 +34,7 @@ export const ColorPrimaryLight = '#D6E2F7'
 export const ColorPrimaryDark = ColorBlue
 
 export const ColorPurpleLight = '#E9DCFA'
+export const ColorPurpleMedium = '#9E7EC9'
 export const ColorPurpleDark = '#442E64'
 
 export const ColorHarlequinLight = '#D8F5DE'
@@ -64,8 +66,10 @@ export const BackgroundColor = {
 
   primaryLight: ColorPrimaryLight,
   purpleLight: ColorPurpleLight,
+  purpleMedium: ColorPurpleMedium,
   greenLight: ColorHarlequinLight,
   secondary: ColorWhite,
+  secondaryRGB: ColorWhiteRGB,
   selected: ColorBlue,
   selectedGradient: (degree = DEFAULT_DEGREE) =>
     `linear-gradient(${degree}deg, ${ColorBlue} 61.46%, rgba(${ColorBlueRGB},0.5) 100%)`,

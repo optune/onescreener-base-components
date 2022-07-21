@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components'
 import { EditButton } from '../atoms/buttons/EditButton.js'
 import { Logo } from '../atoms/Logo.jsx'
 import { LogoText } from '../atoms/LogoText.jsx'
-// import { LogoSubscribe } from '../atoms/LogoSubscribe.js'
+import { LogoSubscribe } from '../atoms/LogoSubscribe.js'
 
 import { MediaMobile, MediaSmall } from '../../style/media'
 import { SectionOverlay } from '../molecules/SectionOverlay.js'
@@ -167,6 +167,7 @@ const LogoContainer = styled.div`
   left: 0;
   right: 0;
   display: flex;
+  pointer-events: none;
 
   z-index: ${({ zIndex }) => zIndex};
 
@@ -206,6 +207,7 @@ const LogoWrapper = styled.div`
   width: 33%;
   height: 15%;
   margin: 0.8rem;
+  pointer-events: all;
 
   @media ${MediaMobile} {
     width: 100%;
@@ -276,10 +278,15 @@ export const LogoBox = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  isSubscribed,
+  isSubscriptionLoading,
   isTeaserLinks,
+  isUser,
   links,
   logo,
   onLogoSectionClick,
+  onSubscribe,
+  onUnsubscribe,
   showBanner,
   showRedirectOverlay,
   t,
@@ -291,6 +298,8 @@ export const LogoBox = ({
   const padding = getLogoPadding({ logo, links, isPreviewMobile, isSidePreview, showBanner })
 
   const isLogoText = logo.type === 'TEXT' || (logo.type !== 'TEXT' && !logo.image?.url > '')
+
+  const showFollowButton = typeof logo.showFollowButton === 'boolean' ? logo.showFollowButton : true
 
   useEffect(() => {
     // setSsrDone(true)
@@ -360,7 +369,16 @@ export const LogoBox = ({
             isTeaserLinks={isTeaserLinks}
             logo={logo}
           />
-          {/* <LogoSubscribe /> */}
+          {showFollowButton && (
+            <LogoSubscribe
+              isSidePreview={isSidePreview}
+              isSubscribed={isSubscribed}
+              isSubscriptionLoading={isSubscriptionLoading}
+              isUser={isUser}
+              onSubscribe={onSubscribe}
+              onUnsubscribe={onUnsubscribe}
+            />
+          )}
           {/* )} */}
         </LogoWrapper>
       </LogoContainer>

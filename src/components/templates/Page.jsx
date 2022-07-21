@@ -154,11 +154,15 @@ export const Page = ({
   domainName,
   hasPro,
   isEditMode,
+  isLoggedIn,
   isOrderSuccess,
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
   isSmall,
+  isSubscribed,
+  isSubscriptionLoading,
+  isUser,
   Modal,
   noBacklink,
   onBuyItem,
@@ -169,6 +173,8 @@ export const Page = ({
   onLoadShopItem,
   onLogoSectionClick,
   onReferralOpen,
+  onSubscribe,
+  onUnsubscribe,
   onUpgrade,
   page,
   pageUrl,
@@ -201,6 +207,10 @@ export const Page = ({
       const urlParams = new URLSearchParams(window.location.search)
       const teaserLinkId = urlParams.get('teaserLinkId')
       const iconId = urlParams.get('iconId')
+
+      /*
+       * Handle auto modal open
+       */
 
       if (teaserLinkId || iconId) {
         setAutoModalOpen({
@@ -315,7 +325,7 @@ export const Page = ({
     type: 'link',
   })
 
-  const isModalOpen = !isSidePreview && !!(modalData.show || modalShop.show || modalEmbed.show)
+  // const isModalOpen = !isSidePreview && !!(modalData.show || modalShop.show || modalEmbed.show)
 
   let PageComponent = null
 
@@ -330,7 +340,8 @@ export const Page = ({
 
     const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
 
-    const showBanner = !page.hasProPlan || page.referral?.isOn
+    const showBanner =
+      !isUser && (!page.hasProPlan || page.referral?.isOn) && !isSubscriptionLoading
 
     const artistName = userName || page.userName
 
@@ -392,15 +403,20 @@ export const Page = ({
                 isPreviewMobileReady={isPreviewMobileReady}
                 isProPlanRequired={isProPlanRequired}
                 isSidePreview={isSidePreview}
+                isSubscribed={isSubscribed}
+                isSubscriptionLoading={isSubscriptionLoading}
                 isTeaserLinks={content.type === 'TEASER_LINKS'}
+                isUser={isUser}
                 links={links}
                 logo={logo}
                 onLogoSectionClick={onLogoSectionClick}
+                onSubscribe={onSubscribe}
+                onUnsubscribe={onUnsubscribe}
                 showBanner={showBanner}
                 showRedirectOverlay={showRedirectOverlay}
                 t={t}
                 userProfilePicture={page.userProfilePicture}
-                zIndex={10}
+                zIndex={100}
               />
             )}
 
