@@ -190,7 +190,6 @@ export const Page = ({
   const [ssrDone, setSsrDone] = useState(false)
   const [isInstagramBrowser, setIsInstagramBrowser] = useState(false)
 
-  console.log({ isSubscribed, isUser })
   /*
    * Handle open modal id
    */

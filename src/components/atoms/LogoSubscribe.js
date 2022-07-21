@@ -70,7 +70,6 @@ export const LogoSubscribe = ({
   const [subscribed, setSubscribed] = useState(isSubscribed)
   const [isSubscribing, setIsSubscribing] = useState(false)
 
-  console.log({ isSubscribed, subscribed, isSubscriptionLoading, isSubscribing })
   const handleOnSubscribe = () => {
     onSubscribe({ setLoading: setIsSubscribing, setSubscribed })
   }
