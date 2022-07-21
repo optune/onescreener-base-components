@@ -408,6 +408,10 @@ export const Text = styled.p`
     overflow-y: auto;
     max-height: 35vh;
 
+    &.icon-modal {
+      padding-bottom: 5%;
+    }
+
     > p.white-space:last-child {
       @media ${MediaMobile} {
         margin-bottom: 3.5rem;
@@ -490,7 +494,6 @@ export const StyledTextContainer = styled(({ isSidePreview, ...other }) => (
   margin-bottom: 0;
   width: 100%;
   /* padding-right: 15px; */
-  max-height: ${({ isSidePreview }) => (isSidePreview ? '150px' : '300px')};
   overflow-y: auto;
   overflow-x: hidden;
   text-align: center;

@@ -59,11 +59,11 @@ export const TextModal = ({
                 'Donation'
               : label}
           </StyledTitle>
-          <StyledTextContainer isSidePreview={isSidePreview}>
+          <StyledTextContainer>
             {/* {content?.split('\n').map((line, lineIndex) => (
               <p key={lineIndex}>{line}</p>
             ))} */}
-            <Text as="div" className="editor">
+            <Text as="div" className="editor icon-modal">
               {renderHtml(content)}
             </Text>
           </StyledTextContainer>
