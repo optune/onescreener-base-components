@@ -12,7 +12,7 @@ import { MediaSmall } from '../../style/media'
 
 const Container = styled.div`
   margin-top: 6px;
-  display: flex;
+  display: ${({ hide }) => (hide ? 'none' : 'flex')};
   min-height: ${({ isSidePreview }) => (isSidePreview ? 11 : 22)}px;
   max-height: 25%;
   pointer-events: ${({ isSidePreview }) => (isSidePreview ? 'none' : 'auto')};
@@ -63,9 +63,10 @@ export const LogoSubscribe = ({
   isSidePreview,
   isSubscribed,
   isSubscriptionLoading,
+  isUser,
   onSubscribe,
   onUnsubscribe,
-  isUser,
+  showFollowButton,
 }) => {
   const [subscribed, setSubscribed] = useState(isSubscribed)
   const [isSubscribing, setIsSubscribing] = useState(false)
@@ -105,7 +106,7 @@ export const LogoSubscribe = ({
   }, [isSubscribed])
 
   return (
-    <Container isSidePreview={isSidePreview}>
+    <Container isSidePreview={isSidePreview} hide={!showFollowButton}>
       {isSubscribing ? (
         <span>Loading...</span>
       ) : (

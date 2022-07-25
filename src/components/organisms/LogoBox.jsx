@@ -369,16 +369,17 @@ export const LogoBox = ({
             isTeaserLinks={isTeaserLinks}
             logo={logo}
           />
-          {showFollowButton && (
-            <LogoSubscribe
-              isSidePreview={isSidePreview}
-              isSubscribed={isSubscribed}
-              isSubscriptionLoading={isSubscriptionLoading}
-              isUser={isUser}
-              onSubscribe={onSubscribe}
-              onUnsubscribe={onUnsubscribe}
-            />
-          )}
+          {/* {showFollowButton && ( */}
+          <LogoSubscribe
+            isSidePreview={isSidePreview}
+            isSubscribed={isSubscribed}
+            isSubscriptionLoading={isSubscriptionLoading}
+            isUser={isUser}
+            onSubscribe={onSubscribe}
+            onUnsubscribe={onUnsubscribe}
+            showFollowButton={showFollowButton}
+          />
+          {/* )} */}
           {/* )} */}
         </LogoWrapper>
       </LogoContainer>
