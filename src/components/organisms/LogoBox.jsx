@@ -299,7 +299,7 @@ export const LogoBox = ({
 
   const isLogoText = logo.type === 'TEXT' || (logo.type !== 'TEXT' && !logo.image?.url > '')
 
-  const showFollowButton = typeof logo.showFollowButton === 'boolean' ? logo.showFollowButton : true
+  const showFollowButton = false // typeof logo.showFollowButton === 'boolean' ? logo.showFollowButton : true
 
   useEffect(() => {
     // setSsrDone(true)
