@@ -9,6 +9,7 @@ import { Button } from './buttons/Button'
 
 import { BackgroundColor } from '../../style/color'
 import { MediaSmall } from '../../style/media'
+import { ComponentLoading } from '../molecules/loaders/ComponentLoading'
 
 const Container = styled.div`
   margin-top: 6px;
@@ -16,7 +17,8 @@ const Container = styled.div`
   min-height: ${({ isSidePreview }) => (isSidePreview ? 11 : 22)}px;
   max-height: 25%;
   pointer-events: ${({ isSidePreview }) => (isSidePreview ? 'none' : 'auto')};
-
+  width: 50%;
+  border-radius: 4px;
   background-color: ${({ ssrDone }) => (ssrDone ? 'transparent' : BackgroundColor.loadingUI)};
 
   button {
@@ -110,14 +112,14 @@ export const LogoSubscribe = ({
 
   return (
     <Container isSidePreview={isSidePreview} ssrDone={ssrDone} hide={!showFollowButton}>
-      {isSubscribing ? (
-        <span>Loading...</span>
+      {ssrDone && (isSubscribing || isSubscriptionLoading) ? (
+        <ComponentLoading small />
       ) : (
         <Fragment>
           {subscribed && (
             <Button className="subscription-status" height={isSidePreview ? 20 : 28}>
               {' '}
-              {isSubscriptionLoading ? 'Loading...' : <CheckIcon />}
+              {isSubscriptionLoading ? <ComponentLoading small /> : <CheckIcon />}
             </Button>
           )}
           {!isSubscriptionLoading && (

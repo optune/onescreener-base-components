@@ -189,7 +189,6 @@ const getLogoPosition = ({ logo }) => {
 export const LogoText = ({
   artistName,
   design,
-  isEditMode,
   isPreviewMobile,
   isSidePreview,
   isTeaserLinks,
@@ -212,21 +211,19 @@ export const LogoText = ({
       isTeaserLinks={isTeaserLinks}
       ssrDone={ssrDone}
     >
-      {/* {(true || isEditMode) && <EditButton top="0">Logo</EditButton>} */}
-      {ssrDone && (
-        <AutoTextFit
-          includeWidth
-          padding="0"
-          maxFontSize={isSidePreview ? 18 : 22}
-          minFontSize={isSidePreview ? 9 : 12}
-          isMobileView={isPreviewMobile}
-          isLogo
-          textValue={logo.text?.title}
-          isSidePreview={isSidePreview}
-        >
-          <p className="logo-apply-font">{logoText}</p>
-        </AutoTextFit>
-      )}
+      <AutoTextFit
+        includeWidth
+        isLogo
+        isMobileView={isPreviewMobile}
+        isSidePreview={isSidePreview}
+        maxFontSize={isSidePreview ? 18 : 22}
+        minFontSize={isSidePreview ? 9 : 12}
+        padding="0"
+        ssrDone={ssrDone}
+        textValue={logo.text?.title}
+      >
+        <p className="logo-apply-font">{logoText}</p>
+      </AutoTextFit>
     </LogoTextContainer>
   )
 }

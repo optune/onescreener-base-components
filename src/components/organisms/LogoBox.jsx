@@ -365,19 +365,6 @@ export const LogoBox = ({
             logo={logo}
             ssrDone={ssrDone}
           />
-          {/* {showFollowButton && ( */}
-          <LogoSubscribe
-            isSidePreview={isSidePreview}
-            isSubscribed={isSubscribed}
-            isSubscriptionLoading={isSubscriptionLoading}
-            isUser={isUser}
-            onSubscribe={onSubscribe}
-            onUnsubscribe={onUnsubscribe}
-            ssrDone={ssrDone}
-          />
-<<<<<<< HEAD
-=======
-          {/* {showFollowButton && ( */}
           <LogoSubscribe
             isSidePreview={isSidePreview}
             isSubscribed={isSubscribed}
@@ -386,10 +373,8 @@ export const LogoBox = ({
             onSubscribe={onSubscribe}
             onUnsubscribe={onUnsubscribe}
             showFollowButton={showFollowButton}
+            ssrDone={ssrDone}
           />
-          {/* )} */}
->>>>>>> ed349c31c5dcad9881827c7eef6a6258ace32b09
-          {/* )} */}
         </LogoWrapper>
       </LogoContainer>
     </Fragment>

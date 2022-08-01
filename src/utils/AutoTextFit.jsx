@@ -151,8 +151,9 @@ export const AutoTextFit = ({
   colorBackground,
   padding,
   isSidePreview,
+  ssrDone: ssrDoneProp,
 }) => {
-  const [ssrDone, setSsrDone] = useState(false)
+  const [ssrDone, setSsrDone] = useState(ssrDoneProp)
   const [resized, setResized] = useState(false)
 
   const TextRef = useRef(null)
@@ -181,14 +182,14 @@ export const AutoTextFit = ({
     const element = TextRef?.current
     resizeObserver.observe(element?.parentElement)
 
-    if (isSidePreview) {
-      setTimeout(() => {
-        if (!ssrDone) {
-          // !HACKS: virtual replacement for 'load' - sometimes on migrating/building 'load' event listener doesn't fire off
-          setSsrDone(true)
-        }
-      }, 1500)
-    }
+    // if (isSidePreview) {
+    //   setTimeout(() => {
+    //     if (!ssrDone) {
+    //       // !HACKS: virtual replacement for 'load' - sometimes on migrating/building 'load' event listener doesn't fire off
+    //       setSsrDone(true)
+    //     }
+    //   }, 1500)
+    // }
 
     setSsrDone(true)
     updateFontSize(element, options)
