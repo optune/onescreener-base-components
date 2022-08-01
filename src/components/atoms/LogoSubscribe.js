@@ -17,6 +17,8 @@ const Container = styled.div`
   max-height: 25%;
   pointer-events: ${({ isSidePreview }) => (isSidePreview ? 'none' : 'auto')};
 
+  background-color: ${({ ssrDone }) => (ssrDone ? 'transparent' : BackgroundColor.loadingUI)};
+
   button {
     border-radius: 4px;
     padding-left: 0.75rem;
@@ -63,9 +65,10 @@ export const LogoSubscribe = ({
   isSidePreview,
   isSubscribed,
   isSubscriptionLoading,
+  isUser,
   onSubscribe,
   onUnsubscribe,
-  isUser,
+  ssrDone,
 }) => {
   const [subscribed, setSubscribed] = useState(isSubscribed)
   const [isSubscribing, setIsSubscribing] = useState(false)
@@ -105,7 +108,7 @@ export const LogoSubscribe = ({
   }, [isSubscribed])
 
   return (
-    <Container isSidePreview={isSidePreview}>
+    <Container isSidePreview={isSidePreview} ssrDone={ssrDone}>
       {isSubscribing ? (
         <span>Loading...</span>
       ) : (
