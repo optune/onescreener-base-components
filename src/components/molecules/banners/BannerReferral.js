@@ -1,16 +1,28 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { BackgroundColor, ForegroundColor } from '../../../style/color'
 import { MediaMobile, MediaSmallMobile, ZIndex1 } from '../../../style/media'
+
+const slideUp = keyframes`
+  from {
+      opacity: 0;
+      transform: translate(-50%, 100%);
+  } 
+  to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+  }
+`
 
 const Container = styled.div`
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, 0);
   z-index: ${ZIndex1};
   border-radius: 4px 4px 0 0;
   cursor: pointer;
+  animation: ${slideUp} 0.2s ease-out;
 
   width: 100%;
   height: 36px;

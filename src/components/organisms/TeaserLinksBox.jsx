@@ -458,7 +458,6 @@ export const TeaserLinksBox = ({
 
     window.addEventListener('load', () => {
       setTimeout(() => {
-        console.log('tlinks load')
         setSsrDone(true)
       }, 0)
     })

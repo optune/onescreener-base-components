@@ -28,7 +28,6 @@ main {
   height: calc(100% - 75px);
 
   @media #{$small} {
-    height: 100%;
     top: 62px;
   }
 

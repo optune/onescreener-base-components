@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components'
 import { EditButton } from '../atoms/buttons/EditButton.js'
 import { Logo } from '../atoms/Logo.jsx'
 import { LogoText } from '../atoms/LogoText.jsx'
-// import { LogoSubscribe } from '../atoms/LogoSubscribe.js'
+import { LogoSubscribe } from '../atoms/LogoSubscribe.js'
 
 import { MediaMobile, MediaSmall } from '../../style/media'
 import { SectionOverlay } from '../molecules/SectionOverlay.js'
@@ -167,6 +167,7 @@ const LogoContainer = styled.div`
   left: 0;
   right: 0;
   display: flex;
+  pointer-events: none;
 
   z-index: ${({ zIndex }) => zIndex};
 
@@ -206,6 +207,7 @@ const LogoWrapper = styled.div`
   width: 33%;
   height: 15%;
   margin: 0.8rem;
+  pointer-events: all;
 
   @media ${MediaMobile} {
     width: 100%;
@@ -222,19 +224,26 @@ const PositionBottom = ['BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT']
 const PositionBottomLeft = ['BOTTOM_LEFT', 'BOTTOM_CENTER']
 const PositionBottomRight = ['BOTTOM_RIGHT', 'BOTTOM_CENTER']
 
-const defineLogoPadding = ({ isPreviewMobile, isSidePreview }) => ({
-  left: `padding-left:  ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
-  right: `padding-right: ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
-  bottom: `padding-bottom: ${(isSidePreview && 3.3) || (isPreviewMobile && 4.5) || 6}rem`,
+const defineLogoPadding = ({ isPreviewMobile, isSidePreview, showBanner }) => ({
+  left: `padding-left:  ${
+    (isSidePreview && 3.3) || (isPreviewMobile && 4.5) || (showBanner && 8.4) || 6
+  }rem`,
+  right: `padding-right: ${
+    (isSidePreview && 3.3) || (isPreviewMobile && 4.5) || (showBanner && 8.4) || 6
+  }rem`,
+  bottom: `padding-bottom: ${
+    (isSidePreview && 3.3) || (isPreviewMobile && 4.5) || (showBanner && 8.4) || 6
+  }rem`,
+  bottomBanner: `padding-bottom: 2.4rem`,
   none: isSidePreview ? 'padding: 0.5rem' : 'padding: 1rem',
 })
 
-const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
+const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview, showBanner }) => {
   const logoPositionDesktop = logo.positionDesktop || logo.position
   const logoPositionMobile =
     (logo.isDifferentPositions && logo.positionMobile) || logoPositionDesktop
 
-  const logoPadding = defineLogoPadding({ isPreviewMobile, isSidePreview })
+  const logoPadding = defineLogoPadding({ isPreviewMobile, isSidePreview, showBanner })
 
   const linkPosition = links.list.length > 0 ? links.position : ''
 
@@ -247,6 +256,7 @@ const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview }) => {
     (PositionBottomRight.includes(linkPosition) &&
       PositionBottomRight.includes(logoPositionDesktop) &&
       'bottom') ||
+    (showBanner && 'bottomBanner') ||
     'none'
 
   const paddingIndexMobile =
@@ -268,19 +278,28 @@ export const LogoBox = ({
   isPreviewMobile,
   isPreviewMobileReady,
   isSidePreview,
+  isSubscribed,
+  isSubscriptionLoading,
   isTeaserLinks,
+  isUser,
   links,
   logo,
   onLogoSectionClick,
+  onSubscribe,
+  onUnsubscribe,
+  showBanner,
   showRedirectOverlay,
+  t,
   userProfilePicture,
   zIndex,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   const position = getLogoPosition({ logo })
-  const padding = getLogoPadding({ logo, links, isPreviewMobile, isSidePreview })
+  const padding = getLogoPadding({ logo, links, isPreviewMobile, isSidePreview, showBanner })
 
   const isLogoText = logo.type === 'TEXT' || (logo.type !== 'TEXT' && !logo.image?.url > '')
+
+  const showFollowButton = typeof logo.showFollowButton === 'boolean' ? logo.showFollowButton : true
 
   useEffect(() => {
     // setSsrDone(true)
@@ -295,7 +314,6 @@ export const LogoBox = ({
 
     window.addEventListener('load', () => {
       setTimeout(() => {
-        console.log('logobox load')
         setSsrDone(true)
       }, 0)
     })
@@ -315,6 +333,7 @@ export const LogoBox = ({
           onClick={onLogoSectionClick}
           positionDesktop={position.classnameDesktop}
           positionMobile={position.classnameMobile}
+          t={t}
         />
       )}
       <LogoContainer
@@ -350,7 +369,17 @@ export const LogoBox = ({
             isTeaserLinks={isTeaserLinks}
             logo={logo}
           />
-          {/* <LogoSubscribe /> */}
+          {/* {showFollowButton && ( */}
+          <LogoSubscribe
+            isSidePreview={isSidePreview}
+            isSubscribed={isSubscribed}
+            isSubscriptionLoading={isSubscriptionLoading}
+            isUser={isUser}
+            onSubscribe={onSubscribe}
+            onUnsubscribe={onUnsubscribe}
+            showFollowButton={showFollowButton}
+          />
+          {/* )} */}
           {/* )} */}
         </LogoWrapper>
       </LogoContainer>

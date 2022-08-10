@@ -109,8 +109,9 @@ const LogoSizeMaxHeightSidePreview = {
 //   `}
 const LogoTextContainer = styled.div`
   position: relative;
-  margin-top: ${({ isSidePreview }) => (isSidePreview ? '8px' : '12px')};
-  height: ${({ isSidePreview }) => (isSidePreview ? '18px' : '28px')};
+  margin-top: ${({ isSidePreview }) => (isSidePreview ? '3px' : '6px')};
+  min-height: ${({ isSidePreview }) => (isSidePreview ? '10px' : '20px')};
+  max-height: 25%;
   width: 100%;
 
   & #auto-text-fit-container {
@@ -194,14 +195,13 @@ export const LogoText = ({
   const logoPosition = getLogoPosition({ logo })
   const logoText = logo.text?.title || artistName
 
-  console.log({ logoText })
   return logoText > '' ? (
     <LogoTextContainer
       size={logo.size}
-      shadowColor={logo.text.shadowColor}
-      shadowSize={logo.text.shadowSize}
-      color={design?.theme?.logo?.color || logo.text.color}
-      fontFamily={design?.theme?.logo?.font || logo.text.font}
+      shadowColor={logo.text?.shadowColor}
+      shadowSize={logo.text?.shadowSize}
+      color={design?.theme?.logo?.color || logo.text?.color}
+      fontFamily={design?.theme?.logo?.font || logo.text?.font}
       isPreviewMobile={isPreviewMobile}
       isSidePreview={isSidePreview}
       logoPosition={isTeaserLinks ? { desktop: 'flex-start', mobile: 'flex-start' } : logoPosition}
@@ -211,10 +211,11 @@ export const LogoText = ({
       <AutoTextFit
         includeWidth
         padding="0"
-        maxFontSize={200}
+        maxFontSize={isSidePreview ? 18 : 22}
+        minFontSize={isSidePreview ? 9 : 12}
         isMobileView={isPreviewMobile}
         isLogo
-        textValue={logo.text.title}
+        textValue={logo.text?.title}
         isSidePreview={isSidePreview}
       >
         <p className="logo-apply-font">{logoText}</p>

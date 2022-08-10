@@ -188,26 +188,7 @@ const CheckoutForm = ({
         </StyledTitle>
       </div>
 
-      <div className="row marginTop marginBottom">
-        <div className="column third left">
-          {isPhysical && (
-            <Select onChange={onSelectQuantity} value={quantity}>
-              {[1, 2, 3, 4].map((n) => {
-                let la = +maxQuantity - +n
-                if (maxQuantity === 0 || la >= 0)
-                  return <option key={n} value={n}>{`${n}x`}</option>
-
-                return null
-              })}
-            </Select>
-          )}
-        </div>
-        <div className="column half right price">
-          {actualPrice} {currency}
-        </div>
-      </div>
-
-      <div className="row">
+      <div className="row marginTop">
         <div className="column">
           <InputField
             fullwidth
@@ -263,6 +244,24 @@ const CheckoutForm = ({
           </div>
         </div>
       )}
+      <div className="row marginTop marginBottom">
+        <div className="column third left">
+          {isPhysical && (
+            <Select onChange={onSelectQuantity} value={quantity}>
+              {[1, 2, 3, 4].map((n) => {
+                let la = +maxQuantity - +n
+                if (maxQuantity === 0 || la >= 0)
+                  return <option key={n} value={n}>{`${n}x`}</option>
+
+                return null
+              })}
+            </Select>
+          )}
+        </div>
+        <div className="column half right price">
+          {actualPrice} {currency}
+        </div>
+      </div>
       {/* {isPhysical && (
         <Fragment>
           <div className="row">

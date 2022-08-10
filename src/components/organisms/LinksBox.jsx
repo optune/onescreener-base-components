@@ -9,8 +9,8 @@ import { SectionOverlay } from '../molecules/SectionOverlay.js'
 const LinksContainer = styled.div`
   position: absolute;
   top: 0;
-  bottom: ${({ isSidePreview, hasPro, showBanner }) =>
-    isSidePreview ? '0' : hasPro && !showBanner ? '20px' : '36px'};
+  bottom: ${({ isSidePreview, showBanner }) =>
+    isSidePreview ? '0' : !showBanner ? '20px' : '37.5px'};
   left: 0;
   right: 0;
   display: flex;
@@ -142,6 +142,7 @@ export const LinksBox = ({
   position,
   showBanner,
   showRedirectOverlay,
+  t,
   zIndex,
 }) => {
   const positionLinks = position > '' ? position.toLowerCase().replace('_', '-') : 'bottom-center'
@@ -157,6 +158,7 @@ export const LinksBox = ({
           onClick={onLinksSectionClick}
           positionDesktop={positionLinks}
           positionMobile="bottom-center"
+          t={t}
         />
       )}
       <LinksContainer
