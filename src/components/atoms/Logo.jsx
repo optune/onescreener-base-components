@@ -2,6 +2,7 @@
 
 import React from 'react'
 import styled, { css } from 'styled-components'
+import { BackgroundColor } from '../../style/color'
 
 // Atoms
 
@@ -149,6 +150,8 @@ const LogoImage = styled.img`
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
+
+  background-color: ${BackgroundColor.loadingUI};
 `
 
 // const areEqual = (prevProps, nextProps) => {
@@ -182,12 +185,13 @@ export const Logo =
   // memo(
   ({
     artistProfilePicture,
-    logo,
     getImageUrl,
     isEditMode,
     isPreviewMobile,
-    isTeaserLinks,
     isSidePreview,
+    isTeaserLinks,
+    logo,
+    ssrDone,
     userProfilePicture,
   }) => {
     const imageUrl = !!logo.image?.url
@@ -206,7 +210,7 @@ export const Logo =
       >
         {/* {(true || isEditMode) && <EditButton top="0">Logo image</EditButton>} */}
 
-        <LogoImage src={imageUrl} />
+        <LogoImage as={ssrDone ? 'img' : 'div'} src={imageUrl} />
       </ImageContainer>
     )
   }

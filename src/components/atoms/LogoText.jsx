@@ -9,6 +9,7 @@ import { EditButton } from './buttons/EditButton.js'
 import { AutoTextFit } from '../../utils/AutoTextFit.jsx'
 
 import { MediaMobile } from '../../style/media'
+import { BackgroundColor } from '../../style/color.js'
 
 const LogoSize = {
   Desktop: {
@@ -113,6 +114,8 @@ const LogoTextContainer = styled.div`
   min-height: ${({ isSidePreview }) => (isSidePreview ? '10px' : '20px')};
   max-height: 25%;
   width: 100%;
+  background-color: ${({ ssrDone }) => (ssrDone ? 'transparent' : BackgroundColor.loadingUI)};
+  border-radius: 4px;
 
   & #auto-text-fit-container {
     display: flex;
@@ -186,16 +189,16 @@ const getLogoPosition = ({ logo }) => {
 export const LogoText = ({
   artistName,
   design,
-  logo,
-  isEditMode,
   isPreviewMobile,
   isSidePreview,
   isTeaserLinks,
+  logo,
+  ssrDone,
 }) => {
   const logoPosition = getLogoPosition({ logo })
   const logoText = logo.text?.title || artistName
 
-  return logoText > '' ? (
+  return (
     <LogoTextContainer
       size={logo.size}
       shadowColor={logo.text?.shadowColor}
@@ -206,20 +209,21 @@ export const LogoText = ({
       isSidePreview={isSidePreview}
       logoPosition={isTeaserLinks ? { desktop: 'flex-start', mobile: 'flex-start' } : logoPosition}
       isTeaserLinks={isTeaserLinks}
+      ssrDone={ssrDone}
     >
-      {/* {(true || isEditMode) && <EditButton top="0">Logo</EditButton>} */}
       <AutoTextFit
         includeWidth
-        padding="0"
+        isLogo
+        isMobileView={isPreviewMobile}
+        isSidePreview={isSidePreview}
         maxFontSize={isSidePreview ? 18 : 22}
         minFontSize={isSidePreview ? 9 : 12}
-        isMobileView={isPreviewMobile}
-        isLogo
+        padding="0"
+        ssrDone={ssrDone}
         textValue={logo.text?.title}
-        isSidePreview={isSidePreview}
       >
         <p className="logo-apply-font">{logoText}</p>
       </AutoTextFit>
     </LogoTextContainer>
-  ) : null
+  )
 }

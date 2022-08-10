@@ -368,19 +368,8 @@ export const Page = ({
             <div className="page-container-edit-mode" onClick={onEditModeClick} />
           )}
           {showUpgradeOverlay && <UpgradeOverlay onUpgrade={onUpgrade} ProTag={ProTag} />}
+          {/* // TODO: Try to move SectionOverlay for all components here --> sectionOverlays.map(s => <SectionOverlay {...s} />) (To avoid unnecessary prop drilling) */}
 
-          {ssrDone && (
-            <Background
-              background={{
-                ...background,
-                isBackgroundSelected,
-                selectedBackgroundUrl: design?.background?.url,
-              }}
-              color={background?.color}
-              designColor={isBackgroundSelected && design?.background?.color}
-              getImageUrl={getUrl}
-            />
-          )}
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
             {!noBacklink && !isSidePreview && !!hasPro && !showBanner && (
@@ -579,6 +568,18 @@ export const Page = ({
             </LinksBox>
           </ForegroundContainer>
           {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
+          {ssrDone && (
+            <Background
+              background={{
+                ...background,
+                isBackgroundSelected,
+                selectedBackgroundUrl: design?.background?.url,
+              }}
+              color={background?.color}
+              designColor={isBackgroundSelected && design?.background?.color}
+              getImageUrl={getUrl}
+            />
+          )}
         </PageContainer>
 
         {page.isBlocked && (

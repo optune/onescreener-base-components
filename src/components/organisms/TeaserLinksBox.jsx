@@ -16,7 +16,7 @@ import { TeaserLink } from '../molecules/teaserLinks.js/TeaserLink'
 
 // Styles
 import { MediaMobile, MediaSmall, ZIndex1 } from '../../style/media'
-import { ForegroundColor } from '../../style/color'
+import { BackgroundColor, ForegroundColor } from '../../style/color'
 
 // Utils
 import { RGBToHex } from '../../utils/convertRGBtoHEX'
@@ -32,6 +32,7 @@ const TEASER_LINKS_HEIGHT = 50
 const TEASER_LINKS_MARGIN = 13
 const TEASER_LINKS_SHOP_MARGIN = 20
 const TEASER_LINKS_HEIGHT_SIDE_PREVIEW = 38
+const MAX_TEASER_LINKS_LOAD_COUNT = 7
 
 const Container = styled.div`
   position: absolute;
@@ -87,10 +88,8 @@ const Container = styled.div`
       colorBackground ? colorBackground : 'rgba(130, 130, 130, 0.30)'};
     border: ${({ colorBorder }) => (colorBorder ? `1px solid ${colorBorder}` : 'none')};
     box-sizing: border-box;
-    // box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 0px 2px rgba(0, 0, 0, 0.1);
-    // box-shadow: 0px 3px 5px rgb(0, 0, 0, 0.09), 0px 1.388px 8px rgb(0, 0, 0, 0.07);
-    // box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.08), 0px 3px 6px rgba(0, 0, 0, 0.08), 0px 3px 12px rgba(0, 0, 0, 0.14);
-    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1), 0px 3px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: ${({ ssrDone }) =>
+      ssrDone ? '0px 4px 5px rgba(0, 0, 0, 0.1), 0px 3px 10px rgba(0, 0, 0, 0.1)' : 'none'};
 
     border-radius: 6px;
     transition: all 0.3s ease-out, transform  0.2s cubic-bezier(0, 0.25, 0.35, 2.25), opacity 0.2s cubic-bezier(0, 0.25, 0.35, 2.25);
@@ -395,7 +394,7 @@ export const TeaserLinksBox = ({
   shopEnabled,
   showStatistics,
   statisticsPeriod,
-  teaserLinks,
+  teaserLinks = [],
   trackingVisitorEvents,
   visitorSession,
 }) => {
@@ -407,7 +406,7 @@ export const TeaserLinksBox = ({
   /*
    * IMAGE ALGO EXAMPLE
    *
-   * Max value per page: 7
+   * Max value per page: Depends on the window height
    *
    * - => Regular link, value: 1
    * = => Shop link, value: 2
@@ -442,25 +441,8 @@ export const TeaserLinksBox = ({
   // Media Query
   const isSmall = useMediaQuery({ query: MediaSmall })
 
-  /*
-   * Wait until all resources are loaded to render Teaser Links
-   */
-
   useEffect(() => {
-    if (isSidePreview) {
-      setTimeout(() => {
-        if (!ssrDone) {
-          // !HACKS: virtual replacement for 'load' - sometimes on migrating/building 'load' event listener doesn't fire off
-          setSsrDone(true)
-        }
-      }, 1500)
-    }
-
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        setSsrDone(true)
-      }, 0)
-    })
+    setSsrDone(true)
   }, [])
 
   useEffect(() => {
@@ -540,222 +522,247 @@ export const TeaserLinksBox = ({
     return clicks
   }
 
-  return ssrDone ? (
+  return (
     <Container
       isSidePreview={isSidePreview}
       isPreviewMobile={isPreviewMobile}
       color={color}
-      colorBackground={colorBackground}
+      colorBackground={ssrDone ? colorBackground : BackgroundColor.loadingUI}
       colorBorder={colorBorder}
       colorTag={colorTag}
       colorTagBackground={colorTagBackground}
       font={font}
+      ssrDone={ssrDone}
     >
-      {list?.[pagination].map(
-        (
-          {
-            _id,
-            type,
-            url,
-            name,
-            images = [],
-            isShop,
-            isSession,
-            session,
-            shop,
-            playerSettings,
-            processing,
-            isBack,
-            isForward,
-          },
-          index
-        ) => {
-          if (isBack)
-            return (
-              <div key="back-button" className="teaser-link navigation" onClick={paginationBack}>
-                <ArrowLeftIcon />
-              </div>
-            )
-          if (isForward)
-            return (
-              <div key="forward-button" className="teaser-link navigation" onClick={paginationNext}>
-                <ArrowRightIcon />
-              </div>
-            )
-
-          const isLegacy = typeof type === 'undefined'
-          const isRegular = type === TeaserLinkType.LINK
-          const isMusic = type === TeaserLinkType.LINK_MUSIC
-          const isVideo = type === TeaserLinkType.LINK_VIDEO
-          const isNft = type === TeaserLinkType.LINK_OPENSEA
-          const isEmbed = isMusic || isVideo || isNft
-          const isLink = !isSession && !isShop && !isEmbed
-          const isPhysical = !!isShop && !!shop?.isPhysical
-          const isDigital = !!isShop && !shop?.isPhysical
-          const isCalendly = !!isSession && session?.bookingMethod === BookingMethod.CALENDLY
-          const isDouble = isDoubleSize({ isShop, isSession })
-
-          let duration = session?.length
-          if (!duration && isCalendly && !!session) duration = `${session.duration} minutes`
-
-          const soldOut = isShop && shop?.maxQuantity === -1
-          const hasImage = !!images?.[0]
-
-          const linkType = isLegacy
-            ? isDigital
-              ? TeaserLinkType.SHOP_DIGITAL
-              : TeaserLinkType.SHOP_PHYSICAL
-            : type
-
-          let Icon = (isLegacy && !isShop) || isRegular ? null : getTeaserLinkIcon(linkType)
-
-          return (
-            <TeaserLink
-              as={isLink ? 'a' : 'div'}
-              autoOpenId={autoOpenId}
-              className={classNames('teaser-link', 'tl-apply-font', {
-                disabled: soldOut,
+      {ssrDone
+        ? list?.[pagination].map(
+            (
+              {
+                _id,
+                type,
+                url,
+                name,
+                images = [],
+                isShop,
+                isSession,
+                session,
+                shop,
+                playerSettings,
                 processing,
-                long: name.length >= 38,
-                double: isDouble,
-              })}
-              href={url}
-              teaserLinkId={_id}
-              image={images?.[0]}
-              key={`${name}-${index}`}
-              rel="noreferrer"
-              target="_blank"
-              onOpen={() => {
-                if (!isSidePreview) {
-                  trackingVisitorEvents({
-                    visitorSession,
-                    domainName,
-                    category: {
-                      teaserLinks: {
-                        event: {
-                          name,
-                          url,
+                isBack,
+                isForward,
+              },
+              index
+            ) => {
+              if (isBack)
+                return (
+                  <div
+                    key="back-button"
+                    className="teaser-link navigation"
+                    onClick={paginationBack}
+                  >
+                    <ArrowLeftIcon />
+                  </div>
+                )
+              if (isForward)
+                return (
+                  <div
+                    key="forward-button"
+                    className="teaser-link navigation"
+                    onClick={paginationNext}
+                  >
+                    <ArrowRightIcon />
+                  </div>
+                )
+
+              const isLegacy = typeof type === 'undefined'
+              const isRegular = type === TeaserLinkType.LINK
+              const isMusic = type === TeaserLinkType.LINK_MUSIC
+              const isVideo = type === TeaserLinkType.LINK_VIDEO
+              const isNft = type === TeaserLinkType.LINK_OPENSEA
+              const isEmbed = isMusic || isVideo || isNft
+              const isLink = !isSession && !isShop && !isEmbed
+              const isPhysical = !!isShop && !!shop?.isPhysical
+              const isDigital = !!isShop && !shop?.isPhysical
+              const isCalendly = !!isSession && session?.bookingMethod === BookingMethod.CALENDLY
+              const isDouble = isDoubleSize({ isShop, isSession })
+
+              let duration = session?.length
+              if (!duration && isCalendly && !!session) duration = `${session.duration} minutes`
+
+              const soldOut = isShop && shop?.maxQuantity === -1
+              const hasImage = !!images?.[0]
+
+              const linkType = isLegacy
+                ? isDigital
+                  ? TeaserLinkType.SHOP_DIGITAL
+                  : TeaserLinkType.SHOP_PHYSICAL
+                : type
+
+              let Icon = (isLegacy && !isShop) || isRegular ? null : getTeaserLinkIcon(linkType)
+
+              return (
+                <TeaserLink
+                  as={isLink ? 'a' : 'div'}
+                  autoOpenId={autoOpenId}
+                  className={classNames('teaser-link', 'tl-apply-font', {
+                    disabled: soldOut,
+                    processing,
+                    long: name.length >= 38,
+                    double: isDouble,
+                  })}
+                  href={url}
+                  image={images?.[0]}
+                  key={`${name}-${index}`}
+                  rel="noreferrer"
+                  target="_blank"
+                  teaserLinkId={_id}
+                  ssrDone={ssrDone}
+                  onOpen={() => {
+                    if (!isSidePreview) {
+                      trackingVisitorEvents({
+                        visitorSession,
+                        domainName,
+                        category: {
+                          teaserLinks: {
+                            event: {
+                              name,
+                              url,
+                            },
+                          },
                         },
-                      },
-                    },
-                  }).then((r) => r)
-                }
-                if (!isSidePreview && (isShop || isSession)) {
-                  onLoadShopItem?.({ itemId: _id }).then((item) => {
-                    if (item.shop.maxQuantity > -1 || item.isSession) {
-                      setModalShop({
-                        show: true,
-                        item: {
-                          _id: item._id,
-                          name: item.name,
-                          images: item.images,
-                          isShop,
-                          isSession,
-                          ...item.session,
-                          ...item.shop,
-                          isPhysical: isSession ? false : item.shop.isPhysical,
-                        },
+                      }).then((r) => r)
+                    }
+                    if (!isSidePreview && (isShop || isSession)) {
+                      onLoadShopItem?.({ itemId: _id }).then((item) => {
+                        if (item.shop.maxQuantity > -1 || item.isSession) {
+                          setModalShop({
+                            show: true,
+                            item: {
+                              _id: item._id,
+                              name: item.name,
+                              images: item.images,
+                              isShop,
+                              isSession,
+                              ...item.session,
+                              ...item.shop,
+                              isPhysical: isSession ? false : item.shop.isPhysical,
+                            },
+                          })
+                        }
                       })
                     }
-                  })
-                }
 
-                if (!isSidePreview && isEmbed) {
-                  setModalEmbed({
-                    show: true,
-                    url,
-                    autoplay: playerSettings?.autoplay,
-                    mute: playerSettings?.mute,
-                    type,
-                  })
-                }
+                    if (!isSidePreview && isEmbed) {
+                      setModalEmbed({
+                        show: true,
+                        url,
+                        autoplay: playerSettings?.autoplay,
+                        mute: playerSettings?.mute,
+                        type,
+                      })
+                    }
 
-                onOpenModal(_id)
-              }}
-            >
-              <div className="name-container">
-                <p image={hasImage ? 1 : undefined} className={`clip ${hasImage && 'has-image'}`}>
-                  {name}
-                </p>
-              </div>
-              {isDouble && (
-                <div
-                  className={classNames('tags-container', 'icon-container', {
-                    double: isDouble,
-                    smaller: true,
-                    long: true,
-                  })}
+                    onOpenModal(_id)
+                  }}
                 >
-                  <div className="tag">
-                    <span
-                      className={classNames('icon', {
-                        digital: isShop && !isPhysical,
+                  <div className="name-container">
+                    <p
+                      image={hasImage ? 1 : undefined}
+                      className={`clip ${hasImage && 'has-image'}`}
+                    >
+                      {name}
+                    </p>
+                  </div>
+                  {isDouble && (
+                    <div
+                      className={classNames('tags-container', 'icon-container', {
+                        double: isDouble,
                         smaller: true,
+                        long: true,
                       })}
                     >
-                      {!!Icon && <Icon />}
-                    </span>
-                    <span className={classNames('price', 'subtitle', { subtitle: isSession })}>
-                      {Number(shop.price).toFixed(2)} {CurrencySign[shop.currency] || 'USD'}
-                    </span>
-                  </div>
-
-                  {isSession && duration > '' && (
-                    <div className="tag">
-                      <Fragment>
+                      <div className="tag">
                         <span
                           className={classNames('icon', {
                             digital: isShop && !isPhysical,
                             smaller: true,
-                            clock: true,
                           })}
                         >
-                          <RoundClockIcon />
+                          {!!Icon && <Icon />}
                         </span>
-                        <span className={classNames('subtitle', 'text-ellipsis', 'session-length')}>
-                          {duration}
+                        <span className={classNames('price', 'subtitle', { subtitle: isSession })}>
+                          {Number(shop.price).toFixed(2)} {CurrencySign[shop.currency] || 'USD'}
                         </span>
-                      </Fragment>
-                    </div>
-                  )}
-                </div>
-              )}
-              {!hasImage && !!Icon && (
-                <div className={`icon-container`}>
-                  <Icon />
-                </div>
-              )}
-              {hasImage && (
-                <div className="image-container">
-                  {soldOut && (
-                    <div className="sold-out">
-                      Sold <br /> out
-                    </div>
-                  )}
+                      </div>
 
-                  {images.filter((i) => !!i?.url > '')?.length > 0 && (
-                    <img
-                      image={hasImage ? 1 : undefined}
-                      src={getImageUrl({
-                        image: images?.[0],
-                        maxWidth: 40,
-                        maxHeight: 40,
-                      })}
-                      alt={`link-${index}`}
-                      className="image"
-                    />
+                      {isSession && duration > '' && (
+                        <div className="tag">
+                          <Fragment>
+                            <span
+                              className={classNames('icon', {
+                                digital: isShop && !isPhysical,
+                                smaller: true,
+                                clock: true,
+                              })}
+                            >
+                              <RoundClockIcon />
+                            </span>
+                            <span
+                              className={classNames('subtitle', 'text-ellipsis', 'session-length')}
+                            >
+                              {duration}
+                            </span>
+                          </Fragment>
+                        </div>
+                      )}
+                    </div>
                   )}
-                </div>
-              )}
-              {showStatistics && (
-                <StatisticsOverlay>
-                  <div>{getLinkClicks({ name, url })}</div>
-                </StatisticsOverlay>
-              )}
-            </TeaserLink>
+                  {!hasImage && !!Icon && (
+                    <div className={`icon-container`}>
+                      <Icon />
+                    </div>
+                  )}
+                  {hasImage && (
+                    <div className="image-container">
+                      {soldOut && (
+                        <div className="sold-out">
+                          Sold <br /> out
+                        </div>
+                      )}
+
+                      {images.filter((i) => !!i?.url > '')?.length > 0 && (
+                        <img
+                          image={hasImage ? 1 : undefined}
+                          src={getImageUrl({
+                            image: images?.[0],
+                            maxWidth: 40,
+                            maxHeight: 40,
+                          })}
+                          alt={`link-${index}`}
+                          className="image"
+                        />
+                      )}
+                    </div>
+                  )}
+                  {showStatistics && (
+                    <StatisticsOverlay>
+                      <div>{getLinkClicks({ name, url })}</div>
+                    </StatisticsOverlay>
+                  )}
+                </TeaserLink>
+              )
+            }
           )
-        }
-      )}
+        : [
+            ...Array(
+              teaserLinks.length > MAX_TEASER_LINKS_LOAD_COUNT
+                ? MAX_TEASER_LINKS_LOAD_COUNT
+                : teaserLinks.length
+            ).keys(),
+          ].map((index) => {
+            return <TeaserLink key={index} className="teaser-link" />
+          })}
     </Container>
-  ) : null
+  )
 }

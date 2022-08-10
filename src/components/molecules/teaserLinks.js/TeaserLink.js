@@ -5,7 +5,7 @@ const Container = styled.a``
 
 export const TeaserLink = ({ autoOpenId, children, teaserLinkId, onOpen, ...other }) => {
   useEffect(() => {
-    if (teaserLinkId === autoOpenId) onOpen()
+    if (teaserLinkId === autoOpenId) onOpen?.()
   }, [autoOpenId])
 
   return (

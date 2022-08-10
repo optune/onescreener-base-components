@@ -312,14 +312,10 @@ export const LogoBox = ({
       }, 1500)
     }
 
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        setSsrDone(true)
-      }, 0)
-    })
+    setSsrDone(true)
   }, [])
 
-  return ssrDone ? (
+  return (
     <Fragment>
       {showRedirectOverlay && (
         <SectionOverlay
@@ -347,8 +343,6 @@ export const LogoBox = ({
         padding={padding}
       >
         <LogoWrapper>
-          {/* {isLogoText ? ( */}
-          {/* ) : ( */}
           <Logo
             artistProfilePicture={artistProfilePicture}
             getImageUrl={getImageUrl}
@@ -357,6 +351,7 @@ export const LogoBox = ({
             isSidePreview={isSidePreview}
             isTeaserLinks={isTeaserLinks}
             logo={logo}
+            ssrDone={ssrDone}
             userProfilePicture={userProfilePicture}
           />
 
@@ -368,8 +363,8 @@ export const LogoBox = ({
             isSidePreview={isSidePreview}
             isTeaserLinks={isTeaserLinks}
             logo={logo}
+            ssrDone={ssrDone}
           />
-          {/* {showFollowButton && ( */}
           <LogoSubscribe
             isSidePreview={isSidePreview}
             isSubscribed={isSubscribed}
@@ -378,11 +373,10 @@ export const LogoBox = ({
             onSubscribe={onSubscribe}
             onUnsubscribe={onUnsubscribe}
             showFollowButton={showFollowButton}
+            ssrDone={ssrDone}
           />
-          {/* )} */}
-          {/* )} */}
         </LogoWrapper>
       </LogoContainer>
     </Fragment>
-  ) : null
+  )
 }

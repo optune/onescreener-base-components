@@ -50,7 +50,7 @@ const StyledBackLink = styled.a`
 
 export const BackLink = ({ artistSlug, isPreviewMobile, isPro }) => (
   <StyledBackLink
-    href={`https://www.onescreener.com/sign-up?utm_source=livepage&utm_medium=banner&utm_campaign=${
+    href={`https://app.onescreener.com/#signup?utm_source=livepage&utm_medium=banner&utm_campaign=${
       artistSlug || 'unknown'
     }`}
     target="_blank"
