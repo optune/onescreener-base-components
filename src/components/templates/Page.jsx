@@ -372,7 +372,7 @@ export const Page = ({
 
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
-            {!noBacklink && !isSidePreview && !!hasPro && !showBanner && (
+            {isUser && !noBacklink && !isSidePreview && !!hasPro && !showBanner && (
               <BackLink artistSlug={artistSlug} isPreviewMobile={isPreviewMobile} isPro={hasPro} />
             )}
             {showBanner && !isSidePreview && (

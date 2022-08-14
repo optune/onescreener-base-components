@@ -28,6 +28,7 @@ export { PlatformLinks } from './components/molecules/links/PlatformLinks'
 export { Links } from './components/molecules/links/Links'
 
 // Icons
+export { ArrowUpDownIcon } from './components/icons/navigation/Arrow'
 export { CloseDarkIcon } from './components/icons/CloseIcon.js'
 export { ImageFileIcon } from './components/icons/content/ImageFile'
 export { ListIcon } from './components/icons/content/List'
