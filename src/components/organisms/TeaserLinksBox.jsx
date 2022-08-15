@@ -403,7 +403,7 @@ export const TeaserLinksBox = ({
   const [list, setList] = useState(null)
   const [pagination, setPagination] = useState(0)
 
-  console.log(JSON.stringify({ teaserLinks }, null, 2))
+  // console.log(JSON.stringify({ teaserLinks }, null, 2))
 
   /*
    * IMAGE ALGO EXAMPLE
