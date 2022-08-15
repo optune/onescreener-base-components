@@ -403,6 +403,8 @@ export const TeaserLinksBox = ({
   const [list, setList] = useState(null)
   const [pagination, setPagination] = useState(0)
 
+  console.log(JSON.stringify({ teaserLinks }, null, 2))
+
   /*
    * IMAGE ALGO EXAMPLE
    *
@@ -464,6 +466,9 @@ export const TeaserLinksBox = ({
             ((isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT) +
               TEASER_LINKS_MARGIN)
         )
+
+    console.log({ linksLimit })
+    console.log({ value })
 
     // To avoid loophole
     if (linksLimit <= 2) linksLimit = 4
