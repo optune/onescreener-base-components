@@ -14,6 +14,8 @@ import { ComponentLoading } from '../molecules/loaders/ComponentLoading'
 const Container = styled.div`
   margin-top: 6px;
   display: ${({ hide }) => (hide ? 'none' : 'flex')};
+  justify-content: center;
+  align-items: center;
   min-height: ${({ isSidePreview }) => (isSidePreview ? 11 : 22)}px;
   max-height: 25%;
   pointer-events: ${({ isSidePreview }) => (isSidePreview ? 'none' : 'auto')};

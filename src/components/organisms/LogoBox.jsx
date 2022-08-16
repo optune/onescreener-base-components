@@ -26,18 +26,18 @@ const stylesLogoDesktop = `
     align-items: flex-start;
     justify-content: center;
 
-    & > div > div {
-      justify-content: center;
-    }
+    // & > div > div {
+    //   justify-content: center;
+    // }
   }
 
   &top-right {
     align-items: flex-start;
     justify-content: flex-end;
 
-    & > div > div {
-      justify-content: flex-end;
-    }
+    // & > div > div {
+    //   justify-content: flex-end;
+    // }
   }
 
   &center-left {
@@ -49,18 +49,18 @@ const stylesLogoDesktop = `
     align-items: center;
     justify-content: center;
 
-    & > div > div {
-      justify-content: center;
-    }
+    // & > div > div {
+    //   justify-content: center;
+    // }
   }
 
   &center-right {
     align-items: center;
     justify-content: flex-end;
 
-    & > div > div {
-      justify-content: flex-end;
-    }
+    // & > div > div {
+    //   justify-content: flex-end;
+    // }
   }
 
   &bottom-left {
@@ -72,18 +72,18 @@ const stylesLogoDesktop = `
     align-items: flex-end;
     justify-content: center;
 
-    & > div > div {
-      justify-content: center;
-    }
+    // & > div > div {
+    //   justify-content: center;
+    // }
   }
 
   &bottom-right {
     align-items: flex-end;
     justify-content: flex-end;
 
-    & > div > div {
-      justify-content: flex-end;
-    }
+    // & > div > div {
+    //   justify-content: flex-end;
+    // }
   }
 }`
 
@@ -98,18 +98,18 @@ const stylesLogoMobile = `
     align-items: flex-start;
     justify-content: center;
 
-    & > div > div {
-      justify-content: center;
-    }
+    // & > div > div {
+    //   justify-content: center;
+    // }
   }
 
   &top-right {
     align-items: flex-start;
     justify-content: flex-end;
 
-    & > div > div {
-      justify-content: flex-end;
-    }
+    // & > div > div {
+    //   justify-content: flex-end;
+    // }
   }
 
   &center-left {
@@ -121,18 +121,18 @@ const stylesLogoMobile = `
     align-items: center;
     justify-content: center;
 
-    & > div > div {
-      justify-content: center;
-    }
+    // & > div > div {
+    //   justify-content: center;
+    // }
   }
 
   &center-right {
     align-items: center;
     justify-content: flex-end;
 
-    & > div > div {
-      justify-content: flex-end;
-    }
+    // & > div > div {
+    //   justify-content: flex-end;
+    // }
   }
 
   &bottom-left {
@@ -145,18 +145,18 @@ const stylesLogoMobile = `
     justify-content: center;
     margin: 2px;
 
-    & > div > div {
-      justify-content: center;
-    }
+    // & > div > div {
+    //   justify-content: center;
+    // }
   }
 
   &bottom-right {
     align-items: flex-end;
     justify-content: flex-end;
 
-    & > div > div {
-      justify-content: flex-end;
-    }
+    // & > div > div {
+    //   justify-content: flex-end;
+    // }
   }
 }`
 
