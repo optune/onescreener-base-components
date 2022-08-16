@@ -68,6 +68,7 @@ export const BackgroundColor = {
   purpleLight: ColorPurpleLight,
   purpleMedium: ColorPurpleMedium,
   greenLight: ColorHarlequinLight,
+  loadingUI: ColorSofterGrey,
   secondary: ColorWhite,
   secondaryRGB: ColorWhiteRGB,
   selected: ColorBlue,

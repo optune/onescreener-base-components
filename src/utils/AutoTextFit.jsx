@@ -151,8 +151,9 @@ export const AutoTextFit = ({
   colorBackground,
   padding,
   isSidePreview,
+  ssrDone: ssrDoneProp,
 }) => {
-  const [ssrDone, setSsrDone] = useState(false)
+  const [ssrDone, setSsrDone] = useState(ssrDoneProp)
   const [resized, setResized] = useState(false)
 
   const TextRef = useRef(null)
@@ -181,24 +182,17 @@ export const AutoTextFit = ({
     const element = TextRef?.current
     resizeObserver.observe(element?.parentElement)
 
-    if (isSidePreview) {
-      setTimeout(() => {
-        if (!ssrDone) {
-          // !HACKS: virtual replacement for 'load' - sometimes on migrating/building 'load' event listener doesn't fire off
-          setSsrDone(true)
-        }
-      }, 1500)
-    }
-
-    // window.addEventListener('load', () => {
+    // if (isSidePreview) {
     //   setTimeout(() => {
-    //     // Update size only once DOM is loaded and take the calculated Ref
-    //     console.log('autoteif load')
-    // TODO: read about multiple loads on the dom elements
+    //     if (!ssrDone) {
+    //       // !HACKS: virtual replacement for 'load' - sometimes on migrating/building 'load' event listener doesn't fire off
+    //       setSsrDone(true)
+    //     }
+    //   }, 1500)
+    // }
+
     setSsrDone(true)
     updateFontSize(element, options)
-    //   }, 0)
-    // })
     return () => {
       if (!!resizeObserver) {
         resizeObserver.disconnect()
