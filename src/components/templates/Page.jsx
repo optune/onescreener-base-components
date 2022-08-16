@@ -341,7 +341,13 @@ export const Page = ({
     const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
 
     const showBanner =
-      !isUser && (!page.hasProPlan || page.referral?.isOn) && !isSubscriptionLoading
+      !isUser &&
+      !isSidePreview &&
+      (!page.hasProPlan || page.referral?.isOn) &&
+      !isSubscriptionLoading
+
+    const showBackLink =
+      !isSubscriptionLoading && !noBacklink && !isSidePreview && !!hasPro && !showBanner
 
     const artistName = userName || page.userName
 
@@ -383,12 +389,10 @@ export const Page = ({
           )}
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
-            {!noBacklink && !isSidePreview && !!hasPro && !showBanner && (
+            {showBackLink && (
               <BackLink artistSlug={artistSlug} isPreviewMobile={isPreviewMobile} isPro={hasPro} />
             )}
-            {showBanner && !isSidePreview && (
-              <BannerReferral onReferralOpen={onReferralOpen} hideBehind={false} />
-            )}
+            {showBanner && <BannerReferral onReferralOpen={onReferralOpen} hideBehind={false} />}
 
             {/* Logo */}
             {logo && (
