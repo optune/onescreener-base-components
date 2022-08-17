@@ -342,7 +342,7 @@ export const LogoBox = ({
         isDifferentPositions={logo?.isDifferentPositions || false}
         padding={padding}
       >
-        <LogoWrapper>
+        <LogoWrapper isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview}>
           <Logo
             artistProfilePicture={artistProfilePicture}
             getImageUrl={getImageUrl}
