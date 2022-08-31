@@ -503,7 +503,7 @@ export const TeaserLinksBox = ({
 
     setPagination(0)
     setList(actualList)
-  }, [teaserLinks, isPreviewMobileReady])
+  }, [teaserLinks.length, isPreviewMobileReady])
 
   const paginationBack = () => setPagination(pagination - 1 < 0 ? 0 : pagination - 1)
 
