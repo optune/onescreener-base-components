@@ -349,10 +349,6 @@ export const Page = ({
     const showBackLink =
       !isSubscriptionLoading && !noBacklink && !isSidePreview && !!hasPro && !showBanner
 
-    console.log({ showBanner, showBackLink })
-
-    console.log({ isUser })
-    console.log({ isSubscriptionLoading })
     const artistName = userName || page.userName
 
     PageComponent = (

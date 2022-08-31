@@ -105,6 +105,10 @@ export const auth0Styles = `
 
 .auth0-lock {
   &.auth0-lock {
+    .auth0-lock-confirmation {
+      display: none;
+    }
+    
     .auth0-lock {
       &-submit {
         border-radius: 4px !important;

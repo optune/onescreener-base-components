@@ -14,17 +14,21 @@ import { ComponentLoading } from '../molecules/loaders/ComponentLoading'
 const Container = styled.div`
   margin-top: 6px;
   display: ${({ hide }) => (hide ? 'none' : 'flex')};
-  min-height: ${({ isSidePreview }) => (isSidePreview ? 11 : 22)}px;
-  max-height: 25%;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  max-height: ${({ isSidePreview }) => (isSidePreview ? 30 : 25)}%;
   pointer-events: ${({ isSidePreview }) => (isSidePreview ? 'none' : 'auto')};
-  width: 50%;
+  width: 100%;
   border-radius: 4px;
   background-color: ${({ ssrDone }) => (ssrDone ? 'transparent' : BackgroundColor.loadingUI)};
 
   button {
     border-radius: 4px;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding-left: ${({ isSidePreview }) => (isSidePreview ? 0.5 : 0.75)}rem;
+    padding-right: ${({ isSidePreview }) => (isSidePreview ? 0.5 : 0.75)}rem;
+
+    height: 100%;
 
     &:not(:first-child) {
       margin-left: 5px;
@@ -54,12 +58,11 @@ const Container = styled.div`
 
     @media ${MediaSmall} {
       min-height: 23px;
-      height: 100%;
     }
   }
 
   @media ${MediaSmall} {
-    min-height: 25%;
+    min-height: 15%;
   }
 `
 

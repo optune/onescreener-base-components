@@ -467,9 +467,6 @@ export const TeaserLinksBox = ({
               TEASER_LINKS_MARGIN)
         )
 
-    console.log({ linksLimit })
-    console.log({ value })
-
     // To avoid loophole
     if (linksLimit <= 2) linksLimit = 4
 
