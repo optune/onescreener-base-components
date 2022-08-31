@@ -5,9 +5,13 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const ColumnContainer = styled.div`
-  display: ${({ center, spaceBetween }) => (center || spaceBetween ? 'flex' : 'block')};
-  justify-content: ${({ center, spaceBetween }) =>
-    (center && 'center') || (spaceBetween && 'space-between') || 'flex-start'};
+  display: ${({ center, right, spaceBetween }) =>
+    center || right || spaceBetween ? 'flex' : 'block'};
+  justify-content: ${({ center, right, spaceBetween }) =>
+    (right && 'flex-end') ||
+    (center && 'center') ||
+    (spaceBetween && 'space-between') ||
+    'flex-start'};
   align-items: center;
   flex-flow: ${({ flow }) => flow || 'column'};
   opacity: ${({ hide }) => (hide ? 0 : 1)};
