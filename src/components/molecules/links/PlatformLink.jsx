@@ -120,7 +120,6 @@ export const PlatformLink = ({
     onOpenModal(platform)
   }
 
-  console.log({ platform, text })
   useEffect(() => {
     switch (autoOpenId) {
       case 'donation':
