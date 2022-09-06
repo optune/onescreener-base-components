@@ -117,7 +117,7 @@ export const PlatformLink = ({
       },
     }).then((r) => r)
     setModalData({ show: true, content: text, label: labelText })
-    onOpenModal('text')
+    onOpenModal(platform)
   }
 
   useEffect(() => {
@@ -125,7 +125,7 @@ export const PlatformLink = ({
       case 'donation':
         handleDonationModalOpen()
         break
-      case 'text':
+      case platform:
         handleTextModalOpen()
       default:
         break

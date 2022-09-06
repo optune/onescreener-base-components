@@ -108,6 +108,14 @@ export const auth0Styles = `
     .auth0-lock-confirmation {
       display: none;
     }
+
+    .auth0-lock-form {
+      .auth0-lock-alternative {
+        &-link, a {
+          text-decoration: underline;
+        }
+      }
+    }
     
     .auth0-lock {
       &-submit {
