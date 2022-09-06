@@ -334,6 +334,7 @@ export const Page = ({
     const { links } = page || { links: { list: [] } }
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
+    console.log({ backgroundPAGE: background, designPAGE: design })
     const isBackgroundSelected =
       background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom'
     const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
@@ -360,13 +361,13 @@ export const Page = ({
           preloadImage={getImageUrl(false)({
             ...background,
             isBackgroundSelected,
-            selectedBackgroundUrl: design?.background?.url,
+            selectedBackgroundUrl: design?.background?.url || background?.url,
           })}
           ssrDone={ssrDone}
           focusPoint={background?.focusPoint}
           fullscreen={background?.fullscreen}
           color={background?.color}
-          designColor={isBackgroundSelected && design?.background?.color}
+          designColor={isBackgroundSelected && (design?.background?.color || background?.color)}
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
         >
