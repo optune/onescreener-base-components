@@ -334,7 +334,6 @@ export const Page = ({
     const { links } = page || { links: { list: [] } }
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
-     backgroundPAGE: background, designPAGE: design })
     const isBackgroundSelected =
       background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom'
     const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
