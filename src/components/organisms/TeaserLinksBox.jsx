@@ -449,7 +449,6 @@ export const TeaserLinksBox = ({
   }, [])
 
   useEffect(() => {
-    console.log('re render tl box')
     let teaserLinksFiltered = getFilteredTeaserLinksList({ list: teaserLinks, shopEnabled })
     let value = getTeaserLinksValueLength({ list: teaserLinks, shopEnabled })
     let actualList = [teaserLinksFiltered]
