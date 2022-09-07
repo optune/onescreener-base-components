@@ -27,6 +27,7 @@ import {
   getTeaserLinksValueLength,
   isDoubleSize,
 } from './utils/getTeaserLinksSettings'
+import { getValuesRecursively } from '../../utils/getValuesRecursively'
 
 const TEASER_LINKS_HEIGHT = 50
 const TEASER_LINKS_MARGIN = 13
@@ -503,7 +504,7 @@ export const TeaserLinksBox = ({
 
     setPagination(0)
     setList(actualList)
-  }, [teaserLinks, isPreviewMobileReady])
+  }, [teaserLinks.length, isPreviewMobileReady, ...getValuesRecursively({ list: teaserLinks })])
 
   const paginationBack = () => setPagination(pagination - 1 < 0 ? 0 : pagination - 1)
 
