@@ -40,7 +40,7 @@ const InfoColumn = ({ label = ' ', value = ' ', marginTop, third, fullwidth }) =
   // </Column>
 )
 
-const SuccessMessage = ({ order }) => {
+const SuccessMessage = ({ order, t }) => {
   const { isSession } = order || {}
   const isCalendly = order?.session?.bookingMethod === BookingMethod.CALENDLY
 
@@ -55,7 +55,7 @@ const SuccessMessage = ({ order }) => {
       </div>
       <div className="row ">
         <div className="column  left">
-          <InfoColumn label={'Order ID'} value={order?._id} third />
+          <InfoColumn label={t?.('page.monetization.success.order.id')} value={order?._id} third />
         </div>
       </div>
 
@@ -63,18 +63,22 @@ const SuccessMessage = ({ order }) => {
         <Fragment>
           <div className="row marginTop">
             <Text className="bold" fontSize="1.3rem" margin="0 0 5px 0">
-              Order details
+              {t?.('page.monetization.success.order.details')}
             </Text>
           </div>
           <div className="row ">
-            <InfoColumn label={'Quantity'} value={order?.details.quantity} third />
             <InfoColumn
-              label={'Price'}
+              label={t?.('page.monetization.success.order.quantity')}
+              value={order?.details.quantity}
+              third
+            />
+            <InfoColumn
+              label={t?.('page.monetization.success.order.price')}
               value={`${order?.details.price} ${CurrencySign[order?.details.currency] || 'USD'}`}
               third
             />
             <InfoColumn
-              label={'Total'}
+              label={t?.('page.monetization.success.order.total')}
               value={`${order?.details.total} ${CurrencySign[order?.details.currency] || 'USD'}`}
               third
             />
@@ -85,7 +89,7 @@ const SuccessMessage = ({ order }) => {
       {order?.product?.isPhysical && order?.details?.clientNote > '' ? (
         <div className="row  marginBottom">
           <InfoColumn
-            label={'Your message'}
+            label={t?.('page.monetization.success.order.clientNote')}
             value={order?.details.clientNote || '-'}
             fullwidth
             marginTop
@@ -108,8 +112,10 @@ const SuccessMessage = ({ order }) => {
                 }
               >
                 {isSession && isCalendly
-                  ? order?.product.downloadLabel || 'Click here to book the session'
-                  : order?.product.downloadLabel || 'Download link'}
+                  ? order?.product.downloadLabel ||
+                    t?.('page.monetization.success.order.download.session')
+                  : order?.product.downloadLabel ||
+                    t?.('page.monetization.success.order.download.link')}
               </StyledButton>
             </div>
           </div>
@@ -125,8 +131,10 @@ const SuccessMessage = ({ order }) => {
             margin="0"
           >
             {isSession
-              ? `You will get an email at ${order?.client?.email} with instructions on how to book your appointment`
-              : 'You will shortly receive your receipt by e-mail'}
+              ? t?.('page.monetization.success.order.instructions.email', {
+                  email: order?.client?.email,
+                })
+              : t?.('page.monetization.success.order.instructions.default')}
           </Text>
         </div>
       </div>
@@ -142,6 +150,7 @@ export const MonetizationFinishedModal = ({
   onClose,
   shopItem,
   show,
+  t,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
 
@@ -221,10 +230,10 @@ export const MonetizationFinishedModal = ({
         </CloseButton>
 
         <Header>
-          <Text className="bold">Order successful</Text>
+          <Text className="bold">{t?.('page.monetization.success.title')}</Text>
         </Header>
         <TextContainer className="checkout">
-          <SuccessMessage order={order} />
+          <SuccessMessage order={order} t={t} />
         </TextContainer>
 
         <StyledButtonContainer>
@@ -233,7 +242,7 @@ export const MonetizationFinishedModal = ({
             // TODO: disabled
             onClick={handleClose}
           >
-            Close
+            {t?.('page.monetization.closeButton')}
           </StyledButton>
         </StyledButtonContainer>
       </Container>

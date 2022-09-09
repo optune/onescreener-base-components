@@ -49,6 +49,7 @@ const InfoForm = ({
   quantity,
   onSelectQuantity,
   actualPrice,
+  t,
 }) => {
   const [currentImage, setCurrentImage] = useState(0)
   const [viewerIsOpen, setViewerIsOpen] = useState(false)
@@ -95,7 +96,7 @@ const InfoForm = ({
         {maxQuantity > 0 && (
           <div className="column third right ">
             <Text as="div" className="bangers right">
-              Stock: {maxQuantity}
+              {t?.('page.monetization.stock')}: {maxQuantity}
             </Text>
           </div>
         )}
@@ -175,6 +176,7 @@ const CheckoutForm = ({
   price,
   quantity,
   validEmail,
+  t,
 }) => {
   return (
     <Fragment>
@@ -199,8 +201,8 @@ const CheckoutForm = ({
             value={formData.clientName}
             onChange={handleFormChange}
             onBlur={handleFormChange}
-            placeholder="Joe Doe"
-            label="Name"
+            placeholder={t?.('page.form.clientName.placeholder')}
+            label={t?.('page.form.clientName.label')}
             required
             // small={true}
           />
@@ -214,13 +216,13 @@ const CheckoutForm = ({
             type="email"
             touched={emailTouched || formData.email > ''}
             error={!validEmail && formData.email > ''}
-            errorMessage="Email is not valid"
+            errorMessage={t?.('page.form.email.error')}
             value={formData.email}
             onChange={handleFormChange}
             onFocus={onEmailTouch}
             onBlur={(e) => onValidateEmail(e.target.value)}
-            placeholder="youremail@example.com"
-            label="Email"
+            placeholder={t?.('page.form.email.placeholder')}
+            label={t?.('page.form.email.label')}
             required
             // small={true}
           />
@@ -237,7 +239,7 @@ const CheckoutForm = ({
               error={false}
               value={formData.clientNote}
               onChange={handleFormChange}
-              placeholder={'Add message'}
+              placeholder={t?.('page.form.clientNote.placeholder')}
               label={note}
               // small={true}
             />
@@ -342,6 +344,7 @@ export const MonetizationModal = ({
   onClose,
   shopItem,
   show,
+  t,
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
 
@@ -478,7 +481,8 @@ export const MonetizationModal = ({
 
         <Header>
           <Text className="bold" fontSize="1.2rem">
-            {modalHeader[step][orderType]}
+            {/* {modalHeader[step][orderType]} */}
+            {t?.(`page.monetization.${orderType}.title.step.${step}`)}
           </Text>
         </Header>
         <TextContainer className="checkout">
@@ -499,6 +503,7 @@ export const MonetizationModal = ({
               onSelectQuantity={handleQuantityChange}
               price={price}
               quantity={quantity}
+              t={t}
             />
           )}
           {step === 2 && (
@@ -523,6 +528,7 @@ export const MonetizationModal = ({
               price={price}
               quantity={quantity}
               validEmail={validEmail}
+              t={t}
             />
           )}
         </TextContainer>
@@ -555,11 +561,11 @@ export const MonetizationModal = ({
                   }
             }
           >
-            {step === 1 && 'Checkout'}
+            {step === 1 && t?.('page.monetization.checkout')}
             {step === 2 &&
               (buttonDisabled
-                ? 'Redirecting to checkout...'
-                : `Buy for ${actualPrice} ${currencySign}`)}
+                ? t?.('page.monetization.redirecting')
+                : t?.('page.monetization.buyFor', { price: actualPrice, currency: currencySign }))}
           </StyledButton>
         </StyledButtonContainer>
       </Container>
