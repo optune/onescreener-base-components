@@ -260,8 +260,8 @@ export const CloseButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 28px;
   cursor: pointer;
   z-index: 999;
 `
