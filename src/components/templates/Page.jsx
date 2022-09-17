@@ -334,7 +334,6 @@ export const Page = ({
     const { links } = page || { links: { list: [] } }
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
-    console.log({ backgroundPAGE: background, designPAGE: design })
     const isBackgroundSelected =
       background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom'
     const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
@@ -462,6 +461,7 @@ export const Page = ({
                   onBuyItem={onBuyItem}
                   onLoadOrder={onLoadOrder}
                   shopItem={modalShop.item}
+                  t={t}
                 />
 
                 <MonetizationFinishedModal
@@ -475,6 +475,7 @@ export const Page = ({
                   show={modalShop.isOrderSuccess}
                   onLoadOrder={onLoadOrder}
                   shopItem={modalShop.item}
+                  t={t}
                 />
 
                 <EmbedModal

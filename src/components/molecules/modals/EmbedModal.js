@@ -120,7 +120,7 @@ export const EmbedModal = ({ isSidePreview, isPreviewMobile, onClose, show, moda
 
   return (
     <Modal
-      width="50%"
+      // width="50%"
       height="100%"
       width="100%"
       maxHeight={embedHeight}
