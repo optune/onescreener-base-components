@@ -9,7 +9,7 @@ export const TeaserLink = ({ autoOpenId, children, teaserLinkId, onOpen, ...othe
   }, [autoOpenId])
 
   return (
-    <Container onClick={onOpen} {...other}>
+    <Container onClick={() => onOpen(true)} {...other}>
       {children}
     </Container>
   )
