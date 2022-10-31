@@ -621,8 +621,8 @@ export const TeaserLinksBox = ({
                   target="_blank"
                   teaserLinkId={_id}
                   ssrDone={ssrDone}
-                  onOpen={() => {
-                    if (!isSidePreview) {
+                  onOpen={(isClick) => {
+                    if (!isClick && !isSidePreview) {
                       trackingVisitorEvents({
                         visitorSession,
                         domainName,
@@ -636,7 +636,7 @@ export const TeaserLinksBox = ({
                         },
                       }).then((r) => r)
                     }
-                    if (!isSidePreview && (isShop || isSession)) {
+                    if (!isClick && !isSidePreview && (isShop || isSession)) {
                       onLoadShopItem?.({ itemId: _id }).then((item) => {
                         if (item.shop.maxQuantity > -1 || item.isSession) {
                           setModalShop({
