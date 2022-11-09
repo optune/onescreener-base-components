@@ -334,16 +334,12 @@ export const Page = ({
     const { links } = page || { links: { list: [] } }
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
-    console.log({ pageINSIDE: page })
     const isBackgroundSelected =
       (design?.theme?.background?.selectedBackgroundId > '' &&
         design?.theme?.background?.selectedBackgroundId !== 'custom') ||
       (background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom')
 
-    console.log({ isBackgroundSelected })
-
     const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
-    console.log({ isThemeSelected })
 
     const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
 
