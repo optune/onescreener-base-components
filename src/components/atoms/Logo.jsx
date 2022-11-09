@@ -12,8 +12,8 @@ import { LogoSubscribe } from './LogoSubscribe'
 
 const LOGO_SIZE_DESKTOP = 80
 const LOGO_SIZE_SMALL = 70
-const LOGO_SIZE_MOBILE = 65
-const LOGO_SIZE_MOBILE_TINY = 60
+const LOGO_SIZE_MOBILE = 60
+const LOGO_SIZE_MOBILE_TINY = 55
 
 /*
  * Logo Image - Deprecated
