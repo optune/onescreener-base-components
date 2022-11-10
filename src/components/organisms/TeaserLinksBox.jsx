@@ -31,8 +31,8 @@ import { getValuesRecursively } from '../../utils/getValuesRecursively'
 
 const TEASER_LINKS_HEIGHT = 68
 const TEASER_LINKS_HEIGHT_SHOP = 92
-const TEASER_LINKS_HEIGHT_SIDE_PREVIEW = 38
-const TEASER_LINKS_HEIGHT_SHOP_SIDE_PREVIEW = 52
+const TEASER_LINKS_HEIGHT_SIDE_PREVIEW = 58
+const TEASER_LINKS_HEIGHT_SHOP_SIDE_PREVIEW = 62
 
 const TEASER_LINKS_MARGIN = 20
 const TEASER_LINKS_SHOP_MARGIN = 32
@@ -103,7 +103,7 @@ const Container = styled.div`
 
     filter: ${({ ssrDone }) =>
       ssrDone
-        ? 'drop-shadow(0px 2px 2px rgba(0,0,0,0.2)) drop-shadow(0px 2px 10px rgba(0,0,0,0.05))'
+        ? 'drop-shadow(0px 3px 2px rgba(0,0,0,0.25)) drop-shadow(0px 2px 10px rgba(0,0,0,0.05))'
         : 'none'};
     border-radius: 6px;
     transition: all 0.3s ease-out, transform 0.2s cubic-bezier(0, 0.25, 0.35, 2.25),
@@ -223,8 +223,8 @@ const Container = styled.div`
     }
 
     &:hover {
-      filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25))
-        drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.25));
+      filter: drop-shadow(0px 3px 2px rgba(0, 0, 0, 0.3))
+        drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.2));
 
       // &::after {
       //   opacity: 1;
@@ -374,8 +374,8 @@ const Container = styled.div`
             }
 
             svg {
-              height: ${({ isSidePreview }) => (isSidePreview ? '16px' : '20px')};
-              width: ${({ isSidePreview }) => (isSidePreview ? '16px' : '20px')};
+              height: ${({ isSidePreview }) => (isSidePreview ? '16px' : '18px')};
+              width: ${({ isSidePreview }) => (isSidePreview ? '16px' : '18px')};
             }
           }
         }
