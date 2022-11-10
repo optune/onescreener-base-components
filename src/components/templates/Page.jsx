@@ -345,8 +345,7 @@ export const Page = ({
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
     const isBackgroundSelected =
-      (design?.theme?.background?.selectedBackgroundId > '' &&
-        design?.theme?.background?.selectedBackgroundId !== 'custom') ||
+      design?.theme?.background?.url > '' ||
       (background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom')
 
     const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
