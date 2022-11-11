@@ -163,7 +163,7 @@ export const LogoSubscribe = ({
           {subscribed && (
             <Button
               className="subscription-status logo-follow-apply-font"
-              onClick={handleOnSubscribe}
+              onClick={handleOnUnsubscribe}
             >
               {' '}
               {isSubscriptionLoading ? (
