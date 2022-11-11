@@ -66,6 +66,17 @@ const Container = styled.div`
 
   @media ${MediaMobile} {
     border-radius: 0;
+
+    .brand {
+      font-size: 12px;
+      margin-left: 12px;
+    }
+
+    .referral {
+      font-size: 12px;
+      line-height: 12px;
+      margin-right: 12px;
+    }
   }
 
   @media ${MediaSmallMobile} {
@@ -81,12 +92,12 @@ const Container = styled.div`
   }
 `
 
-export const BannerReferral = ({ onReferralOpen, ...other }) => {
+export const BannerReferral = ({ t, onReferralOpen, ...other }) => {
   return (
     <Container onClick={onReferralOpen} {...other}>
       <div className="brand">
         <h1>
-          <span>Create your Onescreener</span>
+          <span>{t('referral.create')} </span>
           {/* <a
             onClick={(e) => e.stopPropagation()}
             href={`https://www.onescreener.com/sign-up?utm_source=livepage&utm_medium=banner&utm_campaign=${
@@ -101,7 +112,7 @@ export const BannerReferral = ({ onReferralOpen, ...other }) => {
         </h1>
       </div>
       <div className="referral">
-        <h1>Sign up and get 25% off</h1>
+        <h1>{t('referral.signup', { percent: 25 })}</h1>
       </div>
     </Container>
   )

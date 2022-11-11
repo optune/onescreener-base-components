@@ -217,6 +217,7 @@ export const Logo =
     onUnsubscribe,
     showFollowButton,
     ssrDone,
+    t,
     userProfilePicture,
   }) => {
     const imageUrl = !!logo.image?.url
@@ -238,6 +239,9 @@ export const Logo =
         {/* {(true || isEditMode) && <EditButton top="0">Logo image</EditButton>} */}
 
         <LogoSubscribe
+          color={color}
+          colorBackground={colorBackground}
+          font={design?.logo?.follow?.font || logo?.follow?.font || logo?.text?.font}
           isSidePreview={isSidePreview}
           isSubscribed={isSubscribed}
           isSubscriptionLoading={isSubscriptionLoading}
@@ -246,9 +250,7 @@ export const Logo =
           onUnsubscribe={onUnsubscribe}
           showFollowButton={showFollowButton}
           ssrDone={ssrDone}
-          color={color}
-          colorBackground={colorBackground}
-          font={design?.logo?.follow?.font || logo?.follow?.font || logo?.text?.font}
+          t={t}
         />
 
         <LogoImage as={ssrDone ? 'img' : 'div'} src={imageUrl} />

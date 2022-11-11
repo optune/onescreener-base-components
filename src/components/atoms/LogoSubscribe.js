@@ -96,6 +96,7 @@ const Container = styled.div`
 `
 
 export const LogoSubscribe = ({
+  t,
   color,
   colorBackground,
   font,
@@ -189,8 +190,7 @@ export const LogoSubscribe = ({
               contrast
               onClick={isSubscriptionLoading ? undefined : handleOnSubscribe}
             >
-              {/* <SubscribeIcon /> */}
-              Follow me
+              {t('follow.button')}
             </Button>
           )}
         </Fragment>
