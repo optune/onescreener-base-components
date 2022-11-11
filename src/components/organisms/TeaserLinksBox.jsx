@@ -98,13 +98,17 @@ const Container = styled.div`
 
     background: ${({ colorBackground }) =>
       colorBackground ? colorBackground : 'rgba(130, 130, 130, 0.30)'};
-    border: ${({ colorBorder }) => (colorBorder ? `1px solid ${colorBorder}` : 'none')};
+      
+    // border: ${({ colorBorder }) => (colorBorder ? `1px solid ${colorBorder}` : 'none')};
+
     box-sizing: border-box;
 
-    filter: ${({ ssrDone }) =>
-      ssrDone
-        ? 'drop-shadow(0px 3px 2px rgba(0,0,0,0.25)) drop-shadow(0px 2px 10px rgba(0,0,0,0.05))'
-        : 'none'};
+    box-shadow: ${({ ssrDone }) =>
+      ssrDone ? '0px 4px 5px rgba(0, 0, 0, 0.1), 0px 3px 10px rgba(0, 0, 0, 0.1)' : 'none'};
+
+    box-shadow: ${({ ssrDone }) =>
+      ssrDone ? '0px 2px 2px rgba(0, 0, 0, 0.05), 0px 2px 10px rgba(0, 0, 0, 0.05)' : 'none'};
+
     border-radius: 6px;
     transition: all 0.3s ease-out, transform 0.2s cubic-bezier(0, 0.25, 0.35, 2.25),
       opacity 0.2s cubic-bezier(0, 0.25, 0.35, 2.25);
@@ -152,17 +156,33 @@ const Container = styled.div`
       z-index: ${ZIndex1};
 
       .tag {
+        position: relative;
         height: 100%;
         width: auto;
         padding: 4px 6px;
         color: ${({ colorTag }) => colorTag};
         background-color: ${({ colorTagBackground }) =>
           colorTagBackground ? colorTagBackground : ForegroundColor.secondary};
+        box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.08), 0px 4px 8px rgba(0, 0, 0, 0.12);
 
         display: flex;
         justify-content: center;
         align-items: center;
         border-radius: 6px;
+
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          border-radius: 6px;
+          transition: opacity 0.3s ease-out;
+          opacity: 0;
+          box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09), 0px 4px 8px rgba(0, 0, 0, 0.14);
+        }
 
         svg.icon {
           * {
@@ -201,41 +221,55 @@ const Container = styled.div`
       }
     }
 
-    // &::after {
-    //   content: '';
-    //   display: block;
-    //   position: absolute;
-    //   top: 0;
-    //   left: 0;
-    //   right: 0;
-    //   bottom: 0;
-    //   border-radius: 6px;
-    //   transition: opacity 0.3s ease-out;
-    //   opacity: 0;
-    // }
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 6px;
+      transition: opacity 0.3s ease-out;
+      opacity: 0;
+      // box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.09), 0px 3px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.07), 0px 2px 10px rgba(0, 0, 0, 0.09);
+    }
 
     &:hover,
     &:focus {
-      transform: translateZ(0) scale(1.021);
+      transform: translateZ(0) scale(1.03);
       backdrop-filter: blur(12px);
       background: ${({ colorBackground, color }) =>
         colorBackground == 'rgba(255,255,255,0)' ? `${RGBToHex(color)}10` : colorBackground};
     }
 
     &:hover {
-      filter: drop-shadow(0px 3px 2px rgba(0, 0, 0, 0.3))
-        drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.2));
+      // filter: drop-shadow(0px 3px 2px rgba(0, 0, 0, 0.3))
+      //   drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.2));
 
-      // &::after {
-      //   opacity: 1;
-      // }
+      .tag {
+        &::after {
+          opacity: 1;
+        }
+      }
+
+      &::after {
+        opacity: 1;
+      }
     }
 
-    // &:focus {
-    //   &::after {
-    //     opacity: 0;
-    //   }
-    // }
+    &:focus {
+      .tag {
+        &::after {
+          opacity: 0;
+        }
+      }
+
+      &::after {
+        opacity: 0;
+      }
+    }
 
     &:not(:last-child) {
       margin-bottom: ${TEASER_LINKS_MARGIN}px;
@@ -251,9 +285,9 @@ const Container = styled.div`
       pointer-events: none;
       opacity: 0.9;
 
-      // &::after {
-      //   content: unset;
-      // }
+      &::after {
+        content: unset;
+      }
     }
 
     &.processing {
