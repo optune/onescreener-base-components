@@ -379,7 +379,11 @@ export const Page = ({
           ssrDone={ssrDone}
           focusPoint={background?.focusPoint}
           fullscreen={background?.fullscreen}
-          color={design?.background?.color || background?.color}
+          color={
+            isBackgroundSelected
+              ? design?.theme?.background?.color || design?.background?.color
+              : background?.color
+          }
           designColor={
             isBackgroundSelected &&
             (design?.theme?.background?.color || design?.background?.color || background?.color)
