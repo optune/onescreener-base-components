@@ -184,19 +184,35 @@ const LogoImage = styled.img`
 // }
 
 const getLogoColors = ({ logo, design }) => {
-  let color = design?.logo?.follow?.color || logo?.follow?.color
-  let colorBackground =
-    design?.logo?.follow?.colorBackground || logo?.follow?.colorBackground || logo?.text?.color
+  let colorFollow
+  let colorBackgroundFollow
 
-  if ((!!!logo?.follow && !!!design) || color === 'unset') {
-    // find luminance of colorBackground
-    const luminance = Math.round(chroma(colorBackground).luminance() * 100)
+  console.log({ logo, design })
 
-    if (luminance < 50) color = '#fff'
-    else color = '#000'
+  // Logo Follow Colors
+  if (!!design?.theme) {
+    console.log('yes theme')
+    colorFollow = design?.theme?.logo?.follow?.color
+    colorBackgroundFollow =
+      design?.theme?.logo?.follow?.colorBackground || design?.theme?.logo?.color
+  } else {
+    console.log('no theme')
+    colorFollow = logo?.follow?.color || 'unset'
+    colorBackgroundFollow = logo?.follow?.colorBackground || logo?.text?.color
   }
 
-  return { color, colorBackground }
+  if (colorFollow === 'unset' || !colorFollow) {
+    const luminance = Math.round(chroma(colorBackgroundFollow).luminance() * 100)
+
+    console.log({ colorBackgroundFollow, luminance })
+
+    if (luminance < 50) colorFollow = '#fff'
+    else colorFollow = '#000'
+  }
+
+  console.log({ colorFollow, colorBackgroundFollow })
+
+  return { colorFollow, colorBackgroundFollow }
 }
 
 export const Logo =
@@ -225,7 +241,7 @@ export const Logo =
       ? getImageUrl({ image: artistProfilePicture, maxHeight: 25, maxWidth: 25 })
       : userProfilePicture?.url
 
-    const { color, colorBackground } = getLogoColors({ logo, design })
+    const { colorFollow, colorBackgroundFollow } = getLogoColors({ logo, design })
 
     return (
       <ImageContainer
@@ -246,9 +262,14 @@ export const Logo =
           onUnsubscribe={onUnsubscribe}
           showFollowButton={showFollowButton}
           ssrDone={ssrDone}
-          color={color}
-          colorBackground={colorBackground}
-          font={design?.logo?.follow?.font || logo?.follow?.font || logo?.text?.font}
+          color={colorFollow}
+          colorBackground={colorBackgroundFollow}
+          font={
+            design?.theme?.logo?.follow?.font ||
+            design?.theme?.logo?.text?.font ||
+            logo?.follow?.font ||
+            logo?.text?.font
+          }
         />
 
         <LogoImage as={ssrDone ? 'img' : 'div'} src={imageUrl} />
