@@ -2,16 +2,18 @@
 
 import React from 'react'
 import styled, { css } from 'styled-components'
+import chroma from 'chroma-js'
 import { BackgroundColor } from '../../style/color'
 
 // Atoms
 
 import { MediaSmall, MediaSmallMobile, MediaTinyMobile } from '../../style/media'
+import { LogoSubscribe } from './LogoSubscribe'
 
-const LOGO_SIZE_DESKTOP = 68
-const LOGO_SIZE_SMALL = 62
-const LOGO_SIZE_MOBILE = 56
-const LOGO_SIZE_MOBILE_TINY = 52
+const LOGO_SIZE_DESKTOP = 80
+const LOGO_SIZE_SMALL = 70
+const LOGO_SIZE_MOBILE = 60
+const LOGO_SIZE_MOBILE_TINY = 55
 
 /*
  * Logo Image - Deprecated
@@ -150,7 +152,7 @@ const LogoImage = styled.img`
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-
+  border: 1px solid rgba(0, 0, 0, 0.1);
   background-color: ${BackgroundColor.loadingUI};
 `
 
@@ -181,17 +183,41 @@ const LogoImage = styled.img`
 //   return isEqual
 // }
 
+const getLogoColors = ({ logo, design }) => {
+  let color = design?.logo?.follow?.color || logo?.follow?.color
+  let colorBackground =
+    design?.logo?.follow?.colorBackground || logo?.follow?.colorBackground || logo?.text?.color
+
+  if ((!!!logo?.follow && !!!design) || color === 'unset') {
+    // find luminance of colorBackground
+    const luminance = Math.round(chroma(colorBackground).luminance() * 100)
+
+    if (luminance < 50) color = '#fff'
+    else color = '#000'
+  }
+
+  return { color, colorBackground }
+}
+
 export const Logo =
   // memo(
   ({
     artistProfilePicture,
+    design,
     getImageUrl,
     isEditMode,
     isPreviewMobile,
     isSidePreview,
+    isSubscribed,
+    isSubscriptionLoading,
     isTeaserLinks,
+    isUser,
     logo,
+    onSubscribe,
+    onUnsubscribe,
+    showFollowButton,
     ssrDone,
+    t,
     userProfilePicture,
   }) => {
     const imageUrl = !!logo.image?.url
@@ -199,6 +225,8 @@ export const Logo =
       : !!artistProfilePicture
       ? getImageUrl({ image: artistProfilePicture, maxHeight: 25, maxWidth: 25 })
       : userProfilePicture?.url
+
+    const { color, colorBackground } = getLogoColors({ logo, design })
 
     return (
       <ImageContainer
@@ -209,6 +237,21 @@ export const Logo =
         isSidePreview={isSidePreview}
       >
         {/* {(true || isEditMode) && <EditButton top="0">Logo image</EditButton>} */}
+
+        <LogoSubscribe
+          color={color}
+          colorBackground={colorBackground}
+          font={design?.logo?.follow?.font || logo?.follow?.font || logo?.text?.font}
+          isSidePreview={isSidePreview}
+          isSubscribed={isSubscribed}
+          isSubscriptionLoading={isSubscriptionLoading}
+          isUser={isUser}
+          onSubscribe={onSubscribe}
+          onUnsubscribe={onUnsubscribe}
+          showFollowButton={showFollowButton}
+          ssrDone={ssrDone}
+          t={t}
+        />
 
         <LogoImage as={ssrDone ? 'img' : 'div'} src={imageUrl} />
       </ImageContainer>

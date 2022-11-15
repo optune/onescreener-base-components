@@ -3,6 +3,7 @@
 import React from 'react'
 
 import styled from 'styled-components'
+import { renderHtml } from '../../utils/renderHtml'
 
 const BacklinkUrl =
   'https://res.cloudinary.com/optune-me/image/upload/v1598948675/onescreener-v2/app/back_link.png'
@@ -48,7 +49,7 @@ const StyledBackLink = styled.a`
   }
 `
 
-export const BackLink = ({ artistSlug, isPreviewMobile, isPro }) => (
+export const BackLink = ({ artistSlug, isPreviewMobile, isPro, t }) => (
   <StyledBackLink
     href={`https://app.onescreener.com/?utm_source=livepage&utm_medium=banner&utm_campaign=${
       artistSlug || 'unknown'
@@ -58,8 +59,6 @@ export const BackLink = ({ artistSlug, isPreviewMobile, isPro }) => (
     isPreviewMobile={isPreviewMobile}
     isPro={isPro}
   >
-    <h1>
-      created with <strong>Onescreener</strong>
-    </h1>
+    <h1>{renderHtml(t('backlink.text'))}</h1>
   </StyledBackLink>
 )

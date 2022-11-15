@@ -168,6 +168,7 @@ const LogoContainer = styled.div`
   right: 0;
   display: flex;
   pointer-events: none;
+  transition: padding 0.3s ease-out;
 
   z-index: ${({ zIndex }) => zIndex};
 
@@ -345,13 +346,21 @@ export const LogoBox = ({
         <LogoWrapper isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview}>
           <Logo
             artistProfilePicture={artistProfilePicture}
+            design={design}
             getImageUrl={getImageUrl}
             isEditMode={isEditMode}
             isPreviewMobile={isPreviewMobile}
             isSidePreview={isSidePreview}
+            isSubscribed={isSubscribed}
+            isSubscriptionLoading={isSubscriptionLoading}
             isTeaserLinks={isTeaserLinks}
+            isUser={isUser}
             logo={logo}
+            onSubscribe={onSubscribe}
+            onUnsubscribe={onUnsubscribe}
+            showFollowButton={showFollowButton}
             ssrDone={ssrDone}
+            t={t}
             userProfilePicture={userProfilePicture}
           />
 
@@ -365,7 +374,7 @@ export const LogoBox = ({
             logo={logo}
             ssrDone={ssrDone}
           />
-          <LogoSubscribe
+          {/* <LogoSubscribe
             isSidePreview={isSidePreview}
             isSubscribed={isSubscribed}
             isSubscriptionLoading={isSubscriptionLoading}
@@ -374,7 +383,7 @@ export const LogoBox = ({
             onUnsubscribe={onUnsubscribe}
             showFollowButton={showFollowButton}
             ssrDone={ssrDone}
-          />
+          /> */}
         </LogoWrapper>
       </LogoContainer>
     </Fragment>
