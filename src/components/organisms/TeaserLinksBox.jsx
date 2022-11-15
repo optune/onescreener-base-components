@@ -26,6 +26,8 @@ import {
   getFilteredTeaserLinksList,
   getTeaserLinksValueLength,
   isDoubleSize,
+  TL_REGULAR_VALUE,
+  TL_SHOP_VALUE,
 } from './utils/getTeaserLinksSettings'
 import { getValuesRecursively } from '../../utils/getValuesRecursively'
 
@@ -571,7 +573,7 @@ export const TeaserLinksBox = ({
     let windowHeight = window.innerHeight
     if (isSidePreview) windowHeight = document.getElementById('page-container').scrollHeight
 
-    const logoHeight = parseInt(windowHeight * (isPreviewMobile && isSidePreview ? 0.33 : 0.17))
+    const logoHeight = parseInt(windowHeight * (isPreviewMobile && isSidePreview ? 0.24 : 0.17))
     const linksHeight = isSidePreview ? 45 : isSmall || isPreviewMobile ? 60 : 110
     const legacyCorrection = isSmall && isLegacyMobile ? 20 : 0
     const allowedHeight = windowHeight - logoHeight - linksHeight - legacyCorrection
@@ -596,10 +598,12 @@ export const TeaserLinksBox = ({
         /* Calculate values */
 
         let tl = teaserLinksFiltered[i]
-        let tlValue = isDoubleSize(tl) ? 2 : 1
+        let tlValue = isDoubleSize(tl) ? TL_SHOP_VALUE : TL_REGULAR_VALUE
         pageValue += tlValue
-        let nextLinkValue = (isDoubleSize(teaserLinksFiltered?.[i + 1]) ? 2 : 1) || 0
+        let nextLinkValue =
+          (isDoubleSize(teaserLinksFiltered?.[i + 1]) ? TL_SHOP_VALUE : TL_REGULAR_VALUE) || 0
         let nextValue = pageValue + nextLinkValue
+        console.log({ pageValue, tlValue, nextLinkValue, nextValue })
 
         /* Check if there is space for one more link */
 
