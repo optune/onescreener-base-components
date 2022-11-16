@@ -26,10 +26,10 @@ const Container = styled.div`
   button {
     border-radius: 50px;
     padding: ${({ isSidePreview }) => (isSidePreview ? '2px 4px' : '4px 8px')};
-    font-size: ${({ isSidePreview }) => (isSidePreview ? '8px' : '12px')};
+    font-size: ${({ isSidePreview }) => (isSidePreview ? '7px' : '12px')};
     line-height: 1;
-    height: ${({ isSidePreview }) => (isSidePreview ? '16px' : '22px')};
-    min-height: ${({ isSidePreview }) => (isSidePreview ? '16px' : '22px')};
+    height: ${({ isSidePreview }) => (isSidePreview ? '14px' : '22px')};
+    min-height: ${({ isSidePreview }) => (isSidePreview ? '14px' : '22px')};
     font-family: ${({ font }) => font || 'Open Sans'};
     background-color: ${({ colorBackground }) => colorBackground};
     color: ${({ color }) => color};
@@ -96,6 +96,7 @@ const Container = styled.div`
 `
 
 export const LogoSubscribe = ({
+  t,
   color,
   colorBackground,
   font,
@@ -163,7 +164,7 @@ export const LogoSubscribe = ({
           {subscribed && (
             <Button
               className="subscription-status logo-follow-apply-font"
-              onClick={handleOnSubscribe}
+              onClick={handleOnUnsubscribe}
             >
               {' '}
               {isSubscriptionLoading ? (
@@ -189,8 +190,7 @@ export const LogoSubscribe = ({
               contrast
               onClick={isSubscriptionLoading ? undefined : handleOnSubscribe}
             >
-              {/* <SubscribeIcon /> */}
-              Follow me
+              {t('follow.button')}
             </Button>
           )}
         </Fragment>

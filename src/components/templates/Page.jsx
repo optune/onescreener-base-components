@@ -390,9 +390,16 @@ export const Page = ({
           <ForegroundContainer>
             {/* Back Link to onescreener.com */}
             {showBackLink && (
-              <BackLink artistSlug={artistSlug} isPreviewMobile={isPreviewMobile} isPro={hasPro} />
+              <BackLink
+                artistSlug={artistSlug}
+                isPreviewMobile={isPreviewMobile}
+                isPro={hasPro}
+                t={t}
+              />
             )}
-            {showBanner && <BannerReferral onReferralOpen={onReferralOpen} hideBehind={false} />}
+            {showBanner && (
+              <BannerReferral onReferralOpen={onReferralOpen} hideBehind={false} t={t} />
+            )}
 
             {/* Logo */}
             {logo && (

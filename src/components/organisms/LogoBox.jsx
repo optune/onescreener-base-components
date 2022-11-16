@@ -346,21 +346,22 @@ export const LogoBox = ({
         <LogoWrapper isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview}>
           <Logo
             artistProfilePicture={artistProfilePicture}
+            design={design}
             getImageUrl={getImageUrl}
             isEditMode={isEditMode}
             isPreviewMobile={isPreviewMobile}
             isSidePreview={isSidePreview}
-            isTeaserLinks={isTeaserLinks}
-            logo={logo}
-            design={design}
-            ssrDone={ssrDone}
-            userProfilePicture={userProfilePicture}
             isSubscribed={isSubscribed}
             isSubscriptionLoading={isSubscriptionLoading}
+            isTeaserLinks={isTeaserLinks}
             isUser={isUser}
+            logo={logo}
             onSubscribe={onSubscribe}
             onUnsubscribe={onUnsubscribe}
             showFollowButton={showFollowButton}
+            ssrDone={ssrDone}
+            t={t}
+            userProfilePicture={userProfilePicture}
           />
 
           <LogoText
