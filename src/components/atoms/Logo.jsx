@@ -177,9 +177,6 @@ const LogoImage = styled.img`
 //     prevProps.logo.text?.shadowColor === nextProps.logo.text?.shadowColor &&
 //     prevProps.logo.text?.shadowSize === nextProps.logo.text?.shadowSize &&
 //     prevProps.logo.text?.title === nextProps.logo.text?.title
-//   console.log({ LOGO_EUQAL: isEqual })
-//   console.log({ LOGO_SIZE_BEFORE: prevProps.logo.size })
-//   console.log({ LOGO_SIZE_NOW: nextProps.logo.size })
 //   return isEqual
 // }
 
@@ -187,16 +184,12 @@ const getLogoColors = ({ logo, design }) => {
   let colorFollow
   let colorBackgroundFollow
 
-  console.log({ logo, design })
-
   // Logo Follow Colors
   if (!!design?.theme) {
-    console.log('yes theme')
     colorFollow = design?.theme?.logo?.follow?.color
     colorBackgroundFollow =
       design?.theme?.logo?.follow?.colorBackground || design?.theme?.logo?.color
   } else {
-    console.log('no theme')
     colorFollow = logo?.follow?.color || 'unset'
     colorBackgroundFollow = logo?.follow?.colorBackground || logo?.text?.color
   }
@@ -204,13 +197,9 @@ const getLogoColors = ({ logo, design }) => {
   if (colorFollow === 'unset' || !colorFollow) {
     const luminance = Math.round(chroma(colorBackgroundFollow).luminance() * 100)
 
-    console.log({ colorBackgroundFollow, luminance })
-
     if (luminance < 50) colorFollow = '#fff'
     else colorFollow = '#000'
   }
-
-  console.log({ colorFollow, colorBackgroundFollow })
 
   return { colorFollow, colorBackgroundFollow }
 }
