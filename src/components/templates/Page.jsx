@@ -335,7 +335,9 @@ export const Page = ({
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
     const isBackgroundSelected =
-      background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom'
+      design?.theme?.background?.url > '' ||
+      (background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom')
+
     const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
 
     const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
@@ -359,14 +361,23 @@ export const Page = ({
           className="page-container"
           preloadImage={getImageUrl(false)({
             ...background,
+            ...design?.theme?.background,
             isBackgroundSelected,
-            selectedBackgroundUrl: design?.background?.url || background?.url,
+            selectedBackgroundUrl:
+              design?.theme?.background?.url || design?.background?.url || background?.url,
           })}
           ssrDone={ssrDone}
           focusPoint={background?.focusPoint}
           fullscreen={background?.fullscreen}
-          color={background?.color}
-          designColor={isBackgroundSelected && (design?.background?.color || background?.color)}
+          color={
+            isBackgroundSelected
+              ? design?.theme?.background?.color || design?.background?.color
+              : background?.color
+          }
+          designColor={
+            isBackgroundSelected &&
+            (design?.theme?.background?.color || design?.background?.color || background?.color)
+          }
           isPreviewMobile={isPreviewMobile}
           isSidePreview={isSidePreview}
         >
@@ -585,11 +596,16 @@ export const Page = ({
             <Background
               background={{
                 ...background,
+                ...design?.theme?.background,
                 isBackgroundSelected,
-                selectedBackgroundUrl: design?.background?.url,
+                selectedBackgroundUrl:
+                  design?.theme?.background?.url || design?.background?.url || background?.url,
               }}
-              color={background?.color}
-              designColor={isBackgroundSelected && design?.background?.color}
+              color={design?.background?.color || background?.color}
+              designColor={
+                isBackgroundSelected &&
+                (design?.theme?.background?.color || design?.background?.color || background?.color)
+              }
               getImageUrl={getUrl}
             />
           )}

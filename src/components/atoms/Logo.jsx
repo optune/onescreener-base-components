@@ -177,26 +177,31 @@ const LogoImage = styled.img`
 //     prevProps.logo.text?.shadowColor === nextProps.logo.text?.shadowColor &&
 //     prevProps.logo.text?.shadowSize === nextProps.logo.text?.shadowSize &&
 //     prevProps.logo.text?.title === nextProps.logo.text?.title
-//   console.log({ LOGO_EUQAL: isEqual })
-//   console.log({ LOGO_SIZE_BEFORE: prevProps.logo.size })
-//   console.log({ LOGO_SIZE_NOW: nextProps.logo.size })
 //   return isEqual
 // }
 
 const getLogoColors = ({ logo, design }) => {
-  let color = design?.logo?.follow?.color || logo?.follow?.color
-  let colorBackground =
-    design?.logo?.follow?.colorBackground || logo?.follow?.colorBackground || logo?.text?.color
+  let colorFollow
+  let colorBackgroundFollow
 
-  if ((!!!logo?.follow && !!!design) || color === 'unset') {
-    // find luminance of colorBackground
-    const luminance = Math.round(chroma(colorBackground).luminance() * 100)
-
-    if (luminance < 50) color = '#fff'
-    else color = '#000'
+  // Logo Follow Colors
+  if (!!design?.theme) {
+    colorFollow = design?.theme?.logo?.follow?.color
+    colorBackgroundFollow =
+      design?.theme?.logo?.follow?.colorBackground || design?.theme?.logo?.color
+  } else {
+    colorFollow = logo?.follow?.color || 'unset'
+    colorBackgroundFollow = logo?.follow?.colorBackground || logo?.text?.color
   }
 
-  return { color, colorBackground }
+  if (colorFollow === 'unset' || !colorFollow) {
+    const luminance = Math.round(chroma(colorBackgroundFollow).luminance() * 100)
+
+    if (luminance < 50) colorFollow = '#fff'
+    else colorFollow = '#000'
+  }
+
+  return { colorFollow, colorBackgroundFollow }
 }
 
 export const Logo =
@@ -226,7 +231,7 @@ export const Logo =
       ? getImageUrl({ image: artistProfilePicture, maxHeight: 25, maxWidth: 25 })
       : userProfilePicture?.url
 
-    const { color, colorBackground } = getLogoColors({ logo, design })
+    const { colorFollow, colorBackgroundFollow } = getLogoColors({ logo, design })
 
     return (
       <ImageContainer
@@ -239,9 +244,6 @@ export const Logo =
         {/* {(true || isEditMode) && <EditButton top="0">Logo image</EditButton>} */}
 
         <LogoSubscribe
-          color={color}
-          colorBackground={colorBackground}
-          font={design?.logo?.follow?.font || logo?.follow?.font || logo?.text?.font}
           isSidePreview={isSidePreview}
           isSubscribed={isSubscribed}
           isSubscriptionLoading={isSubscriptionLoading}
@@ -250,6 +252,14 @@ export const Logo =
           onUnsubscribe={onUnsubscribe}
           showFollowButton={showFollowButton}
           ssrDone={ssrDone}
+          color={colorFollow}
+          colorBackground={colorBackgroundFollow}
+          font={
+            design?.theme?.logo?.follow?.font ||
+            design?.theme?.logo?.text?.font ||
+            logo?.follow?.font ||
+            logo?.text?.font
+          }
           t={t}
         />
 
