@@ -10,6 +10,8 @@ export const globalStyles = `
 html {
   font-size: 14px;
 
+  ${cookieBannerStyles}
+
   @media ${MediaSmall} {
     font-size: 12px;
 
@@ -17,8 +19,6 @@ html {
 
   @media ${MediaMobile} {
     font-size: 10px;
-
-    ${cookieBannerStyles}
   }
 }
 

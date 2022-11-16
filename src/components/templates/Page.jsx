@@ -31,6 +31,7 @@ import { getImageUrl } from '../../utils/getImageUrl.js'
 import GlobalStyle from '../../style/global.js'
 import { UpgradeOverlay } from '../molecules/UpgradeOverlay.js'
 import { MediaMobile, ZIndex1, ZIndex2 } from '../../style/media'
+import { CookieButton } from '../atoms/buttons/CookieButton.js'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -86,16 +87,16 @@ const PageContainer = styled.div`
     `}
 
 
-    @media ${MediaMobile} {
-      &.cookie-banner-on {
-        top: 40px;
+    // @media ${MediaMobile} {
+    //   &.cookie-banner-on {
+    //     top: 40px;
 
-        /* TODO: maybe use height for pretty transition */
-        .common-modal {
-          position: absolute;
-        }
-      }
-    }
+    //     /* TODO: maybe use height for pretty transition */
+    //     .common-modal {
+    //       position: absolute;
+    //     }
+    //   }
+    // }
 `
 
 const ForegroundContainer = styled.div`
@@ -189,6 +190,8 @@ export const Page = ({
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   const [isInstagramBrowser, setIsInstagramBrowser] = useState(false)
+  const [showCookieButton, setShowCookieButton] = useState(false)
+  const [isCookieBannerOpen, setIsCookieBannerOpen] = useState(false)
 
   /*
    * Handle open modal id
@@ -272,28 +275,14 @@ export const Page = ({
         setIsInstagramBrowser(isInstagram)
 
         /*
-         * Handle Cookie banner appearance
+         * Handle Cookie button
          */
-        const cookieBannerOn =
+        const cookieButtonOn =
           window.cookieconsent?.utils?.getCookie?.('cookieconsent_status') === undefined
 
-        if (!cookieBannerOn) return
+        setShowCookieButton(cookieButtonOn)
 
-        const pageContainer = document.getElementsByClassName('page-container')[0]
-        const banner = document.getElementsByClassName('cc-window')[0]
-
-        if (cookieBannerOn) {
-          pageContainer.classList.add('cookie-banner-on')
-          banner.classList.add('cookie-banner-on')
-        }
-
-        const cookieAccept = document.getElementsByClassName('cc-compliance')[0]
-        if (!!cookieAccept) {
-          cookieAccept.addEventListener('click', () => {
-            pageContainer.classList.remove('cookie-banner-on')
-            banner.classList.remove('cookie-banner-on')
-          })
-        }
+        if (!cookieButtonOn) return
       })
     }
   }, [ssrDone])
@@ -326,6 +315,27 @@ export const Page = ({
   })
 
   // const isModalOpen = !isSidePreview && !!(modalData.show || modalShop.show || modalEmbed.show)
+
+  const handleOpenCookie = () => {
+    setIsCookieBannerOpen(true)
+    const banner = document.getElementsByClassName('cc-window')[0]
+    banner.classList.add('cookie-banner-on')
+
+    const cookieAccept = document.getElementsByClassName('cc-compliance')[0]
+    if (!!cookieAccept) {
+      cookieAccept.addEventListener('click', () => {
+        banner.classList.remove('cookie-banner-on')
+        setShowCookieButton(false)
+      })
+    }
+  }
+
+  const handleCloseCookie = (e) => {
+    e.stopPropagation()
+    setIsCookieBannerOpen(false)
+    const banner = document.getElementsByClassName('cc-window')[0]
+    banner.classList.remove('cookie-banner-on')
+  }
 
   let PageComponent = null
 
@@ -399,6 +409,14 @@ export const Page = ({
             )}
             {showBanner && (
               <BannerReferral onReferralOpen={onReferralOpen} hideBehind={false} t={t} />
+            )}
+
+            {showCookieButton && (
+              <CookieButton
+                onOpen={handleOpenCookie}
+                onClose={handleCloseCookie}
+                isOpen={isCookieBannerOpen}
+              />
             )}
 
             {/* Logo */}
