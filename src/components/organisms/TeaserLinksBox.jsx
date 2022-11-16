@@ -521,8 +521,6 @@ export const TeaserLinksBox = ({
   const [list, setList] = useState(null)
   const [pagination, setPagination] = useState(0)
 
-  // console.log(JSON.stringify({ teaserLinks }, null, 2))
-
   /*
    * IMAGE ALGO EXAMPLE
    *
@@ -603,7 +601,6 @@ export const TeaserLinksBox = ({
         let nextLinkValue =
           (isDoubleSize(teaserLinksFiltered?.[i + 1]) ? TL_SHOP_VALUE : TL_REGULAR_VALUE) || 0
         let nextValue = pageValue + nextLinkValue
-        console.log({ pageValue, tlValue, nextLinkValue, nextValue })
 
         /* Check if there is space for one more link */
 
