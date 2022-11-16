@@ -15,7 +15,7 @@ import { RoundClockIcon } from '../icons/ClockIcon'
 import { TeaserLink } from '../molecules/teaserLinks.js/TeaserLink'
 
 // Styles
-import { MediaMobile, MediaSmall, ZIndex1 } from '../../style/media'
+import { MediaSmallMobile, MediaSmall, ZIndex1, MediaMobile } from '../../style/media'
 import { BackgroundColor, ForegroundColor } from '../../style/color'
 
 // Utils
@@ -26,14 +26,25 @@ import {
   getFilteredTeaserLinksList,
   getTeaserLinksValueLength,
   isDoubleSize,
+  TL_REGULAR_VALUE,
+  TL_SHOP_VALUE,
 } from './utils/getTeaserLinksSettings'
 import { getValuesRecursively } from '../../utils/getValuesRecursively'
 
-const TEASER_LINKS_HEIGHT = 50
-const TEASER_LINKS_MARGIN = 13
-const TEASER_LINKS_SHOP_MARGIN = 20
-const TEASER_LINKS_HEIGHT_SIDE_PREVIEW = 38
+const TEASER_LINKS_HEIGHT = 68
+const TEASER_LINKS_HEIGHT_SHOP = 92
+const TEASER_LINKS_HEIGHT_SIDE_PREVIEW = 58
+const TEASER_LINKS_HEIGHT_SHOP_SIDE_PREVIEW = 62
+
+const TEASER_LINKS_MARGIN = 20
+const TEASER_LINKS_SHOP_MARGIN = 32
+
 const MAX_TEASER_LINKS_LOAD_COUNT = 7
+
+const IMAGE_SIZE = 48
+const IMAGE_SHOP_SIZE = 72
+
+const MOBILE_DIFF_VALUE = 8 // px smaller on mobile
 
 const Container = styled.div`
   position: absolute;
@@ -53,7 +64,7 @@ const Container = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: ${({ isSidePreview }) => (isSidePreview ? '2' : '3')};
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
   }
@@ -67,13 +78,15 @@ const Container = styled.div`
   .teaser-link {
     position: relative;
     width: 100%;
-    padding-left: 10px;
-    padding-right: 5px;
-    max-width: 640px;
+    padding-left: 12px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    max-width: 520px;
     min-height: ${({ isSidePreview }) =>
       isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT}px;
     height: auto;
-    font-size: ${({ isSidePreview }) => (isSidePreview ? '11px' : '16px')};
+    font-size: ${({ isSidePreview }) => (isSidePreview ? '12px' : '18px')};
     font-weight: 600;
     letter-spacing: 0.05rem;
     color: ${({ color }) => (color ? color : ForegroundColor.secondary)};
@@ -87,60 +100,91 @@ const Container = styled.div`
 
     background: ${({ colorBackground }) =>
       colorBackground ? colorBackground : 'rgba(130, 130, 130, 0.30)'};
-    border: ${({ colorBorder }) => (colorBorder ? `1px solid ${colorBorder}` : 'none')};
+      
+    // border: ${({ colorBorder }) => (colorBorder ? `1px solid ${colorBorder}` : 'none')};
+
     box-sizing: border-box;
+
     box-shadow: ${({ ssrDone }) =>
       ssrDone ? '0px 4px 5px rgba(0, 0, 0, 0.1), 0px 3px 10px rgba(0, 0, 0, 0.1)' : 'none'};
 
+    box-shadow: ${({ ssrDone }) =>
+      ssrDone ? '0px 2px 2px rgba(0, 0, 0, 0.05), 0px 2px 10px rgba(0, 0, 0, 0.05)' : 'none'};
+
     border-radius: 6px;
-    transition: all 0.3s ease-out, transform  0.2s cubic-bezier(0, 0.25, 0.35, 2.25), opacity 0.2s cubic-bezier(0, 0.25, 0.35, 2.25);
+    transition: all 0.3s ease-out, transform 0.2s cubic-bezier(0, 0.25, 0.35, 2.25),
+      opacity 0.2s cubic-bezier(0, 0.25, 0.35, 2.25);
     backface-visibility: hidden;
-    
+
+    &:not(.double) {
+      .clip {
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+      }
+    }
+
     &.double {
       align-items: flex-start;
-      padding-right: 0;
-
       min-height: ${({ isSidePreview }) =>
-        isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW * 2 : TEASER_LINKS_HEIGHT * 2}px;
-      // font-size: ${({ isSidePreview }) => (isSidePreview ? '14px' : '22px')};
+        isSidePreview ? TEASER_LINKS_HEIGHT_SHOP_SIDE_PREVIEW : TEASER_LINKS_HEIGHT_SHOP}px;
 
       .name-container {
         height: auto;
-        margin-top: ${({ isSidePreview }) => (isSidePreview ? '7px' : '12px')};
+        margin-top: auto;
+        margin-bottom: auto;
       }
 
       .image-container {
-        height: 100%;
-        width: ${({ isSidePreview }) => (isSidePreview ? '75px' : '100px')};
+        width: ${({ isSidePreview }) => (isSidePreview ? IMAGE_SHOP_SIZE - 20 : IMAGE_SHOP_SIZE)}px;
+        height: ${({ isSidePreview }) =>
+          isSidePreview ? IMAGE_SHOP_SIZE - 20 : IMAGE_SHOP_SIZE}px;
         display: flex;
         justify-content: center;
         align-items: center;
 
         .image {
-          width: ${({ isSidePreview }) => (isSidePreview ? '60px' : '78px')};
-          height: ${({ isSidePreview }) => (isSidePreview ? '60px' : '78px')};
+          width: 100%;
+          height: 100%;
         }
       }
     }
 
     .tags-container {
       position: absolute;
-      bottom: -12px;
-      left: ${({ isSidePreview }) => (isSidePreview ? '4px' : '9px')}; 
+      bottom: -16px;
+      left: ${({ isSidePreview }) => (isSidePreview ? '5px' : '10px')};
       z-index: ${ZIndex1};
 
       .tag {
+        position: relative;
         height: 100%;
         width: auto;
-        padding: 4px 8px;
+        padding: 4px 6px;
         color: ${({ colorTag }) => colorTag};
         background-color: ${({ colorTagBackground }) =>
           colorTagBackground ? colorTagBackground : ForegroundColor.secondary};
+        box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.08), 0px 4px 8px rgba(0, 0, 0, 0.12);
 
         display: flex;
         justify-content: center;
         align-items: center;
         border-radius: 6px;
+
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          border-radius: 6px;
+          transition: opacity 0.3s ease-out;
+          opacity: 0;
+          box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09), 0px 4px 8px rgba(0, 0, 0, 0.14);
+        }
 
         svg.icon {
           * {
@@ -165,9 +209,9 @@ const Container = styled.div`
       border-radius: 50px;
       align-items: center;
       justify-items: center;
-      &::after {
-        border-radius: 50px;
-      }
+      // &::after {
+      //   border-radius: 50px;
+      // }
 
       svg.icon {
         width: ${({ isSidePreview }) => (isSidePreview ? '18px' : '30px')};
@@ -187,11 +231,11 @@ const Container = styled.div`
       left: 0;
       right: 0;
       bottom: 0;
-      box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.09), 0px 3px 6px rgba(0, 0, 0, 0.1);
-      
       border-radius: 6px;
       transition: opacity 0.3s ease-out;
       opacity: 0;
+      // box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.09), 0px 3px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.07), 0px 2px 10px rgba(0, 0, 0, 0.09);
     }
 
     &:hover,
@@ -203,12 +247,27 @@ const Container = styled.div`
     }
 
     &:hover {
+      // filter: drop-shadow(0px 3px 2px rgba(0, 0, 0, 0.3))
+      //   drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.2));
+
+      .tag {
+        &::after {
+          opacity: 1;
+        }
+      }
+
       &::after {
         opacity: 1;
       }
     }
 
     &:focus {
+      .tag {
+        &::after {
+          opacity: 0;
+        }
+      }
+
       &::after {
         opacity: 0;
       }
@@ -238,7 +297,7 @@ const Container = styled.div`
     }
 
     .clip {
-      line-height: ${({ isSidePreview }) => (isSidePreview ? '14px' : '22px')};
+      line-height: ${({ isSidePreview }) => (isSidePreview ? '16px' : '25px')};
       padding-right: 10px;
       max-height: 100%;
       overflow: hidden;
@@ -256,10 +315,17 @@ const Container = styled.div`
       align-items: flex-start;
     }
 
+    .image-container,
+    .icon-container.link-type {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: ${({ isSidePreview }) => (isSidePreview ? IMAGE_SIZE - 12 : IMAGE_SIZE)}px;
+      width: ${({ isSidePreview }) => (isSidePreview ? IMAGE_SIZE - 12 : IMAGE_SIZE)}px;
+    }
+
     .image-container {
-        position: relative;
-        height: ${({ isSidePreview }) => (isSidePreview ? '22px' : '33px')};
-      width: ${({ isSidePreview }) => (isSidePreview ? '22px' : '33px')};
+      position: relative;
 
       .image {
         width: 100%;
@@ -274,7 +340,7 @@ const Container = styled.div`
         left: 50%;
         transform: translate(-50%, -50%);
         text-transform: uppercase;
-        background-color: rgba(255,255,255,0.8);
+        background-color: rgba(255, 255, 255, 0.8);
         padding: 5px;
         border-radius: 4px;
         text-align: center;
@@ -284,8 +350,8 @@ const Container = styled.div`
     }
 
     .icon-container {
-      height: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
-      width: ${({ isSidePreview }) => (isSidePreview ? '21px' : '28px')};
+      height: ${({ isSidePreview }) => (isSidePreview ? '18px' : '24px')};
+      width: ${({ isSidePreview }) => (isSidePreview ? '18px' : '24px')};
 
       span {
         display: flex;
@@ -319,7 +385,7 @@ const Container = styled.div`
       }
 
       &.double {
-        height: ${({ isSidePreview }) => (isSidePreview ? '24px' : '22px')};
+        height: auto;
         width: auto;
         display: flex;
         align-items: center;
@@ -344,8 +410,8 @@ const Container = styled.div`
             }
 
             svg {
-              height: ${({ isSidePreview }) => (isSidePreview ? '16px' : '20px')};
-              width: ${({ isSidePreview }) => (isSidePreview ? '16px' : '20px')};
+              height: ${({ isSidePreview }) => (isSidePreview ? '16px' : '18px')};
+              width: ${({ isSidePreview }) => (isSidePreview ? '16px' : '18px')};
             }
           }
         }
@@ -361,10 +427,61 @@ const Container = styled.div`
           stroke: ${({ color }) => (color ? color : ForegroundColor.secondary)};
 
           &[stroke='none'] {
-
-            fill: ${({ color }) => (color ? color : '#0a1c3b')} ;
+            fill: ${({ color }) => (color ? color : '#0a1c3b')};
             stroke: none;
           }
+        }
+      }
+    }
+
+    @media ${MediaSmall} {
+      max-width: 480px;
+      min-height: ${({ isSidePreview }) =>
+        (isSidePreview ? TEASER_LINKS_HEIGHT_SIDE_PREVIEW : TEASER_LINKS_HEIGHT) -
+        MOBILE_DIFF_VALUE}px;
+      font-size: ${({ isSidePreview }) => (isSidePreview ? '10px' : '16px')};
+
+      .image-container,
+      .icon-container.link-type {
+        height: ${({ isSidePreview }) =>
+          (isSidePreview ? IMAGE_SIZE - 12 : IMAGE_SIZE) - MOBILE_DIFF_VALUE}px;
+        width: ${({ isSidePreview }) =>
+          (isSidePreview ? IMAGE_SIZE - 12 : IMAGE_SIZE) - MOBILE_DIFF_VALUE}px;
+      }
+
+      .icon-container {
+        height: ${({ isSidePreview }) => (isSidePreview ? '16px' : '20px')};
+        width: ${({ isSidePreview }) => (isSidePreview ? '16px' : '20px')};
+
+        span.subtitle {
+          font-size: ${({ isSidePreview }) => (isSidePreview ? '10px' : '14px')};
+        }
+      }
+
+      &.double {
+        min-height: ${({ isSidePreview }) =>
+          (isSidePreview ? TEASER_LINKS_HEIGHT_SHOP_SIDE_PREVIEW : TEASER_LINKS_HEIGHT_SHOP) -
+          MOBILE_DIFF_VALUE}px;
+
+        .image-container {
+          height: ${({ isSidePreview }) =>
+            (isSidePreview ? IMAGE_SHOP_SIZE - 12 : IMAGE_SHOP_SIZE) - MOBILE_DIFF_VALUE}px;
+          width: ${({ isSidePreview }) =>
+            (isSidePreview ? IMAGE_SHOP_SIZE - 12 : IMAGE_SHOP_SIZE) - MOBILE_DIFF_VALUE}px;
+        }
+      }
+    }
+
+    @media ${MediaMobile} {
+      max-width: 361px;
+    }
+
+    @media ${MediaSmallMobile} {
+      font-size: ${({ isSidePreview }) => (isSidePreview ? '9px' : '13px')};
+
+      .icon-container {
+        span.subtitle {
+          font-size: ${({ isSidePreview }) => (isSidePreview ? '9px' : '12px')};
         }
       }
     }
@@ -403,8 +520,6 @@ export const TeaserLinksBox = ({
 
   const [list, setList] = useState(null)
   const [pagination, setPagination] = useState(0)
-
-  // console.log(JSON.stringify({ teaserLinks }, null, 2))
 
   /*
    * IMAGE ALGO EXAMPLE
@@ -456,7 +571,7 @@ export const TeaserLinksBox = ({
     let windowHeight = window.innerHeight
     if (isSidePreview) windowHeight = document.getElementById('page-container').scrollHeight
 
-    const logoHeight = parseInt(windowHeight * (isPreviewMobile && isSidePreview ? 0.33 : 0.17))
+    const logoHeight = parseInt(windowHeight * (isPreviewMobile && isSidePreview ? 0.24 : 0.17))
     const linksHeight = isSidePreview ? 45 : isSmall || isPreviewMobile ? 60 : 110
     const legacyCorrection = isSmall && isLegacyMobile ? 20 : 0
     const allowedHeight = windowHeight - logoHeight - linksHeight - legacyCorrection
@@ -481,9 +596,10 @@ export const TeaserLinksBox = ({
         /* Calculate values */
 
         let tl = teaserLinksFiltered[i]
-        let tlValue = isDoubleSize(tl) ? 2 : 1
+        let tlValue = isDoubleSize(tl) ? TL_SHOP_VALUE : TL_REGULAR_VALUE
         pageValue += tlValue
-        let nextLinkValue = (isDoubleSize(teaserLinksFiltered?.[i + 1]) ? 2 : 1) || 0
+        let nextLinkValue =
+          (isDoubleSize(teaserLinksFiltered?.[i + 1]) ? TL_SHOP_VALUE : TL_REGULAR_VALUE) || 0
         let nextValue = pageValue + nextLinkValue
 
         /* Check if there is space for one more link */
@@ -722,7 +838,7 @@ export const TeaserLinksBox = ({
                     </div>
                   )}
                   {!hasImage && !!Icon && (
-                    <div className={`icon-container`}>
+                    <div className={classNames('icon-container', 'link-type')}>
                       <Icon />
                     </div>
                   )}

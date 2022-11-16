@@ -365,7 +365,6 @@ const FullscreenContainer = styled.div`
 `
 
 const ResponsiveContainer = styled.div`
-
   position: relative;
   width: 100%;
   height: 100%;
@@ -373,6 +372,7 @@ const ResponsiveContainer = styled.div`
   z-index: 99;
   bottom: ${({ showBanner, isSidePreview }) => (showBanner && !isSidePreview ? '38px' : '0')}; 
   pointer-events: none;
+  transition: bottom 0.3s ease-out;
 
   ${({
     contentPosition,

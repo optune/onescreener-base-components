@@ -1,6 +1,9 @@
 import chroma from 'chroma-js'
 import { ColorWhite, ForegroundColor } from '../../../style/color'
 
+export const TL_REGULAR_VALUE = 1
+export const TL_SHOP_VALUE = 1.2
+
 export const isDoubleSize = (link = {}) => link.isShop || link.isSession
 
 export const getFilteredTeaserLinksList = ({ list = [], shopEnabled }) =>
@@ -10,7 +13,10 @@ export const getFilteredTeaserLinksList = ({ list = [], shopEnabled }) =>
 
 export const getTeaserLinksValueLength = ({ list = [], shopEnabled }) => {
   let teaserLinksFiltered = getFilteredTeaserLinksList({ list, shopEnabled })
-  return teaserLinksFiltered.reduce((acc, curr) => acc + (isDoubleSize(curr) ? 2 : 1), 0)
+  return teaserLinksFiltered.reduce(
+    (acc, curr) => acc + (isDoubleSize(curr) ? TL_SHOP_VALUE : TL_REGULAR_VALUE),
+    0
+  )
 }
 
 export const getTeaserLinkTagColors = ({
