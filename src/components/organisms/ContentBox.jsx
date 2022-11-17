@@ -460,8 +460,8 @@ const Container = styled.div`
   width: ${({ isLegacy, size }) => (isLegacy ? '100%' : ContentSize.Desktop[size])};
   pointer-events: all;
 
-  ${({ isSidePreview, isTeaserLinks, isGigs }) =>
-    (isTeaserLinks || isGigs) &&
+  ${({ isSidePreview, isTeaserLinks, isGigs, isLegacy, isLegacyMobile }) =>
+    (isTeaserLinks || (isGigs && !isLegacyMobile && !isLegacy)) &&
     css`
       min-width: ${isSidePreview ? '255px' : '315px'};
     `}
