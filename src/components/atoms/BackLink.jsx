@@ -59,7 +59,7 @@ export const BackLink = ({ artistSlug, isPreviewMobile, isPro, t }) => (
     isPro={isPro}
   >
     <h2>
-      {t('backlink.text')} <br /> <b>Onescreener</b>{' '}
+      {!!t ? t?.('backlink.text') : 'created with'} <br /> <b>Onescreener</b>{' '}
     </h2>
   </StyledBackLink>
 )
