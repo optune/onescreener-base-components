@@ -184,7 +184,6 @@ const getLogoColors = ({ logo, design }) => {
   let colorFollow
   let colorBackgroundFollow
 
-  console.log({ logo, design })
   // Logo Follow Colors
   if (!!design?.theme) {
     colorFollow = design?.theme?.logo?.follow?.color
