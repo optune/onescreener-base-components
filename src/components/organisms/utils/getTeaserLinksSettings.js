@@ -28,7 +28,7 @@ export const getTeaserLinkTagColors = ({
   colorBackgroundTag,
 }) => {
   let bgColor = colorBackground
-  if (bgColor === 'transparent') bgColor = 'rgba(255,255,255,0)'
+  if (bgColor === 'transparent' || !bgColor) bgColor = 'rgba(255,255,255,0)'
 
   const tagBackgroundColor = !!colorBackgroundTag
     ? colorBackgroundTag
