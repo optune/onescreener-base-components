@@ -528,12 +528,6 @@ const Container = styled.div`
   }
 
 `
-// TODO
-// content logo overlap on mobile
-// events tag on reg. card ui update
-// Themes and Bg switch + bold only for "custom" + replace text
-// mobile share button to right + underline domain
-// following pages text change
 
 export const ContentBox = ({
   analyticsLivePage,
