@@ -620,7 +620,7 @@ export const TeaserLinksBox = ({
 
     setPagination(0)
     setList(actualList)
-  }, [teaserLinks.length, isPreviewMobileReady, ...getValuesRecursively({ list: teaserLinks })])
+  }, [teaserLinks?.length, isPreviewMobileReady, ...getValuesRecursively({ list: teaserLinks })])
 
   const paginationBack = () => setPagination(pagination - 1 < 0 ? 0 : pagination - 1)
 
@@ -875,9 +875,9 @@ export const TeaserLinksBox = ({
           )
         : [
             ...Array(
-              teaserLinks.length > MAX_TEASER_LINKS_LOAD_COUNT
+              teaserLinks?.length > MAX_TEASER_LINKS_LOAD_COUNT
                 ? MAX_TEASER_LINKS_LOAD_COUNT
-                : teaserLinks.length
+                : teaserLinks?.length
             ).keys(),
           ].map((index) => {
             return <TeaserLink key={index} className="teaser-link" />
