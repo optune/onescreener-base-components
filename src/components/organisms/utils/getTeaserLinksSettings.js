@@ -2,7 +2,7 @@ import chroma from 'chroma-js'
 import { ColorWhite, ForegroundColor } from '../../../style/color'
 
 export const TL_REGULAR_VALUE = 1
-export const TL_SHOP_VALUE = 1.2
+export const TL_SHOP_VALUE = 1.4
 
 export const isDoubleSize = (link = {}) => link.isShop || link.isSession
 
@@ -28,7 +28,7 @@ export const getTeaserLinkTagColors = ({
   colorBackgroundTag,
 }) => {
   let bgColor = colorBackground
-  if (bgColor === 'transparent') bgColor = 'rgba(255,255,255,0)'
+  if (bgColor === 'transparent' || !bgColor) bgColor = 'rgba(255,255,255,0)'
 
   const tagBackgroundColor = !!colorBackgroundTag
     ? colorBackgroundTag

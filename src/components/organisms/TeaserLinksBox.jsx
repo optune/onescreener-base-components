@@ -521,8 +521,6 @@ export const TeaserLinksBox = ({
   const [list, setList] = useState(null)
   const [pagination, setPagination] = useState(0)
 
-  // console.log(JSON.stringify({ teaserLinks }, null, 2))
-
   /*
    * IMAGE ALGO EXAMPLE
    *
@@ -603,7 +601,6 @@ export const TeaserLinksBox = ({
         let nextLinkValue =
           (isDoubleSize(teaserLinksFiltered?.[i + 1]) ? TL_SHOP_VALUE : TL_REGULAR_VALUE) || 0
         let nextValue = pageValue + nextLinkValue
-        console.log({ pageValue, tlValue, nextLinkValue, nextValue })
 
         /* Check if there is space for one more link */
 
@@ -623,7 +620,7 @@ export const TeaserLinksBox = ({
 
     setPagination(0)
     setList(actualList)
-  }, [teaserLinks.length, isPreviewMobileReady, ...getValuesRecursively({ list: teaserLinks })])
+  }, [teaserLinks?.length, isPreviewMobileReady, ...getValuesRecursively({ list: teaserLinks })])
 
   const paginationBack = () => setPagination(pagination - 1 < 0 ? 0 : pagination - 1)
 
@@ -878,9 +875,9 @@ export const TeaserLinksBox = ({
           )
         : [
             ...Array(
-              teaserLinks.length > MAX_TEASER_LINKS_LOAD_COUNT
+              teaserLinks?.length > MAX_TEASER_LINKS_LOAD_COUNT
                 ? MAX_TEASER_LINKS_LOAD_COUNT
-                : teaserLinks.length
+                : teaserLinks?.length
             ).keys(),
           ].map((index) => {
             return <TeaserLink key={index} className="teaser-link" />

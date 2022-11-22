@@ -3,10 +3,9 @@
 import React from 'react'
 
 import styled from 'styled-components'
-import { renderHtml } from '../../utils/renderHtml'
 
-const BacklinkUrl =
-  'https://res.cloudinary.com/optune-me/image/upload/v1598948675/onescreener-v2/app/back_link.png'
+// const BacklinkUrl =
+//   'https://res.cloudinary.com/optune-me/image/upload/v1598948675/onescreener-v2/app/back_link.png'
 
 const StyledBackLink = styled.a`
   position: ${({ isSidePreview, isPreviewMobile }) =>
@@ -33,7 +32,7 @@ const StyledBackLink = styled.a`
     opacity: 0.6;
   }
 
-  & h1 {
+  & h2 {
     color: ${({ isPro }) => (isPro ? '#F5f5f5' : '#0a1c3b')};
     font-size: 12px;
     opacity: 1;
@@ -44,7 +43,7 @@ const StyledBackLink = styled.a`
     margin-top: 4px;
   }
 
-  & h1:first-line {
+  & h2:first-line {
     font-size: 10px;
   }
 `
@@ -59,6 +58,8 @@ export const BackLink = ({ artistSlug, isPreviewMobile, isPro, t }) => (
     isPreviewMobile={isPreviewMobile}
     isPro={isPro}
   >
-    <h1>{renderHtml(t('backlink.text'))}</h1>
+    <h2>
+      {!!t ? t?.('backlink.text') : 'created with'} <br /> <b>Onescreener</b>{' '}
+    </h2>
   </StyledBackLink>
 )

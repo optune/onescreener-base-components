@@ -351,6 +351,17 @@ const getArea = ({ position, span }) => {
   return { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan }
 }
 
+const getMobileOffset = (offset) => {
+  switch (offset) {
+    case 'top':
+      return '55%'
+    case 'top-preview':
+      return '50%'
+    default:
+      return '0'
+  }
+}
+
 const FullscreenContainer = styled.div`
   position: absolute;
   top: 0;
@@ -415,17 +426,32 @@ const ResponsiveContainer = styled.div`
     }
   `}
 
-
   ${stylesContentDesktop}
 
-  ${({ isDifferentPositions, isPreviewMobile, isSidePreview }) =>
+  ${({ isPreviewMobile, isSidePreview }) =>
     css`
       ${isPreviewMobile && stylesContentMobile}
 
+    
       @media ${MediaMobile} {
         ${!isSidePreview && stylesContentMobile}
       }
     `}
+
+  ${({ contentPosition, isPreviewMobile, isSidePreview }) =>
+    !!contentPosition.offsetMobile &&
+    css`
+      margin-${contentPosition.offsetMobile}: ${
+      isPreviewMobile && getMobileOffset(contentPosition.offsetMobile + '-preview')
+    };
+    
+      @media ${MediaMobile} {
+        margin-${contentPosition.offsetMobile}: ${
+      !isSidePreview && getMobileOffset(contentPosition.offsetMobile)
+    };
+      }
+  `}
+
     
 
     ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
@@ -460,8 +486,8 @@ const Container = styled.div`
   width: ${({ isLegacy, size }) => (isLegacy ? '100%' : ContentSize.Desktop[size])};
   pointer-events: all;
 
-  ${({ isSidePreview, isTeaserLinks, isGigs }) =>
-    (isTeaserLinks || isGigs) &&
+  ${({ isSidePreview, isTeaserLinks, isGigs, isLegacy, isLegacyMobile }) =>
+    (isTeaserLinks || (isGigs && !isLegacyMobile && !isLegacy)) &&
     css`
       min-width: ${isSidePreview ? '255px' : '315px'};
     `}
@@ -597,7 +623,7 @@ export const ContentBox = ({
     colorLinksBackgroundTag: colorLinksBackgroundTagDesign || teaserLinks?.colorLinksBackgroundTag,
   }
 
-  const position = getContentPosition({ content })
+  const position = getContentPosition({ content, logo })
 
   /*
    * Handle Tag color matching
