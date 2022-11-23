@@ -2,8 +2,6 @@
  * Get classnames for logo position
  */
 
-export const isLogoTop = (position) => position.includes('TOP_')
-
 export const getLogoPosition = ({ logo }) => {
   const positionDesktop = (logo.positionDesktop > '' && logo.positionDesktop) || logo.position
 

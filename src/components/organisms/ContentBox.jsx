@@ -444,8 +444,9 @@ const ResponsiveContainer = styled.div`
 
   /* Desktop offset for content-logo overlap */
 
-  ${({ contentPosition, isTeaserLinks, isSidePreview }) =>
+  ${({ contentPosition, isTeaserLinks, isPreviewMobile, isSidePreview }) =>
     !isTeaserLinks &&
+    !isPreviewMobile &&
     !!contentPosition.offsetDesktop &&
     css`
       ${contentPosition.offsetDesktop}: ${getMobileOffset(
