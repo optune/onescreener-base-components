@@ -353,10 +353,14 @@ const getArea = ({ position, span }) => {
 
 const getMobileOffset = (offset) => {
   switch (offset) {
-    case 'top':
-      return '55%'
-    case 'top-preview':
-      return '50%'
+    case 'top-mobile':
+      return '18%'
+    case 'top-mobile-preview':
+      return '20%'
+    case 'top-desktop':
+      return '16%'
+    case 'top-desktop-preview':
+      return '20%'
     default:
       return '0'
   }
@@ -438,19 +442,31 @@ const ResponsiveContainer = styled.div`
       }
     `}
 
-  ${({ contentPosition, isPreviewMobile, isSidePreview }) =>
+  /* Desktop offset for content-logo overlap */
+
+  ${({ contentPosition, isTeaserLinks, isSidePreview }) =>
+    !isTeaserLinks &&
+    !!contentPosition.offsetDesktop &&
+    css`
+      ${contentPosition.offsetDesktop}: ${getMobileOffset(
+        `${contentPosition.offsetDesktop}-desktop${isSidePreview ? '-preview' : ''}`
+      )};
+    `}
+
+  /* Mobile offset for content-logo overlap */
+
+  ${({ contentPosition, isTeaserLinks, isPreviewMobile, isSidePreview }) =>
+    !isTeaserLinks &&
     !!contentPosition.offsetMobile &&
     css`
-      margin-${contentPosition.offsetMobile}: ${
-      isPreviewMobile && getMobileOffset(contentPosition.offsetMobile + '-preview')
-    };
-    
+      ${contentPosition.offsetMobile}: ${isPreviewMobile &&
+      getMobileOffset(`${contentPosition.offsetMobile}-mobile-preview`)};
+
       @media ${MediaMobile} {
-        margin-${contentPosition.offsetMobile}: ${
-      !isSidePreview && getMobileOffset(contentPosition.offsetMobile)
-    };
+        ${contentPosition.offsetMobile}: ${!isSidePreview &&
+        getMobileOffset(`${contentPosition.offsetMobile}-mobile`)};
       }
-  `}
+    `}
 
     
 

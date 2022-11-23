@@ -17,7 +17,7 @@ export const getContentPosition = ({ content, logo }) => {
   const classnameMobile =
     (positionMobile > '' && positionMobile.toLowerCase().replace('_', '-')) || 'top-center'
 
-  let offset, offsetMobile
+  let offsetDesktop, offsetMobile
 
   if (isContentTop(positionMobile)) {
     const { positionMobile: logoMobile } = getLogoPosition({ logo })
@@ -26,12 +26,19 @@ export const getContentPosition = ({ content, logo }) => {
     }
   }
 
+  if (isContentTop(positionDesktop)) {
+    const { positionDesktop: logoDesktop } = getLogoPosition({ logo })
+    if (isLogoTop(logoDesktop)) {
+      offsetDesktop = 'top'
+    }
+  }
+
   return {
     positionDesktop,
     positionMobile,
     classnameMobile,
     classnameDesktop,
-    offset,
+    offsetDesktop,
     offsetMobile,
   }
 }
