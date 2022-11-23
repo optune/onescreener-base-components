@@ -321,7 +321,7 @@ export const LogoBox = ({
       {showRedirectOverlay && (
         <SectionOverlay
           color="gray"
-          contentPosition={getContentPosition({ content })}
+          contentPosition={getContentPosition({ content, logo })}
           isExtended={isLogoText ? !logo.text?.title : !logo.image?.url}
           isLogo
           isPreviewMobile={isPreviewMobile}

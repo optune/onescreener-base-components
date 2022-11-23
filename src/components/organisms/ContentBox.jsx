@@ -351,6 +351,21 @@ const getArea = ({ position, span }) => {
   return { startRow, startColumn, endRow, endColumn, rowSpan, columnSpan }
 }
 
+const getMobileOffset = (offset) => {
+  switch (offset) {
+    case 'top-mobile':
+      return '18%'
+    case 'top-mobile-preview':
+      return '20%'
+    case 'top-desktop':
+      return '16%'
+    case 'top-desktop-preview':
+      return '20%'
+    default:
+      return '0'
+  }
+}
+
 const FullscreenContainer = styled.div`
   position: absolute;
   top: 0;
@@ -415,17 +430,45 @@ const ResponsiveContainer = styled.div`
     }
   `}
 
-
   ${stylesContentDesktop}
 
-  ${({ isDifferentPositions, isPreviewMobile, isSidePreview }) =>
+  ${({ isPreviewMobile, isSidePreview }) =>
     css`
       ${isPreviewMobile && stylesContentMobile}
 
+    
       @media ${MediaMobile} {
         ${!isSidePreview && stylesContentMobile}
       }
     `}
+
+  /* Desktop offset for content-logo overlap */
+
+  ${({ contentPosition, isTeaserLinks, isPreviewMobile, isSidePreview }) =>
+    !isTeaserLinks &&
+    !isPreviewMobile &&
+    !!contentPosition.offsetDesktop &&
+    css`
+      ${contentPosition.offsetDesktop}: ${getMobileOffset(
+        `${contentPosition.offsetDesktop}-desktop${isSidePreview ? '-preview' : ''}`
+      )};
+    `}
+
+  /* Mobile offset for content-logo overlap */
+
+  ${({ contentPosition, isTeaserLinks, isPreviewMobile, isSidePreview }) =>
+    !isTeaserLinks &&
+    !!contentPosition.offsetMobile &&
+    css`
+      ${contentPosition.offsetMobile}: ${isPreviewMobile &&
+      getMobileOffset(`${contentPosition.offsetMobile}-mobile-preview`)};
+
+      @media ${MediaMobile} {
+        ${contentPosition.offsetMobile}: ${!isSidePreview &&
+        getMobileOffset(`${contentPosition.offsetMobile}-mobile`)};
+      }
+    `}
+
     
 
     ${({ area, areaMobile, linksPosition, linksSize, isPreviewMobile, isSidePreview }) =>
@@ -597,7 +640,7 @@ export const ContentBox = ({
     colorLinksBackgroundTag: colorLinksBackgroundTagDesign || teaserLinks?.colorLinksBackgroundTag,
   }
 
-  const position = getContentPosition({ content })
+  const position = getContentPosition({ content, logo })
 
   /*
    * Handle Tag color matching
