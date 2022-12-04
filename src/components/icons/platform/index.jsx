@@ -43,6 +43,7 @@ import { NewsletterFormIcon } from './NewsletterForm.jsx'
 import { NewsletterIcon } from './Newsletter.jsx'
 import { OnlyfansIcon } from './Onlyfans.js'
 import { OptuneIcon } from './Optune.jsx'
+import { OptuneUtilIcon } from './OptuneUtil.jsx'
 import { PandoraIcon } from './Pandora.jsx'
 import { PatreonIcon } from './Patreon.jsx'
 import { PaypalIcon } from './Paypal.jsx'
@@ -85,6 +86,7 @@ export const PlatformLinkIcon = {
   OPTUNEBOOKINGS: GigsIcon,
   OPTUNEREQUESTFORM: RequestFormIcon,
   OPTUNENEWSLETTER: NewsletterFormIcon,
+  OPTUNELINK: OptuneUtilIcon,
 
   // Platform Links
   AMAZON: AmazonIcon,
