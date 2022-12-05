@@ -2,7 +2,7 @@ import chroma from 'chroma-js'
 import { ColorWhite, ForegroundColor } from '../../../style/color'
 
 export const TL_REGULAR_VALUE = 1
-export const TL_SHOP_VALUE = 1.4
+export const TL_SHOP_VALUE = 1.66
 
 export const isDoubleSize = (link = {}) => link.isShop || link.isSession
 

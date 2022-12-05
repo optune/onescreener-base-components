@@ -1,6 +1,5 @@
-import { getLogoPosition, isLogoTop } from './getLogoSettings'
-
-export const isContentTop = (position) => position.includes('TOP_')
+import { getLogoPosition } from './getLogoSettings'
+import { isPositionCenter, isPositionTop } from './getPositionSettings'
 
 export const getContentPosition = ({ content, logo }) => {
   const positionDesktop =
@@ -19,16 +18,16 @@ export const getContentPosition = ({ content, logo }) => {
 
   let offsetDesktop, offsetMobile
 
-  if (isContentTop(positionMobile)) {
+  if (isPositionTop(positionMobile)) {
     const { positionMobile: logoMobile } = getLogoPosition({ logo })
-    if (isLogoTop(logoMobile)) {
+    if (isPositionTop(logoMobile)) {
       offsetMobile = 'top'
     }
   }
 
-  if (isContentTop(positionDesktop)) {
+  if (isPositionTop(positionDesktop) && isPositionCenter(positionDesktop)) {
     const { positionDesktop: logoDesktop } = getLogoPosition({ logo })
-    if (isLogoTop(logoDesktop)) {
+    if (isPositionTop(logoDesktop)) {
       offsetDesktop = 'top'
     }
   }
