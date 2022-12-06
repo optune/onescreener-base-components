@@ -9,6 +9,7 @@ import { OpenseaIcon } from '../../icons/teaserLinks/Opensea'
 import { PlayerIcon } from '../../icons/teaserLinks/Player'
 import { ShopBag } from '../../icons/teaserLinks/ShopBag'
 import { ShopDigitalBag } from '../../icons/teaserLinks/ShopDigitalBag'
+import { RequestFormIcon } from '../../icons/platform/RequestForm'
 
 export const getTeaserLinkIcon = (type) => {
   switch (type) {
@@ -25,6 +26,11 @@ export const getTeaserLinkIcon = (type) => {
       return ShopBag
     case TeaserLinkType.MONETIZATION_ONE_TO_ONE:
       return MessageFemaleIcon
+
+    // Optune
+
+    case TeaserLinkType.OPTUNE_BOOK:
+      return RequestFormIcon
 
     // Integrations
     case TeaserLinkType.LINK_OPENSEA:
