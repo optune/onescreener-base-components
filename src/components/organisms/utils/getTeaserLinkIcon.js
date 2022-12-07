@@ -9,7 +9,8 @@ import { OpenseaIcon } from '../../icons/teaserLinks/Opensea'
 import { PlayerIcon } from '../../icons/teaserLinks/Player'
 import { ShopBag } from '../../icons/teaserLinks/ShopBag'
 import { ShopDigitalBag } from '../../icons/teaserLinks/ShopDigitalBag'
-import { RequestFormIcon } from '../../icons/platform/RequestForm'
+import { ImageListIcon } from '../../icons/teaserLinks/ImageList'
+import { EventListIcon } from '../../icons/teaserLinks/EventList'
 
 export const getTeaserLinkIcon = (type) => {
   switch (type) {
@@ -30,7 +31,11 @@ export const getTeaserLinkIcon = (type) => {
     // Optune
 
     case TeaserLinkType.OPTUNE_BOOK:
-      return RequestFormIcon
+      return ImageListIcon
+    case TeaserLinkType.OPTUNE_PROFILE:
+      return MessageFemaleIcon
+    case TeaserLinkType.OPTUNE_GIGS:
+      return EventListIcon
 
     // Integrations
     case TeaserLinkType.LINK_OPENSEA:

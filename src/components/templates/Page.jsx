@@ -339,6 +339,7 @@ export const Page = ({
 
   let PageComponent = null
 
+  console.log({ page })
   if (page) {
     const { background, logo, content, design, selectedThemeId, stripe } = page || {}
     const { links } = page || { links: { list: [] } }
