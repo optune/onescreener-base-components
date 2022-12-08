@@ -641,7 +641,6 @@ export const TeaserLinksBox = ({
     return clicks
   }
 
-  console.log({ list })
   return (
     <Container
       isSidePreview={isSidePreview}
