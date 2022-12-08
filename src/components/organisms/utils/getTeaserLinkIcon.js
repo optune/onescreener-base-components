@@ -10,6 +10,7 @@ import { PlayerIcon } from '../../icons/teaserLinks/Player'
 import { ShopBag } from '../../icons/teaserLinks/ShopBag'
 import { ShopDigitalBag } from '../../icons/teaserLinks/ShopDigitalBag'
 import { ImageListIcon } from '../../icons/teaserLinks/ImageList'
+import { ArtistProfileIcon } from '../../icons/platform/ArtistProfile'
 import { EventListIcon } from '../../icons/teaserLinks/EventList'
 
 export const getTeaserLinkIcon = (type) => {
@@ -33,7 +34,7 @@ export const getTeaserLinkIcon = (type) => {
     case TeaserLinkType.OPTUNE_BOOK:
       return ImageListIcon
     case TeaserLinkType.OPTUNE_PROFILE:
-      return MessageFemaleIcon
+      return ArtistProfileIcon
     case TeaserLinkType.OPTUNE_GIGS:
       return EventListIcon
 
