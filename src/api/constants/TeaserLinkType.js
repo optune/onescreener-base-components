@@ -14,4 +14,9 @@ export const TeaserLinkType = {
 
   // Integrations
   LINK_OPENSEA: 'linkOpensea',
+
+  // Optune
+  OPTUNE_BOOK: 'optuneBook',
+  OPTUNE_PROFILE: 'optuneProfile',
+  OPTUNE_GIGS: 'optuneGigs',
 }
