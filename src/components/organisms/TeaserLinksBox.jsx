@@ -719,6 +719,8 @@ export const TeaserLinksBox = ({
                   : TeaserLinkType.SHOP_PHYSICAL
                 : type
 
+              const stayOnPage = linkType === TeaserLinkType.OPTUNE_BOOK
+
               let Icon = (isLegacy && !isShop) || isRegular ? null : getTeaserLinkIcon(linkType)
 
               return (
@@ -734,8 +736,8 @@ export const TeaserLinksBox = ({
                   href={url}
                   image={images?.[0]}
                   key={`${name}-${index}`}
-                  rel="noreferrer"
-                  target="_blank"
+                  rel={stayOnPage ? undefined : 'noreferrer'}
+                  target={stayOnPage ? undefined : '_blank'}
                   teaserLinkId={_id}
                   ssrDone={ssrDone}
                   onOpen={(isClick) => {
