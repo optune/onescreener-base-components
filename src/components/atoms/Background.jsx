@@ -33,17 +33,20 @@ const areEqual = (prevProps, nextProps) => {
   )
 }
 
-export const Background = React.memo(({ background, getImageUrl, color, designColor }) => {
-  const imageUrl = getImageUrl(background)
+export const Background = React.memo(
+  ({ background, fullscreen, getImageUrl, color, designColor }) => {
+    const imageUrl = getImageUrl(background)
 
-  return !!imageUrl ? (
-    <BackgroundContainer
-      className="bg-container"
-      image={imageUrl}
-      color={color}
-      designColor={designColor}
-      focusPoint={background.focusPoint}
-      fullscreen={background.fullscreen}
-    />
-  ) : null
-}, areEqual)
+    return !!imageUrl ? (
+      <BackgroundContainer
+        className="bg-container"
+        image={imageUrl}
+        color={color}
+        designColor={designColor}
+        focusPoint={background.focusPoint}
+        fullscreen={fullscreen}
+      />
+    ) : null
+  },
+  areEqual
+)
