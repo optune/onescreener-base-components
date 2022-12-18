@@ -151,6 +151,13 @@ const Container = styled.div`
       }
     }
 
+    &.faded {
+      opacity: 0.7;
+      .tags-container {
+        opacity: 0.5;
+      }
+    }
+
     .tags-container {
       position: absolute;
       bottom: -16px;
@@ -731,6 +738,7 @@ export const TeaserLinksBox = ({
                     processing,
                     long: name.length >= 38,
                     double: isDouble,
+                    faded: showStatistics,
                   })}
                   href={url}
                   image={images?.[0]}
