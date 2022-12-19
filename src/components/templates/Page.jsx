@@ -339,7 +339,6 @@ export const Page = ({
 
   let PageComponent = null
 
-  console.log({ page })
   if (page) {
     const { background, logo, content, design, selectedThemeId, stripe } = page || {}
     const { links } = page || { links: { list: [] } }
@@ -348,6 +347,8 @@ export const Page = ({
     const isBackgroundSelected =
       design?.theme?.background?.url > '' ||
       (background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom')
+
+    const backgroundFullscreen = isBackgroundSelected ? true : background?.fullscreen
 
     const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
 
@@ -379,7 +380,7 @@ export const Page = ({
           })}
           ssrDone={ssrDone}
           focusPoint={background?.focusPoint}
-          fullscreen={background?.fullscreen}
+          fullscreen={backgroundFullscreen}
           color={
             isBackgroundSelected
               ? design?.theme?.background?.color || design?.background?.color
@@ -626,6 +627,7 @@ export const Page = ({
                 (design?.theme?.background?.color || design?.background?.color || background?.color)
               }
               getImageUrl={getUrl}
+              fullscreen={backgroundFullscreen}
             />
           )}
         </PageContainer>
