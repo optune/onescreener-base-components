@@ -725,7 +725,9 @@ export const TeaserLinksBox = ({
                   : TeaserLinkType.SHOP_PHYSICAL
                 : type
 
-              const stayOnPage = linkType === TeaserLinkType.OPTUNE_BOOK
+              const stayOnPage = [TeaserLinkType.OPTUNE_BOOK, TeaserLinkType.OPTUNE_GIGS].includes(
+                linkType
+              )
 
               let Icon = (isLegacy && !isShop) || isRegular ? null : getTeaserLinkIcon(linkType)
 
