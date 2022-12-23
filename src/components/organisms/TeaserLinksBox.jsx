@@ -151,6 +151,13 @@ const Container = styled.div`
       }
     }
 
+    &.faded {
+      opacity: 0.7;
+      .tags-container {
+        opacity: 0.5;
+      }
+    }
+
     .tags-container {
       position: absolute;
       bottom: -16px;
@@ -718,7 +725,9 @@ export const TeaserLinksBox = ({
                   : TeaserLinkType.SHOP_PHYSICAL
                 : type
 
-              const stayOnPage = linkType === TeaserLinkType.OPTUNE_BOOK
+              const stayOnPage = [TeaserLinkType.OPTUNE_BOOK, TeaserLinkType.OPTUNE_GIGS].includes(
+                linkType
+              )
 
               let Icon = (isLegacy && !isShop) || isRegular ? null : getTeaserLinkIcon(linkType)
 
@@ -731,6 +740,7 @@ export const TeaserLinksBox = ({
                     processing,
                     long: name.length >= 38,
                     double: isDouble,
+                    faded: showStatistics,
                   })}
                   href={url}
                   image={images?.[0]}
