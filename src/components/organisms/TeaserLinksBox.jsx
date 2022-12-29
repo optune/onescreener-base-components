@@ -725,9 +725,11 @@ export const TeaserLinksBox = ({
                   : TeaserLinkType.SHOP_PHYSICAL
                 : type
 
+              const isOptuneGigs = linkType === TeaserLinkType.OPTUNE_GIGS
               const stayOnPage = [TeaserLinkType.OPTUNE_BOOK, TeaserLinkType.OPTUNE_GIGS].includes(
                 linkType
               )
+              const linkUrl = isOptuneGigs ? `${url}&excludePast=true` : url
 
               let Icon = (isLegacy && !isShop) || isRegular ? null : getTeaserLinkIcon(linkType)
 
@@ -742,7 +744,7 @@ export const TeaserLinksBox = ({
                     double: isDouble,
                     faded: showStatistics,
                   })}
-                  href={url}
+                  href={linkUrl}
                   image={images?.[0]}
                   key={`${name}-${index}`}
                   rel={stayOnPage ? undefined : 'noreferrer'}

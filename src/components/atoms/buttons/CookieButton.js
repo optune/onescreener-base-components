@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ZIndex4 } from '../../../style/media'
+import { ZIndex2 } from '../../../style/media'
 
 const Container = styled.div`
   width: 32px;
@@ -8,7 +8,7 @@ const Container = styled.div`
   position: absolute;
   top: 16px;
   left: 16px;
-  z-index: ${ZIndex4};
+  z-index: ${ZIndex2};
   cursor: pointer;
 
   .close-overlay {
@@ -17,7 +17,7 @@ const Container = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: ${ZIndex4};
+    z-index: ${ZIndex2};
   }
 
   img {
