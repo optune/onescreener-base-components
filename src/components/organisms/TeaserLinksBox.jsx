@@ -729,7 +729,7 @@ export const TeaserLinksBox = ({
               const stayOnPage = [TeaserLinkType.OPTUNE_BOOK, TeaserLinkType.OPTUNE_GIGS].includes(
                 linkType
               )
-              const linkUrl = isOptuneGigs ? `${url}&excludePast=true` : url
+              const linkUrl = isOptuneGigs ? `${url}&excludePast=true&hideMonth=true` : url
 
               let Icon = (isLegacy && !isShop) || isRegular ? null : getTeaserLinkIcon(linkType)
 
