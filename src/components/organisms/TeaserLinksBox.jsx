@@ -677,6 +677,7 @@ export const TeaserLinksBox = ({
                 processing,
                 isBack,
                 isForward,
+                additionalFields,
               },
               index
             ) => {
@@ -726,10 +727,15 @@ export const TeaserLinksBox = ({
                 : type
 
               const isOptuneGigs = linkType === TeaserLinkType.OPTUNE_GIGS
+              const isBandsInTown = isOptuneGigs && additionalFields.gigsSource === 'bandsintown'
+
               const stayOnPage = [TeaserLinkType.OPTUNE_BOOK, TeaserLinkType.OPTUNE_GIGS].includes(
                 linkType
               )
-              const linkUrl = isOptuneGigs ? `${url}&excludePast=true&hideMonth=true` : url
+              let linkUrl = isOptuneGigs ? `${url}&excludePast=true&hideMonth=true` : url
+              if (isBandsInTown) {
+                linkUrl = `${url}&bandsintownId=${additionalFields.bandsintownId}`
+              }
 
               let Icon = (isLegacy && !isShop) || isRegular ? null : getTeaserLinkIcon(linkType)
 
