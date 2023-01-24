@@ -300,6 +300,7 @@ export const LogoBox = ({
 
   const isLogoText = logo.type === 'TEXT' || (logo.type !== 'TEXT' && !logo.image?.url > '')
 
+  const showLogo = typeof logo.show === 'boolean' ? logo?.show : true
   const showFollowButton = typeof logo.showFollowButton === 'boolean' ? logo.showFollowButton : true
 
   useEffect(() => {
@@ -317,64 +318,65 @@ export const LogoBox = ({
   }, [])
 
   return (
-    <Fragment>
-      {showRedirectOverlay && (
-        <SectionOverlay
-          color="gray"
-          contentPosition={getContentPosition({ content, logo })}
-          isExtended={isLogoText ? !logo.text?.title : !logo.image?.url}
-          isLogo
-          isPreviewMobile={isPreviewMobile}
-          isTeaserLinks={isTeaserLinks}
-          linksPosition={links?.position}
-          onClick={onLogoSectionClick}
-          positionDesktop={position.classnameDesktop}
-          positionMobile={position.classnameMobile}
-          t={t}
-        />
-      )}
-      <LogoContainer
-        className={`desktop-${isTeaserLinks ? 'top-center' : position.classnameDesktop} mobile-${
-          isTeaserLinks ? 'top-center' : position.classnameMobile
-        }`}
-        zIndex={zIndex}
-        isPreviewMobile={isPreviewMobile}
-        isSidePreview={isSidePreview}
-        isDifferentPositions={logo?.isDifferentPositions || false}
-        padding={padding}
-      >
-        <LogoWrapper isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview}>
-          <Logo
-            artistProfilePicture={artistProfilePicture}
-            design={design}
-            getImageUrl={getImageUrl}
-            isEditMode={isEditMode}
+    showLogo && (
+      <Fragment>
+        {showRedirectOverlay && (
+          <SectionOverlay
+            color="gray"
+            contentPosition={getContentPosition({ content, logo })}
+            isExtended={isLogoText ? !logo.text?.title : !logo.image?.url}
+            isLogo
             isPreviewMobile={isPreviewMobile}
-            isSidePreview={isSidePreview}
-            isSubscribed={isSubscribed}
-            isSubscriptionLoading={isSubscriptionLoading}
             isTeaserLinks={isTeaserLinks}
-            isUser={isUser}
-            logo={logo}
-            onSubscribe={onSubscribe}
-            onUnsubscribe={onUnsubscribe}
-            showFollowButton={showFollowButton}
-            ssrDone={ssrDone}
+            linksPosition={links?.position}
+            onClick={onLogoSectionClick}
+            positionDesktop={position.classnameDesktop}
+            positionMobile={position.classnameMobile}
             t={t}
-            userProfilePicture={userProfilePicture}
           />
+        )}
+        <LogoContainer
+          className={`desktop-${isTeaserLinks ? 'top-center' : position.classnameDesktop} mobile-${
+            isTeaserLinks ? 'top-center' : position.classnameMobile
+          }`}
+          zIndex={zIndex}
+          isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
+          isDifferentPositions={logo?.isDifferentPositions || false}
+          padding={padding}
+        >
+          <LogoWrapper isPreviewMobile={isPreviewMobile} isSidePreview={isSidePreview}>
+            <Logo
+              artistProfilePicture={artistProfilePicture}
+              design={design}
+              getImageUrl={getImageUrl}
+              isEditMode={isEditMode}
+              isPreviewMobile={isPreviewMobile}
+              isSidePreview={isSidePreview}
+              isSubscribed={isSubscribed}
+              isSubscriptionLoading={isSubscriptionLoading}
+              isTeaserLinks={isTeaserLinks}
+              isUser={isUser}
+              logo={logo}
+              onSubscribe={onSubscribe}
+              onUnsubscribe={onUnsubscribe}
+              showFollowButton={showFollowButton}
+              ssrDone={ssrDone}
+              t={t}
+              userProfilePicture={userProfilePicture}
+            />
 
-          <LogoText
-            artistName={artistName}
-            design={design}
-            isEditMode={isEditMode}
-            isPreviewMobile={isPreviewMobileReady}
-            isSidePreview={isSidePreview}
-            isTeaserLinks={isTeaserLinks}
-            logo={logo}
-            ssrDone={ssrDone}
-          />
-          {/* <LogoSubscribe
+            <LogoText
+              artistName={artistName}
+              design={design}
+              isEditMode={isEditMode}
+              isPreviewMobile={isPreviewMobileReady}
+              isSidePreview={isSidePreview}
+              isTeaserLinks={isTeaserLinks}
+              logo={logo}
+              ssrDone={ssrDone}
+            />
+            {/* <LogoSubscribe
             isSidePreview={isSidePreview}
             isSubscribed={isSubscribed}
             isSubscriptionLoading={isSubscriptionLoading}
@@ -384,8 +386,9 @@ export const LogoBox = ({
             showFollowButton={showFollowButton}
             ssrDone={ssrDone}
           /> */}
-        </LogoWrapper>
-      </LogoContainer>
-    </Fragment>
+          </LogoWrapper>
+        </LogoContainer>
+      </Fragment>
+    )
   )
 }
