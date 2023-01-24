@@ -741,9 +741,7 @@ export const TeaserLinksBox = ({
                 linkUrl = `${url}&bandsintownId=${additionalFields.bandsintownId}`
               }
               if (isOptuneLink && !url.includes('page=')) {
-                console.log({ urlBEFORE: url })
                 linkUrl = url.replace('www.', '')
-                console.log({ linkUrl })
               }
 
               let Icon = (isLegacy && !isShop) || isRegular ? null : getTeaserLinkIcon(linkType)
