@@ -726,15 +726,24 @@ export const TeaserLinksBox = ({
                   : TeaserLinkType.SHOP_PHYSICAL
                 : type
 
-              const isOptuneGigs = linkType === TeaserLinkType.OPTUNE_GIGS
-              const isBandsInTown = isOptuneGigs && additionalFields.gigsSource === 'bandsintown'
+              const isOptuneLink = [
+                TeaserLinkType.OPTUNE_BOOK,
+                TeaserLinkType.OPTUNE_GIGS,
+              ].includes(linkType)
+              const isOptuneGigsLink = linkType === TeaserLinkType.OPTUNE_GIGS
+              const isBandsInTownLink =
+                isOptuneGigsLink && additionalFields.gigsSource === 'bandsintown'
+              const stayOnPage = isOptuneLink
 
-              const stayOnPage = [TeaserLinkType.OPTUNE_BOOK, TeaserLinkType.OPTUNE_GIGS].includes(
-                linkType
-              )
-              let linkUrl = isOptuneGigs ? `${url}&excludePast=true&hideMonth=true` : url
-              if (isBandsInTown) {
+              let linkUrl = isOptuneGigsLink ? `${url}&excludePast=true&hideMonth=true` : url
+
+              if (isBandsInTownLink) {
                 linkUrl = `${url}&bandsintownId=${additionalFields.bandsintownId}`
+              }
+              if (isOptuneLink && !url.includes('page=')) {
+                console.log({ urlBEFORE: url })
+                linkUrl = url.replace('www.', '')
+                console.log({ linkUrl })
               }
 
               let Icon = (isLegacy && !isShop) || isRegular ? null : getTeaserLinkIcon(linkType)
