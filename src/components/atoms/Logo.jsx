@@ -181,42 +181,32 @@ const LogoImage = styled.img`
 // }
 
 const getLogoColors = ({ logo, design }) => {
-                                              let colorFollow
-                                              let colorBackgroundFollow
+  let colorFollow
+  let colorBackgroundFollow
 
-                                              // Logo Follow Colors
-                                              if (!!design?.theme) {
-                                                colorFollow = design?.theme?.logo?.follow?.color
-                                                colorBackgroundFollow =
-                                                  design?.theme?.logo?.follow?.colorBackground ||
-                                                  design?.theme?.logo?.color
-                                              }
+  // Logo Follow Colors
+  if (!!design?.theme) {
+    colorFollow = design?.theme?.logo?.follow?.color
+    colorBackgroundFollow =
+      design?.theme?.logo?.follow?.colorBackground || design?.theme?.logo?.color
+  }
 
-                                              if (
-                                                !design?.theme ||
-                                                (colorFollow === undefined &&
-                                                  colorBackgroundFollow === undefined)
-                                              ) {
-                                                colorFollow = logo?.follow?.color || 'unset'
-                                                colorBackgroundFollow =
-                                                  logo?.follow?.colorBackground ||
-                                                  logo?.text?.color ||
-                                                  '#000'
-                                              }
+  if (!design?.theme || (colorFollow === undefined && colorBackgroundFollow === undefined)) {
+    colorFollow = logo?.follow?.color || 'unset'
+    colorBackgroundFollow = logo?.follow?.colorBackground || logo?.text?.color || '#000'
+  }
 
-                                              // console.log('[logo] colors', { colorFollow, colorBackgroundFollow })
+  // console.log('[logo] colors', { colorFollow, colorBackgroundFollow })
 
-                                              if (colorFollow === 'unset' || !colorFollow) {
-                                                const luminance = Math.round(
-                                                  chroma(colorBackgroundFollow).luminance() * 100
-                                                )
+  if (colorFollow === 'unset' || !colorFollow) {
+    const luminance = Math.round(chroma(colorBackgroundFollow).luminance() * 100)
 
-                                                if (luminance < 50) colorFollow = '#fff'
-                                                else colorFollow = '#000'
-                                              }
+    if (luminance < 50) colorFollow = '#fff'
+    else colorFollow = '#000'
+  }
 
-                                              return { colorFollow, colorBackgroundFollow }
-                                            }
+  return { colorFollow, colorBackgroundFollow }
+}
 
 export const Logo =
   // memo(

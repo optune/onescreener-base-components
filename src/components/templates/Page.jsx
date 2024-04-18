@@ -188,470 +188,464 @@ export const Page = ({
   userName,
   visitorSession,
 }) => {
-        const [ssrDone, setSsrDone] = useState(false)
-        const [isInstagramBrowser, setIsInstagramBrowser] = useState(false)
-        const [showCookieButton, setShowCookieButton] = useState(false)
-        const [isCookieBannerOpen, setIsCookieBannerOpen] = useState(false)
+  const [ssrDone, setSsrDone] = useState(false)
+  const [isInstagramBrowser, setIsInstagramBrowser] = useState(false)
+  const [showCookieButton, setShowCookieButton] = useState(false)
+  const [isCookieBannerOpen, setIsCookieBannerOpen] = useState(false)
 
-        // console.log('[base] page: ', {
-        //   domainName,
-        //   page,
-        //   pageUrl,
-        // })
+  // console.log('[base] page: ', {
+  //   domainName,
+  //   page,
+  //   pageUrl,
+  // })
 
+  /*
+   * Handle open modal id
+   */
+
+  const initialAutoModalOpen = {
+    teaserLinkId: null,
+    iconId: null,
+  }
+  const [autoModalOpen, setAutoModalOpen] = useState(initialAutoModalOpen)
+
+  useEffect(() => {
+    setSsrDone(true)
+
+    if (!isSidePreview) {
+      const urlParams = new URLSearchParams(window.location.search)
+      const teaserLinkId = urlParams.get('teaserLinkId')
+      const iconId = urlParams.get('iconId')
+
+      /*
+       * Handle auto modal open
+       */
+
+      if (teaserLinkId || iconId) {
+        setAutoModalOpen({
+          teaserLinkId,
+          iconId,
+        })
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isSidePreview && ssrDone) {
+      const urlParams = new URLSearchParams(window.location.search)
+
+      Object.keys(autoModalOpen).forEach((key) => {
+        if (!autoModalOpen[key]) {
+          urlParams.delete(key)
+        } else {
+          urlParams.set(key, autoModalOpen[key])
+        }
+      })
+
+      window.history.replaceState(null, null, `?${urlParams.toString()}`)
+    }
+  }, [Object.values(autoModalOpen)])
+
+  const handleOpenOpenModal = (type) => (id) => {
+    switch (type) {
+      case 'icon':
+        setAutoModalOpen({
+          ...autoModalOpen,
+          iconId: id,
+        })
+        break
+      case 'teaserLink':
+        setAutoModalOpen({
+          ...autoModalOpen,
+          teaserLinkId: id,
+        })
+        break
+      default:
+        break
+    }
+  }
+
+  /*
+   * Handle pretty cookie banner
+   */
+
+  useEffect(() => {
+    if (ssrDone && !isSidePreview) {
+      window?.addEventListener('load', () => {
         /*
-         * Handle open modal id
+         * Check if user is using Instagram browser
          */
 
-        const initialAutoModalOpen = {
-          teaserLinkId: null,
-          iconId: null,
-        }
-        const [autoModalOpen, setAutoModalOpen] = useState(initialAutoModalOpen)
-
-        useEffect(() => {
-          setSsrDone(true)
-
-          if (!isSidePreview) {
-            const urlParams = new URLSearchParams(window.location.search)
-            const teaserLinkId = urlParams.get('teaserLinkId')
-            const iconId = urlParams.get('iconId')
-
-            /*
-             * Handle auto modal open
-             */
-
-            if (teaserLinkId || iconId) {
-              setAutoModalOpen({
-                teaserLinkId,
-                iconId,
-              })
-            }
-          }
-        }, [])
-
-        useEffect(() => {
-          if (!isSidePreview && ssrDone) {
-            const urlParams = new URLSearchParams(window.location.search)
-
-            Object.keys(autoModalOpen).forEach((key) => {
-              if (!autoModalOpen[key]) {
-                urlParams.delete(key)
-              } else {
-                urlParams.set(key, autoModalOpen[key])
-              }
-            })
-
-            window.history.replaceState(null, null, `?${urlParams.toString()}`)
-          }
-        }, [Object.values(autoModalOpen)])
-
-        const handleOpenOpenModal = (type) => (id) => {
-          switch (type) {
-            case 'icon':
-              setAutoModalOpen({
-                ...autoModalOpen,
-                iconId: id,
-              })
-              break
-            case 'teaserLink':
-              setAutoModalOpen({
-                ...autoModalOpen,
-                teaserLinkId: id,
-              })
-              break
-            default:
-              break
-          }
-        }
+        const UA = window.navigator.userAgent || navigator.vendor || window.opera
+        const isInstagram = UA.indexOf('Instagram') > -1
+        setIsInstagramBrowser(isInstagram)
 
         /*
-         * Handle pretty cookie banner
+         * Handle Cookie button
          */
+        const cookieButtonOn =
+          window.cookieconsent?.utils?.getCookie?.('cookieconsent_status') === undefined
 
-        useEffect(() => {
-          if (ssrDone && !isSidePreview) {
-            window?.addEventListener('load', () => {
-              /*
-               * Check if user is using Instagram browser
-               */
+        setShowCookieButton(cookieButtonOn)
 
-              const UA = window.navigator.userAgent || navigator.vendor || window.opera
-              const isInstagram = UA.indexOf('Instagram') > -1
-              setIsInstagramBrowser(isInstagram)
+        if (!cookieButtonOn) return
+      })
+    }
+  }, [ssrDone])
 
-              /*
-               * Handle Cookie button
-               */
-              const cookieButtonOn =
-                window.cookieconsent?.utils?.getCookie?.('cookieconsent_status') === undefined
+  const getUrl = getImageUrl(ssrDone)
 
-              setShowCookieButton(cookieButtonOn)
+  const isProPlanRequired = showUpgradeOverlay
 
-              if (!cookieButtonOn) return
-            })
+  const [modalData, setModalData] = useState({
+    show: false,
+    paypalLink: '',
+    title: '',
+    content: '',
+    label: '',
+    hasActionFinished: false,
+    onAction: null,
+  })
+
+  const [modalShop, setModalShop] = useState({
+    show: false,
+    isOrderSuccess,
+  })
+
+  const [modalEmbed, setModalEmbed] = useState({
+    show: false,
+    url: '',
+    autoplay: false,
+    mute: false,
+    type: 'link',
+  })
+
+  // const isModalOpen = !isSidePreview && !!(modalData.show || modalShop.show || modalEmbed.show)
+
+  const handleOpenCookie = () => {
+    setIsCookieBannerOpen(true)
+    const banner = document.getElementsByClassName('cc-window')[0]
+    banner.classList.add('cookie-banner-on')
+
+    const cookieAccept = document.getElementsByClassName('cc-compliance')[0]
+    if (!!cookieAccept) {
+      cookieAccept.addEventListener('click', () => {
+        banner.classList.remove('cookie-banner-on')
+        setShowCookieButton(false)
+      })
+    }
+  }
+
+  const handleCloseCookie = (e) => {
+    e.stopPropagation()
+    setIsCookieBannerOpen(false)
+    const banner = document.getElementsByClassName('cc-window')[0]
+    banner.classList.remove('cookie-banner-on')
+  }
+
+  let PageComponent = null
+
+  if (page) {
+    const { background, logo, content, design, selectedThemeId, stripe } = page || {}
+    const { links } = page || { links: { list: [] } }
+    const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
+
+    const isBackgroundSelected =
+      design?.theme?.background?.url > '' ||
+      (background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom')
+
+    const backgroundFullscreen = isBackgroundSelected ? true : background?.fullscreen
+
+    const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
+
+    const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
+
+    const showBanner =
+      !isUser &&
+      !isSidePreview &&
+      (!page.hasProPlan || page.referral?.isOn) &&
+      !isSubscriptionLoading
+
+    const showBackLink =
+      !isSubscriptionLoading && !noBacklink && !isSidePreview && !!hasPro && !showBanner
+
+    const artistName = userName || page.userName
+
+    PageComponent = (
+      <Fragment>
+        <GlobalStyle />
+        <PageContainer
+          id="page-container"
+          className="page-container"
+          preloadImage={getImageUrl(false)({
+            ...background,
+            ...design?.theme?.background,
+            isBackgroundSelected,
+            selectedBackgroundUrl:
+              design?.theme?.background?.url || design?.background?.url || background?.url,
+          })}
+          ssrDone={ssrDone}
+          focusPoint={background?.focusPoint}
+          fullscreen={backgroundFullscreen}
+          color={
+            isBackgroundSelected
+              ? design?.theme?.background?.color || design?.background?.color
+              : background?.color
           }
-        }, [ssrDone])
-
-        const getUrl = getImageUrl(ssrDone)
-
-        const isProPlanRequired = showUpgradeOverlay
-
-        const [modalData, setModalData] = useState({
-          show: false,
-          paypalLink: '',
-          title: '',
-          content: '',
-          label: '',
-          hasActionFinished: false,
-          onAction: null,
-        })
-
-        const [modalShop, setModalShop] = useState({
-          show: false,
-          isOrderSuccess,
-        })
-
-        const [modalEmbed, setModalEmbed] = useState({
-          show: false,
-          url: '',
-          autoplay: false,
-          mute: false,
-          type: 'link',
-        })
-
-        // const isModalOpen = !isSidePreview && !!(modalData.show || modalShop.show || modalEmbed.show)
-
-        const handleOpenCookie = () => {
-          setIsCookieBannerOpen(true)
-          const banner = document.getElementsByClassName('cc-window')[0]
-          banner.classList.add('cookie-banner-on')
-
-          const cookieAccept = document.getElementsByClassName('cc-compliance')[0]
-          if (!!cookieAccept) {
-            cookieAccept.addEventListener('click', () => {
-              banner.classList.remove('cookie-banner-on')
-              setShowCookieButton(false)
-            })
+          designColor={
+            isBackgroundSelected &&
+            (design?.theme?.background?.color || design?.background?.color || background?.color)
           }
-        }
+          isPreviewMobile={isPreviewMobile}
+          isSidePreview={isSidePreview}
+        >
+          {!showRedirectOverlay && isSidePreview && (
+            <div className="page-container-edit-mode" onClick={onEditModeClick} />
+          )}
+          {showUpgradeOverlay && <UpgradeOverlay onUpgrade={onUpgrade} ProTag={ProTag} />}
+          {/* // TODO: Try to move SectionOverlay for all components here --> sectionOverlays.map(s => <SectionOverlay {...s} />) (To avoid unnecessary prop drilling) */}
 
-        const handleCloseCookie = (e) => {
-          e.stopPropagation()
-          setIsCookieBannerOpen(false)
-          const banner = document.getElementsByClassName('cc-window')[0]
-          banner.classList.remove('cookie-banner-on')
-        }
+          <ForegroundContainer>
+            {/* Back Link to onescreener.com */}
+            {showBackLink && (
+              <BackLink
+                artistSlug={artistSlug}
+                isPreviewMobile={isPreviewMobile}
+                isPro={hasPro}
+                t={t}
+              />
+            )}
+            {showBanner && (
+              <BannerReferral onReferralOpen={onReferralOpen} hideBehind={false} t={t} />
+            )}
 
-        let PageComponent = null
+            {showCookieButton && (
+              <CookieButton
+                onOpen={handleOpenCookie}
+                onClose={handleCloseCookie}
+                isOpen={isCookieBannerOpen}
+              />
+            )}
 
-        if (page) {
-          const { background, logo, content, design, selectedThemeId, stripe } = page || {}
-          const { links } = page || { links: { list: [] } }
-          const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
+            {/* Logo */}
+            {logo && (
+              <LogoBox
+                artistName={artistName}
+                artistProfilePicture={page.artistProfilePicture}
+                content={content}
+                design={isThemeSelected && design}
+                getImageUrl={getUrl}
+                isEditMode={showRedirectOverlay}
+                isPreviewMobile={isPreviewMobile}
+                isPreviewMobileReady={isPreviewMobileReady}
+                isProPlanRequired={isProPlanRequired}
+                isSidePreview={isSidePreview}
+                isSubscribed={isSubscribed}
+                isSubscriptionLoading={isSubscriptionLoading}
+                isTeaserLinks={content.type === 'TEASER_LINKS'}
+                isUser={isUser}
+                links={links}
+                logo={logo}
+                onLogoSectionClick={onLogoSectionClick}
+                onSubscribe={onSubscribe}
+                onUnsubscribe={onUnsubscribe}
+                showBanner={showBanner}
+                showRedirectOverlay={showRedirectOverlay}
+                t={t}
+                userProfilePicture={page.userProfilePicture}
+                zIndex={100}
+              />
+            )}
 
-          const isBackgroundSelected =
-            design?.theme?.background?.url > '' ||
-            (background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom')
+            {/* Content */}
+            <ContentBox
+              analyticsLivePage={analyticsLivePage}
+              autoOpenId={autoModalOpen.teaserLinkId}
+              content={content}
+              design={isThemeSelected && design}
+              domainName={domainName}
+              getImageUrl={getUrl}
+              isEditMode={showRedirectOverlay}
+              isInstagramBrowser={isInstagramBrowser}
+              isPreviewMobile={isPreviewMobile}
+              isPreviewMobileReady={isPreviewMobileReady}
+              isProPlanRequired={isProPlanRequired}
+              isSidePreview={isSidePreview}
+              links={links}
+              logo={logo}
+              modalShop={modalShop}
+              onContentSectionClick={onContentSectionClick}
+              onLoadShopItem={onLoadShopItem}
+              onOpenModal={handleOpenOpenModal}
+              pageUrl={pageUrl}
+              setModalEmbed={setModalEmbed}
+              setModalShop={setModalShop}
+              showBanner={showBanner}
+              shopEnabled={stripe?.shopEnabled}
+              showRedirectOverlay={showRedirectOverlay}
+              showStatistics={showStatistics}
+              statisticsPeriod={statisticsPeriod}
+              t={t}
+              trackingVisitorEvents={trackingVisitorEvents}
+              visitorSession={visitorSession}
+            />
 
-          const backgroundFullscreen = isBackgroundSelected ? true : background?.fullscreen
+            {!isSidePreview && (
+              <Fragment>
+                <MonetizationModal
+                  getImageUrl={getUrl}
+                  isSidePreview={isSidePreview}
+                  isPreviewMobile={isPreviewMobile}
+                  onClose={() => {
+                    setAutoModalOpen(initialAutoModalOpen)
+                    setModalShop({ ...modalShop, isOrderSuccess: false, show: false })
+                  }}
+                  isOrderSuccess={isOrderSuccess}
+                  show={modalShop.show}
+                  onBuyItem={onBuyItem}
+                  onLoadOrder={onLoadOrder}
+                  shopItem={modalShop.item}
+                  t={t}
+                />
 
-          const isThemeSelected = selectedThemeId > '' && selectedThemeId !== 'custom'
+                <MonetizationFinishedModal
+                  isSidePreview={isSidePreview}
+                  isPreviewMobile={isPreviewMobile}
+                  onClose={() => {
+                    setAutoModalOpen(initialAutoModalOpen)
+                    setModalShop({ ...modalShop, isOrderSuccess: false, show: false })
+                  }}
+                  isOrderSuccess={isOrderSuccess}
+                  show={modalShop.isOrderSuccess}
+                  onLoadOrder={onLoadOrder}
+                  shopItem={modalShop.item}
+                  t={t}
+                />
 
-          const showRedirectOverlay = (isEditMode || !isSmall) && isSidePreview && !showStatistics
+                <EmbedModal
+                  isSidePreview={isSidePreview}
+                  isPreviewMobile={isPreviewMobile}
+                  onClose={() => {
+                    setModalEmbed({ ...modalEmbed, show: false })
+                    setAutoModalOpen(initialAutoModalOpen)
+                    /* To turn off the player after animation */
+                    setTimeout(() => {
+                      setModalEmbed({ show: false, url: '' })
+                    }, 350)
+                  }}
+                  show={modalEmbed.show}
+                  modalEmbed={modalEmbed}
+                />
+              </Fragment>
+            )}
 
-          const showBanner =
-            !isUser &&
-            !isSidePreview &&
-            (!page.hasProPlan || page.referral?.isOn) &&
-            !isSubscriptionLoading
-
-          const showBackLink =
-            !isSubscriptionLoading && !noBacklink && !isSidePreview && !!hasPro && !showBanner
-
-          const artistName = userName || page.userName
-
-          PageComponent = (
-            <Fragment>
-              <GlobalStyle />
-              <PageContainer
-                id="page-container"
-                className="page-container"
-                preloadImage={getImageUrl(false)({
-                  ...background,
-                  ...design?.theme?.background,
-                  isBackgroundSelected,
-                  selectedBackgroundUrl:
-                    design?.theme?.background?.url || design?.background?.url || background?.url,
-                })}
-                ssrDone={ssrDone}
-                focusPoint={background?.focusPoint}
-                fullscreen={backgroundFullscreen}
+            {/* Links // TODO: add check for Text or Donation icon to show TextModal */}
+            {links.list.length > 0 && (
+              <TextModal
+                border={links.border}
+                circle={links.circle}
                 color={
-                  isBackgroundSelected
-                    ? design?.theme?.background?.color || design?.background?.color
-                    : background?.color
+                  (isThemeSelected && design?.theme?.links?.colorLinks) ||
+                  links.colorLinks ||
+                  content.color
                 }
-                designColor={
-                  isBackgroundSelected &&
-                  (design?.theme?.background?.color ||
-                    design?.background?.color ||
-                    background?.color)
+                colorAccent={
+                  (isThemeSelected && design?.theme?.links?.colorLinksAccent) ||
+                  links.colorLinksAccent ||
+                  content.colorAccent
                 }
+                colorBackground={
+                  (isThemeSelected && design?.theme?.links?.colorLinksBackground) ||
+                  links.colorLinksBackground ||
+                  content.colorBackground
+                }
+                colorBackgroundAccent={
+                  (isThemeSelected && design?.theme?.links?.colorLinksBackgroundAccent) ||
+                  links.colorLinksBackgroundAccent ||
+                  content.colorBackgroundAccent
+                }
+                title={modalData.title}
+                content={modalData.content}
+                paypalLink={modalData.paypalLink}
+                artistName={artistName}
                 isPreviewMobile={isPreviewMobile}
                 isSidePreview={isSidePreview}
-              >
-                {!showRedirectOverlay && isSidePreview && (
-                  <div className="page-container-edit-mode" onClick={onEditModeClick} />
-                )}
-                {showUpgradeOverlay && <UpgradeOverlay onUpgrade={onUpgrade} ProTag={ProTag} />}
-                {/* // TODO: Try to move SectionOverlay for all components here --> sectionOverlays.map(s => <SectionOverlay {...s} />) (To avoid unnecessary prop drilling) */}
+                label={modalData.label}
+                onAction={modalData.onAction}
+                hasActionFinished={modalData.hasActionFinished}
+                onClose={() => {
+                  setAutoModalOpen(initialAutoModalOpen)
+                  setModalData({ ...modalData, show: false })
+                }}
+                show={modalData.show}
+                square={links.square}
+              />
+            )}
 
-                <ForegroundContainer>
-                  {/* Back Link to onescreener.com */}
-                  {showBackLink && (
-                    <BackLink
-                      artistSlug={artistSlug}
-                      isPreviewMobile={isPreviewMobile}
-                      isPro={hasPro}
-                      t={t}
-                    />
-                  )}
-                  {showBanner && (
-                    <BannerReferral onReferralOpen={onReferralOpen} hideBehind={false} t={t} />
-                  )}
+            <LinksBox
+              hasPro={hasPro}
+              showBanner={showBanner}
+              isEditMode={showRedirectOverlay}
+              isPreviewMobile={isPreviewMobile}
+              isSidePreview={isSidePreview}
+              links={links}
+              onLinksSectionClick={onLinksSectionClick}
+              position={links.position}
+              showRedirectOverlay={showRedirectOverlay}
+              t={t}
+              zIndex={99}
+            >
+              {Links({
+                analyticsLivePage,
+                autoOpenId: autoModalOpen.iconId,
+                content,
+                design,
+                domainName,
+                isPreviewMobile,
+                isProPlanRequired,
+                isSidePreview,
+                isThemeSelected,
+                links,
+                Modal,
+                modalData,
+                onOpenModal: handleOpenOpenModal('icon'),
+                pageUrl,
+                setModalData,
+                showStatistics,
+                statisticsPeriod,
+                trackingVisitorEvents,
+              })}
+            </LinksBox>
+          </ForegroundContainer>
+          {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
+          {ssrDone && (
+            <Background
+              background={{
+                ...background,
+                ...design?.theme?.background,
+                isBackgroundSelected,
+                selectedBackgroundUrl:
+                  design?.theme?.background?.url || design?.background?.url || background?.url,
+              }}
+              color={design?.background?.color || background?.color}
+              designColor={
+                isBackgroundSelected &&
+                (design?.theme?.background?.color || design?.background?.color || background?.color)
+              }
+              getImageUrl={getUrl}
+              fullscreen={backgroundFullscreen}
+            />
+          )}
+        </PageContainer>
 
-                  {showCookieButton && (
-                    <CookieButton
-                      onOpen={handleOpenCookie}
-                      onClose={handleCloseCookie}
-                      isOpen={isCookieBannerOpen}
-                    />
-                  )}
+        {page.isBlocked && (
+          <BlockedCoverContainer>
+            <BlockedOverlay>Page temporarily unavailable</BlockedOverlay>
+          </BlockedCoverContainer>
+        )}
+      </Fragment>
+    )
+  }
 
-                  {/* Logo */}
-                  {logo && (
-                    <LogoBox
-                      artistName={artistName}
-                      artistProfilePicture={page.artistProfilePicture}
-                      content={content}
-                      design={isThemeSelected && design}
-                      getImageUrl={getUrl}
-                      isEditMode={showRedirectOverlay}
-                      isPreviewMobile={isPreviewMobile}
-                      isPreviewMobileReady={isPreviewMobileReady}
-                      isProPlanRequired={isProPlanRequired}
-                      isSidePreview={isSidePreview}
-                      isSubscribed={isSubscribed}
-                      isSubscriptionLoading={isSubscriptionLoading}
-                      isTeaserLinks={content.type === 'TEASER_LINKS'}
-                      isUser={isUser}
-                      links={links}
-                      logo={logo}
-                      onLogoSectionClick={onLogoSectionClick}
-                      onSubscribe={onSubscribe}
-                      onUnsubscribe={onUnsubscribe}
-                      showBanner={showBanner}
-                      showRedirectOverlay={showRedirectOverlay}
-                      t={t}
-                      userProfilePicture={page.userProfilePicture}
-                      zIndex={100}
-                    />
-                  )}
-
-                  {/* Content */}
-                  <ContentBox
-                    analyticsLivePage={analyticsLivePage}
-                    autoOpenId={autoModalOpen.teaserLinkId}
-                    content={content}
-                    design={isThemeSelected && design}
-                    domainName={domainName}
-                    getImageUrl={getUrl}
-                    isEditMode={showRedirectOverlay}
-                    isInstagramBrowser={isInstagramBrowser}
-                    isPreviewMobile={isPreviewMobile}
-                    isPreviewMobileReady={isPreviewMobileReady}
-                    isProPlanRequired={isProPlanRequired}
-                    isSidePreview={isSidePreview}
-                    links={links}
-                    logo={logo}
-                    modalShop={modalShop}
-                    onContentSectionClick={onContentSectionClick}
-                    onLoadShopItem={onLoadShopItem}
-                    onOpenModal={handleOpenOpenModal}
-                    pageUrl={pageUrl}
-                    setModalEmbed={setModalEmbed}
-                    setModalShop={setModalShop}
-                    showBanner={showBanner}
-                    shopEnabled={stripe?.shopEnabled}
-                    showRedirectOverlay={showRedirectOverlay}
-                    showStatistics={showStatistics}
-                    statisticsPeriod={statisticsPeriod}
-                    t={t}
-                    trackingVisitorEvents={trackingVisitorEvents}
-                    visitorSession={visitorSession}
-                  />
-
-                  {!isSidePreview && (
-                    <Fragment>
-                      <MonetizationModal
-                        getImageUrl={getUrl}
-                        isSidePreview={isSidePreview}
-                        isPreviewMobile={isPreviewMobile}
-                        onClose={() => {
-                          setAutoModalOpen(initialAutoModalOpen)
-                          setModalShop({ ...modalShop, isOrderSuccess: false, show: false })
-                        }}
-                        isOrderSuccess={isOrderSuccess}
-                        show={modalShop.show}
-                        onBuyItem={onBuyItem}
-                        onLoadOrder={onLoadOrder}
-                        shopItem={modalShop.item}
-                        t={t}
-                      />
-
-                      <MonetizationFinishedModal
-                        isSidePreview={isSidePreview}
-                        isPreviewMobile={isPreviewMobile}
-                        onClose={() => {
-                          setAutoModalOpen(initialAutoModalOpen)
-                          setModalShop({ ...modalShop, isOrderSuccess: false, show: false })
-                        }}
-                        isOrderSuccess={isOrderSuccess}
-                        show={modalShop.isOrderSuccess}
-                        onLoadOrder={onLoadOrder}
-                        shopItem={modalShop.item}
-                        t={t}
-                      />
-
-                      <EmbedModal
-                        isSidePreview={isSidePreview}
-                        isPreviewMobile={isPreviewMobile}
-                        onClose={() => {
-                          setModalEmbed({ ...modalEmbed, show: false })
-                          setAutoModalOpen(initialAutoModalOpen)
-                          /* To turn off the player after animation */
-                          setTimeout(() => {
-                            setModalEmbed({ show: false, url: '' })
-                          }, 350)
-                        }}
-                        show={modalEmbed.show}
-                        modalEmbed={modalEmbed}
-                      />
-                    </Fragment>
-                  )}
-
-                  {/* Links // TODO: add check for Text or Donation icon to show TextModal */}
-                  {links.list.length > 0 && (
-                    <TextModal
-                      border={links.border}
-                      circle={links.circle}
-                      color={
-                        (isThemeSelected && design?.theme?.links?.colorLinks) ||
-                        links.colorLinks ||
-                        content.color
-                      }
-                      colorAccent={
-                        (isThemeSelected && design?.theme?.links?.colorLinksAccent) ||
-                        links.colorLinksAccent ||
-                        content.colorAccent
-                      }
-                      colorBackground={
-                        (isThemeSelected && design?.theme?.links?.colorLinksBackground) ||
-                        links.colorLinksBackground ||
-                        content.colorBackground
-                      }
-                      colorBackgroundAccent={
-                        (isThemeSelected && design?.theme?.links?.colorLinksBackgroundAccent) ||
-                        links.colorLinksBackgroundAccent ||
-                        content.colorBackgroundAccent
-                      }
-                      title={modalData.title}
-                      content={modalData.content}
-                      paypalLink={modalData.paypalLink}
-                      artistName={artistName}
-                      isPreviewMobile={isPreviewMobile}
-                      isSidePreview={isSidePreview}
-                      label={modalData.label}
-                      onAction={modalData.onAction}
-                      hasActionFinished={modalData.hasActionFinished}
-                      onClose={() => {
-                        setAutoModalOpen(initialAutoModalOpen)
-                        setModalData({ ...modalData, show: false })
-                      }}
-                      show={modalData.show}
-                      square={links.square}
-                    />
-                  )}
-
-                  <LinksBox
-                    hasPro={hasPro}
-                    showBanner={showBanner}
-                    isEditMode={showRedirectOverlay}
-                    isPreviewMobile={isPreviewMobile}
-                    isSidePreview={isSidePreview}
-                    links={links}
-                    onLinksSectionClick={onLinksSectionClick}
-                    position={links.position}
-                    showRedirectOverlay={showRedirectOverlay}
-                    t={t}
-                    zIndex={99}
-                  >
-                    {Links({
-                      analyticsLivePage,
-                      autoOpenId: autoModalOpen.iconId,
-                      content,
-                      design,
-                      domainName,
-                      isPreviewMobile,
-                      isProPlanRequired,
-                      isSidePreview,
-                      isThemeSelected,
-                      links,
-                      Modal,
-                      modalData,
-                      onOpenModal: handleOpenOpenModal('icon'),
-                      pageUrl,
-                      setModalData,
-                      showStatistics,
-                      statisticsPeriod,
-                      trackingVisitorEvents,
-                    })}
-                  </LinksBox>
-                </ForegroundContainer>
-                {CustomHtml && <CustomHtml isPreviewMobile={isPreviewMobile} />}
-                {ssrDone && (
-                  <Background
-                    background={{
-                      ...background,
-                      ...design?.theme?.background,
-                      isBackgroundSelected,
-                      selectedBackgroundUrl:
-                        design?.theme?.background?.url ||
-                        design?.background?.url ||
-                        background?.url,
-                    }}
-                    color={design?.background?.color || background?.color}
-                    designColor={
-                      isBackgroundSelected &&
-                      (design?.theme?.background?.color ||
-                        design?.background?.color ||
-                        background?.color)
-                    }
-                    getImageUrl={getUrl}
-                    fullscreen={backgroundFullscreen}
-                  />
-                )}
-              </PageContainer>
-
-              {page.isBlocked && (
-                <BlockedCoverContainer>
-                  <BlockedOverlay>Page temporarily unavailable</BlockedOverlay>
-                </BlockedCoverContainer>
-              )}
-            </Fragment>
-          )
-        }
-
-        return PageComponent
-      }
+  return PageComponent
+}
