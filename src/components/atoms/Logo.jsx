@@ -189,10 +189,14 @@ const getLogoColors = ({ logo, design }) => {
     colorFollow = design?.theme?.logo?.follow?.color
     colorBackgroundFollow =
       design?.theme?.logo?.follow?.colorBackground || design?.theme?.logo?.color
-  } else {
+  }
+
+  if (!design?.theme || (colorFollow === undefined && colorBackgroundFollow === undefined)) {
     colorFollow = logo?.follow?.color || 'unset'
     colorBackgroundFollow = logo?.follow?.colorBackground || logo?.text?.color || '#000'
   }
+
+  // console.log('[logo] colors', { colorFollow, colorBackgroundFollow })
 
   if (colorFollow === 'unset' || !colorFollow) {
     const luminance = Math.round(chroma(colorBackgroundFollow).luminance() * 100)

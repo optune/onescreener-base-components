@@ -193,6 +193,12 @@ export const Page = ({
   const [showCookieButton, setShowCookieButton] = useState(false)
   const [isCookieBannerOpen, setIsCookieBannerOpen] = useState(false)
 
+  // console.log('[base] page: ', {
+  //   domainName,
+  //   page,
+  //   pageUrl,
+  // })
+
   /*
    * Handle open modal id
    */
