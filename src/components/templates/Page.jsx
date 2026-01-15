@@ -150,7 +150,8 @@ const BlockedOverlay = styled.p`
 `
 
 export const Page = ({
-  analyticsLivePage,
+  analyticsLinkClicks,
+  analyticsTeaserLinkClicks,
   artistSlug,
   domainName,
   hasPro,
@@ -182,7 +183,6 @@ export const Page = ({
   ProTag,
   showStatistics,
   showUpgradeOverlay,
-  statisticsPeriod,
   t,
   trackingVisitorEvents,
   userName,
@@ -464,7 +464,7 @@ export const Page = ({
 
             {/* Content */}
             <ContentBox
-              analyticsLivePage={analyticsLivePage}
+              analyticsTeaserLinkClicks={analyticsTeaserLinkClicks}
               autoOpenId={autoModalOpen.teaserLinkId}
               content={content}
               design={isThemeSelected && design}
@@ -489,7 +489,6 @@ export const Page = ({
               shopEnabled={stripe?.shopEnabled}
               showRedirectOverlay={showRedirectOverlay}
               showStatistics={showStatistics}
-              statisticsPeriod={statisticsPeriod}
               t={t}
               trackingVisitorEvents={trackingVisitorEvents}
               visitorSession={visitorSession}
@@ -601,7 +600,7 @@ export const Page = ({
               zIndex={99}
             >
               {Links({
-                analyticsLivePage,
+                analyticsLinkClicks,
                 autoOpenId: autoModalOpen.iconId,
                 content,
                 design,
@@ -617,7 +616,6 @@ export const Page = ({
                 pageUrl,
                 setModalData,
                 showStatistics,
-                statisticsPeriod,
                 trackingVisitorEvents,
               })}
             </LinksBox>

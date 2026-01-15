@@ -547,7 +547,7 @@ const Container = styled.div`
 `
 
 export const ContentBox = ({
-  analyticsLivePage,
+  analyticsTeaserLinkClicks,
   autoOpenId,
   content,
   design,
@@ -571,7 +571,6 @@ export const ContentBox = ({
   showBanner,
   showRedirectOverlay,
   showStatistics,
-  statisticsPeriod,
   t,
   trackingVisitorEvents,
   visitorSession,
@@ -716,7 +715,7 @@ export const ContentBox = ({
     case 'TEASER_LINKS':
       Content = (
         <TeaserLinksBox
-          analyticsLivePage={analyticsLivePage}
+          analyticsTeaserLinkClicks={analyticsTeaserLinkClicks}
           autoOpenId={autoOpenId}
           color={colors.colorLinks}
           colorBackground={colors.colorLinksBackground}
@@ -740,7 +739,6 @@ export const ContentBox = ({
           setModalEmbed={setModalEmbed}
           shopEnabled={shopEnabled}
           showStatistics={showStatistics}
-          statisticsPeriod={statisticsPeriod}
           teaserLinks={teaserLinks.list}
           trackingVisitorEvents={trackingVisitorEvents}
           visitorSession={visitorSession}
@@ -767,7 +765,10 @@ export const ContentBox = ({
       Content = null
   }
 
-  const teaserLinksValue = getTeaserLinksValueLength({ list: teaserLinks?.list, shopEnabled })
+  const teaserLinksValue = getTeaserLinksValueLength({
+    list: teaserLinks?.list,
+    shopEnabled,
+  })
   return fullscreen ? (
     <FullscreenContainer>{Content}</FullscreenContainer>
   ) : (
