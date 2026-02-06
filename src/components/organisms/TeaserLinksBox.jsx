@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { useMediaQuery } from 'react-responsive'
 
 // API
-import { filterTime, getFromDate, CurrencySign, TeaserLinkType, BookingMethod } from '../../api'
+import { CurrencySign, TeaserLinkType, BookingMethod } from '../../api'
 
 // Atoms
 import { StatisticsOverlay } from '../atoms/StatisticsOverlay'
@@ -496,7 +496,7 @@ const Container = styled.div`
 `
 
 export const TeaserLinksBox = ({
-  analyticsLivePage,
+  analyticsTeaserLinkClicks,
   autoOpenId,
   color,
   colorBackground,
@@ -518,7 +518,6 @@ export const TeaserLinksBox = ({
   setModalShop,
   shopEnabled,
   showStatistics,
-  statisticsPeriod,
   teaserLinks = [],
   trackingVisitorEvents,
   visitorSession,
@@ -635,17 +634,10 @@ export const TeaserLinksBox = ({
 
   const getLinkClicks = ({ name, url }) => {
     if (isProPlanRequired) return '?'
-    let clicks = 0
-
-    const fromDate = getFromDate(statisticsPeriod)
-
-    analyticsLivePage.forEach((session) => {
-      filterTime(session.analytics?.category?.teaserLinks, fromDate)?.forEach((link) => {
-        if (link.name === name && link.url === url) clicks += 1
-      })
-    })
-
-    return clicks
+    const match = analyticsTeaserLinkClicks?.find(
+      (entry) => entry?.name === name && entry?.url === url
+    )
+    return match?.count || 0
   }
 
   return (
@@ -837,7 +829,11 @@ export const TeaserLinksBox = ({
                         >
                           {!!Icon && <Icon />}
                         </span>
-                        <span className={classNames('price', 'subtitle', { subtitle: isSession })}>
+                        <span
+                          className={classNames('price', 'subtitle', {
+                            subtitle: isSession,
+                          })}
+                        >
                           {Number(shop.price).toFixed(2)} {CurrencySign[shop.currency] || 'USD'}
                         </span>
                       </div>
