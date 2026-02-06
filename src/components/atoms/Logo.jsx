@@ -229,25 +229,26 @@ export const Logo =
     t,
     userProfilePicture,
   }) => {
-    const imageUrl = !!logo.image?.url
-      ? getImageUrl({ image: logo.image, maxHeight: 25, maxWidth: 25 })
-      : !!artistProfilePicture
-      ? getImageUrl({ image: artistProfilePicture, maxHeight: 25, maxWidth: 25 })
-      : userProfilePicture?.url
+          const imageUrl = !!logo.image?.url
+            ? getImageUrl({ image: logo.image, maxHeight: 25, maxWidth: 25 })
+            : !!artistProfilePicture
+            ? getImageUrl({ image: artistProfilePicture, maxHeight: 25, maxWidth: 25 })
+            : userProfilePicture?.url
 
-    const { colorFollow, colorBackgroundFollow } = getLogoColors({ logo, design })
+          // const { colorFollow, colorBackgroundFollow } = getLogoColors({ logo, design })
 
-    return (
-      <ImageContainer
-        isPreviewMobile={isPreviewMobile}
-        orientation={logo?.image?.orientation}
-        size={logo.size}
-        isTeaserLinks={isTeaserLinks}
-        isSidePreview={isSidePreview}
-      >
-        {/* {(true || isEditMode) && <EditButton top="0">Logo image</EditButton>} */}
+          return (
+            <ImageContainer
+              isPreviewMobile={isPreviewMobile}
+              orientation={logo?.image?.orientation}
+              size={logo.size}
+              isTeaserLinks={isTeaserLinks}
+              isSidePreview={isSidePreview}
+            >
+              {/* {(true || isEditMode) && <EditButton top="0">Logo image</EditButton>} */}
 
-        <LogoSubscribe
+              {/* NB: deactivate logo subscribe for now until auth0 security issues are resolved */}
+              {/* <LogoSubscribe
           isSidePreview={isSidePreview}
           isSubscribed={isSubscribed}
           isSubscriptionLoading={isSubscriptionLoading}
@@ -265,12 +266,12 @@ export const Logo =
             logo?.text?.font
           }
           t={t}
-        />
+        /> */}
 
-        <LogoImage as={ssrDone ? 'img' : 'div'} src={imageUrl} />
-      </ImageContainer>
-    )
-  }
+              <LogoImage as={ssrDone ? 'img' : 'div'} src={imageUrl} />
+            </ImageContainer>
+          )
+        }
 // ,
 // areEqual
 // )

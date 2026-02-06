@@ -92,28 +92,37 @@ const Container = styled.div`
   }
 `
 
-export const BannerReferral = ({ t, onReferralOpen, ...other }) => {
+export const BannerReferral = ({ artistSlug, t, onReferralOpen, ...other }) => {
   return (
-    <Container onClick={onReferralOpen} {...other}>
-      <div className="brand">
-        <h1>
-          <span>{t('referral.create')} </span>
-          {/* <a
-            onClick={(e) => e.stopPropagation()}
-            href={`https://www.onescreener.com/sign-up?utm_source=livepage&utm_medium=banner&utm_campaign=${
-              artistSlug || 'unknown'
-            }`}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            {' '}
-            Onescreener
-          </a> */}
-        </h1>
-      </div>
-      <div className="referral">
-        <h1>{t('referral.signup', { percent: 25 })}</h1>
-      </div>
-    </Container>
+    <a
+      onClick={(e) => e.stopPropagation()}
+      href={`https://app.onescreener.com/?utm_source=livepage&utm_medium=banner&utm_campaign=${
+        artistSlug || 'unknown'
+      }&referralArtist=${artistSlug}#signup`}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <Container onClick={onReferralOpen} {...other}>
+        <div className="brand">
+          <h1>
+            <span>{t('referral.create')} </span>
+            {/* <a
+              onClick={(e) => e.stopPropagation()}
+              href={`https://www.onescreener.com/sign-up?utm_source=livepage&utm_medium=banner&utm_campaign=${
+                artistSlug || 'unknown'
+              }`}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {' '}
+              Onescreener
+            </a> */}
+          </h1>
+        </div>
+        <div className="referral">
+          <h1>{t('referral.signup', { percent: 25 })}</h1>
+        </div>
+      </Container>
+    </a>
   )
 }

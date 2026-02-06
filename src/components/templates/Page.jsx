@@ -416,7 +416,12 @@ export const Page = ({
               />
             )}
             {showBanner && (
-              <BannerReferral onReferralOpen={onReferralOpen} hideBehind={false} t={t} />
+              <BannerReferral
+                artistSlug={artistSlug}
+                onReferralOpen={onReferralOpen}
+                hideBehind={false}
+                t={t}
+              />
             )}
 
             {showCookieButton && (
