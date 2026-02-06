@@ -351,8 +351,8 @@ export const Page = ({
     const CustomHtml = content?.customHTML > '' ? customHtml[content.customHTML] : null
 
     const isBackgroundSelected =
-      design?.theme?.background?.url > '' ||
-      (background?.selectedBackgroundId > '' && background?.selectedBackgroundId !== 'custom')
+      background?.selectedBackgroundId !== 'custom' &&
+      (design?.theme?.background?.url > '' || background?.selectedBackgroundId > '')
 
     const backgroundFullscreen = isBackgroundSelected ? true : background?.fullscreen
 

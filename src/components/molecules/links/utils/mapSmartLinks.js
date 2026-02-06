@@ -6,6 +6,7 @@ const SmartLinks = {
   OPTUNEARTISTPROFILE: '/profile',
   OPTUNEBOOKINGS: '/events',
   OPTUNEREQUESTFORM: '/request',
+  OPTUNEREQUESTFORMDE: '/request',
   OPTUNENEWSLETTER: '/newsletter',
 }
 

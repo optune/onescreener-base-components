@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import { getBackground } from '../../utils/getBackground'
@@ -50,3 +50,5 @@ export const Background = React.memo(
   },
   areEqual
 )
+
+Background.displayName = 'Background'
