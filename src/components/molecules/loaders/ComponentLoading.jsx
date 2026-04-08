@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 import styled, { keyframes } from 'styled-components'
 import { BackgroundColor } from '../../../style/color'
 
@@ -58,7 +58,7 @@ const LoadingContent = styled.svg`
 
 const LoadingCircle = styled.circle`
   fill: none;
-  stroke: ${BackgroundColor.accent};
+  stroke: ${({ color }) => color || BackgroundColor.accent};
   stroke-linecap: round;
   stroke-width: ${({ small }) => (small ? 1 : 3)};
   animation: ${circleySmall} 5.333s ease infinite, ${rotary} 2.2s linear infinite;
@@ -75,10 +75,11 @@ const Container = styled.div`
   animation-timing-function: ease-in-out;
 `
 
-export const ComponentLoading = ({ label, small, width }) => (
+export const ComponentLoading = ({ color, label, small, width }) => (
   <Container className="flex-center-middle animated" small={small}>
     <LoadingContent small={small} width={width} hasLabel={label > ''}>
       <LoadingCircle
+        color={color}
         small={small}
         cx={width > '' ? width / 2 : small ? '15' : '30'}
         cy={width > '' ? width / 2 : small ? '15' : '30'}
@@ -95,3 +96,10 @@ export const ComponentLoading = ({ label, small, width }) => (
     )}
   </Container>
 )
+
+ComponentLoading.propTypes = {
+  color: PropTypes.string,
+  label: PropTypes.string,
+  small: PropTypes.bool,
+  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+}

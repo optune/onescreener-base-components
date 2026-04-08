@@ -55,6 +55,7 @@ import { PressKitIcon } from './PressKit.jsx'
 import { QuoraIcon } from './Quora.jsx'
 import { RedditIcon } from './Reddit.jsx'
 import { RequestFormIcon } from './RequestForm.jsx'
+import { RequestFormDeIcon } from './RequestFormDe.jsx'
 import { ResidentAdvisorIcon } from './ResidentAdvisor.jsx'
 import { SnapchatIcon } from './Snapchat.jsx'
 import { SoundcloudIcon } from './Soundcloud.jsx'
@@ -85,6 +86,7 @@ export const PlatformLinkIcon = {
   OPTUNEARTISTPROFILE: ArtistProfileIcon,
   OPTUNEBOOKINGS: GigsIcon,
   OPTUNEREQUESTFORM: RequestFormIcon,
+  OPTUNEREQUESTFORMDE: RequestFormDeIcon,
   OPTUNENEWSLETTER: NewsletterFormIcon,
   OPTUNELINK: OptuneUtilIcon,
 

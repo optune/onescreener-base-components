@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // React
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment } from 'react'
 import styled, { css } from 'styled-components'
 
 // Molecules
@@ -11,15 +11,13 @@ import { PlatformLinkIcon } from '../../icons/platform/index'
 
 // Utils
 import { mapSmartLinks } from './utils/mapSmartLinks'
-import { filterTime } from '../../../api'
-import { getFromDate } from '../../../api'
 
 /*
  * Render Link list
  */
 
 export const Links = ({
-  analyticsLivePage,
+  analyticsLinkClicks,
   content,
   design,
   domainName,
@@ -33,7 +31,6 @@ export const Links = ({
   pageUrl,
   setModalData,
   showStatistics,
-  statisticsPeriod,
   trackingVisitorEvents,
   ...other
 }) => {
@@ -64,17 +61,8 @@ export const Links = ({
 
   const getLinkClicks = (platform) => () => {
     if (isProPlanRequired) return '?'
-    let clicks = 0
-
-    const fromDate = getFromDate(statisticsPeriod)
-
-    analyticsLivePage.forEach((session) => {
-      filterTime(session.analytics?.category?.links, fromDate)?.forEach((link) => {
-        if (link.platform === platform) clicks += 1
-      })
-    })
-
-    return clicks
+    const match = analyticsLinkClicks?.find((entry) => entry?.platform === platform)
+    return match?.count || 0
   }
 
   return (

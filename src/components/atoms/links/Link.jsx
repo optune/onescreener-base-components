@@ -6,14 +6,14 @@ import { MediaMobile, NotMediaSmall } from '../../../style/media.js'
 
 const IconSize = {
   Desktop: {
-    S: '26px',
-    M: '32px',
-    L: '42px',
+    S: '28px',
+    M: '38px',
+    L: '56px',
   },
   Mobile: {
-    S: '20px',
-    M: '22px',
-    L: '26px',
+    S: '22px',
+    M: '24px',
+    L: '30px',
   },
 }
 
