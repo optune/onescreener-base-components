@@ -366,6 +366,20 @@ const getMobileOffset = (offset) => {
   }
 }
 
+const shouldReserveBottomSpaceForLinks = ({ linksPosition = '', isSmallLayout = false }) => {
+  const normalizedPosition = linksPosition.toUpperCase()
+
+  if (normalizedPosition.includes('BOTTOM')) {
+    return true
+  }
+
+  if (isSmallLayout) {
+    return normalizedPosition.includes('CENTER_LEFT') || normalizedPosition.includes('CENTER_RIGHT')
+  }
+
+  return false
+}
+
 const FullscreenContainer = styled.div`
   position: absolute;
   top: 0;
@@ -397,7 +411,7 @@ const ResponsiveContainer = styled.div`
     linksPosition,
     showBanner,
   }) => css`
-    bottom: ${linksPosition.includes('BOTTOM') &&
+    bottom: ${shouldReserveBottomSpaceForLinks({ linksPosition }) &&
     !isTeaserLinks &&
     (isPreviewMobile
       ? contentPosition.classnameMobile.toUpperCase().includes('BOTTOM')
@@ -423,7 +437,7 @@ const ResponsiveContainer = styled.div`
     @media ${MediaSmall} {
       right: unset;
       left: unset;
-      bottom: ${linksPosition.includes('BOTTOM') &&
+      bottom: ${shouldReserveBottomSpaceForLinks({ linksPosition, isSmallLayout: true }) &&
       !isTeaserLinks &&
       contentPosition.classnameMobile.toUpperCase().includes('BOTTOM') &&
       (isSidePreview ? '3.1rem' : showBanner ? '8.4rem' : '6.4rem')};

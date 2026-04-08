@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment, useState, useEffect } from 'react'
+import { useMediaQuery } from 'react-responsive'
 import styled, { css } from 'styled-components'
 
 // Atoms
@@ -225,6 +226,18 @@ const PositionBottom = ['BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT']
 const PositionBottomLeft = ['BOTTOM_LEFT', 'BOTTOM_CENTER']
 const PositionBottomRight = ['BOTTOM_RIGHT', 'BOTTOM_CENTER']
 
+const getEffectiveLinkPosition = ({ linkPosition = '', isSmallLayout = false }) => {
+  if (!isSmallLayout) {
+    return linkPosition
+  }
+
+  if (linkPosition === 'CENTER_LEFT' || linkPosition === 'CENTER_RIGHT') {
+    return 'BOTTOM_CENTER'
+  }
+
+  return linkPosition
+}
+
 const defineLogoPadding = ({ isPreviewMobile, isSidePreview, showBanner }) => ({
   left: `padding-left:  ${
     (isSidePreview && 3.3) || (isPreviewMobile && 4.5) || (showBanner && 8.4) || 6
@@ -239,14 +252,22 @@ const defineLogoPadding = ({ isPreviewMobile, isSidePreview, showBanner }) => ({
   none: isSidePreview ? 'padding: 0.5rem' : 'padding: 1rem',
 })
 
-const getLogoPadding = ({ logo, links, isPreviewMobile, isSidePreview, showBanner }) => {
+const getLogoPadding = ({
+  logo,
+  links,
+  isPreviewMobile,
+  isSidePreview,
+  showBanner,
+  isSmallLayout,
+}) => {
   const logoPositionDesktop = logo.positionDesktop || logo.position
   const logoPositionMobile =
     (logo.isDifferentPositions && logo.positionMobile) || logoPositionDesktop
 
   const logoPadding = defineLogoPadding({ isPreviewMobile, isSidePreview, showBanner })
 
-  const linkPosition = links.list.length > 0 ? links.position : ''
+  const linkPositionRaw = links.list.length > 0 ? links.position : ''
+  const linkPosition = getEffectiveLinkPosition({ linkPosition: linkPositionRaw, isSmallLayout })
 
   const paddingIndexDesktop =
     (linkPosition === 'CENTER_LEFT' && PositionLeft.includes(logoPositionDesktop) && 'left') ||
@@ -296,7 +317,15 @@ export const LogoBox = ({
 }) => {
   const [ssrDone, setSsrDone] = useState(false)
   const position = getLogoPosition({ logo })
-  const padding = getLogoPadding({ logo, links, isPreviewMobile, isSidePreview, showBanner })
+  const isSmall = useMediaQuery({ query: MediaSmall })
+  const padding = getLogoPadding({
+    logo,
+    links,
+    isPreviewMobile,
+    isSidePreview,
+    showBanner,
+    isSmallLayout: isSmall && !isPreviewMobile,
+  })
 
   const isLogoText = logo.type === 'TEXT' || (logo.type !== 'TEXT' && !logo.image?.url > '')
 
