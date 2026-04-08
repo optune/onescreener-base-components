@@ -26,6 +26,18 @@ const CENTER = 'center'
 
 const getAxis = (position) => (position > '' ? position.split('-') : ['', ''])
 
+const getEffectiveMappedLinksPosition = ({ mappedLinksPosition = '', isSmallLayout = false }) => {
+  if (!isSmallLayout) {
+    return mappedLinksPosition
+  }
+
+  if (mappedLinksPosition === 'center-left' || mappedLinksPosition === 'center-right') {
+    return 'bottom-center'
+  }
+
+  return mappedLinksPosition
+}
+
 const getPositionDesktop = ({
   isContent,
   isLinks,
@@ -309,6 +321,13 @@ export const SectionOverlay = ({
   teaserLinksValue,
 }) => {
   const mappedLinksPosition = linksPosition?.toLowerCase().replace('_', '-') || ''
+  const isMobile = useMediaQuery({ query: MediaSmall })
+  const effectiveMappedLinksPosition = getEffectiveMappedLinksPosition({
+    mappedLinksPosition,
+    isSmallLayout: isMobile && !isPreviewMobile,
+  })
+  const effectivePositionDesktop =
+    isLinks && isMobile && !isPreviewMobile ? effectiveMappedLinksPosition : positionDesktop
 
   let isOverlappingLogoContent = false
 
@@ -326,8 +345,6 @@ export const SectionOverlay = ({
   if (isContent) {
   }
 
-  const isMobile = useMediaQuery({ query: MediaSmall })
-
   const {
     title,
     top: topEdit,
@@ -340,7 +357,7 @@ export const SectionOverlay = ({
     isLogo,
     isOverlappingLogoContent,
     isPreviewMobile,
-    positionDesktop,
+    positionDesktop: effectivePositionDesktop,
     t,
   })
 
@@ -350,8 +367,8 @@ export const SectionOverlay = ({
     isLogo,
     isOverlappingLogoContent,
     isTeaserLinks,
-    mappedLinksPosition,
-    positionDesktop,
+    mappedLinksPosition: effectiveMappedLinksPosition,
+    positionDesktop: effectivePositionDesktop,
     teaserLinksValue,
   })
   const { topMobile, leftMobile, rightMobile, bottomMobile } = getPositionMobile({
@@ -360,7 +377,7 @@ export const SectionOverlay = ({
     isLogo,
     isOverlappingLogoContent,
     isTeaserLinks,
-    mappedLinksPosition,
+    mappedLinksPosition: effectiveMappedLinksPosition,
     positionMobile,
     teaserLinksValue,
   })
